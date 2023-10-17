@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/ivLogo"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/circle"
+        android:src="@drawable/logo" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginVertical="20dp"
+        android:text="TDC HOTEL MANAGER"
+        android:textColor="@color/red"
+        android:textSize="30dp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/edtUsername"
+        style="@style/editText"
+        android:background="@drawable/bg_edittext"
+        android:hint="Nhập tên đăng nhập" />
+
+    <EditText
+        android:id="@+id/edtPassword"
+        style="@style/editText"
+        android:background="@drawable/bg_edittext"
+        android:hint="Nhập mật khẩu" />
+
+    <Button
+        android:id="@+id/btnLogin"
+        style="@style/button"
+        android:background="@drawable/bg_button"
+        android:text="Đăng nhập" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@null"
+        android:text="Quên mật khẩu?"
+        android:textColor="@color/blue"
+        android:textStyle="italic" />
+</LinearLayout>
