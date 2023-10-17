@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "254174286028",
+    "project_id": "tdc-hotel-beb50",
+    "storage_bucket": "tdc-hotel-beb50.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:254174286028:android:3e79774b05bbc710cb7269",
+        "android_client_info": {
+          "package_name": "com.example.tdchotel_manager"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCLi_pHxEBUslP0f9xZoeM1FUFFUjSWGd0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
