@@ -61,6 +61,15 @@ public class Fragment_Phong extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment__phong, container, false);
+        View view = inflater.inflate(R.layout.fragment__phong, container, false);
+        setControl(view);
+        setEvent();
+        return view;
+    }
+
+    private void setEvent() {
+    }
+
+    private void setControl(View view) {
     }
 }
