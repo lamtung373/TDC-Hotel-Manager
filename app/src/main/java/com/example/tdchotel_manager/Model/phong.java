@@ -1,19 +1,28 @@
 package com.example.tdchotel_manager.Model;
 
 public class phong {
-    String  ten_phong, mo_ta_chung;
+    String  ten_phong, mo_ta_chung, anh_phong;
     int id_phong,trang_thai, luot_thue, gioi_han_nguoi;
     double gia, danh_gia_sao;
 
-    public phong(String ten_phong, String mo_ta_chung, int id_phong, int trang_thai, int luot_thue, int gioi_han_nguoi, double gia, double danh_gia_sao) {
+    public phong(String ten_phong, String mo_ta_chung, String anh_phong, int id_phong, int trang_thai, int luot_thue, int gioi_han_nguoi, double gia, double danh_gia_sao) {
         this.ten_phong = ten_phong;
         this.mo_ta_chung = mo_ta_chung;
+        this.anh_phong = anh_phong;
         this.id_phong = id_phong;
         this.trang_thai = trang_thai;
         this.luot_thue = luot_thue;
         this.gioi_han_nguoi = gioi_han_nguoi;
         this.gia = gia;
         this.danh_gia_sao = danh_gia_sao;
+    }
+
+    public String getAnh_phong() {
+        return anh_phong;
+    }
+
+    public void setAnh_phong(String anh_phong) {
+        this.anh_phong = anh_phong;
     }
 
     public String getTen_phong() {
