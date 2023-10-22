@@ -2,8 +2,29 @@ package com.example.tdchotel_manager.Model;
 
 public class nhan_vien {
     int id_nhan_vien,id_chuc_vu,id_lich_lam;
-    String ten_nhan_vien,username, password,CCCD,so_dien_thoai;
+    String ten_nhan_vien,username, password,anh_nhan_vien,CCCD,so_dien_thoai;
     double luong;
+
+    public nhan_vien(int id_nhan_vien, int id_chuc_vu, int id_lich_lam, String ten_nhan_vien, String username, String password, String anh_nhan_vien, String CCCD, String so_dien_thoai, double luong) {
+        this.id_nhan_vien = id_nhan_vien;
+        this.id_chuc_vu = id_chuc_vu;
+        this.id_lich_lam = id_lich_lam;
+        this.ten_nhan_vien = ten_nhan_vien;
+        this.username = username;
+        this.password = password;
+        this.anh_nhan_vien = anh_nhan_vien;
+        this.CCCD = CCCD;
+        this.so_dien_thoai = so_dien_thoai;
+        this.luong = luong;
+    }
+
+    public String getAnh_nhan_vien() {
+        return anh_nhan_vien;
+    }
+
+    public void setAnh_nhan_vien(String anh_nhan_vien) {
+        this.anh_nhan_vien = anh_nhan_vien;
+    }
 
     public int getId_lich_lam() {
         return id_lich_lam;
@@ -13,17 +34,6 @@ public class nhan_vien {
         this.id_lich_lam = id_lich_lam;
     }
 
-    public nhan_vien(int id_nhan_vien, int id_chuc_vu, int id_lich_lam, String ten_nhan_vien, String username, String password, String CCCD, String so_dien_thoai, double luong) {
-        this.id_nhan_vien = id_nhan_vien;
-        this.id_chuc_vu = id_chuc_vu;
-        this.id_lich_lam = id_lich_lam;
-        this.ten_nhan_vien = ten_nhan_vien;
-        this.username = username;
-        this.password = password;
-        this.CCCD = CCCD;
-        this.so_dien_thoai = so_dien_thoai;
-        this.luong = luong;
-    }
 
     public int getId_nhan_vien() {
         return id_nhan_vien;

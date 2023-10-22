@@ -2,13 +2,22 @@ package com.example.tdchotel_manager.Model;
 
 public class dich_vu_phong {
     int id_dich_vu_phong;
-    String ten_dich_vu_phong;
+    String ten_dich_vu_phong, anh_dich_vu_phong;
     double gia_dich_vu_phong;
 
-    public dich_vu_phong(int id_dich_vu_phong, String ten_dich_vu_phong, double gia_dich_vu_phong) {
+    public dich_vu_phong(int id_dich_vu_phong, String ten_dich_vu_phong, String anh_dich_vu_phong, double gia_dich_vu_phong) {
         this.id_dich_vu_phong = id_dich_vu_phong;
         this.ten_dich_vu_phong = ten_dich_vu_phong;
+        this.anh_dich_vu_phong = anh_dich_vu_phong;
         this.gia_dich_vu_phong = gia_dich_vu_phong;
+    }
+
+    public String getAnh_dich_vu_phong() {
+        return anh_dich_vu_phong;
+    }
+
+    public void setAnh_dich_vu_phong(String anh_dich_vu_phong) {
+        this.anh_dich_vu_phong = anh_dich_vu_phong;
     }
 
     public int getId_dich_vu_phong() {
