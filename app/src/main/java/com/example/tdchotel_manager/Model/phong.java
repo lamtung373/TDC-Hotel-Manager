@@ -1,14 +1,16 @@
 package com.example.tdchotel_manager.Model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class phong {
-    String  ten_phong, mo_ta_chung, anh_phong, loai_phong;
+    String  ten_phong, mo_ta_chung,  loai_phong;
+    ArrayList<String> anh_phong;
     int id_phong,trang_thai, luot_thue;
     double gia,sale, danh_gia_sao;
 
-    public phong( int id_phong,String ten_phong, String mo_ta_chung, String anh_phong, String loai_phong, int trang_thai, int luot_thue, double gia, double sale, double danh_gia_sao) {
+    public phong( int id_phong,String ten_phong, String mo_ta_chung, ArrayList<String> anh_phong, String loai_phong, int trang_thai, int luot_thue, double gia, double sale, double danh_gia_sao) {
         this.ten_phong = ten_phong;
         this.mo_ta_chung = mo_ta_chung;
         this.anh_phong = anh_phong;
@@ -52,11 +54,11 @@ public class phong {
         this.loai_phong = loai_phong;
     }
 
-    public String getAnh_phong() {
+    public ArrayList<String> getAnh_phong() {
         return anh_phong;
     }
 
-    public void setAnh_phong(String anh_phong) {
+    public void setAnh_phong(ArrayList<String> anh_phong) {
         this.anh_phong = anh_phong;
     }
 

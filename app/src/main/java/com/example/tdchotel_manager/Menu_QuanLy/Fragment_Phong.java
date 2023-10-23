@@ -8,7 +8,9 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.tdchotel_manager.Menu_QuanLy.Adapter_Phong.adapter_phong;
 import com.example.tdchotel_manager.R;
 
 import java.util.ArrayList;
@@ -17,6 +19,8 @@ import java.util.List;
 public class Fragment_Phong extends Fragment {
 
     private Spinner sp_loai;
+    private RecyclerView rcv_roomlist;
+    private  ArrayAdapter<adapter_phong> adapter_phong;
 
     public Fragment_Phong() {
         // Required empty public constructor
@@ -46,10 +50,12 @@ public class Fragment_Phong extends Fragment {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, spinnerData);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        sp_loai.setAdapter(adapter);
+
     }
 
     private void setControl(View view) {
+
         sp_loai = view.findViewById(R.id.spTypeRoom);
+        rcv_roomlist =view.findViewById(R.id.rcv_roomlist);
     }
 }

@@ -1,14 +1,16 @@
 package com.example.tdchotel_manager.Model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class nhan_vien {
     int id_nhan_vien,id_chuc_vu,id_lich_lam;
-    String ten_nhan_vien,username, password,anh_nhan_vien,CCCD,so_dien_thoai;
+    String ten_nhan_vien,username, password,anh_nhan_vien,so_dien_thoai;
     double luong;
+    ArrayList<String>  CCCD;
 
-    public nhan_vien(int id_nhan_vien, int id_chuc_vu, int id_lich_lam, String ten_nhan_vien, String username, String password, String anh_nhan_vien, String CCCD, String so_dien_thoai, double luong) {
+    public nhan_vien(int id_nhan_vien, int id_chuc_vu, int id_lich_lam, String ten_nhan_vien, String username, String password, String anh_nhan_vien, ArrayList<String> CCCD, String so_dien_thoai, double luong) {
         this.id_nhan_vien = id_nhan_vien;
         this.id_chuc_vu = id_chuc_vu;
         this.id_lich_lam = id_lich_lam;
@@ -91,11 +93,11 @@ public class nhan_vien {
         this.password = password;
     }
 
-    public String getCCCD() {
+    public ArrayList<String> getCCCD() {
         return CCCD;
     }
 
-    public void setCCCD(String CCCD) {
+    public void setCCCD(ArrayList<String> CCCD) {
         this.CCCD = CCCD;
     }
 

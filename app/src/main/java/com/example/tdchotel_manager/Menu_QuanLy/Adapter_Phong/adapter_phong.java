@@ -1,10 +1,8 @@
 package com.example.tdchotel_manager.Menu_QuanLy.Adapter_Phong;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -53,7 +51,7 @@ public class adapter_phong extends RecyclerView.Adapter<adapter_phong.MyViewHold
         public MyViewHolder(View itemView) {
             super(itemView);
             // Khai báo và ánh xạ các phần tử tại đây
-            rv_roomlist= itemView.findViewById(R.id.rv_roomlist);
+            rv_roomlist= itemView.findViewById(R.id.rcv_roomlist);
             iv_item_phong = itemView.findViewById(R.id.iv_item_phong);
             tv_name_room = itemView.findViewById(R.id.tv_name_room);
             tv_price = itemView.findViewById(R.id.tv_price);
@@ -64,13 +62,7 @@ public class adapter_phong extends RecyclerView.Adapter<adapter_phong.MyViewHold
     }
 
     private void khoi_tao() {
-        phong phong1 = new phong(1, "Phòng 1", "Mô tả phòng 1", "anh1.jpg", "Loại 1", 5, 2, 130,100 ,4.5);
-        phong phong2 = new phong(2, "Phòng 2", "Mô tả phòng 2", "anh2.jpg", "Loại 2", 0, 3, 150.0,125, 4.0);
-        phong phong3 = new phong(3, "Phòng 3", "Mô tả phòng 3", "anh3.jpg", "Loại 1", 1, 2, 120.0,105, 4.2);
 
-        dataList.add(phong1);
-        dataList.add(phong2);
-        dataList.add(phong3);
 
     }
 }
