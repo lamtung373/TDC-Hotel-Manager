@@ -3,58 +3,63 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Menu_QuanLy.Fragment_Phong"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".Menu_QuanLy.Fragment_Phong">
 
-    <!-- TODO: Update blank fragment layout -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:orientation="horizontal"
+        android:layout_marginBottom="10dp"
         android:background="@color/dark_blue"
-        android:layout_marginBottom="10dp">
+        android:orientation="horizontal">
+
         <ImageButton
-android:id="@+id/btn_back"
+            android:id="@+id/btn_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/back"
-            android:background="@null"
             android:layout_gravity="center"
-            android:layout_marginLeft="10dp" />
+            android:layout_marginLeft="10dp"
+            android:background="@null"
+            android:src="@drawable/back" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_weight="1"
             android:gravity="center"
             android:text="Quản lý phòng"
             android:textColor="@color/white"
             android:textSize="20dp"
-            android:textStyle="bold"
-            android:layout_weight="1" />
+            android:textStyle="bold" />
+
         <ImageButton
             android:id="@+id/btn_add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/add"
-            android:background="@null"
             android:layout_gravity="center"
-            android:layout_marginRight="10dp" />
+            android:layout_marginRight="10dp"
+            android:background="@null"
+            android:src="@drawable/add" />
     </LinearLayout>
+
     <EditText
         android:id="@+id/edt_search"
         style="@style/editText"
         android:hint="Tìm kiếm" />
+
     <Spinner
         android:id="@+id/spTypeRoom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
-        android:layout_marginBottom="10dp"/>
-<androidx.recyclerview.widget.RecyclerView
-    android:id="@+id/rv_roomlist"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginHorizontal="10dp">
+        android:layout_marginBottom="10dp" />
 
-</androidx.recyclerview.widget.RecyclerView>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcv_roomlist"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="10dp">
+
+    </androidx.recyclerview.widget.RecyclerView>
 </LinearLayout>

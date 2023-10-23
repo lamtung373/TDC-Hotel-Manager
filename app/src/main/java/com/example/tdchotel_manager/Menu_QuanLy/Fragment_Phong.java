@@ -1,66 +1,40 @@
 package com.example.tdchotel_manager.Menu_QuanLy;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.tdchotel_manager.Menu_QuanLy.Adapter_Phong.adapter_phong;
 import com.example.tdchotel_manager.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link Fragment_Phong#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.ArrayList;
+import java.util.List;
+
 public class Fragment_Phong extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private Spinner sp_loai;
+    private RecyclerView rcv_roomlist;
+    private adapter_phong adapter = new adapter_phong();
 
     public Fragment_Phong() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment Fragment_Phong.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static Fragment_Phong newInstance(String param1, String param2) {
-        Fragment_Phong fragment = new Fragment_Phong();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+    public static Fragment_Phong newInstance() {
+        return new Fragment_Phong();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment__phong, container, false);
         setControl(view);
         setEvent();
@@ -68,8 +42,26 @@ public class Fragment_Phong extends Fragment {
     }
 
     private void setEvent() {
+        List<String> spinnerData = new ArrayList<>();
+        spinnerData.add("1 Người");
+        spinnerData.add("2 Người");
+        spinnerData.add("3 Người");
+        spinnerData.add("4 Người");
+        spinnerData.add("5 Người");
+
+        ArrayAdapter<String> adapter_spinner = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, spinnerData);
+        adapter_spinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sp_loai.setAdapter(adapter_spinner);
+
+
+        rcv_roomlist.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        rcv_roomlist.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
+
+        rcv_roomlist.setAdapter(adapter);
     }
 
     private void setControl(View view) {
+        sp_loai = view.findViewById(R.id.spTypeRoom);
+        rcv_roomlist = view.findViewById(R.id.rcv_roomlist);
     }
 }
