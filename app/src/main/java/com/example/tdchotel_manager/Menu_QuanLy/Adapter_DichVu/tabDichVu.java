@@ -61,6 +61,6 @@ public class tabDichVu extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_tab_dich_vu, container, false);
+        return inflater.inflate(R.layout.layout_item_dichvu, container, false);
     }
 }

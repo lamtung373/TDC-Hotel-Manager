@@ -28,14 +28,14 @@
                 android:id="@+id/tvTenDv1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Hồ bơi"
+                android:text="Tên dịch vụ"
                 android:layout_marginLeft="10dp"
                 android:textColor="@color/black" />
             <TextView
                 android:id="@+id/tvGia1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="89.000 VND/phòng"
+                android:text="giá dịch vụ"
                 android:layout_marginLeft="10dp"
                 android:textColor="@color/black"/>
         </LinearLayout>

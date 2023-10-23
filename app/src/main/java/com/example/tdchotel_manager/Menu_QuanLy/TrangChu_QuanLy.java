@@ -1,16 +1,10 @@
 package com.example.tdchotel_manager.Menu_QuanLy;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager2.widget.ViewPager2;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.ImageButton;
 
-import com.example.tdchotel_manager.Menu_QuanLy.Adapter_DichVu.Fragment_Dichvu;
 import com.example.tdchotel_manager.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 

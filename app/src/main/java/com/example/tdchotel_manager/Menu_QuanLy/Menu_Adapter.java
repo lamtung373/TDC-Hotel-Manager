@@ -5,8 +5,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import com.example.tdchotel_manager.Menu_QuanLy.Adapter_DichVu.Fragment_Dichvu;
-
 public class Menu_Adapter extends FragmentStateAdapter {
     public Menu_Adapter(@NonNull FragmentActivity fragmentActivity) {
         super(fragmentActivity);

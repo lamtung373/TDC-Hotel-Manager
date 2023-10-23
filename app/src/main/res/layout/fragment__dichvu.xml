@@ -33,8 +33,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tldichvu"
             android:layout_width="match_parent"
@@ -53,15 +53,10 @@
                 android:text="Tiện nghi"/>
         </com.google.android.material.tabs.TabLayout>
 
-    </LinearLayout>
-    <LinearLayout
-        android:layout_marginTop="20dp"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <androidx.recyclerview.widget.RecyclerView
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/viewpage"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/revSP"
-            tools:listitem="@layout/layout_item_dichvu"/>
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
     </LinearLayout>
 </LinearLayout>
