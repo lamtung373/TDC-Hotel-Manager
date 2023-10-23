@@ -1,5 +1,6 @@
 package com.example.tdchotel_manager.Menu_QuanLy.Adapter_Phong;
 
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,8 +34,9 @@ public class adapter_phong extends RecyclerView.Adapter<adapter_phong.MyViewHold
     public void onBindViewHolder(MyViewHolder holder, int position) {
         //Set dữ liệu của item
         phong data = dataList.get(position);
-        holder.tv_name_room.setText(String.valueOf(data.getId_phong()));
+        holder.tv_name_room.setText(String.valueOf(data.getTen_phong()));
         holder.tv_price.setText(String.valueOf(data.getGia()));
+        holder.tv_price.setPaintFlags(holder.tv_price.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         holder.tv_sale.setText(String.valueOf(data.getSale()));
         holder.tv_type_room.setText(data.getLoai_phong());
         holder.tv_status_room.setText(String.valueOf(data.getTrang_thai()));
@@ -66,7 +68,7 @@ public class adapter_phong extends RecyclerView.Adapter<adapter_phong.MyViewHold
                 "Phòng Deluxe",
                 "Phòng Deluxe rộng rãi và thoải mái.",
                 new ArrayList<>(Arrays.asList("anh1.jpg", "anh2.jpg", "anh3.jpg")),
-                "Deluxe",
+                "Phòng 2 người",
                 1,
                 0,
                 100.0,
@@ -79,7 +81,7 @@ public class adapter_phong extends RecyclerView.Adapter<adapter_phong.MyViewHold
                 "Phòng Family",
                 "Phòng Family phù hợp cho gia đình lớn.",
                 new ArrayList<>(Arrays.asList("anh4.jpg", "anh5.jpg", "anh6.jpg")),
-                "Family",
+                "Phòng 2 người",
                 1,
                 0,
                 150.0,
@@ -92,7 +94,7 @@ public class adapter_phong extends RecyclerView.Adapter<adapter_phong.MyViewHold
                 "Phòng Standard",
                 "Phòng Standard tiện nghi và giá cả phải chăng.",
                 new ArrayList<>(Arrays.asList("anh7.jpg", "anh8.jpg", "anh9.jpg")),
-                "Standard",
+                "Phòng 2 người",
                 1,
                 0,
                 80.0,
@@ -104,7 +106,7 @@ public class adapter_phong extends RecyclerView.Adapter<adapter_phong.MyViewHold
                 "Phòng Suite",
                 "Phòng Suite sang trọng với đầy đủ tiện nghi.",
                 new ArrayList<>(Arrays.asList("anh10.jpg", "anh11.jpg", "anh12.jpg")),
-                "Suite",
+                "Phòng 2 người",
                 1,
                 0,
                 200.0,
@@ -117,7 +119,7 @@ public class adapter_phong extends RecyclerView.Adapter<adapter_phong.MyViewHold
                 "Phòng Studio",
                 "Phòng Studio với không gian sáng sủa.",
                 new ArrayList<>(Arrays.asList("anh13.jpg", "anh14.jpg", "anh15.jpg")),
-                "Studio",
+                "Phòng 2 người",
                 1,
                 0,
                 120.0,
@@ -130,7 +132,7 @@ public class adapter_phong extends RecyclerView.Adapter<adapter_phong.MyViewHold
                 "Phòng Superior",
                 "Phòng Superior với view đẹp.",
                 new ArrayList<>(Arrays.asList("anh16.jpg", "anh17.jpg", "anh18.jpg")),
-                "Superior",
+                "Phòng 2 người",
                 1,
                 0,
                 90.0,
@@ -143,7 +145,7 @@ public class adapter_phong extends RecyclerView.Adapter<adapter_phong.MyViewHold
                 "Phòng VIP",
                 "Phòng VIP cao cấp với nhiều tiện ích.",
                 new ArrayList<>(Arrays.asList("anh19.jpg", "anh20.jpg", "anh21.jpg")),
-                "VIP",
+                "Phòng 2 người",
                 1,
                 0,
                 300.0,
