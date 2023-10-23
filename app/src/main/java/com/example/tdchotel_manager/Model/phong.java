@@ -1,20 +1,28 @@
 package com.example.tdchotel_manager.Model;
 
 public class phong {
-    String  ten_phong, mo_ta_chung, anh_phong;
-    int id_phong,trang_thai, luot_thue, gioi_han_nguoi;
+    String  ten_phong, mo_ta_chung, anh_phong, loai_phong;
+    int id_phong,trang_thai, luot_thue;
     double gia, danh_gia_sao;
 
-    public phong(String ten_phong, String mo_ta_chung, String anh_phong, int id_phong, int trang_thai, int luot_thue, int gioi_han_nguoi, double gia, double danh_gia_sao) {
+    public phong( int id_phong,String ten_phong, String mo_ta_chung, String anh_phong, String loai_phong, int trang_thai, int luot_thue,double gia, double danh_gia_sao) {
         this.ten_phong = ten_phong;
         this.mo_ta_chung = mo_ta_chung;
         this.anh_phong = anh_phong;
+        this.loai_phong = loai_phong;
         this.id_phong = id_phong;
         this.trang_thai = trang_thai;
         this.luot_thue = luot_thue;
-        this.gioi_han_nguoi = gioi_han_nguoi;
         this.gia = gia;
         this.danh_gia_sao = danh_gia_sao;
+    }
+
+    public String getLoai_phong() {
+        return loai_phong;
+    }
+
+    public void setLoai_phong(String loai_phong) {
+        this.loai_phong = loai_phong;
     }
 
     public String getAnh_phong() {
@@ -63,14 +71,6 @@ public class phong {
 
     public void setLuot_thue(int luot_thue) {
         this.luot_thue = luot_thue;
-    }
-
-    public int getGioi_han_nguoi() {
-        return gioi_han_nguoi;
-    }
-
-    public void setGioi_han_nguoi(int gioi_han_nguoi) {
-        this.gioi_han_nguoi = gioi_han_nguoi;
     }
 
     public double getGia() {
