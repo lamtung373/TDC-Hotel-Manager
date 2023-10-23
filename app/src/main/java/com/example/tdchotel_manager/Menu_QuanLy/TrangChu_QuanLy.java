@@ -1,9 +1,16 @@
 package com.example.tdchotel_manager.Menu_QuanLy;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageButton;
+
+import com.example.tdchotel_manager.Menu_QuanLy.Adapter_DichVu.Fragment_Dichvu;
 import com.example.tdchotel_manager.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -14,9 +21,13 @@ public class TrangChu_QuanLy extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trang_chu_quan_ly);
+
         setControl();
         Initialization();
+
     }
+
+
     private void Initialization() {
         vp_bottomNavigation.setUserInputEnabled(false);
         Menu_Adapter menu_adapter = new Menu_Adapter(this);

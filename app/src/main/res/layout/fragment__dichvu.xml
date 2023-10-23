@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".Menu_QuanLy.Fragment_Dichvu">
-
-    <!-- TODO: Update blank fragment layout -->
+    android:layout_height="match_parent">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
@@ -25,6 +22,7 @@
             android:textStyle="bold"
             android:layout_weight="1" />
         <ImageButton
+            android:id="@+id/imgAdd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/add"
@@ -34,80 +32,36 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:orientation="horizontal"
-        android:background="#26A1EE"
-        android:layout_marginBottom="10dp">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="Quản lý dịch vụ"
-            android:textColor="@color/white"
-            android:textSize="20dp"
-            android:textStyle="bold"
-            android:layout_weight="1" />
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/add"
-            android:background="@null"
-            android:layout_gravity="center"
-            android:layout_marginRight="10dp" />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:orientation="horizontal"
-        android:background="#26A1EE"
-        android:layout_marginBottom="10dp">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="Quản lý dịch vụ"
-            android:textColor="@color/white"
-            android:textSize="20dp"
-            android:textStyle="bold"
-            android:layout_weight="1" />
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/add"
-            android:background="@null"
-            android:layout_gravity="center"
-            android:layout_marginRight="10dp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_marginTop="70dp"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:orientation="horizontal">
         <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tlphong"
+            android:id="@+id/tldichvu"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tvxinchao"
-            android:layout_margin="5dp"
-            app:tabIndicator="@drawable/tab_layout"
-            app:tabIndicatorAnimationMode="elastic"
-            app:tabIndicatorColor="@null"
-            app:tabIndicatorGravity="stretch"
-            app:tabMode="scrollable"
-            app:tabSelectedTextColor="#000000"
-            app:tabTextColor="@color/black" />
+            android:text="Dịch vụ"/>
+        <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Dịch vụ phòng"/>
+        <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tiện nghi"/>
+        </com.google.android.material.tabs.TabLayout>
+
     </LinearLayout>
     <LinearLayout
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/revSP"/>
+            android:id="@+id/revSP"
+            tools:listitem="@layout/layout_item_dichvu"/>
     </LinearLayout>
-</FrameLayout>
+</LinearLayout>
