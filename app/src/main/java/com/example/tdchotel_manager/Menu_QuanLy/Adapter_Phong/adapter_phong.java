@@ -33,6 +33,10 @@ public class adapter_phong extends RecyclerView.Adapter<adapter_phong.MyViewHold
         phong data = dataList.get(position);
         // Cập nhật giao diện người dùng dựa trên data
         holder.tv_name_room.setText(data.getId_phong());
+        holder.tv_price.setText(String.valueOf(data.getGia()));
+        holder.tv_sale.setText(String.valueOf(data.getSale()));
+        holder.tv_type_room.setText(data.getLoai_phong());
+        holder.tv_status_room.setText(data.getTrang_thai());
     }
 
     @Override
@@ -60,9 +64,9 @@ public class adapter_phong extends RecyclerView.Adapter<adapter_phong.MyViewHold
     }
 
     private void khoi_tao() {
-        phong phong1 = new phong(1, "Phòng 1", "Mô tả phòng 1", "anh1.jpg", "Loại 1", 5, 2, 5, 4.5);
-        phong phong2 = new phong(2, "Phòng 2", "Mô tả phòng 2", "anh2.jpg", "Loại 2", 0, 3, 150.0, 4.0);
-        phong phong3 = new phong(3, "Phòng 3", "Mô tả phòng 3", "anh3.jpg", "Loại 1", 1, 2, 120.0, 4.2);
+        phong phong1 = new phong(1, "Phòng 1", "Mô tả phòng 1", "anh1.jpg", "Loại 1", 5, 2, 130,100 ,4.5);
+        phong phong2 = new phong(2, "Phòng 2", "Mô tả phòng 2", "anh2.jpg", "Loại 2", 0, 3, 150.0,125, 4.0);
+        phong phong3 = new phong(3, "Phòng 3", "Mô tả phòng 3", "anh3.jpg", "Loại 1", 1, 2, 120.0,105, 4.2);
 
         dataList.add(phong1);
         dataList.add(phong2);

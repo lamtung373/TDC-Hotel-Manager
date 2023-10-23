@@ -9,6 +9,9 @@ public class danh_sach_luu {
         this.id_phong = id_phong;
     }
 
+    public danh_sach_luu() {
+    }
+
     public String getSo_dien_thoai() {
         return so_dien_thoai;
     }

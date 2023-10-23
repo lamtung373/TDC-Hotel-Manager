@@ -1,6 +1,8 @@
 package com.example.tdchotel_manager.Model;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class hoa_don {
     int id_hoa_don, so_dien_thoai, id_phong, id_le_tan, id_dich_vu, id_tien_nghi, id_dich_vu_phong, id_lao_cong;
@@ -20,6 +22,19 @@ public class hoa_don {
         this.thoi_gian_coc = thoi_gian_coc;
         this.thoi_gian_nhan_phong = thoi_gian_nhan_phong;
         this.thoi_gian_tra_phong = thoi_gian_tra_phong;
+    }
+    public Map<String, Object> toMap() {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("tien_coc", tien_coc);
+        result.put("tien_phong", tien_phong);
+        result.put("tong_thanh_toan", tong_thanh_toan);
+        result.put("thoi_gian_coc", thoi_gian_coc);
+        result.put("thoi_gian_nhan_phong", thoi_gian_nhan_phong);
+        result.put("thoi_gian_tra_phong", thoi_gian_tra_phong);
+
+        return result;
+    }
+    public hoa_don() {
     }
 
     //khách đặt online

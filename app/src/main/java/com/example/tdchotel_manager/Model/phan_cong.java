@@ -1,6 +1,8 @@
 package com.example.tdchotel_manager.Model;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class phan_cong {
     int id_phan_cong,id_nhan_vien,id_ca_lam;
@@ -12,6 +14,18 @@ public class phan_cong {
         this.ngay_lam = ngay_lam;
         this.check_in = check_in;
         this.check_out = check_out;
+    }
+    public Map<String, Object> toMap() {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("id_nhan_vien", id_nhan_vien);
+        result.put("id_ca_lam", id_ca_lam);
+        result.put("ngay_lam", ngay_lam);
+        result.put("check_in", check_in);
+        result.put("check_out", check_out);
+
+        return result;
+    }
+    public phan_cong() {
     }
 
     public int getId_phan_cong() {

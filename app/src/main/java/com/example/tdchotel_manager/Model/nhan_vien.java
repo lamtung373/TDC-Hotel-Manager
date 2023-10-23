@@ -1,5 +1,8 @@
 package com.example.tdchotel_manager.Model;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class nhan_vien {
     int id_nhan_vien,id_chuc_vu,id_lich_lam;
     String ten_nhan_vien,username, password,anh_nhan_vien,CCCD,so_dien_thoai;
@@ -16,6 +19,19 @@ public class nhan_vien {
         this.CCCD = CCCD;
         this.so_dien_thoai = so_dien_thoai;
         this.luong = luong;
+    }
+    public Map<String, Object> toMap() {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("id_chuc_vu", id_chuc_vu);
+        result.put("id_lich_lam", id_lich_lam);
+        result.put("ten_nhan_vien", ten_nhan_vien);
+        result.put("anh_nhan_vien", anh_nhan_vien);
+        result.put("so_dien_thoai", so_dien_thoai);
+        result.put("luong", luong);
+
+        return result;
+    }
+    public nhan_vien() {
     }
 
     public String getAnh_nhan_vien() {
