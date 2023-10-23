@@ -5,12 +5,12 @@ plugins {
 
 android {
     namespace = "com.example.tdchotel_manager"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.example.tdchotel_manager"
         minSdk = 27
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -43,5 +43,7 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:32.3.1"))
     implementation("com.google.firebase:firebase-database-ktx")
     implementation("com.google.firebase:firebase-auth-ktx")
+
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
 
 }
