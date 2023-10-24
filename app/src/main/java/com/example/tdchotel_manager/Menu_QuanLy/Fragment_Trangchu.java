@@ -1,14 +1,19 @@
 package com.example.tdchotel_manager.Menu_QuanLy;
 
+import android.app.AlertDialog;
 import android.graphics.Color;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.tdchotel_manager.Model.hoa_don;
 import com.example.tdchotel_manager.R;
@@ -18,11 +23,17 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -85,16 +96,43 @@ public class Fragment_Trangchu extends Fragment {
     }
 
     private void setEvent() {
-        DatabaseReference ref= FirebaseDatabase.getInstance().getReference("hoa_don");
-        hoa_don hoa_don=new hoa_don();
-//        ref.child("2").setValue()
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        Calendar calendar = Calendar.getInstance();
+        String date = simpleDateFormat.format(calendar.getTime());
+        btn_chamcong.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DatabaseReference ref = FirebaseDatabase.getInstance().getReference("hoa_don");
+                hoa_don hoadon1 = new hoa_don(5,
+                        123456,
+                        5,
+                        4,
+                        6,
+                        new ArrayList<>(Arrays.asList("anh27.jpg", "anh28.jpg")),
+                        45000,
+                        1600000,
+                        3500,
+                        3500,
+                        90.0,
+                        3550.0,
+                        date, date, date, date, date);
+                ref.child("5").setValue(hoadon1, new DatabaseReference.CompletionListener() {
+                    @Override
+                    public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
+                        Toast.makeText(getActivity(), "Add Successfull", Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+            }
+        });
+
     }
 
     private void Chart() {
         ArrayList<PieEntry> pieEntries = new ArrayList<>();
-        pieEntries.add(new PieEntry((int)5, "Hoạt động"));
-        pieEntries.add(new PieEntry((int)15, "Trống"));
-        pieEntries.add(new PieEntry((int)2, "Sửa"));
+        pieEntries.add(new PieEntry((int) 5, "Hoạt động"));
+        pieEntries.add(new PieEntry((int) 15, "Trống"));
+        pieEntries.add(new PieEntry((int) 2, "Sửa"));
 
         PieDataSet pieDataSet = new PieDataSet(pieEntries, "Tình hình phòng");
         pieDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
@@ -104,12 +142,12 @@ public class Fragment_Trangchu extends Fragment {
         piechart_tinhhinhphong.setData(pieData);
         piechart_tinhhinhphong.getDescription().setEnabled(false);
 //        piechart_tinhhinhphong.setCenterText("center");
-        piechart_tinhhinhphong.animateXY(1000,1000);
+        piechart_tinhhinhphong.animateXY(1000, 1000);
         piechart_tinhhinhphong.animate();
     }
 
     private void setControl(View view) {
-        piechart_tinhhinhphong=view.findViewById(R.id.piechart_tinhhinhphong);
-        btn_chamcong=view.findViewById(R.id.btn_chamcong);
+        piechart_tinhhinhphong = view.findViewById(R.id.piechart_tinhhinhphong);
+        btn_chamcong = view.findViewById(R.id.btn_chamcong);
     }
 }
