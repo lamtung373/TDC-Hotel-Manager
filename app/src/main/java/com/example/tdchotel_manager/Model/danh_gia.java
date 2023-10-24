@@ -20,6 +20,9 @@ public class danh_gia {
         this.chi_tiet_danh_gia = chi_tiet_danh_gia;
     }
 
+    public danh_gia() {
+    }
+
     public int getId_danh_gia() {
         return id_danh_gia;
     }

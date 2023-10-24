@@ -8,6 +8,8 @@ public class chuc_vu {
         this.id_chuc_vu = id_chuc_vu;
         this.ten_chuc_vu = ten_chuc_vu;
     }
+    public chuc_vu() {
+    }
 
     public int getId_chuc_vu() {
         return id_chuc_vu;

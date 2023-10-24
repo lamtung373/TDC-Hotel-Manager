@@ -4,14 +4,15 @@
     android:layout_height="wrap_content"
     android:background="@drawable/bg_rv_item"
     android:orientation="horizontal"
-    android:padding="10dp">
+    android:padding="10dp"
+    android:layout_marginVertical="5dp">
 
     <ImageView
         android:id="@+id/iv_item_phong"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:paddingLeft="10dp"
-        android:src="@drawable/phong" />
+        android:src="@drawable/phong_1" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,7 +26,8 @@
             style="@style/textview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Tên sản phẩm" />
+            android:text="Tên sản phẩm"
+            android:textSize="20dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -37,7 +39,9 @@
                 style="@style/textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Giá" />
+                android:text="Giá"
+                android:textColor="@color/gray"
+                android:textSize="13dp"/>
 
             <TextView
                 android:id="@+id/tv_sale"
@@ -45,7 +49,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingHorizontal="10dp"
-                android:text="Giá sale" />
+                android:text="Giá sale"
+                android:textColor="@color/red"
+                android:textSize="15dp" />
         </LinearLayout>
 
         <TextView
@@ -53,13 +59,17 @@
             style="@style/textview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Loại phòng" />
+            android:text="Loại phòng"
+            android:textColor="@color/black"
+            android:textSize="15dp"/>
 
         <TextView
             android:id="@+id/tv_status_room"
             style="@style/textview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Trạng thái phòng" />
+            android:text="Trạng thái phòng"
+            android:textColor="@color/black"
+            android:textSize="15dp" />
     </LinearLayout>
 </LinearLayout>
