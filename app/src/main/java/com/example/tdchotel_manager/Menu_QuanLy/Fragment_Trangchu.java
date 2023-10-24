@@ -8,7 +8,9 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
+import com.example.tdchotel_manager.Model.hoa_don;
 import com.example.tdchotel_manager.R;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
@@ -16,6 +18,8 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -36,6 +40,7 @@ public class Fragment_Trangchu extends Fragment {
     private String mParam1;
     private String mParam2;
     PieChart piechart_tinhhinhphong;
+    Button btn_chamcong;
 
     public Fragment_Trangchu() {
         // Required empty public constructor
@@ -75,7 +80,14 @@ public class Fragment_Trangchu extends Fragment {
         View view = inflater.inflate(R.layout.fragment__trangchu, container, false);
         setControl(view);
         Chart();
+        setEvent();
         return view;
+    }
+
+    private void setEvent() {
+        DatabaseReference ref= FirebaseDatabase.getInstance().getReference("hoa_don");
+        hoa_don hoa_don=new hoa_don();
+//        ref.child("2").setValue()
     }
 
     private void Chart() {
@@ -98,5 +110,6 @@ public class Fragment_Trangchu extends Fragment {
 
     private void setControl(View view) {
         piechart_tinhhinhphong=view.findViewById(R.id.piechart_tinhhinhphong);
+        btn_chamcong=view.findViewById(R.id.btn_chamcong);
     }
 }
