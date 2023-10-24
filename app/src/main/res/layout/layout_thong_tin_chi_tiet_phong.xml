@@ -48,8 +48,20 @@
         android:textStyle="bold"
         android:textColor="@color/black"/>
     <EditText
-        android:id="@+id/edt_search"
+        android:id="@+id/edt_ten_phong"
         style="@style/editText"
         android:hint="Tên phòng" />
-
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:text="Mô tả:"
+        android:textSize="15dp"
+        android:textStyle="bold"
+        android:textColor="@color/black"/>
+    <EditText
+        android:id="@+id/edt_search"
+        style="@style/editText"
+        android:hint="Mô tả...."
+        android:layout_height="wrap_content"/>
 </LinearLayout>
