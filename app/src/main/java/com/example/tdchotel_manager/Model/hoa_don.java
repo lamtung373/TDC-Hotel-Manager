@@ -9,7 +9,7 @@ public class hoa_don {
     int id_hoa_don, so_dien_thoai, id_phong, id_le_tan, id_lao_cong;
     ArrayList<String> CCCD;
     double tien_coc, tien_phong, tong_phi_dich_vu, tong_phi_dich_vu_phong, tong_phi_tien_nghi, tong_thanh_toan;
-    Date thoi_gian_coc, thoi_gian_nhan_phong, thoi_gian_tra_phong, thoi_gian_huy, thoi_gian_thanh_toan;
+    String thoi_gian_coc, thoi_gian_nhan_phong, thoi_gian_tra_phong, thoi_gian_huy, thoi_gian_thanh_toan;
 
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
@@ -26,7 +26,7 @@ public class hoa_don {
     }
 
     //đầy đủ thông tin
-    public hoa_don(int id_hoa_don, int so_dien_thoai, int id_phong, int id_le_tan, int id_lao_cong, ArrayList<String> CCCD, double tien_coc, double tien_phong, double tong_phi_dich_vu, double tong_phi_dich_vu_phong, double tong_phi_tien_nghi, double tong_thanh_toan, Date thoi_gian_coc, Date thoi_gian_nhan_phong, Date thoi_gian_tra_phong, Date thoi_gian_huy, Date thoi_gian_thanh_toan) {
+    public hoa_don(int id_hoa_don, int so_dien_thoai, int id_phong, int id_le_tan, int id_lao_cong, ArrayList<String> CCCD, double tien_coc, double tien_phong, double tong_phi_dich_vu, double tong_phi_dich_vu_phong, double tong_phi_tien_nghi, double tong_thanh_toan, String thoi_gian_coc, String thoi_gian_nhan_phong, String thoi_gian_tra_phong, String thoi_gian_huy, String thoi_gian_thanh_toan) {
         this.id_hoa_don = id_hoa_don;
         this.so_dien_thoai = so_dien_thoai;
         this.id_phong = id_phong;
@@ -142,43 +142,43 @@ public class hoa_don {
         this.tong_thanh_toan = tong_thanh_toan;
     }
 
-    public Date getThoi_gian_coc() {
+    public String getThoi_gian_coc() {
         return thoi_gian_coc;
     }
 
-    public void setThoi_gian_coc(Date thoi_gian_coc) {
+    public void setThoi_gian_coc(String thoi_gian_coc) {
         this.thoi_gian_coc = thoi_gian_coc;
     }
 
-    public Date getThoi_gian_nhan_phong() {
+    public String getThoi_gian_nhan_phong() {
         return thoi_gian_nhan_phong;
     }
 
-    public void setThoi_gian_nhan_phong(Date thoi_gian_nhan_phong) {
+    public void setThoi_gian_nhan_phong(String thoi_gian_nhan_phong) {
         this.thoi_gian_nhan_phong = thoi_gian_nhan_phong;
     }
 
-    public Date getThoi_gian_tra_phong() {
+    public String getThoi_gian_tra_phong() {
         return thoi_gian_tra_phong;
     }
 
-    public void setThoi_gian_tra_phong(Date thoi_gian_tra_phong) {
+    public void setThoi_gian_tra_phong(String thoi_gian_tra_phong) {
         this.thoi_gian_tra_phong = thoi_gian_tra_phong;
     }
 
-    public Date getThoi_gian_huy() {
+    public String getThoi_gian_huy() {
         return thoi_gian_huy;
     }
 
-    public void setThoi_gian_huy(Date thoi_gian_huy) {
+    public void setThoi_gian_huy(String thoi_gian_huy) {
         this.thoi_gian_huy = thoi_gian_huy;
     }
 
-    public Date getThoi_gian_thanh_toan() {
+    public String getThoi_gian_thanh_toan() {
         return thoi_gian_thanh_toan;
     }
 
-    public void setThoi_gian_thanh_toan(Date thoi_gian_thanh_toan) {
+    public void setThoi_gian_thanh_toan(String thoi_gian_thanh_toan) {
         this.thoi_gian_thanh_toan = thoi_gian_thanh_toan;
     }
 }
