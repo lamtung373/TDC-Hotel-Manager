@@ -26,16 +26,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
             android:gravity="center"
             android:text="Tổng quan về doanh thu hôm nay"
             android:textColor="@color/dark_blue"
             android:textSize="20dp"
             android:textStyle="bold" />
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp">
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -116,11 +119,11 @@
 
             <com.github.mikephil.charting.charts.PieChart
                 android:id="@+id/piechart_doanhthu"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_alignParentRight="true"
-                android:layout_marginLeft="50dp" />
-        </RelativeLayout>
+                android:layout_width="match_parent"
+                android:layout_height="500dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp" />
+        </LinearLayout>
 
         <TextView
             android:layout_width="match_parent"
@@ -133,11 +136,12 @@
             android:textSize="20dp"
             android:textStyle="bold" />
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-           >
+            android:layout_marginRight="20dp"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -168,11 +172,11 @@
 
             <com.github.mikephil.charting.charts.PieChart
                 android:id="@+id/piechart_tinhhinhphong"
-                android:layout_width="250dp"
-                android:layout_height="250dp"
-                android:layout_alignParentRight="true"
-                android:layout_marginLeft="50dp" />
-        </RelativeLayout>
+                android:layout_width="match_parent"
+                android:layout_height="500dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp" />
+        </LinearLayout>
 
         <TextView
             android:layout_width="match_parent"
@@ -185,11 +189,12 @@
             android:textSize="20dp"
             android:textStyle="bold" />
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp">
+            android:layout_marginRight="20dp"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -220,11 +225,11 @@
 
             <com.github.mikephil.charting.charts.PieChart
                 android:id="@+id/piechart_hoadon"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_alignParentRight="true"
-                android:layout_marginLeft="50dp" />
-        </RelativeLayout>
+                android:layout_width="match_parent"
+                android:layout_height="500dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp" />
+        </LinearLayout>
 
         <TextView
             android:layout_width="match_parent"
@@ -256,11 +261,11 @@
             android:text="Ca sáng:"
             android:textSize="20dp" />
 
-      <androidx.recyclerview.widget.RecyclerView
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:layout_marginLeft="20dp"
-          android:layout_marginRight="20dp"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp" />
 
         <TextView
             style="@style/textview"

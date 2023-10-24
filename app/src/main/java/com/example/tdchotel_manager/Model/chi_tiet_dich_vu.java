@@ -1,7 +1,7 @@
 package com.example.tdchotel_manager.Model;
 
 public class chi_tiet_dich_vu {
-    int id_chi_tiet_dich_vu, id_phong, id_dich_vu, so_luong;
+    int id, id_phong, id_dich_vu, so_luong;
 
     public chi_tiet_dich_vu(int id_chi_tiet_dich_vu, int id_phong, int id_dich_vu, int so_luong) {
         this.id_chi_tiet_dich_vu = id_chi_tiet_dich_vu;

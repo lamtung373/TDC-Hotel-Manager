@@ -5,6 +5,9 @@ public class nhan_vien {
     String ten_nhan_vien,username, password,anh_nhan_vien,CCCD,so_dien_thoai;
     double luong;
 
+    public nhan_vien() {
+    }
+
     public nhan_vien(int id_nhan_vien, int id_chuc_vu, int id_lich_lam, String ten_nhan_vien, String username, String password, String anh_nhan_vien, String CCCD, String so_dien_thoai, double luong) {
         this.id_nhan_vien = id_nhan_vien;
         this.id_chuc_vu = id_chuc_vu;
