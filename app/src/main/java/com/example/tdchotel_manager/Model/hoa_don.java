@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class hoa_don {
-    int id_hoa_don, so_dien_thoai, id_phong, id_le_tan, id_dich_vu, id_tien_nghi, id_dich_vu_phong, id_lao_cong;
+    int id_hoa_don, so_dien_thoai, id_phong, id_le_tan, id_chi_tiet_dich_vu, id_chi_tiet_tien_nghi, id_chi_tiet_dich_vu_phong, id_lao_cong;
     ArrayList<String> CCCD;
     double tien_coc, tien_phong, tong_phi_dich_vu, tong_phi_dich_vu_phong, tong_phi_tien_nghi, tong_thanh_toan;
     Date thoi_gian_coc, thoi_gian_nhan_phong, thoi_gian_tra_phong, thoi_gian_huy, thoi_gian_thanh_toan;
@@ -52,14 +52,14 @@ public class hoa_don {
     }
 
     //đầy đủ thông tin
-    public hoa_don(int id_hoa_don, int so_dien_thoai, int id_phong, int id_le_tan, int id_dich_vu, int id_tien_nghi, int id_dich_vu_phong, int id_lao_cong, ArrayList<String> CCCD, double tien_coc, double tien_phong, double tong_phi_dich_vu, double tong_phi_dich_vu_phong, double tong_phi_tien_nghi, double tong_thanh_toan, Date thoi_gian_coc, Date thoi_gian_nhan_phong, Date thoi_gian_tra_phong, Date thoi_gian_huy, Date thoi_gian_thanh_toan) {
+    public hoa_don(int id_hoa_don, int so_dien_thoai, int id_phong, int id_le_tan, int id_chi_tiet_dich_vu, int id_chi_tiet_tien_nghi, int id_chi_tiet_dich_vu_phong, int id_lao_cong, ArrayList<String> CCCD, double tien_coc, double tien_phong, double tong_phi_dich_vu, double tong_phi_dich_vu_phong, double tong_phi_tien_nghi, double tong_thanh_toan, Date thoi_gian_coc, Date thoi_gian_nhan_phong, Date thoi_gian_tra_phong, Date thoi_gian_huy, Date thoi_gian_thanh_toan) {
         this.id_hoa_don = id_hoa_don;
         this.so_dien_thoai = so_dien_thoai;
         this.id_phong = id_phong;
         this.id_le_tan = id_le_tan;
-        this.id_dich_vu = id_dich_vu;
-        this.id_tien_nghi = id_tien_nghi;
-        this.id_dich_vu_phong = id_dich_vu_phong;
+        this.id_chi_tiet_dich_vu = id_chi_tiet_dich_vu;
+        this.id_chi_tiet_tien_nghi = id_chi_tiet_tien_nghi;
+        this.id_chi_tiet_dich_vu_phong = id_chi_tiet_dich_vu_phong;
         this.id_lao_cong = id_lao_cong;
         this.CCCD = CCCD;
         this.tien_coc = tien_coc;
@@ -107,28 +107,28 @@ public class hoa_don {
         this.id_le_tan = id_le_tan;
     }
 
-    public int getId_dich_vu() {
-        return id_dich_vu;
+    public int getId_chi_tiet_dich_vu() {
+        return id_chi_tiet_dich_vu;
     }
 
-    public void setId_dich_vu(int id_dich_vu) {
-        this.id_dich_vu = id_dich_vu;
+    public void setId_chi_tiet_dich_vu(int id_chi_tiet_dich_vu) {
+        this.id_chi_tiet_dich_vu = id_chi_tiet_dich_vu;
     }
 
-    public int getId_tien_nghi() {
-        return id_tien_nghi;
+    public int getId_chi_tiet_tien_nghi() {
+        return id_chi_tiet_tien_nghi;
     }
 
-    public void setId_tien_nghi(int id_tien_nghi) {
-        this.id_tien_nghi = id_tien_nghi;
+    public void setId_chi_tiet_tien_nghi(int id_chi_tiet_tien_nghi) {
+        this.id_chi_tiet_tien_nghi = id_chi_tiet_tien_nghi;
     }
 
-    public int getId_dich_vu_phong() {
-        return id_dich_vu_phong;
+    public int getId_chi_tiet_dich_vu_phong() {
+        return id_chi_tiet_dich_vu_phong;
     }
 
-    public void setId_dich_vu_phong(int id_dich_vu_phong) {
-        this.id_dich_vu_phong = id_dich_vu_phong;
+    public void setId_chi_tiet_dich_vu_phong(int id_chi_tiet_dich_vu_phong) {
+        this.id_chi_tiet_dich_vu_phong = id_chi_tiet_dich_vu_phong;
     }
 
     public int getId_lao_cong() {

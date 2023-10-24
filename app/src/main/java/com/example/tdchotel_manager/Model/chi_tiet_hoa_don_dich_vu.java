@@ -3,12 +3,11 @@ package com.example.tdchotel_manager.Model;
 import java.util.HashMap;
 import java.util.Map;
 
-public class chi_tiet_dich_vu {
-    int id_chi_tiet_dich_vu, id_phong, id_dich_vu, so_luong;
+public class chi_tiet_hoa_don_dich_vu {
+    int id_hoa_don, id_dich_vu, so_luong;
 
-    public chi_tiet_dich_vu(int id_chi_tiet_dich_vu, int id_phong, int id_dich_vu, int so_luong) {
-        this.id_chi_tiet_dich_vu = id_chi_tiet_dich_vu;
-        this.id_phong = id_phong;
+    public chi_tiet_hoa_don_dich_vu(int id_hoa_don, int id_dich_vu, int so_luong) {
+        this.id_hoa_don = id_hoa_don;
         this.id_dich_vu = id_dich_vu;
         this.so_luong = so_luong;
     }
@@ -18,23 +17,15 @@ public class chi_tiet_dich_vu {
 
         return result;
     }
-    public chi_tiet_dich_vu() {
+    public chi_tiet_hoa_don_dich_vu() {
     }
 
-    public int getId_chi_tiet_dich_vu() {
-        return id_chi_tiet_dich_vu;
+    public int getId_hoa_don() {
+        return id_hoa_don;
     }
 
-    public void setId_chi_tiet_dich_vu(int id_chi_tiet_dich_vu) {
-        this.id_chi_tiet_dich_vu = id_chi_tiet_dich_vu;
-    }
-
-    public int getId_phong() {
-        return id_phong;
-    }
-
-    public void setId_phong(int id_phong) {
-        this.id_phong = id_phong;
+    public void setId_hoa_don(int id_hoa_don) {
+        this.id_hoa_don = id_hoa_don;
     }
 
     public int getId_dich_vu() {
