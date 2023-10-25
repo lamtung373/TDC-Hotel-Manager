@@ -7,20 +7,23 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tdchotel_manager.Model.phong;
 import com.example.tdchotel_manager.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class adapter_phong extends RecyclerView.Adapter<adapter_phong.MyViewHolder> {
-    private List<phong> dataList;
+    private ArrayList<phong> dataList = new ArrayList<>();
 
     public adapter_phong() {
-        dataList = new ArrayList<>();
         khoi_tao();
     }
 
@@ -63,102 +66,24 @@ public class adapter_phong extends RecyclerView.Adapter<adapter_phong.MyViewHold
     }
 
     private void khoi_tao() {
-        phong phong1 = new phong(
-                1,
-                "Phòng Deluxe",
-                "Phòng Deluxe rộng rãi và thoải mái.",
-                new ArrayList<>(Arrays.asList("anh1.jpg", "anh2.jpg", "anh3.jpg")),
-                "Phòng 2 người",
-                1,
-                0,
-                100.0,
-                10.0,
-                4.5
-        );
+        DatabaseReference reference= FirebaseDatabase.getInstance().getReference("phong");
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                dataList.clear();
+                for (DataSnapshot dataSnapshot:snapshot.getChildren()){
+                    phong rooms= dataSnapshot.getValue(phong.class);
+                    if (rooms!=null){
+                        dataList.add(rooms);
+                    }
+                }
+                notifyDataSetChanged();
+            }
 
-        phong phong2 = new phong(
-                2,
-                "Phòng Family",
-                "Phòng Family phù hợp cho gia đình lớn.",
-                new ArrayList<>(Arrays.asList("anh4.jpg", "anh5.jpg", "anh6.jpg")),
-                "Phòng 2 người",
-                1,
-                0,
-                150.0,
-                15.0,
-                4.7
-        );
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
 
-        phong phong3 = new phong(
-                3,
-                "Phòng Standard",
-                "Phòng Standard tiện nghi và giá cả phải chăng.",
-                new ArrayList<>(Arrays.asList("anh7.jpg", "anh8.jpg", "anh9.jpg")),
-                "Phòng 2 người",
-                1,
-                0,
-                80.0,
-                8.0,
-                4.2
-        );
-        phong phong4 = new phong(
-                4,
-                "Phòng Suite",
-                "Phòng Suite sang trọng với đầy đủ tiện nghi.",
-                new ArrayList<>(Arrays.asList("anh10.jpg", "anh11.jpg", "anh12.jpg")),
-                "Phòng 2 người",
-                1,
-                0,
-                200.0,
-                20.0,
-                4.9
-        );
-
-        phong phong5 = new phong(
-                5,
-                "Phòng Studio",
-                "Phòng Studio với không gian sáng sủa.",
-                new ArrayList<>(Arrays.asList("anh13.jpg", "anh14.jpg", "anh15.jpg")),
-                "Phòng 2 người",
-                1,
-                0,
-                120.0,
-                12.0,
-                4.6
-        );
-
-        phong phong6 = new phong(
-                6,
-                "Phòng Superior",
-                "Phòng Superior với view đẹp.",
-                new ArrayList<>(Arrays.asList("anh16.jpg", "anh17.jpg", "anh18.jpg")),
-                "Phòng 2 người",
-                1,
-                0,
-                90.0,
-                9.0,
-                4.3
-        );
-
-        phong phong7 = new phong(
-                7,
-                "Phòng VIP",
-                "Phòng VIP cao cấp với nhiều tiện ích.",
-                new ArrayList<>(Arrays.asList("anh19.jpg", "anh20.jpg", "anh21.jpg")),
-                "Phòng 2 người",
-                1,
-                0,
-                300.0,
-                30.0,
-                5.0
-        );
-
-        dataList.add(phong1);
-        dataList.add(phong2);
-        dataList.add(phong3);
-        dataList.add(phong4);
-        dataList.add(phong5);
-        dataList.add(phong6);
-        dataList.add(phong7);
+            }
+        });
     }
 }
