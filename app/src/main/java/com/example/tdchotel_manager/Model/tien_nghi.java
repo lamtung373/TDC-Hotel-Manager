@@ -7,9 +7,9 @@ import java.util.Map;
 public class tien_nghi {
     int id_tien_nghi, gia_tien_nghi;
     String ten_tien_nghi;
-    ArrayList<String> anh_tien_nghi;
+    String anh_tien_nghi;
 
-    public tien_nghi(int id_tien_nghi, int gia_tien_nghi, String ten_tien_nghi, ArrayList<String> anh_tien_nghi) {
+    public tien_nghi(int id_tien_nghi, int gia_tien_nghi, String ten_tien_nghi, String anh_tien_nghi) {
         this.id_tien_nghi = id_tien_nghi;
         this.gia_tien_nghi = gia_tien_nghi;
         this.ten_tien_nghi = ten_tien_nghi;
@@ -26,11 +26,11 @@ public class tien_nghi {
         result.put("anh_tien_nghi", anh_tien_nghi);
         return result;
     }
-    public ArrayList<String> getAnh_tien_nghi() {
+    public String getAnh_tien_nghi() {
         return anh_tien_nghi;
     }
 
-    public void setAnh_tien_nghi(ArrayList<String> anh_tien_nghi) {
+    public void setAnh_tien_nghi(String anh_tien_nghi) {
         this.anh_tien_nghi = anh_tien_nghi;
     }
 

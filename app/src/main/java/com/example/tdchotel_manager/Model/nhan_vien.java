@@ -5,15 +5,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class nhan_vien {
-    int id_nhan_vien,id_chuc_vu,id_lich_lam;
+    int id_nhan_vien,id_chuc_vu;
     String ten_nhan_vien,username, password,anh_nhan_vien,so_dien_thoai;
     double luong;
     ArrayList<String>  CCCD;
 
-    public nhan_vien(int id_nhan_vien, int id_chuc_vu, int id_lich_lam, String ten_nhan_vien, String username, String password, String anh_nhan_vien, ArrayList<String> CCCD, String so_dien_thoai, double luong) {
+    public nhan_vien(int id_nhan_vien, int id_chuc_vu, String ten_nhan_vien, String username, String password, String anh_nhan_vien, ArrayList<String> CCCD, String so_dien_thoai, double luong) {
         this.id_nhan_vien = id_nhan_vien;
         this.id_chuc_vu = id_chuc_vu;
-        this.id_lich_lam = id_lich_lam;
         this.ten_nhan_vien = ten_nhan_vien;
         this.username = username;
         this.password = password;
@@ -25,7 +24,6 @@ public class nhan_vien {
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
         result.put("id_chuc_vu", id_chuc_vu);
-        result.put("id_lich_lam", id_lich_lam);
         result.put("ten_nhan_vien", ten_nhan_vien);
         result.put("anh_nhan_vien", anh_nhan_vien);
         result.put("so_dien_thoai", so_dien_thoai);
@@ -43,15 +41,6 @@ public class nhan_vien {
     public void setAnh_nhan_vien(String anh_nhan_vien) {
         this.anh_nhan_vien = anh_nhan_vien;
     }
-
-    public int getId_lich_lam() {
-        return id_lich_lam;
-    }
-
-    public void setId_lich_lam(int id_lich_lam) {
-        this.id_lich_lam = id_lich_lam;
-    }
-
 
     public int getId_nhan_vien() {
         return id_nhan_vien;
