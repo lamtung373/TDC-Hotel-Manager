@@ -96,8 +96,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:text="Tiện nghi:" />
-    <?xml version="1.0" encoding="utf-8"?>
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -124,7 +123,8 @@
             android:layout_marginLeft="25dp"
             android:layout_marginRight="25dp"
             android:layout_toLeftOf="@id/iv_increase1"
-            android:text="0" />
+            android:text="0"
+            android:inputType="number"/>
 
         <ImageView
             android:id="@+id/iv_increase1"
@@ -136,7 +136,7 @@
             android:src="@drawable/increase" />
     </RelativeLayout>
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -149,7 +149,7 @@
             android:text="Giường đơn" />
 
         <ImageView
-            android:id="@+id/ivTru"
+            android:id="@+id/iv_decrease"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -163,7 +163,8 @@
             android:layout_marginLeft="25dp"
             android:layout_marginRight="25dp"
             android:layout_toLeftOf="@id/iv_increase"
-            android:text="0" />
+            android:text="0"
+            android:inputType="number"/>
 
         <ImageView
             android:id="@+id/iv_increase"
@@ -176,8 +177,103 @@
     </RelativeLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rcv_amenities"
+        android:id="@+id/rcv_tien_nghi"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="200dp"
         android:layout_marginHorizontal="10dp" />
+    <TextView
+        style="@style/textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:text="Dịch vụ phòng:" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcv_dich_vu_phong"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginHorizontal="10dp" />
+    <TextView
+        style="@style/textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:text="Loại phòng:" />
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RadioButton
+            android:id="@+id/rdo_1_nguoi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/textview"
+            android:text="1 Người" />
+
+        <RadioButton
+            android:id="@+id/rdo_2_nguoi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/textview"
+            android:text="2 Người" />
+
+        <RadioButton
+            android:id="@+id/rdo_3_nguoi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/textview"
+            android:text="3 Người" />
+
+        <RadioButton
+            android:id="@+id/rdo_4_nguoi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/textview"
+            android:text="4 Người" />
+
+        <RadioButton
+            android:id="@+id/rdo_5_nguoi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/textview"
+            android:text="5 Người" />
+    </RadioGroup>
+
+    <TextView
+        style="@style/textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:text="Giá phòng/đêm:" />
+    <EditText
+        android:id="@+id/edt_price_room"
+        style="@style/editText"
+        android:hint="Giá phòng/đêm" />
+    <TextView
+        style="@style/textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:text="Ảnh phòng:" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:gravity="center"
+            android:text="THÊM ẢNH MỚI"
+            android:textSize="20dp"
+            android:textColor="@color/dark_blue"
+            android:layout_marginHorizontal="10dp"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcv_anh_phong"
+            android:layout_gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginRight="10dp"
+            android:orientation="horizontal"/>
+    </LinearLayout>
 </LinearLayout>
