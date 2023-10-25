@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.os.Bundle;
+
 import com.example.tdchotel_manager.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -14,9 +15,13 @@ public class TrangChu_QuanLy extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trang_chu_quan_ly);
+
         setControl();
         Initialization();
+
     }
+
+
     private void Initialization() {
         vp_bottomNavigation.setUserInputEnabled(false);
         Menu_Adapter menu_adapter = new Menu_Adapter(this);
