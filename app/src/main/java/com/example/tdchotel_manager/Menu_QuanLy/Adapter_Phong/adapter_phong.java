@@ -40,7 +40,7 @@ public class adapter_phong extends RecyclerView.Adapter<adapter_phong.MyViewHold
         holder.tv_name_room.setText(String.valueOf(data.getTen_phong()));
         holder.tv_price.setText(String.valueOf(data.getGia()));
         holder.tv_price.setPaintFlags(holder.tv_price.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-        holder.tv_sale.setText(String.valueOf(data.getSale()));
+        holder.tv_sale.setText(String.valueOf(data.getSale())+" VNĐ");
         holder.tv_type_room.setText(data.getLoai_phong());
         holder.tv_status_room.setText(String.valueOf(data.getTrang_thai()));
     }
@@ -67,7 +67,8 @@ public class adapter_phong extends RecyclerView.Adapter<adapter_phong.MyViewHold
 
     private void khoi_tao() {
         DatabaseReference reference= FirebaseDatabase.getInstance().getReference("phong");
-        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+        DatabaseReference reference_status= FirebaseDatabase.getInstance().getReference("trang_thai_phong");
+        reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 dataList.clear();
@@ -76,6 +77,17 @@ public class adapter_phong extends RecyclerView.Adapter<adapter_phong.MyViewHold
                     if (rooms!=null){
                         dataList.add(rooms);
                     }
+                    reference_status.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
                 }
                 notifyDataSetChanged();
             }

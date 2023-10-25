@@ -63,7 +63,7 @@ public class adapter_tien_nghi extends RecyclerView.Adapter<adapter_tien_nghi.My
 
     void khoi_tao() {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("tien_nghi");
-        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+        reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 dataList.clear(); // Xóa dữ liệu cũ trước khi thêm dữ liệu mới để tránh trùng lặp
