@@ -7,6 +7,9 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.tdchotel_manager.Menu_QuanLy.Adapter_Trangchu.adapter_calam;
 import com.example.tdchotel_manager.Model.hoa_don;
 import com.example.tdchotel_manager.R;
 import com.github.mikephil.charting.charts.PieChart;
@@ -52,7 +56,7 @@ public class Fragment_Trangchu extends Fragment {
     private String mParam2;
     PieChart piechart_tinhhinhphong;
     Button btn_chamcong;
-
+    RecyclerView rcv_casang, rcv_catoi;
     public Fragment_Trangchu() {
         // Required empty public constructor
     }
@@ -90,41 +94,20 @@ public class Fragment_Trangchu extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment__trangchu, container, false);
         setControl(view);
-        Chart();
+        Initialization();
         setEvent();
         return view;
     }
 
-    private void setEvent() {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-        Calendar calendar = Calendar.getInstance();
-        String date = simpleDateFormat.format(calendar.getTime());
-        btn_chamcong.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                DatabaseReference ref = FirebaseDatabase.getInstance().getReference("hoa_don");
-                hoa_don hoadon1 = new hoa_don(5,
-                        123456,
-                        5,
-                        4,
-                        6,
-                        new ArrayList<>(Arrays.asList("anh27.jpg", "anh28.jpg")),
-                        45000,
-                        1600000,
-                        3500,
-                        3500,
-                        90.0,
-                        3550.0,
-                        date, date, date, date, date);
-                ref.child("5").setValue(hoadon1, new DatabaseReference.CompletionListener() {
-                    @Override
-                    public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
-                        Toast.makeText(getActivity(), "Add Successfull", Toast.LENGTH_SHORT).show();
+    private void Initialization() {
+        Chart();
+        adapter_calam adapterCalam=new adapter_calam();
+        rcv_casang.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
+        rcv_casang.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL));
+        rcv_casang.setAdapter(adapterCalam);
+    }
 
-                    }
-                });
-            }
-        });
+    private void setEvent() {
 
     }
 
@@ -149,5 +132,7 @@ public class Fragment_Trangchu extends Fragment {
     private void setControl(View view) {
         piechart_tinhhinhphong = view.findViewById(R.id.piechart_tinhhinhphong);
         btn_chamcong = view.findViewById(R.id.btn_chamcong);
+        rcv_casang = view.findViewById(R.id.rcv_casang);
+        rcv_catoi = view.findViewById(R.id.rcv_catoi);
     }
 }

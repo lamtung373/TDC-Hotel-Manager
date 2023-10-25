@@ -248,62 +248,57 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
+            android:layout_marginBottom="5dp"
             android:background="@drawable/selector_bg_button"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:text="Chấm công"
-            android:layout_marginBottom="5dp"/>
+            android:text="Chấm công" />
+
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
-            <LinearLayout
+            <TextView
+                style="@style/textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_weight="1">
+                android:layout_gravity="center"
+                android:layout_marginLeft="20dp"
+                android:text="Ca sáng"
+                android:textSize="20dp" />
 
-                <TextView
-                    style="@style/textview"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:text="Ca sáng"
-                    android:textSize="20dp"
-                    android:layout_gravity="center"/>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rcv_casang"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_weight="1">
-
-                <TextView
-                    style="@style/textview"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:text="Ca tối"
-                    android:textSize="20dp"
-                    android:layout_gravity="center"/>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp" />
-            </LinearLayout>
-
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp" />
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="20dp"
+                android:text="Ca tối"
+                android:textSize="20dp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rcv_catoi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp" />
+        </LinearLayout>
+
 
     </LinearLayout>
 
