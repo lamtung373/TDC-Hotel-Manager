@@ -3,6 +3,9 @@ package com.example.tdchotel_manager.Menu_QuanLy.Adapter_DichVu;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,57 +13,26 @@ import android.view.ViewGroup;
 
 import com.example.tdchotel_manager.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link tabDichVuPhong#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class tabDichVuPhong extends Fragment {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public tabDichVuPhong() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment tabDichVuPhong.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static tabDichVuPhong newInstance(String param1, String param2) {
-        tabDichVuPhong fragment = new tabDichVuPhong();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
+    private RecyclerView rcvDV;
+    private adapter_dich_vu_phong adapter_dich_vu_phong = new adapter_dich_vu_phong();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.layout_item_dichvu, container, false);
+        View view = inflater.inflate(R.layout.fragment_tab_dich_vu_phong, container, false);
+        setControl(view);
+        setEvent();
+        return view;
+    }
+    private void setEvent() {
+        rcvDV.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
+        rcvDV.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL));
+        rcvDV.setAdapter(adapter_dich_vu_phong);
+    }
+
+    private void setControl(View view) {
+        rcvDV = view.findViewById(R.id.rcvDV);
     }
 }

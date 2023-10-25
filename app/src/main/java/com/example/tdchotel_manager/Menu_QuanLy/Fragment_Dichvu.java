@@ -36,33 +36,12 @@ public class Fragment_Dichvu extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment__dichvu, container, false);
-        imgButtonthem = view.findViewById(R.id.imgAdd);
 
-
-
-        tabLayout = view.findViewById(R.id.tldichvu);
-        viewPager2 = view.findViewById(R.id.viewpage);
-
-        tabLayout.addTab(tabLayout.newTab().setText("Dịch vụ"));
-        tabLayout.addTab(tabLayout.newTab().setText("Dịch vụ phòng"));
-        tabLayout.addTab(tabLayout.newTab().setText("Tiện nghi"));
-
-        tabLayout.setSelectedTabIndicatorColor(Color.parseColor("#26A1EE"));
-
-
-
-
-        viewPagerAdapater = new Viewpageadapter(this);
-        viewPager2.setAdapter(viewPagerAdapater);
-
-
-        imgButtonthem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity().getApplication(), activity_themdv.class);
-                startActivity(intent);
-            }
-        });
+        setControl(view);
+        setEvent();
+        return view;
+    }
+    private void setEvent() {
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -79,23 +58,39 @@ public class Fragment_Dichvu extends Fragment {
             }
         });
         viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
-            @Override
-            public void onPageSelected(int position) {
-                super.onPageSelected(position);
-                tabLayout.getTabAt(position).select();
-                }
-            }
+                                                    @Override
+                                                    public void onPageSelected(int position) {
+                                                        super.onPageSelected(position);
+                                                        tabLayout.getTabAt(position).select();
+                                                    }
+                                                }
         );
-
-        setControl(view);
-        setEvent();
-        return view;
-    }
-    private void setEvent() {
-
+        imgButtonthem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), activity_themdv.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void setControl(View view) {
+        imgButtonthem = view.findViewById(R.id.imgAdd);
+        tabLayout = view.findViewById(R.id.tldichvu);
+        viewPager2 = view.findViewById(R.id.viewpage);
+
+        tabLayout.addTab(tabLayout.newTab().setText("Dịch vụ"));
+        tabLayout.addTab(tabLayout.newTab().setText("Dịch vụ phòng"));
+        tabLayout.addTab(tabLayout.newTab().setText("Tiện nghi"));
+
+        tabLayout.setSelectedTabIndicatorColor(Color.parseColor("#26A1EE"));
+
+
+
+
+        viewPagerAdapater = new Viewpageadapter(this);
+        viewPager2.setAdapter(viewPagerAdapater);
+
     }
 }
 

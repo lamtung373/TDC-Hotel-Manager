@@ -39,11 +39,7 @@ public class activity_themdv extends AppCompatActivity {
         imgButtonquaylai.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Fragment_Dichvu fragment = new Fragment_Dichvu();
-                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.imvbQuaylai, fragment);
-                transaction.addToBackStack(null);
-                transaction.commit();
+              finish();
             }
         });
 

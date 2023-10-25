@@ -1,6 +1,5 @@
 package com.example.tdchotel_manager.Menu_QuanLy.Adapter_DichVu;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.tdchotel_manager.Model.dich_vu;
+import com.example.tdchotel_manager.Model.tien_nghi;
 import com.example.tdchotel_manager.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -20,25 +19,24 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class adapter_dich_vu extends RecyclerView.Adapter<adapter_dich_vu.MyViewHolder> {
+public class adapter_tien_nghi_dv extends RecyclerView.Adapter<adapter_tien_nghi_dv.MyViewHolder> {
 
-    ArrayList<dich_vu> datalist = new ArrayList<>();
-    public adapter_dich_vu() {
+    ArrayList<tien_nghi> datalist = new ArrayList<>();
+    public adapter_tien_nghi_dv() {
         khoi_tao();
     }
     @NonNull
     @Override
-    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public adapter_tien_nghi_dv.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_item_dichvu, parent, false);
         return new MyViewHolder(itemView);
     }
-
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        dich_vu data = datalist.get(position);
+    public void onBindViewHolder(@NonNull adapter_tien_nghi_dv.MyViewHolder holder, int position) {
+        tien_nghi data = datalist.get(position);
 //        holder.img.setText(String.valueOf(data.getId_phong()));
-        holder.tvten.setText(data.getTen_dich_vu());
-        holder.tvgia.setText(String.valueOf(data.getGia_dich_vu()));
+        holder.tvten.setText(data.getTen_tien_nghi());
+        holder.tvgia.setText(String.valueOf(data.getGia_tien_nghi()));
     }
 
     @Override
@@ -56,15 +54,15 @@ public class adapter_dich_vu extends RecyclerView.Adapter<adapter_dich_vu.MyView
         }
     }
     void khoi_tao(){
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("dich_vu");
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("tien_nghi");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 datalist.clear();
                 for(DataSnapshot dataSnapshot:snapshot.getChildren()){
-                    dich_vu  dichVu = dataSnapshot.getValue(dich_vu.class);
-                    if(dichVu != null){
-                        datalist.add(dichVu);
+                    tien_nghi  tienNghi = dataSnapshot.getValue(tien_nghi.class);
+                    if(tienNghi != null){
+                        datalist.add(tienNghi);
                     }
 
                 }
@@ -80,3 +78,4 @@ public class adapter_dich_vu extends RecyclerView.Adapter<adapter_dich_vu.MyView
 
     }
 }
+
