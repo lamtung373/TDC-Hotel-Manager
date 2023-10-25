@@ -5,10 +5,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class phan_cong {
-    int id_phan_cong,id_nhan_vien,id_ca_lam;
+    int id_nhan_vien,id_ca_lam;
     Date ngay_lam,check_in,check_out;
-    public phan_cong(int id_lich_lam, int id_nhan_vien, int id_ca_lam, Date ngay_lam, Date check_in, Date check_out) {
-        this.id_phan_cong = id_lich_lam;
+    public phan_cong( int id_nhan_vien, int id_ca_lam, Date ngay_lam, Date check_in, Date check_out) {
         this.id_nhan_vien = id_nhan_vien;
         this.id_ca_lam = id_ca_lam;
         this.ngay_lam = ngay_lam;
@@ -26,14 +25,6 @@ public class phan_cong {
         return result;
     }
     public phan_cong() {
-    }
-
-    public int getId_phan_cong() {
-        return id_phan_cong;
-    }
-
-    public void setId_phan_cong(int id_phan_cong) {
-        this.id_phan_cong = id_phan_cong;
     }
 
     public int getId_nhan_vien() {

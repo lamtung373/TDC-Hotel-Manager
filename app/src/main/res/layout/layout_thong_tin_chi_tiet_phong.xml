@@ -1,130 +1,295 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Menu_QuanLy.Activity_Thong_Tin_Phong">
+
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginBottom="10dp"
-        android:background="@color/dark_blue"
-        android:orientation="horizontal">
-
-        <ImageButton
-            android:id="@+id/btn_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="10dp"
-            android:background="@null"
-            android:src="@drawable/back" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="Thông tin chi tiết phòng"
-            android:textColor="@color/white"
-            android:textSize="20dp"
-            android:textStyle="bold" />
-
-        <ImageButton
-            android:id="@+id/btn_add"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginRight="10dp"
-            android:background="@null"
-            android:src="@drawable/save" />
-    </LinearLayout>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:text="Tên phòng:"
-        style="@style/textview"/>
-    <EditText
-        android:id="@+id/edt_name_room"
-        style="@style/editText"
-        android:hint="Tên phòng" />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:text="Mô tả:"
-        style="@style/textview"/>
-    <EditText
-        android:layout_height="wrap_content"
-        android:id="@+id/edt_description"
-        style="@style/editText"
-        android:hint="Mô tả...."/>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="10dp">
-        <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:text="Trạng thái:"
-        style="@style/textview"/>
-        <Spinner
-            android:id="@+id/sp_status"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginBottom="10dp"/>
-    </LinearLayout>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:text="Tiện nghi:"
-        style="@style/textview"/>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="10dp"
-        android:gravity="center_vertical">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="20dp"
-            android:text="Giường đôi:"
-            style="@style/textview"/>
-        <ImageButton
-            android:id="@+id/btn_decrease"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginHorizontal="5dp"
-            android:background="@null"
-            android:src="@drawable/decrease" />
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/edt_giuongdoi"
-            android:layout_marginHorizontal="5dp"
-            android:hint="0"/>
-        <ImageButton
-            android:id="@+id/btn_increase"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginHorizontal="5dp"
-            android:background="@null"
-            android:src="@drawable/increase" />
-    </LinearLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rcv_amenities"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginHorizontal="10dp"/>
-</LinearLayout>
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginBottom="10dp"
+            android:background="@color/dark_blue"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/btn_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:background="@null"
+                android:src="@drawable/back" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Thông tin chi tiết phòng"
+                android:textColor="@color/white"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+            <ImageButton
+                android:id="@+id/btn_add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginRight="10dp"
+                android:background="@null"
+                android:src="@drawable/save" />
+        </LinearLayout>
+
+        <TextView
+            style="@style/textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="Tên phòng:" />
+
+        <EditText
+            android:id="@+id/edt_name_room"
+            style="@style/editText"
+            android:hint="Tên phòng" />
+
+        <TextView
+            style="@style/textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="Mô tả:" />
+
+        <EditText
+            android:id="@+id/edt_description"
+            style="@style/editText"
+            android:layout_height="wrap_content"
+            android:hint="Mô tả...." />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="Trạng thái:" />
+
+            <Spinner
+                android:id="@+id/sp_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="10dp" />
+        </LinearLayout>
+
+        <TextView
+            style="@style/textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="Tiện nghi:" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                style="@style/textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:text="Giường đôi" />
+
+            <ImageView
+                android:id="@+id/iv_decrease11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@id/edt_giuong_don"
+                android:src="@drawable/decrease" />
+
+            <EditText
+                android:id="@+id/edt_giuong_don"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:layout_toLeftOf="@id/iv_increase1"
+                android:inputType="number"
+                android:text="0" />
+
+            <ImageView
+                android:id="@+id/iv_increase1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="30dp"
+                android:src="@drawable/increase" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                style="@style/textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:text="Giường đơn" />
+
+            <ImageView
+                android:id="@+id/iv_decrease"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@id/edt_giuong_doi"
+                android:src="@drawable/decrease" />
+
+            <EditText
+                android:id="@+id/edt_giuong_doi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:layout_toLeftOf="@id/iv_increase"
+                android:inputType="number"
+                android:text="0" />
+
+            <ImageView
+                android:id="@+id/iv_increase"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="30dp"
+                android:src="@drawable/increase" />
+        </RelativeLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcv_tien_nghi"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginHorizontal="10dp" />
+
+        <TextView
+            style="@style/textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="Dịch vụ phòng:" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcv_dich_vu_phong"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginHorizontal="10dp" />
+
+        <TextView
+            style="@style/textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="Loại phòng:" />
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RadioButton
+                android:id="@+id/rdo_1_nguoi"
+                style="@style/textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1 Người" />
+
+            <RadioButton
+                android:id="@+id/rdo_2_nguoi"
+                style="@style/textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2 Người" />
+
+            <RadioButton
+                android:id="@+id/rdo_3_nguoi"
+                style="@style/textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="3 Người" />
+
+            <RadioButton
+                android:id="@+id/rdo_4_nguoi"
+                style="@style/textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="4 Người" />
+
+            <RadioButton
+                android:id="@+id/rdo_5_nguoi"
+                style="@style/textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="5 Người" />
+        </RadioGroup>
+
+        <TextView
+            style="@style/textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="Giá phòng/đêm:" />
+
+        <EditText
+            android:id="@+id/edt_price_room"
+            style="@style/editText"
+            android:hint="Giá phòng/đêm" />
+
+        <TextView
+            style="@style/textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="Ảnh phòng:" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <Button
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginHorizontal="10dp"
+                android:gravity="center"
+                android:text="THÊM ẢNH MỚI"
+                android:textColor="@color/dark_blue"
+                android:textSize="20dp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rcv_anh_phong"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="10dp"
+                android:orientation="horizontal" />
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>
