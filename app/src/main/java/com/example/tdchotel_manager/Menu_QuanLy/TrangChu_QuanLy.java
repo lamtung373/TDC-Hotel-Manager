@@ -64,7 +64,7 @@ public class TrangChu_QuanLy extends AppCompatActivity {
 
                 overridePendingTransition(0, 0);
             }else if (item.getItemId() == R.id.menu_thongke) {
-                vp_bottomNavigation.setCurrentItem(3);
+                vp_bottomNavigation.setCurrentItem(4);
 
                 overridePendingTransition(0, 0);
             }
