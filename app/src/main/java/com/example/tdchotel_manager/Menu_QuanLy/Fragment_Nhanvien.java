@@ -1,5 +1,6 @@
 package com.example.tdchotel_manager.Menu_QuanLy;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,7 +8,9 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 
+import com.example.tdchotel_manager.Menu_QuanLy.Adapter_NhanVien.ThemNhanVien;
 import com.example.tdchotel_manager.R;
 
 /**
@@ -16,6 +19,8 @@ import com.example.tdchotel_manager.R;
  * create an instance of this fragment.
  */
 public class Fragment_Nhanvien extends Fragment {
+
+    ImageButton btnThemNV;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -60,7 +65,24 @@ public class Fragment_Nhanvien extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment__nhanvien, container, false);
+
+        View view = inflater.inflate(R.layout.fragment__nhanvien, container, false);
+
+        // Kết nối các thành phần giao diện với các thành phần trong mã Java
+        btnThemNV = view.findViewById(R.id.btnThemNV);
+
+        // Thiết lập sự kiện khi nút "Thêm nhân viên" được nhấn
+        btnThemNV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Tạo Intent để chuyển sang layout_themnhanvien.
+                Intent intent = new Intent(getActivity(), ThemNhanVien.class);
+
+                // Khởi động hoạt động mới.
+                startActivity(intent);
+            }
+        });
+
+        return view;
     }
 }
