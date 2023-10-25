@@ -44,5 +44,4 @@ dependencies {
     implementation("com.google.firebase:firebase-database-ktx")
     implementation("com.google.firebase:firebase-auth-ktx")
     implementation ("androidx.recyclerview:recyclerview:1.2.1")
-
 }

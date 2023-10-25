@@ -45,10 +45,11 @@
             android:text="Giá:     "
             android:textColor="@color/black" />
         <EditText
-            android:layout_width="350dp"
+            android:layout_width="match_parent"
             android:layout_height="50dp"
             android:hint="   200.000 VND"
             android:background="@drawable/bg_rv_item"
+            android:layout_marginRight="40dp"
             />
     </LinearLayout>
 

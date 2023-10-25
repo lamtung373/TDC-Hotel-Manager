@@ -1,20 +1,20 @@
 package com.example.tdchotel_manager.Menu_QuanLy;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
+import android.widget.ImageButton;
 
 import com.example.tdchotel_manager.Menu_QuanLy.Adapter_DichVu.Viewpageadapter;
 //import com.example.tdchotel_manager.Menu_QuanLy.Adapter_DichVu.adapter_dichvu;
+import com.example.tdchotel_manager.Menu_QuanLy.Adapter_DichVu.activity_themdv;
 import com.example.tdchotel_manager.R;
 import com.google.android.material.tabs.TabLayout;
 
@@ -24,7 +24,7 @@ public class Fragment_Dichvu extends Fragment {
     ViewPager2 viewPager2;
     Viewpageadapter viewPagerAdapater;
 
-    private RecyclerView recyclerView;
+    ImageButton imgButtonthem;
 
     public Fragment_Dichvu() {
     }
@@ -36,10 +36,33 @@ public class Fragment_Dichvu extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment__dichvu, container, false);
+        imgButtonthem = view.findViewById(R.id.imgAdd);
+
+
+
         tabLayout = view.findViewById(R.id.tldichvu);
         viewPager2 = view.findViewById(R.id.viewpage);
+
+        tabLayout.addTab(tabLayout.newTab().setText("Dịch vụ"));
+        tabLayout.addTab(tabLayout.newTab().setText("Dịch vụ phòng"));
+        tabLayout.addTab(tabLayout.newTab().setText("Tiện nghi"));
+
+        tabLayout.setSelectedTabIndicatorColor(Color.parseColor("#26A1EE"));
+
+
+
+
         viewPagerAdapater = new Viewpageadapter(this);
         viewPager2.setAdapter(viewPagerAdapater);
+
+
+        imgButtonthem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity().getApplication(), activity_themdv.class);
+                startActivity(intent);
+            }
+        });
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -63,6 +86,7 @@ public class Fragment_Dichvu extends Fragment {
                 }
             }
         );
+
         setControl(view);
         setEvent();
         return view;

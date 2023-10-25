@@ -10,6 +10,7 @@
         android:background="#26A1EE"
         android:layout_marginBottom="10dp">
         <ImageButton
+            android:id="@+id/imvbQuaylai"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/back"
@@ -26,14 +27,17 @@
             android:textSize="20dp"
             android:textStyle="bold"
             android:layout_weight="1" />
+
+
     </LinearLayout>
     <ImageView
         android:layout_marginBottom="20dp"
-        android:id="@+id/imgvSp"
+        android:id="@+id/imgthemDV"
         android:layout_width="180dp"
         android:layout_height="180dp"
         android:src="@drawable/hoboi"
         android:layout_gravity="center"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -44,12 +48,13 @@
             android:layout_marginBottom="50dp"
             android:textColor="@color/black"
             />
+
         <EditText
-            android:layout_width="340dp"
+            android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:hint="   Tên dịch vụ"
             android:background="@drawable/bg_rv_item"
-            />
+            android:hint="   Tên dịch vụ"
+            android:layout_marginRight="40dp"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -59,13 +64,13 @@
             android:layout_height="wrap_content"
             android:text="Giá:      "
             android:textColor="@color/black" />
-        <EditText
-            android:layout_width="340dp"
-            android:layout_height="50dp"
-            android:hint="   Giá dịch vụ"
 
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
             android:background="@drawable/bg_rv_item"
-            />
+            android:layout_marginRight="40dp"
+            android:hint="   Giá dịch vụ" />
     </LinearLayout>
 
     <LinearLayout
