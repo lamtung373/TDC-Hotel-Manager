@@ -1,10 +1,13 @@
 package com.example.tdchotel_manager.Menu_QuanLy;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 
 import androidx.fragment.app.Fragment;
@@ -23,6 +26,7 @@ public class Fragment_Phong extends Fragment {
     private Spinner sp_loai;
     private RecyclerView rcv_roomlist;
     private adapter_phong adapter = new adapter_phong();
+    ImageButton btn_add;
 
     public Fragment_Phong() {
         // Required empty public constructor
@@ -42,6 +46,7 @@ public class Fragment_Phong extends Fragment {
     }
 
     private void setEvent() {
+        //Set data cho spinner
         List<String> spinnerData = new ArrayList<>();
         spinnerData.add("1 Người");
         spinnerData.add("2 Người");
@@ -53,15 +58,25 @@ public class Fragment_Phong extends Fragment {
         adapter_spinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sp_loai.setAdapter(adapter_spinner);
 
-
+        //Set data cho rcv_roomlist
         rcv_roomlist.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         rcv_roomlist.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
 
         rcv_roomlist.setAdapter(adapter);
+        //click btn_add
+        btn_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), Activity_Thong_Tin_Phong.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     private void setControl(View view) {
         sp_loai = view.findViewById(R.id.spTypeRoom);
         rcv_roomlist = view.findViewById(R.id.rcv_roomlist);
+        btn_add = view.findViewById(R.id.btn_add);
     }
 }
