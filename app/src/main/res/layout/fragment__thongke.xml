@@ -1,14 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Menu_QuanLy.Fragment_Thongke">
+    tools:context=".Menu_QuanLy.Fragment_Thongke"
+    android:orientation="vertical">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
-
-</FrameLayout>
+        android:layout_height="60dp"
+        android:background="@color/dark_blue"
+        android:gravity="center_vertical|center_horizontal"
+        android:paddingLeft="10dp"
+        android:text="Thống kê"
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        android:textStyle="bold" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="10dp">
+        <Spinner
+            android:id="@+id/sp_thoigian"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"/>
+        <Spinner
+            android:id="@+id/sp_loaithongke"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+    </LinearLayout>
+<com.github.mikephil.charting.charts.BarChart
+    android:id="@+id/barchart_thongke"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"/>
+</LinearLayout>
