@@ -51,11 +51,11 @@ public class adapter_phong extends RecyclerView.Adapter<adapter_phong.MyViewHold
 
     }
 
-    public String setStatusView(int id_status) {
+    public String setStatusView(String id_status) {
         String status = "Chưa tìm thấy dữ liệu trạng thái";
         for (int i = 0; i < status_list.size(); i++) {
 //            Log.e("status_list_12345678", status_list.get(4).getTen_trang_thai());
-            if (id_status == i+1) {
+            if (id_status == status_list.get(i).getId_trang_thai_phong()) {
                 status = status_list.get(i).getTen_trang_thai();
                 return status;
             }

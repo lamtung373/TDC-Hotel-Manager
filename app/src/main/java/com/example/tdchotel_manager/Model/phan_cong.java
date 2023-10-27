@@ -5,9 +5,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class phan_cong {
-    int id_nhan_vien,id_ca_lam;
+    String id_nhan_vien,id_ca_lam;
     Date ngay_lam,check_in,check_out;
-    public phan_cong( int id_nhan_vien, int id_ca_lam, Date ngay_lam, Date check_in, Date check_out) {
+    public phan_cong( String id_nhan_vien, String id_ca_lam, Date ngay_lam, Date check_in, Date check_out) {
         this.id_nhan_vien = id_nhan_vien;
         this.id_ca_lam = id_ca_lam;
         this.ngay_lam = ngay_lam;
@@ -27,19 +27,19 @@ public class phan_cong {
     public phan_cong() {
     }
 
-    public int getId_nhan_vien() {
+    public String getId_nhan_vien() {
         return id_nhan_vien;
     }
 
-    public void setId_nhan_vien(int id_nhan_vien) {
+    public void setId_nhan_vien(String id_nhan_vien) {
         this.id_nhan_vien = id_nhan_vien;
     }
 
-    public int getId_ca_lam() {
+    public String getId_ca_lam() {
         return id_ca_lam;
     }
 
-    public void setId_ca_lam(int id_ca_lam) {
+    public void setId_ca_lam(String id_ca_lam) {
         this.id_ca_lam = id_ca_lam;
     }
 
