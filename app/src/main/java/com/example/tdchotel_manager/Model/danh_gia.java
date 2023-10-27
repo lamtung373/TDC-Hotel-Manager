@@ -1,18 +1,18 @@
 package com.example.tdchotel_manager.Model;
 
 public class danh_gia {
-    int id_danh_gia,id_phong, so_sao;
-    String so_dien_thoai,chi_tiet_danh_gia;
+    int  so_sao;
+    String id_danh_gia,id_phong,so_dien_thoai,chi_tiet_danh_gia;
 
-    public int getId_phong() {
+    public String getId_phong() {
         return id_phong;
     }
 
-    public void setId_phong(int id_phong) {
+    public void setId_phong(String id_phong) {
         this.id_phong = id_phong;
     }
 
-    public danh_gia(int id_danh_gia, int id_phong, int so_sao, String so_dien_thoai, String chi_tiet_danh_gia) {
+    public danh_gia(String id_danh_gia, String id_phong, int so_sao, String so_dien_thoai, String chi_tiet_danh_gia) {
         this.id_danh_gia = id_danh_gia;
         this.id_phong = id_phong;
         this.so_sao = so_sao;
@@ -23,11 +23,11 @@ public class danh_gia {
     public danh_gia() {
     }
 
-    public int getId_danh_gia() {
+    public String getId_danh_gia() {
         return id_danh_gia;
     }
 
-    public void setId_danh_gia(int id_danh_gia) {
+    public void setId_danh_gia(String id_danh_gia) {
         this.id_danh_gia = id_danh_gia;
     }
 

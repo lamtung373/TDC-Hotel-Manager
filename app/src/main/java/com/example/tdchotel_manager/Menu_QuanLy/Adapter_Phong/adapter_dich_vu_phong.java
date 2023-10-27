@@ -38,7 +38,6 @@ public class adapter_dich_vu_phong extends RecyclerView.Adapter<adapter_dich_vu_
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            iv_anh_dich_vu_phong = itemView.findViewById(R.id.iv_anh_dich_vu_phong);
             tv_ten_dich_vu_phong = itemView.findViewById(R.id.tv_ten_dich_vu_phong);
         }
     }
@@ -56,7 +55,7 @@ public class adapter_dich_vu_phong extends RecyclerView.Adapter<adapter_dich_vu_
     }
     void khoitao(){
         DatabaseReference reference= FirebaseDatabase.getInstance().getReference("dich_vu_phong");
-        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+        reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 datalist.clear();

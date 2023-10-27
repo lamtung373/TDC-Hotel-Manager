@@ -6,25 +6,24 @@ import java.util.Map;
 import java.util.Objects;
 
 public class ca_lam {
-    int id_ca_lam;
-    String ten_ca;
+    String ten_ca,id_ca_lam;
     Date bat_dau, ket_thuc;
 
     public ca_lam() {
     }
 
-    public ca_lam(int id_ca_lam, String ten_ca, Date bat_dau, Date ket_thuc) {
+    public ca_lam(String id_ca_lam, String ten_ca, Date bat_dau, Date ket_thuc) {
         this.id_ca_lam = id_ca_lam;
         this.ten_ca = ten_ca;
         this.bat_dau = bat_dau;
         this.ket_thuc = ket_thuc;
     }
 
-    public int getId_ca_lam() {
+    public String getId_ca_lam() {
         return id_ca_lam;
     }
 
-    public void setId_ca_lam(int id_ca_lam) {
+    public void setId_ca_lam(String id_ca_lam) {
         this.id_ca_lam = id_ca_lam;
     }
 

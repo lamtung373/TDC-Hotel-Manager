@@ -5,12 +5,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class nhan_vien {
-    int id_nhan_vien,id_chuc_vu;
+    String id_nhan_vien,id_chuc_vu;
     String ten_nhan_vien,username, password,anh_nhan_vien,so_dien_thoai;
     double luong;
     ArrayList<String>  CCCD;
 
-    public nhan_vien(int id_nhan_vien, int id_chuc_vu, String ten_nhan_vien, String username, String password, String anh_nhan_vien, ArrayList<String> CCCD, String so_dien_thoai, double luong) {
+    public nhan_vien(String id_nhan_vien, String id_chuc_vu, String ten_nhan_vien, String username, String password, String anh_nhan_vien, ArrayList<String> CCCD, String so_dien_thoai, double luong) {
         this.id_nhan_vien = id_nhan_vien;
         this.id_chuc_vu = id_chuc_vu;
         this.ten_nhan_vien = ten_nhan_vien;
@@ -42,19 +42,19 @@ public class nhan_vien {
         this.anh_nhan_vien = anh_nhan_vien;
     }
 
-    public int getId_nhan_vien() {
+    public String getId_nhan_vien() {
         return id_nhan_vien;
     }
 
-    public void setId_nhan_vien(int id_nhan_vien) {
+    public void setId_nhan_vien(String id_nhan_vien) {
         this.id_nhan_vien = id_nhan_vien;
     }
 
-    public int getId_chuc_vu() {
+    public String getId_chuc_vu() {
         return id_chuc_vu;
     }
 
-    public void setId_chuc_vu(int id_chuc_vu) {
+    public void setId_chuc_vu(String id_chuc_vu) {
         this.id_chuc_vu = id_chuc_vu;
     }
 
