@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.example.tdchotel_manager.Menu_QuanLy.Fragment_Dichvu;
@@ -30,7 +31,10 @@ import com.google.firebase.database.FirebaseDatabase;
 public class activity_themdv extends AppCompatActivity {
     EditText edtTenDv,edtGiaDv;
     Button btnLuu;
+    RadioGroup loaiphong;
     RadioButton rdNguoi,rdPhong;
+    private int nextId = 1;
+
 
     private static final int PICK_IMAGE_REQUEST = 1;
     ImageButton imgButtonquaylai;
@@ -47,12 +51,18 @@ public class activity_themdv extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 int gia = Integer.parseInt(edtGiaDv.getText().toString().trim());
-                int loaiNguoi = Integer.parseInt(rdNguoi.getText().toString().trim());
-                int loaiPhong = Integer.parseInt(rdPhong.getText().toString().trim());
+                int loaiPhong = Integer.parseInt(edtGiaDv.getText().toString().trim());
+//                if(rdNguoi.isChecked()){
+//                    loaiPhong = 1;
+//                }else  if (rdPhong.isChecked()) {
+//                    loaiPhong = 2;
+//                }
+                String idDichVu = String.valueOf(nextId);
                 String ten = edtTenDv.getText().toString().trim();
                 String anh = (String) imageView.getTag();
-                dich_vu dv= new dich_vu(gia,loaiNguoi,loaiPhong,ten,anh);
+                dich_vu dv= new dich_vu(gia,loaiPhong,idDichVu,ten,anh);
                 onClickAdd(dv);
+                nextId++;
             }
         });
 
@@ -103,8 +113,7 @@ public class activity_themdv extends AppCompatActivity {
         edtTenDv = findViewById(R.id.edtTenDv);
         edtGiaDv = findViewById(R.id.edtGiaDv);
         btnLuu = findViewById(R.id.btnLuu);
-        rdNguoi = findViewById(R.id.rdNguoi);
-        rdPhong = findViewById(R.id.rdPhong);
+        loaiphong = findViewById(R.id.rdgLoaiphong);
         imageView = findViewById(R.id.imgthemDV);
     }
 }
