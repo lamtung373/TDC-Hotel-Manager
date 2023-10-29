@@ -7,12 +7,12 @@ import java.util.Objects;
 
 public class ca_lam {
     String ten_ca,id_ca_lam;
-    Date bat_dau, ket_thuc;
+    String bat_dau, ket_thuc;
 
     public ca_lam() {
     }
 
-    public ca_lam(String id_ca_lam, String ten_ca, Date bat_dau, Date ket_thuc) {
+    public ca_lam(String id_ca_lam, String ten_ca, String bat_dau, String ket_thuc) {
         this.id_ca_lam = id_ca_lam;
         this.ten_ca = ten_ca;
         this.bat_dau = bat_dau;
@@ -35,19 +35,19 @@ public class ca_lam {
         this.ten_ca = ten_ca;
     }
 
-    public Date getBat_dau() {
+    public String getBat_dau() {
         return bat_dau;
     }
 
-    public void setBat_dau(Date bat_dau) {
+    public void setBat_dau(String bat_dau) {
         this.bat_dau = bat_dau;
     }
 
-    public Date getKet_thuc() {
+    public String getKet_thuc() {
         return ket_thuc;
     }
 
-    public void setKet_thuc(Date ket_thuc) {
+    public void setKet_thuc(String ket_thuc) {
         this.ket_thuc = ket_thuc;
     }
     public Map<String, Object> toMap() {
