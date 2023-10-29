@@ -24,6 +24,7 @@ public class Viewpageadapter extends FragmentStateAdapter {
         }
         return null;
     }
+
     @Override
     public int getItemCount() {
         return 3;
