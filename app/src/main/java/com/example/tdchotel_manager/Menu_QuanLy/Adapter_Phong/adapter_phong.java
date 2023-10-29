@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -40,7 +41,7 @@ public class adapter_phong extends RecyclerView.Adapter<adapter_phong.MyViewHold
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        //Set dữ liệu của item
+        // Đặt dữ liệu cho mỗi item
         phong data = room_list.get(position);
         holder.tv_name_room.setText(String.valueOf(data.getTen_phong()));
         holder.tv_price.setText(String.valueOf(data.getGia()));
@@ -48,15 +49,14 @@ public class adapter_phong extends RecyclerView.Adapter<adapter_phong.MyViewHold
         holder.tv_sale.setText(String.valueOf(data.getSale()) + " VNĐ");
         holder.tv_type_room.setText(data.getLoai_phong());
         holder.tv_status_room.setText(setStatusView(data.getId_trang_thai_phong()));
-
     }
 
     public String setStatusView(String id_status) {
         String status = "Chưa tìm thấy dữ liệu trạng thái";
         for (int i = 0; i < status_list.size(); i++) {
-//            Log.e("status_list_12345678", status_list.get(4).getTen_trang_thai());
-            if (id_status == status_list.get(i).getId_trang_thai_phong()) {
+            if (id_status.equals(status_list.get(i).getId_trang_thai_phong())) {
                 status = status_list.get(i).getTen_trang_thai();
+                Log.e("status_list_12345678", status.toString());
                 return status;
             }
         }
@@ -107,7 +107,8 @@ public class adapter_phong extends RecyclerView.Adapter<adapter_phong.MyViewHold
                             trang_thai_phong status = dataSnapshot.getValue(trang_thai_phong.class);
                             if (status != null) {
                                 status_list.add(status);
-                                Log.e("status_list", status.toString());
+                            } else {
+                                Log.e("Lỗi getdata từ Firebase", "Không thể tải dữ liệ phòng");
                             }
                         }
 
@@ -128,5 +129,4 @@ public class adapter_phong extends RecyclerView.Adapter<adapter_phong.MyViewHold
             }
         });
     }
-
 }
