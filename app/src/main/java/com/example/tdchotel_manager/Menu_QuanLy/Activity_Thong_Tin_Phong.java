@@ -5,8 +5,12 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 
 import com.example.tdchotel_manager.Menu_QuanLy.Adapter_Phong.adapter_dich_vu_phong;
@@ -18,11 +22,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Activity_Thong_Tin_Phong extends AppCompatActivity {
-Spinner sp_status;
+    Spinner sp_status;
+    ImageButton btn_back;
     private RecyclerView rcv_tien_nghi, rcv_dich_vu_phong;
     private adapter_tien_nghi adapterTienNghi = new adapter_tien_nghi();
-    private adapter_dich_vu_phong adapterDichVuPhong=new adapter_dich_vu_phong();
-    private ArrayList<tien_nghi> list_tien_nghi=new ArrayList<>();
+    private adapter_dich_vu_phong adapterDichVuPhong = new adapter_dich_vu_phong();
+    private ArrayList<tien_nghi> list_tien_nghi = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +38,13 @@ Spinner sp_status;
     }
 
     private void setEvent() {
+        btn_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
         List<String> spinnerData = new ArrayList<>();
         spinnerData.add("1 Người");
         spinnerData.add("2 Người");
@@ -47,14 +60,15 @@ Spinner sp_status;
         rcv_tien_nghi.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         rcv_tien_nghi.setAdapter(adapterTienNghi);
 
-        rcv_dich_vu_phong.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
-        rcv_dich_vu_phong.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
+        rcv_dich_vu_phong.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        rcv_dich_vu_phong.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         rcv_dich_vu_phong.setAdapter(adapterDichVuPhong);
     }
 
     private void setControl() {
         sp_status = findViewById(R.id.sp_status);
-        rcv_tien_nghi=findViewById(R.id.rcv_tien_nghi);
-        rcv_dich_vu_phong=findViewById(R.id.rcv_dich_vu_phong);
+        rcv_tien_nghi = findViewById(R.id.rcv_tien_nghi);
+        rcv_dich_vu_phong = findViewById(R.id.rcv_dich_vu_phong);
+        btn_back = findViewById(R.id.btn_back);
     }
 }

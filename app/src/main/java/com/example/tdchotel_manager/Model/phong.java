@@ -5,18 +5,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class phong {
-    String  ten_phong, mo_ta_chung,  loai_phong;
+    String  ten_phong, mo_ta_chung,  loai_phong,id_phong, id_trang_thai_phong;
     ArrayList<String> anh_phong;
-    int id_phong,trang_thai, luot_thue;
+    int luot_thue;
     double gia,sale, danh_gia_sao;
 
-    public phong( int id_phong,String ten_phong, String mo_ta_chung, ArrayList<String> anh_phong, String loai_phong, int trang_thai, int luot_thue, double gia, double sale, double danh_gia_sao) {
+    public phong(String id_phong, String ten_phong, String mo_ta_chung, ArrayList<String> anh_phong, String loai_phong, String id_trang_thai_phong, int luot_thue, double gia, double sale, double danh_gia_sao) {
         this.ten_phong = ten_phong;
         this.mo_ta_chung = mo_ta_chung;
         this.anh_phong = anh_phong;
         this.loai_phong = loai_phong;
         this.id_phong = id_phong;
-        this.trang_thai = trang_thai;
+        this.id_trang_thai_phong = id_trang_thai_phong;
         this.luot_thue = luot_thue;
         this.gia = gia;
         this.sale = sale;
@@ -28,7 +28,7 @@ public class phong {
         result.put("mo_ta_chung", mo_ta_chung);
         result.put("anh_phong", anh_phong);
         result.put("loai_phong", loai_phong);
-        result.put("trang_thai", trang_thai);
+        result.put("trang_thai", id_trang_thai_phong);
         result.put("luot_thue", luot_thue);
         result.put("gia", gia);
         result.put("sale", sale);
@@ -78,20 +78,20 @@ public class phong {
         this.mo_ta_chung = mo_ta_chung;
     }
 
-    public int getId_phong() {
+    public String getId_phong() {
         return id_phong;
     }
 
-    public void setId_phong(int id_phong) {
+    public void setId_phong(String id_phong) {
         this.id_phong = id_phong;
     }
 
-    public int getTrang_thai() {
-        return trang_thai;
+    public String getId_trang_thai_phong() {
+        return id_trang_thai_phong;
     }
 
-    public void setTrang_thai(int trang_thai) {
-        this.trang_thai = trang_thai;
+    public void setId_trang_thai_phong(String id_trang_thai_phong) {
+        this.id_trang_thai_phong = id_trang_thai_phong;
     }
 
     public int getLuot_thue() {

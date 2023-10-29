@@ -5,12 +5,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class dich_vu_phong {
-    int id_dich_vu_phong;
-    String ten_dich_vu_phong;
-    String anh_dich_vu_phong;
+    String id_dich_vu_phong,ten_dich_vu_phong,anh_dich_vu_phong;
     double gia_dich_vu_phong;
 
-    public dich_vu_phong(int id_dich_vu_phong, String ten_dich_vu_phong, String anh_dich_vu_phong, double gia_dich_vu_phong) {
+    public dich_vu_phong(String id_dich_vu_phong, String ten_dich_vu_phong, String anh_dich_vu_phong, double gia_dich_vu_phong) {
         this.id_dich_vu_phong = id_dich_vu_phong;
         this.ten_dich_vu_phong = ten_dich_vu_phong;
         this.anh_dich_vu_phong = anh_dich_vu_phong;
@@ -35,11 +33,11 @@ public class dich_vu_phong {
         this.anh_dich_vu_phong = anh_dich_vu_phong;
     }
 
-    public int getId_dich_vu_phong() {
+    public String getId_dich_vu_phong() {
         return id_dich_vu_phong;
     }
 
-    public void setId_dich_vu_phong(int id_dich_vu_phong) {
+    public void setId_dich_vu_phong(String id_dich_vu_phong) {
         this.id_dich_vu_phong = id_dich_vu_phong;
     }
 
