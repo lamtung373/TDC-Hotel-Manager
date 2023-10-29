@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Menu_QuanLy.Fragment_Thongke"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".Menu_QuanLy.Fragment_Thongke">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
@@ -17,25 +17,50 @@
         android:textColor="@color/white"
         android:textSize="20dp"
         android:textStyle="bold" />
-    <LinearLayout
-        android:layout_width="match_parent"
+
+    <TextView
+        style="@style/textview"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:layout_marginTop="10dp">
-        <Spinner
-            android:id="@+id/sp_thoigian"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="20dp"/>
-        <Spinner
-            android:id="@+id/sp_loaithongke"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            />
-    </LinearLayout>
-<com.github.mikephil.charting.charts.BarChart
-    android:id="@+id/barchart_thongke"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"/>
+        android:text="Loại thống kê" />
+
+    <Spinner
+        android:id="@+id/sp_loaithongke"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/tvthoigian"
+        style="@style/textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Thời gian" />
+
+    <Spinner
+        android:id="@+id/sp_thoigian"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/tv_nam"
+        style="@style/textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Chọn năm" />
+
+    <Spinner
+        android:id="@+id/sp_nam"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/btnThongke"
+        style="@style/button"
+        android:background="@drawable/selector_bg_button"
+        android:text="Xác nhận" />
+
+    <com.github.mikephil.charting.charts.BarChart
+        android:id="@+id/barchart_thongke"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </LinearLayout>
