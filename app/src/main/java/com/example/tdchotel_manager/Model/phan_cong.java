@@ -6,19 +6,48 @@ import java.util.Map;
 
 public class phan_cong {
     String id_nhan_vien,id_ca_lam;
-    Date ngay_lam,check_in,check_out;
-    public phan_cong( String id_nhan_vien, String id_ca_lam, Date ngay_lam, Date check_in, Date check_out) {
+    String check_in,check_out;
+    int dayofweek;
+
+    public phan_cong(String id_nhan_vien, String id_ca_lam, String check_in, String check_out, int dayofweek) {
         this.id_nhan_vien = id_nhan_vien;
         this.id_ca_lam = id_ca_lam;
-        this.ngay_lam = ngay_lam;
         this.check_in = check_in;
         this.check_out = check_out;
+        this.dayofweek = dayofweek;
     }
+
+    public int getDayofweek() {
+        return dayofweek;
+    }
+
+    public void setDayofweek(int dayofweek) {
+        this.dayofweek = dayofweek;
+    }
+
+    public String getCheck_in() {
+        return check_in;
+    }
+
+    public void setCheck_in(String check_in) {
+        this.check_in = check_in;
+    }
+
+    public String getCheck_out() {
+        return check_out;
+    }
+
+    public void setCheck_out(String check_out) {
+        this.check_out = check_out;
+    }
+
+
+
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
         result.put("id_nhan_vien", id_nhan_vien);
         result.put("id_ca_lam", id_ca_lam);
-        result.put("ngay_lam", ngay_lam);
+        result.put("dayofweek", dayofweek);
         result.put("check_in", check_in);
         result.put("check_out", check_out);
 
@@ -43,27 +72,5 @@ public class phan_cong {
         this.id_ca_lam = id_ca_lam;
     }
 
-    public Date getNgay_lam() {
-        return ngay_lam;
-    }
 
-    public void setNgay_lam(Date ngay_lam) {
-        this.ngay_lam = ngay_lam;
-    }
-
-    public Date getCheck_in() {
-        return check_in;
-    }
-
-    public void setCheck_in(Date check_in) {
-        this.check_in = check_in;
-    }
-
-    public Date getCheck_out() {
-        return check_out;
-    }
-
-    public void setCheck_out(Date check_out) {
-        this.check_out = check_out;
-    }
 }
