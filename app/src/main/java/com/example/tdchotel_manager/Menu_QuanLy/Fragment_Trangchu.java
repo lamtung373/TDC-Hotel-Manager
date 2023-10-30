@@ -156,6 +156,7 @@ public class Fragment_Trangchu extends Fragment {
                                     if (ca_lam.getId_ca_lam().equals(phanCong.getId_ca_lam())) {
 
                                         if (thu_now == phanCong.getDayofweek()) {
+                                            Log.e("a","aaaa");
                                             reference_nhanvien.addListenerForSingleValueEvent(new ValueEventListener() {
                                                 @Override
                                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
