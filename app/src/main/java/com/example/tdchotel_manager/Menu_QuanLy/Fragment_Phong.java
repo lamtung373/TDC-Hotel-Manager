@@ -7,7 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Spinner;
 
 import androidx.fragment.app.Fragment;
@@ -26,7 +28,8 @@ public class Fragment_Phong extends Fragment {
     private Spinner sp_loai;
     private RecyclerView rcv_roomlist;
     private adapter_phong adapter = new adapter_phong();
-    ImageButton btn_add;
+    ImageButton btn_add,iv_decrease1,iv_increase1,iv_decrease,iv_increase;
+    EditText edt_giuong_doi,edt_giuong_don;
 
     public Fragment_Phong() {
         // Required empty public constructor
@@ -71,12 +74,18 @@ public class Fragment_Phong extends Fragment {
                 startActivity(intent);
             }
         });
-
+        
     }
 
     private void setControl(View view) {
         sp_loai = view.findViewById(R.id.spTypeRoom);
         rcv_roomlist = view.findViewById(R.id.rcv_roomlist);
         btn_add = view.findViewById(R.id.btn_add);
+        iv_decrease1=view.findViewById(R.id.iv_decrease1);
+        iv_decrease=view.findViewById(R.id.iv_decrease);
+        iv_increase1=view.findViewById(R.id.iv_increase1);
+        iv_increase=view.findViewById(R.id.iv_increase);
+        edt_giuong_doi=view.findViewById(R.id.edt_giuong_doi);
+        edt_giuong_don=view.findViewById(R.id.edt_giuong_don);
     }
 }
