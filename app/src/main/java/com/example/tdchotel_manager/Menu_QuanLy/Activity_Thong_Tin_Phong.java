@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.example.tdchotel_manager.Menu_QuanLy.Adapter_Phong.adapter_dich_vu_phong;
 import com.example.tdchotel_manager.Menu_QuanLy.Adapter_Phong.adapter_tien_nghi;
+import com.example.tdchotel_manager.Model.dich_vu_phong;
 import com.example.tdchotel_manager.Model.phong;
 import com.example.tdchotel_manager.Model.trang_thai_phong;
 import com.example.tdchotel_manager.R;
@@ -38,6 +39,8 @@ public class Activity_Thong_Tin_Phong extends AppCompatActivity {
     EditText edt_name, edt_description, edt_price, edt_sale;
     RadioGroup radiogroup;
     ArrayList<trang_thai_phong> list_status = new ArrayList<>();
+   // ArrayList<dich_vu_phong> selectedItems = adapter_dich_vu_phong.getSelectedItems();
+
     private RecyclerView rcv_tien_nghi, rcv_dich_vu_phong;
     private adapter_tien_nghi adapterTienNghi = new adapter_tien_nghi();
     private adapter_dich_vu_phong adapterDichVuPhong = new adapter_dich_vu_phong();
@@ -142,7 +145,9 @@ public class Activity_Thong_Tin_Phong extends AppCompatActivity {
         int price =Integer.parseInt(edt_price.getText().toString());
         int sale = Integer.parseInt(edt_sale.getText().toString());
         String type = typeRoom();
-        ArrayList<String>anh=null;
+        ArrayList<String>anh=new ArrayList<>();
+        anh.add("anh 1");
+        anh.add("anh2");
         //trạng thái
         int selectedPosition = sp_status.getSelectedItemPosition();
         trang_thai_phong selectedTrangThai = list_status.get(selectedPosition);

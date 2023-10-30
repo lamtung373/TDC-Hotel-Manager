@@ -24,6 +24,7 @@ public class adapter_dich_vu_phong extends RecyclerView.Adapter<adapter_dich_vu_
     public adapter_dich_vu_phong(){
         khoitao();
     }
+    public ArrayList<dich_vu_phong> selectedItems = new ArrayList<>();
 
     @NonNull
     @Override
@@ -44,9 +45,25 @@ public class adapter_dich_vu_phong extends RecyclerView.Adapter<adapter_dich_vu_
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        dich_vu_phong data = datalist.get(position);
+        final dich_vu_phong data = datalist.get(position);
 //        holder.iv_anh_dich_vu_phong.setImageResource(data.getAnh_dich_vu_phong());
         holder.tv_ten_dich_vu_phong.setText(data.getTen_dich_vu_phong());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (selectedItems.contains(data)) {
+                    // Nếu mục đã được chọn, hãy bỏ chọn nó
+                    selectedItems.remove(data);
+                } else {
+                    // Nếu mục chưa được chọn, hãy chọn nó
+                    selectedItems.add(data);
+                }
+                notifyDataSetChanged(); // Cập nhật giao diện để thay đổi trạng thái của mục
+            }
+        });
+    }
+    public ArrayList<dich_vu_phong> getSelectedItems() {
+        return selectedItems;
     }
 
     @Override
