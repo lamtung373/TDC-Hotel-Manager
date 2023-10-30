@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class chi_tiet_dich_vu_phong {
     int so_luong;
-    String id_dich_vu_phong,id_phong;
+    String id_chi_tiet_dich_vu_phong,id_dich_vu_phong,id_phong;
 
     public chi_tiet_dich_vu_phong() {
     }
@@ -15,10 +15,20 @@ public class chi_tiet_dich_vu_phong {
         result.put("so_luong", so_luong);
         return result;
     }
-    public chi_tiet_dich_vu_phong(String id_dich_vu_phong, String id_phong, int so_luong) {
+
+    public String getId_chi_tiet_dich_vu_phong() {
+        return id_chi_tiet_dich_vu_phong;
+    }
+
+    public void setId_chi_tiet_dich_vu_phong(String id_chi_tiet_dich_vu_phong) {
+        this.id_chi_tiet_dich_vu_phong = id_chi_tiet_dich_vu_phong;
+    }
+
+    public chi_tiet_dich_vu_phong(int so_luong, String id_chi_tiet_dich_vu_phong, String id_dich_vu_phong, String id_phong) {
+        this.so_luong = so_luong;
+        this.id_chi_tiet_dich_vu_phong = id_chi_tiet_dich_vu_phong;
         this.id_dich_vu_phong = id_dich_vu_phong;
         this.id_phong = id_phong;
-        this.so_luong = so_luong;
     }
 
     public String getId_dich_vu_phong() {

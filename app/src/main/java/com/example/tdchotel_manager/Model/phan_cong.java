@@ -5,55 +5,33 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class phan_cong {
-    String id_nhan_vien,id_ca_lam;
-    String check_in,check_out;
+    String id_phan_cong,id_nhan_vien,id_ca_lam;
     int dayofweek;
 
-    public phan_cong(String id_nhan_vien, String id_ca_lam, String check_in, String check_out, int dayofweek) {
+    public phan_cong(String id_phan_cong, String id_nhan_vien, String id_ca_lam, int dayofweek) {
+        this.id_phan_cong = id_phan_cong;
         this.id_nhan_vien = id_nhan_vien;
         this.id_ca_lam = id_ca_lam;
-        this.check_in = check_in;
-        this.check_out = check_out;
         this.dayofweek = dayofweek;
     }
-
-    public int getDayofweek() {
-        return dayofweek;
-    }
-
-    public void setDayofweek(int dayofweek) {
-        this.dayofweek = dayofweek;
-    }
-
-    public String getCheck_in() {
-        return check_in;
-    }
-
-    public void setCheck_in(String check_in) {
-        this.check_in = check_in;
-    }
-
-    public String getCheck_out() {
-        return check_out;
-    }
-
-    public void setCheck_out(String check_out) {
-        this.check_out = check_out;
-    }
-
-
 
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
         result.put("id_nhan_vien", id_nhan_vien);
         result.put("id_ca_lam", id_ca_lam);
         result.put("dayofweek", dayofweek);
-        result.put("check_in", check_in);
-        result.put("check_out", check_out);
 
         return result;
     }
     public phan_cong() {
+    }
+
+    public String getId_phan_cong() {
+        return id_phan_cong;
+    }
+
+    public void setId_phan_cong(String id_phan_cong) {
+        this.id_phan_cong = id_phan_cong;
     }
 
     public String getId_nhan_vien() {
@@ -72,5 +50,11 @@ public class phan_cong {
         this.id_ca_lam = id_ca_lam;
     }
 
+    public int getDayofweek() {
+        return dayofweek;
+    }
 
+    public void setDayofweek(int dayofweek) {
+        this.dayofweek = dayofweek;
+    }
 }

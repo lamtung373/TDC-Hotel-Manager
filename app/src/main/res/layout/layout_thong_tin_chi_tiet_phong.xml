@@ -39,7 +39,7 @@
                 android:textStyle="bold" />
 
             <ImageButton
-                android:id="@+id/btn_add"
+                android:id="@+id/btn_save"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -71,6 +71,7 @@
             android:id="@+id/edt_description"
             style="@style/editText"
             android:layout_height="wrap_content"
+            android:paddingVertical="10dp"
             android:hint="Mô tả...." />
 
         <LinearLayout
@@ -113,13 +114,14 @@
                 android:layout_marginLeft="10dp"
                 android:text="Giường đôi" />
 
-            <ImageView
-                android:id="@+id/iv_decrease11"
+            <ImageButton
+                android:id="@+id/iv_decrease1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@id/edt_giuong_don"
-                android:src="@drawable/decrease" />
+                android:src="@drawable/decrease"
+                android:background="@null"/>
 
             <EditText
                 android:id="@+id/edt_giuong_don"
@@ -131,14 +133,15 @@
                 android:inputType="number"
                 android:text="0" />
 
-            <ImageView
+            <ImageButton
                 android:id="@+id/iv_increase1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="30dp"
-                android:src="@drawable/increase" />
+                android:src="@drawable/increase"
+                android:background="@null" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -153,13 +156,14 @@
                 android:layout_marginLeft="10dp"
                 android:text="Giường đơn" />
 
-            <ImageView
+            <ImageButton
                 android:id="@+id/iv_decrease"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@id/edt_giuong_doi"
-                android:src="@drawable/decrease" />
+                android:src="@drawable/decrease"
+                android:background="@null"/>
 
             <EditText
                 android:id="@+id/edt_giuong_doi"
@@ -171,14 +175,15 @@
                 android:inputType="number"
                 android:text="0" />
 
-            <ImageView
+            <ImageButton
                 android:id="@+id/iv_increase"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="30dp"
-                android:src="@drawable/increase" />
+                android:src="@drawable/increase"
+                android:background="@null"/>
         </RelativeLayout>
 
         <androidx.recyclerview.widget.RecyclerView
@@ -258,8 +263,20 @@
         <EditText
             android:id="@+id/edt_price_room"
             style="@style/editText"
-            android:hint="Giá phòng/đêm" />
+            android:hint="Giá phòng/đêm"
+            android:inputType="number"/>
+        <TextView
+            style="@style/textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="Giá Sale:" />
 
+        <EditText
+            android:id="@+id/edt_price_sale"
+            style="@style/editText"
+            android:hint="Giá Sale"
+            android:inputType="number"/>
         <TextView
             style="@style/textview"
             android:layout_width="wrap_content"
