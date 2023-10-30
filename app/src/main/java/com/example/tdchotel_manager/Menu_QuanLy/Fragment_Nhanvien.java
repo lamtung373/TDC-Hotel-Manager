@@ -68,7 +68,7 @@ public class Fragment_Nhanvien extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment__nhanvien, container, false);
 
-        // Kết nối các thành phần giao diện với các thành phần trong mã Java
+        // Kết nối các thành phần giao diện với các thành phần trong mã Java của các thành phần trong mã
         btnThemNV = view.findViewById(R.id.btnThemNV);
 
         // Thiết lập sự kiện khi nút "Thêm nhân viên" được nhấn

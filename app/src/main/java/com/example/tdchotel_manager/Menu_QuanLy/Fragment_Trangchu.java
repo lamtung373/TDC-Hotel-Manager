@@ -140,71 +140,82 @@ public class Fragment_Trangchu extends Fragment {
         DatabaseReference ref_phancong = FirebaseDatabase.getInstance().getReference("phan_cong");
         DatabaseReference ref_calam = FirebaseDatabase.getInstance().getReference("ca_lam");
 
-        ref_calam.addListenerForSingleValueEvent(new ValueEventListener() {
+        ref_phancong.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                arr_nhanvien.clear();
+                adapterCalam.notifyDataSetChanged();
+                ref_calam.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                for (DataSnapshot item : snapshot.getChildren()) {
-                    ca_lam ca_lam = item.getValue(ca_lam.class);
-                    if (ca_lam.getTen_ca_lam().equals(ca)) {
-                        ref_phancong.addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                int thu_now = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
-                                for (DataSnapshot item : snapshot.getChildren()) {
-                                    phan_cong phanCong = item.getValue(phan_cong.class);
-                                    if (ca_lam.getId_ca_lam().equals(phanCong.getId_ca_lam())) {
+                        for (DataSnapshot item : snapshot.getChildren()) {
+                            ca_lam ca_lam = item.getValue(ca_lam.class);
+                            if (ca_lam.getTen_ca_lam().equals(ca)) {
+                                ref_phancong.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        int thu_now = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
+                                        for (DataSnapshot item : snapshot.getChildren()) {
+                                            phan_cong phanCong = item.getValue(phan_cong.class);
+                                            if (ca_lam.getId_ca_lam().equals(phanCong.getId_ca_lam())) {
 
-                                        if (thu_now == phanCong.getDayofweek()) {
-                                            Log.e("a","aaaa");
-                                            reference_nhanvien.addListenerForSingleValueEvent(new ValueEventListener() {
-                                                @Override
-                                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                if (thu_now == phanCong.getDayofweek()) {
+                                                    reference_nhanvien.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                        @Override
+                                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                                                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                                                        nhan_vien nv = dataSnapshot.getValue(nhan_vien.class);
-                                                        if (nv.getId_nhan_vien().equals(phanCong.getId_nhan_vien())) {
-                                                            ref_chucvu.addListenerForSingleValueEvent(new ValueEventListener() {
-                                                                @Override
-                                                                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                                                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                                                                        chuc_vu cv = dataSnapshot.getValue(chuc_vu.class);
-                                                                        if (nv.getId_chuc_vu().equals(cv.getId_chuc_vu())) {
-                                                                            nv.setUsername(cv.getTen_chuc_vu());
+                                                            for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                                                                nhan_vien nv = dataSnapshot.getValue(nhan_vien.class);
+                                                                if (nv.getId_nhan_vien().equals(phanCong.getId_nhan_vien())) {
+                                                                    ref_chucvu.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                                        @Override
+                                                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                                            for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                                                                                chuc_vu cv = dataSnapshot.getValue(chuc_vu.class);
+                                                                                if (nv.getId_chuc_vu().equals(cv.getId_chuc_vu())) {
+                                                                                    nv.setChuc_vu(cv.getTen_chuc_vu());
+                                                                                }
+                                                                            }
+                                                                            adapterCalam.notifyDataSetChanged();
                                                                         }
-                                                                    }
-                                                                    adapterCalam.notifyDataSetChanged();
-                                                                }
 
-                                                                @Override
-                                                                public void onCancelled(@NonNull DatabaseError error) {
+                                                                        @Override
+                                                                        public void onCancelled(@NonNull DatabaseError error) {
 
+                                                                        }
+                                                                    });
+                                                                    arr_nhanvien.add(nv);
                                                                 }
-                                                            });
-                                                            arr_nhanvien.add(nv);
+                                                            }
+                                                            adapterCalam.notifyDataSetChanged();
                                                         }
-                                                    }
-                                                    adapterCalam.notifyDataSetChanged();
+
+                                                        @Override
+                                                        public void onCancelled(@NonNull DatabaseError error) {
+
+                                                        }
+                                                    });
+
                                                 }
-
-                                                @Override
-                                                public void onCancelled(@NonNull DatabaseError error) {
-
-                                                }
-                                            });
-
+                                            }
                                         }
                                     }
-                                }
-                            }
 
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
 
+                                    }
+                                });
                             }
-                        });
+                        }
                     }
-                }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
             }
 
             @Override

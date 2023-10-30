@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.example.tdchotel_manager.Model.chuc_vu;
 import com.example.tdchotel_manager.Model.hoa_don;
 import com.example.tdchotel_manager.Model.nhan_vien;
 import com.example.tdchotel_manager.Model.phong;
@@ -606,6 +607,7 @@ public class Fragment_Thongke extends Fragment {
         ArrayAdapter adapter_nv = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, arr_sp_nv1);
         sp_nv.setAdapter(adapter_nv);
         DatabaseReference reference_nv = FirebaseDatabase.getInstance().getReference("nhan_vien");
+        DatabaseReference reference_chucvu = FirebaseDatabase.getInstance().getReference("chuc_vu");
         reference_nv.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -613,8 +615,25 @@ public class Fragment_Thongke extends Fragment {
                 arr_sp_nv1.clear();
                 for (DataSnapshot item : snapshot.getChildren()) {
                     nhan_vien nv = item.getValue(nhan_vien.class);
-                    arr_sp_nv1.add(nv.getTen_nhan_vien());
-                    arr_sp_nv.add(nv);
+                    reference_chucvu.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            for (DataSnapshot item : snapshot.getChildren()) {
+                                chuc_vu cv = item.getValue(chuc_vu.class);
+                                if (nv.getId_chuc_vu().equals(cv.getId_chuc_vu())&&cv.getTen_chuc_vu().equals("Lao công")){
+                                    arr_sp_nv1.add(nv.getTen_nhan_vien());
+                                    arr_sp_nv.add(nv);
+                                }
+                            }
+                            adapter_nv.notifyDataSetChanged();
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+
                 }
                 adapter_nv.notifyDataSetChanged();
             }
