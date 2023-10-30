@@ -41,12 +41,12 @@
             android:orientation="vertical">
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
                     android:background="@color/limeGreen"
@@ -56,20 +56,22 @@
 
                     <TextView
                         style="@style/textview"
-                        android:layout_width="100dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Phòng: " />
 
                     <TextView
+                        android:id="@+id/tv_phong"
                         style="@style/textview"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="end"
-                        android:text="12.400.000đ" />
+                        android:text="0đ"
+                        android:layout_alignParentRight="true"/>
 
-                </LinearLayout>
+                </RelativeLayout>
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
@@ -80,20 +82,22 @@
 
                     <TextView
                         style="@style/textview"
-                        android:layout_width="100dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Dịch vụ: " />
 
                     <TextView
+                        android:id="@+id/tv_dichvu"
                         style="@style/textview"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="end"
-                        android:text="12.400.000đ" />
+                        android:text="0đ"
+                        android:layout_alignParentRight="true"/>
 
-                </LinearLayout>
+                </RelativeLayout>
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/limeGreen"
@@ -103,18 +107,20 @@
 
                     <TextView
                         style="@style/textview"
-                        android:layout_width="100dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Tiện ích: " />
+                        android:text="Dịch vụ phòng: " />
 
                     <TextView
+                        android:id="@+id/tv_dichvuphong"
                         style="@style/textview"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="end"
-                        android:text="12.400.000đ" />
+                        android:text="0đ"
+                        android:layout_alignParentRight="true"/>
 
-                </LinearLayout>
+                </RelativeLayout>
             </LinearLayout>
 
             <com.github.mikephil.charting.charts.PieChart
@@ -153,21 +159,21 @@
                     style="@style/textview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Phòng đang hoạt động: 5" />
+                    android:text="Phòng đang hoạt động: 0" />
 
                 <TextView
                     android:id="@+id/tv_phongdangtrong"
                     style="@style/textview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Phòng đang trống: 15" />
+                    android:text="Phòng đang trống: 0" />
 
                 <TextView
                     android:id="@+id/tv_phongdangsua"
                     style="@style/textview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Phòng đang sửa: 2" />
+                    android:text="Phòng đang sửa: 0" />
             </LinearLayout>
 
             <com.github.mikephil.charting.charts.PieChart
@@ -206,21 +212,21 @@
                     style="@style/textview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Hóa đơn cọc: 10" />
+                    android:text="Hóa đơn cọc: 0" />
 
                 <TextView
-                    android:id="@+id/tv_hoadonsapthanhtoan"
+                    android:id="@+id/tv_hoadonchuathanhtoan"
                     style="@style/textview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Hóa đơn sắp thanh toán: 5" />
+                    android:text="Hóa đơn chưa thanh toán: 0" />
 
                 <TextView
                     android:id="@+id/tv_hoadondathanhtoan"
                     style="@style/textview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Hóa đơn đã thanh toán: 20" />
+                    android:text="Hóa đơn đã thanh toán: 0" />
             </LinearLayout>
 
             <com.github.mikephil.charting.charts.PieChart
@@ -265,7 +271,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginLeft="20dp"
                 android:text="Ca sáng"
                 android:textSize="20dp" />
 
@@ -280,14 +285,14 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginBottom="20dp">
 
             <TextView
                 style="@style/textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginLeft="20dp"
                 android:text="Ca tối"
                 android:textSize="20dp" />
 
