@@ -18,54 +18,39 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.tdchotel_manager.Menu_QuanLy.Fragment_Dichvu;
 import com.example.tdchotel_manager.Model.dich_vu;
+import com.example.tdchotel_manager.Model.dich_vu_phong;
 import com.example.tdchotel_manager.R;
+import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.List;
+
 public class activity_themdv extends AppCompatActivity {
-    EditText edtTenDv,edtGiaDv;
+    EditText edtTenDv, edtGiaDv;
     Button btnLuu;
-    RadioGroup loaiphong;
-    RadioButton rdNguoi,rdPhong;
-    private int nextId = 1;
+    RadioGroup loaiDichVu;
+    RadioButton rdNguoi, rdPhong;
 
 
     private static final int PICK_IMAGE_REQUEST = 1;
     ImageButton imgButtonquaylai;
 
     ImageView imageView;
+    private TabLayout tabLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_themdichvu);
         setControl();
-
-
-        btnLuu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int gia = Integer.parseInt(edtGiaDv.getText().toString().trim());
-                int loaiPhong = Integer.parseInt(edtGiaDv.getText().toString().trim());
-//                if(rdNguoi.isChecked()){
-//                    loaiPhong = 1;
-//                }else  if (rdPhong.isChecked()) {
-//                    loaiPhong = 2;
-//                }
-                String idDichVu = String.valueOf(nextId);
-                String ten = edtTenDv.getText().toString().trim();
-                String anh = (String) imageView.getTag();
-                dich_vu dv= new dich_vu(gia,loaiPhong,idDichVu,ten,anh);
-                onClickAdd(dv);
-                nextId++;
-            }
-        });
-
 
 
         imageView.setOnClickListener(new View.OnClickListener() {
@@ -80,23 +65,53 @@ public class activity_themdv extends AppCompatActivity {
         imgButtonquaylai.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              finish();
+                finish();
             }
         });
 
+
+        btnLuu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String loaiDichVu = "";
+                if (rdNguoi.isChecked()) {
+                    loaiDichVu = "Người"; // RadioButton "Người"
+                } else if (rdPhong.isChecked()) {
+                    loaiDichVu = "Phòng"; // RadioButton "Phòng"
+                }
+                int gia = Integer.parseInt(edtGiaDv.getText().toString().trim());
+                String idDichVu = null;
+                String ten = edtTenDv.getText().toString().trim();
+                String anh = (String) imageView.getTag();
+                dich_vu dv = new dich_vu(loaiDichVu, gia, idDichVu, ten, anh);
+
+
+                onClickAdd(dv);
+            }
+        });
     }
-    private void onClickAdd(dich_vu dichvu){
+
+
+    private void onClickAdd(dich_vu dichvu) {
+
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference = database.getReference("dich_vu");
-
-        String object = String.valueOf(dichvu.getId_dich_vu());
-        databaseReference.child(object).setValue(dichvu, new DatabaseReference.CompletionListener() {
+        DatabaseReference newDichVuRef = databaseReference.push(); // Tạo một khóa con mới
+        newDichVuRef.setValue(dichvu, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
-                Toast.makeText(activity_themdv.this, "add success", Toast.LENGTH_SHORT).show();
+                String generatedId = newDichVuRef.getKey(); // Lấy khóa con duy nhất đã tạo
+                if (generatedId != null) {
+                    dichvu.setId_dich_vu(generatedId); // Gán khóa con duy nhất làm id_dich_vu cho dichvu
+                    newDichVuRef.setValue(dichvu); // Cập nhật lại dữ liệu với id_dich_vu mới
+                    Toast.makeText(activity_themdv.this, "Add success", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(activity_themdv.this, "Add failed", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -105,15 +120,18 @@ public class activity_themdv extends AppCompatActivity {
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null) {
             Uri imageUri = data.getData();
             imageView.setImageURI(imageUri);
-            
-            
+
+
         }
     }
+
     private void setControl() {
         edtTenDv = findViewById(R.id.edtTenDv);
         edtGiaDv = findViewById(R.id.edtGiaDv);
         btnLuu = findViewById(R.id.btnLuu);
-        loaiphong = findViewById(R.id.rdgLoaiphong);
+        loaiDichVu = findViewById(R.id.rdgLoaiphong);
+        rdNguoi = findViewById(R.id.rdNguoi);
+        rdPhong = findViewById(R.id.rdPhong);
         imageView = findViewById(R.id.imgthemDV);
     }
 }

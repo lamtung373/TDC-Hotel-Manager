@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:text="Bơi"
+            android:text="Dịch vụ mới"
             android:textColor="@color/white"
             android:textSize="20dp"
             android:textStyle="bold"

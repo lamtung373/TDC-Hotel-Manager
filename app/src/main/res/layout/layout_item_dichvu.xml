@@ -32,13 +32,24 @@
                 android:text="Tên dịch vụ"
                 android:layout_marginLeft="10dp"
                 android:textColor="@color/black" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
             <TextView
                 android:id="@+id/tvGia1"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="giá dịch vụ"
                 android:layout_marginLeft="10dp"
                 android:textColor="@color/black"/>
+            <TextView
+                android:id="@+id/tvloaidv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="TextView" />
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>
