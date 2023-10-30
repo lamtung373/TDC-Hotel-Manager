@@ -108,7 +108,7 @@ public class adapter_phong extends RecyclerView.Adapter<adapter_phong.MyViewHold
                             if (status != null) {
                                 status_list.add(status);
                             } else {
-                                Log.e("Lỗi getdata từ Firebase", "Không thể tải dữ liệ phòng");
+                                Log.e("Lỗi getdata từ Firebase", "Không thể tải dữ liệu phòng");
                             }
                         }
 
