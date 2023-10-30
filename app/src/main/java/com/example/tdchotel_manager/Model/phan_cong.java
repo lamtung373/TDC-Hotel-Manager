@@ -19,7 +19,7 @@ public class phan_cong {
         HashMap<String, Object> result = new HashMap<>();
         result.put("id_nhan_vien", id_nhan_vien);
         result.put("id_ca_lam", id_ca_lam);
-        result.put("ngay_lam", dayofweek);
+        result.put("dayofweek", dayofweek);
 
         return result;
     }

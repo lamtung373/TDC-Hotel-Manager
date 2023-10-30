@@ -39,7 +39,7 @@
                 android:textStyle="bold" />
 
             <ImageButton
-                android:id="@+id/btn_add"
+                android:id="@+id/btn_save"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -263,8 +263,20 @@
         <EditText
             android:id="@+id/edt_price_room"
             style="@style/editText"
-            android:hint="Giá phòng/đêm" />
+            android:hint="Giá phòng/đêm"
+            android:inputType="number"/>
+        <TextView
+            style="@style/textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="Giá Sale:" />
 
+        <EditText
+            android:id="@+id/edt_price_sale"
+            style="@style/editText"
+            android:hint="Giá Sale"
+            android:inputType="number"/>
         <TextView
             style="@style/textview"
             android:layout_width="wrap_content"
