@@ -18,6 +18,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.tdchotel_manager.Model.hoa_don;
+import com.example.tdchotel_manager.Model.nhan_vien;
 import com.example.tdchotel_manager.Model.phong;
 import com.example.tdchotel_manager.R;
 import com.github.mikephil.charting.charts.BarChart;
@@ -60,12 +61,13 @@ public class Fragment_Thongke extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    Spinner sp_thoigian, sp_loaithongke, sp_nam;
+    Spinner sp_thoigian, sp_loaithongke, sp_nam,sp_nv;
     ArrayList<String> arr_sp_loaithongke = new ArrayList<>();
     ArrayList<String> arr_sp_thoigian = new ArrayList<>();
     ArrayList<String> arr_sp_nam = new ArrayList<>();
+    ArrayList<String> arr_sp_nv = new ArrayList<>();
     BarChart barchart_thongke;
-    TextView tvthoigian, tv_nam;
+    TextView tvthoigian, tv_nam,tv_nv;
     Button btnThongke;
 
     public Fragment_Thongke() {
@@ -121,11 +123,18 @@ public class Fragment_Thongke extends Fragment {
                     tvthoigian.setVisibility(View.GONE);
                     tv_nam.setVisibility(View.GONE);
                 } else {
+                    if(arr_sp_loaithongke.get(i).toString().equals("Hiệu suất lao công")) {
+                      tv_nv.setVisibility(View.VISIBLE);
+                      sp_nv.setVisibility(View.VISIBLE);
+                    }
+                    else{
+                        tv_nv.setVisibility(View.GONE);
+                        sp_nv.setVisibility(View.GONE);
+                    }
                     sp_thoigian.setVisibility(View.VISIBLE);
                     sp_nam.setVisibility(View.VISIBLE);
                     tvthoigian.setVisibility(View.VISIBLE);
                     tv_nam.setVisibility(View.VISIBLE);
-
                 }
             }
 
@@ -465,6 +474,26 @@ public class Fragment_Thongke extends Fragment {
             }
         });
 
+        //spinner nhan vien
+        ArrayAdapter adapter_nv = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, arr_sp_nv);
+        sp_nv.setAdapter(adapter_nv);
+        DatabaseReference reference_nv = FirebaseDatabase.getInstance().getReference("nhan_vien");
+        reference_nv.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                arr_sp_nam.clear();
+                for (DataSnapshot item : snapshot.getChildren()) {
+                    nhan_vien nv = item.getValue(nhan_vien.class);
+                    arr_sp_nv.add(nv.getTen_nhan_vien());
+                }
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
     }
 
@@ -472,9 +501,11 @@ public class Fragment_Thongke extends Fragment {
         sp_thoigian = view.findViewById(R.id.sp_thoigian);
         sp_loaithongke = view.findViewById(R.id.sp_loaithongke);
         sp_nam = view.findViewById(R.id.sp_nam);
+        sp_nv = view.findViewById(R.id.sp_nv);
         barchart_thongke = view.findViewById(R.id.barchart_thongke);
         tvthoigian = view.findViewById(R.id.tvthoigian);
         tv_nam = view.findViewById(R.id.tv_nam);
+        tv_nv = view.findViewById(R.id.tv_nv);
         btnThongke = view.findViewById(R.id.btnThongke);
     }
 }
