@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 
@@ -77,6 +76,6 @@ public class Fragment_Phong extends Fragment {
     private void setControl(View view) {
         sp_loai = view.findViewById(R.id.spTypeRoom);
         rcv_roomlist = view.findViewById(R.id.rcv_roomlist);
-        btn_add = view.findViewById(R.id.btn_add);
+        btn_add = view.findViewById(R.id.btn_save);
     }
 }

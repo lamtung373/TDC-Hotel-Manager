@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:text="Bơi"
+            android:text="Dịch vụ mới"
             android:textColor="@color/white"
             android:textSize="20dp"
             android:textStyle="bold"
@@ -50,6 +50,7 @@
             />
 
         <EditText
+            android:id="@+id/edtTenDv"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@drawable/bg_rv_item"
@@ -66,6 +67,7 @@
             android:textColor="@color/black" />
 
         <EditText
+            android:id="@+id/edtGiaDv"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@drawable/bg_rv_item"
@@ -78,16 +80,19 @@
         android:layout_height="55dp"
         android:orientation="horizontal">
         <RadioGroup
+            android:id="@+id/rdgLoaiphong"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:orientation="horizontal"
             android:layout_weight="1"
             android:gravity="center">
             <RadioButton
+                android:id="@+id/rdPhong"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text=" Phòng"/>
             <RadioButton
+                android:id="@+id/rdNguoi"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text=" Người"/>
@@ -101,6 +106,7 @@
         android:orientation="horizontal"
         android:gravity="center">
         <Button
+            android:id="@+id/btnLuu"
             style="@style/button"
             android:text="Lưu"
             android:textColor="@color/white"

@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class chi_tiet_tien_nghi {
-    int id_tien_nghi,id_phong,so_luong;
-
+    int so_luong;
+String id_chi_tiet_tien_nghi, id_tien_nghi,id_phong;
     public chi_tiet_tien_nghi() {
     }
 
@@ -14,25 +14,35 @@ public class chi_tiet_tien_nghi {
         result.put("so_luong", so_luong);
         return result;
     }
-    public chi_tiet_tien_nghi(int id_tien_nghi, int id_phong, int so_luong) {
+
+    public chi_tiet_tien_nghi(int so_luong, String id_chi_tiet_tien_nghi, String id_tien_nghi, String id_phong) {
+        this.so_luong = so_luong;
+        this.id_chi_tiet_tien_nghi = id_chi_tiet_tien_nghi;
         this.id_tien_nghi = id_tien_nghi;
         this.id_phong = id_phong;
-        this.so_luong = so_luong;
     }
 
-    public int getId_tien_nghi() {
+    public String getId_chi_tiet_tien_nghi() {
+        return id_chi_tiet_tien_nghi;
+    }
+
+    public void setId_chi_tiet_tien_nghi(String id_chi_tiet_tien_nghi) {
+        this.id_chi_tiet_tien_nghi = id_chi_tiet_tien_nghi;
+    }
+
+    public String getId_tien_nghi() {
         return id_tien_nghi;
     }
 
-    public void setId_tien_nghi(int id_tien_nghi) {
+    public void setId_tien_nghi(String id_tien_nghi) {
         this.id_tien_nghi = id_tien_nghi;
     }
 
-    public int getId_phong() {
+    public String getId_phong() {
         return id_phong;
     }
 
-    public void setId_phong(int id_phong) {
+    public void setId_phong(String id_phong) {
         this.id_phong = id_phong;
     }
 

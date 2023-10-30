@@ -22,12 +22,12 @@ import java.util.ArrayList;
 
 public class adapter_calam extends RecyclerView.Adapter<adapter_calam.calam_viewholder> {
     ArrayList<nhan_vien> arr_nhanvien = new ArrayList<>();
-   // ArrayList<chuc_vu> arr_chucvu = new ArrayList<>();
-
-    public adapter_calam() {
-        Khoitao();
-
+    // ArrayList<chuc_vu> arr_chucvu = new ArrayList<>();
+    public adapter_calam(ArrayList<nhan_vien> arr_nhanvien) {
+        this.arr_nhanvien = arr_nhanvien;
     }
+
+
 
     @NonNull
     @Override
@@ -40,10 +40,8 @@ public class adapter_calam extends RecyclerView.Adapter<adapter_calam.calam_view
         if (!arr_nhanvien.isEmpty()) {
             holder.tv_tennhanvien.setText(arr_nhanvien.get(position).getTen_nhan_vien());
           //  holder.tv_chucvu.setText(arr_chucvu.get(position).getTen_chuc_vu());
-            holder.tv_chucvu.setText(arr_nhanvien.get(position).getUsername());
+            holder.tv_chucvu.setText(arr_nhanvien.get(position).getChuc_vu());
         }
-
-          Log.e("size", "" + arr_nhanvien.size());
     }
 
     @Override
@@ -62,48 +60,5 @@ public class adapter_calam extends RecyclerView.Adapter<adapter_calam.calam_view
             tv_tennhanvien = itemView.findViewById(R.id.tv_tennhanvien);
             tv_chucvu = itemView.findViewById(R.id.tv_chucvu);
         }
-    }
-
-    void Khoitao() {
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("nhan_vien");
-        DatabaseReference ref_chucvu = FirebaseDatabase.getInstance().getReference("chuc_vu");
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                arr_nhanvien.clear();
-
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    nhan_vien nv = dataSnapshot.getValue(nhan_vien.class);
-
-                    ref_chucvu.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                                chuc_vu cv=dataSnapshot.getValue(chuc_vu.class);
-                                if(nv.getId_chuc_vu()==cv.getId_chuc_vu()){
-                                  nv.setUsername(cv.getTen_chuc_vu());
-                                }
-                            }
-                            notifyDataSetChanged();
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
-                        }
-                    });
-                    arr_nhanvien.add(nv);
-                }
-                notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-
-
     }
 }

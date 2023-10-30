@@ -2,33 +2,22 @@ package com.example.tdchotel_manager.Model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class nhan_vien {
-    String id_nhan_vien;
-    String id_chuc_vu;
-    String ten_nhan_vien,username, password,anh_nhan_vien,so_dien_thoai;
+    String id_nhan_vien,id_chuc_vu;
+    String ten_nhan_vien,username, password,anh_nhan_vien,so_dien_thoai,chuc_vu;
     double luong;
+
+    public String getChuc_vu() {
+        return chuc_vu;
+    }
+
+    public void setChuc_vu(String chuc_vu) {
+        this.chuc_vu = chuc_vu;
+    }
+
     ArrayList<String>  CCCD;
-    List<chuc_vu> chucVuList;
-
-    public List<phan_cong> getPhanCongList() {
-        return phanCongList;
-    }
-
-    public void setPhanCongList(List<phan_cong> phanCongList) {
-        this.phanCongList = phanCongList;
-    }
-
-    List<phan_cong> phanCongList;
-    public List<chuc_vu> getChucVuList() {
-        return chucVuList;
-    }
-
-    public void setChucVuList(List<chuc_vu> chucVuList) {
-        this.chucVuList = chucVuList;
-    }
 
     public nhan_vien(String id_nhan_vien, String id_chuc_vu, String ten_nhan_vien, String username, String password, String anh_nhan_vien, ArrayList<String> CCCD, String so_dien_thoai, double luong) {
         this.id_nhan_vien = id_nhan_vien;
