@@ -36,7 +36,7 @@ public class adapter_dich_vu_phong extends RecyclerView.Adapter<adapter_dich_vu_
     @Override
     public void onBindViewHolder(@NonNull adapter_dich_vu_phong.MyViewHolder holder, int position) {
         dich_vu_phong data = datalist.get(position);
-//        holder.img.setText(String.valueOf(data.getId_phong()));
+//      holder.img.setText(String.valueOf(data.getId_phong()));
         holder.tvten.setText(data.getTen_dich_vu_phong());
         holder.tvgia.setText(String.valueOf(data.getGia_dich_vu_phong()));
     }
