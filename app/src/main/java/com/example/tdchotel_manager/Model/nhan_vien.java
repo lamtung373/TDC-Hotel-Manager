@@ -6,8 +6,17 @@ import java.util.Map;
 
 public class nhan_vien {
     String id_nhan_vien,id_chuc_vu;
-    String ten_nhan_vien,username, password,anh_nhan_vien,so_dien_thoai;
+    String ten_nhan_vien,username, password,anh_nhan_vien,so_dien_thoai,chuc_vu;
     double luong;
+
+    public String getChuc_vu() {
+        return chuc_vu;
+    }
+
+    public void setChuc_vu(String chuc_vu) {
+        this.chuc_vu = chuc_vu;
+    }
+
     ArrayList<String>  CCCD;
 
     public nhan_vien(String id_nhan_vien, String id_chuc_vu, String ten_nhan_vien, String username, String password, String anh_nhan_vien, ArrayList<String> CCCD, String so_dien_thoai, double luong) {

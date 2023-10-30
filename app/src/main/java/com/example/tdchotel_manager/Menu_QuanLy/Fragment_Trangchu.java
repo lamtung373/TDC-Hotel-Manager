@@ -137,7 +137,7 @@ public class Fragment_Trangchu extends Fragment {
         arr_nhanvien.clear();
         DatabaseReference reference_nhanvien = FirebaseDatabase.getInstance().getReference("nhan_vien");
         DatabaseReference ref_chucvu = FirebaseDatabase.getInstance().getReference("chuc_vu");
-        DatabaseReference ref_phancong = FirebaseDatabase.getInstance().getReference("phan_cong_1");
+        DatabaseReference ref_phancong = FirebaseDatabase.getInstance().getReference("phan_cong");
         DatabaseReference ref_calam = FirebaseDatabase.getInstance().getReference("ca_lam");
 
         ref_phancong.addValueEventListener(new ValueEventListener() {
@@ -174,7 +174,7 @@ public class Fragment_Trangchu extends Fragment {
                                                                             for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                                                                                 chuc_vu cv = dataSnapshot.getValue(chuc_vu.class);
                                                                                 if (nv.getId_chuc_vu().equals(cv.getId_chuc_vu())) {
-                                                                                    nv.setUsername(cv.getTen_chuc_vu());
+                                                                                    nv.setChuc_vu(cv.getTen_chuc_vu());
                                                                                 }
                                                                             }
                                                                             adapterCalam.notifyDataSetChanged();
