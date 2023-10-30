@@ -40,7 +40,7 @@ public class adapter_calam extends RecyclerView.Adapter<adapter_calam.calam_view
         if (!arr_nhanvien.isEmpty()) {
             holder.tv_tennhanvien.setText(arr_nhanvien.get(position).getTen_nhan_vien());
           //  holder.tv_chucvu.setText(arr_chucvu.get(position).getTen_chuc_vu());
-            holder.tv_chucvu.setText(arr_nhanvien.get(position).getUsername());
+            holder.tv_chucvu.setText(arr_nhanvien.get(position).getChuc_vu());
         }
     }
 
