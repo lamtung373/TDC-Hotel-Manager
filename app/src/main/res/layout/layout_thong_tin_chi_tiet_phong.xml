@@ -157,7 +157,7 @@
                 android:text="Giường đơn" />
 
             <ImageButton
-                android:id="@+id/iv_decrease"
+                android:id="@+id/ib_decrease"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -171,12 +171,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="25dp"
                 android:layout_marginRight="25dp"
-                android:layout_toLeftOf="@id/iv_increase"
+                android:layout_toLeftOf="@id/ib_increase"
                 android:inputType="number"
                 android:text="0" />
 
             <ImageButton
-                android:id="@+id/iv_increase"
+                android:id="@+id/ib_increase"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"

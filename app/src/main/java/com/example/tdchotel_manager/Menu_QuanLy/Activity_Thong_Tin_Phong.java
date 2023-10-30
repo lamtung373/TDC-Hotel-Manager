@@ -8,8 +8,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
-import android.util.Log;
-import android.util.Pair;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -22,7 +20,6 @@ import android.widget.Toast;
 
 import com.example.tdchotel_manager.Menu_QuanLy.Adapter_Phong.adapter_dich_vu_phong;
 import com.example.tdchotel_manager.Menu_QuanLy.Adapter_Phong.adapter_tien_nghi;
-import com.example.tdchotel_manager.Model.dich_vu_phong;
 import com.example.tdchotel_manager.Model.phong;
 import com.example.tdchotel_manager.Model.trang_thai_phong;
 import com.example.tdchotel_manager.R;
@@ -37,8 +34,8 @@ import java.util.List;
 
 public class Activity_Thong_Tin_Phong extends AppCompatActivity {
     Spinner sp_status;
-    ImageButton btn_back, btn_save;
-    EditText edt_name, edt_description, edt_price, edt_sale;
+    ImageButton btn_back, btn_save,iv_decrease1,iv_decrease,iv_increase1,iv_increase;
+    EditText edt_name, edt_description, edt_price, edt_sale,edt_giuong_don,edt_giuong_doi;
     RadioGroup radiogroup;
     ArrayList<trang_thai_phong> list_status = new ArrayList<>();
 
@@ -51,12 +48,19 @@ public class Activity_Thong_Tin_Phong extends AppCompatActivity {
         edt_sale = findViewById(R.id.edt_price_sale);
         edt_price = findViewById(R.id.edt_price_room);
         edt_description = findViewById(R.id.edt_description);
+        edt_giuong_don = findViewById(R.id.edt_giuong_don);
+        edt_giuong_doi = findViewById(R.id.edt_giuong_doi);
+        edt_description = findViewById(R.id.edt_description);
         sp_status = findViewById(R.id.sp_status);
         rcv_tien_nghi = findViewById(R.id.rcv_tien_nghi);
         rcv_dich_vu_phong = findViewById(R.id.rcv_dich_vu_phong);
         btn_back = findViewById(R.id.btn_back);
         btn_save = findViewById(R.id.btn_save);
         edt_name = findViewById(R.id.edt_name_room);
+        iv_decrease1 = findViewById(R.id.iv_decrease1);
+        iv_decrease = findViewById(R.id.ib_decrease);
+        iv_increase1 = findViewById(R.id.iv_increase1);
+        iv_increase = findViewById(R.id.ib_increase);
     }
 
     @Override
@@ -69,6 +73,7 @@ public class Activity_Thong_Tin_Phong extends AppCompatActivity {
     }
 
     private void setEvent() {
+
         btn_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -85,7 +90,33 @@ public class Activity_Thong_Tin_Phong extends AppCompatActivity {
 
             }
         });
+        iv_decrease1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                decreaseValue(edt_giuong_don);
+            }
+        });
 
+        iv_increase1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                increaseValue(edt_giuong_don);
+            }
+        });
+
+        iv_decrease.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                decreaseValue(edt_giuong_doi);
+            }
+        });
+
+        iv_increase.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                increaseValue(edt_giuong_doi);
+            }
+        });
         sp_status.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
@@ -111,7 +142,19 @@ public class Activity_Thong_Tin_Phong extends AppCompatActivity {
         rcv_dich_vu_phong.setAdapter(adapterDichVuPhong);
     }
 
+    private void increaseValue(EditText editText) {
+        int value = Integer.parseInt(editText.getText().toString());
+        value++;
+        editText.setText(String.valueOf(value));
+    }
 
+    private void decreaseValue(EditText editText) {
+        int value = Integer.parseInt(editText.getText().toString());
+        if (value > 0) {
+            value--;
+            editText.setText(String.valueOf(value));
+        }
+    }
     private void onClickAdd_room(phong phong) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference = database.getReference("phong");
