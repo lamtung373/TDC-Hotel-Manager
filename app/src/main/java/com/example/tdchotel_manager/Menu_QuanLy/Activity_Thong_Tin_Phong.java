@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.util.Pair;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -39,14 +41,13 @@ public class Activity_Thong_Tin_Phong extends AppCompatActivity {
     EditText edt_name, edt_description, edt_price, edt_sale;
     RadioGroup radiogroup;
     ArrayList<trang_thai_phong> list_status = new ArrayList<>();
-   // ArrayList<dich_vu_phong> selectedItems = adapter_dich_vu_phong.getSelectedItems();
 
     private RecyclerView rcv_tien_nghi, rcv_dich_vu_phong;
     private adapter_tien_nghi adapterTienNghi = new adapter_tien_nghi();
     private adapter_dich_vu_phong adapterDichVuPhong = new adapter_dich_vu_phong();
 
     private void setControl() {
-        radiogroup=findViewById(R.id.radiogroup);
+        radiogroup = findViewById(R.id.radiogroup);
         edt_sale = findViewById(R.id.edt_price_sale);
         edt_price = findViewById(R.id.edt_price_room);
         edt_description = findViewById(R.id.edt_description);
@@ -78,9 +79,10 @@ public class Activity_Thong_Tin_Phong extends AppCompatActivity {
         btn_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Lấy vị trí (position) đã chọn trong Spinner
-                onClickAdd_room(new_room());
-                    Toast.makeText(Activity_Thong_Tin_Phong.this, new_room().toString(), Toast.LENGTH_SHORT).show();
+                //onClickAdd_room(new_room());
+                //Toast.makeText(Activity_Thong_Tin_Phong.this, new_room().toString(), Toast.LENGTH_SHORT).show();
+
+
             }
         });
 
@@ -96,8 +98,8 @@ public class Activity_Thong_Tin_Phong extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
-               Toast.makeText(Activity_Thong_Tin_Phong.this, "Vui lòng chọn trạng thái phòng", Toast.LENGTH_SHORT).show();
-               sp_status.findFocus();
+                Toast.makeText(Activity_Thong_Tin_Phong.this, "Vui lòng chọn trạng thái phòng", Toast.LENGTH_SHORT).show();
+                sp_status.findFocus();
             }
         });
         rcv_tien_nghi.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
@@ -128,8 +130,9 @@ public class Activity_Thong_Tin_Phong extends AppCompatActivity {
             }
         });
     }
-    String typeRoom(){
-        String type_room="";
+
+    String typeRoom() {
+        String type_room = "";
         if (radiogroup.getCheckedRadioButtonId() != -1) {
             RadioButton selectedRadioButton = findViewById(radiogroup.getCheckedRadioButtonId());
             type_room = selectedRadioButton.getText().toString(); // Lấy dữ liệu của radio button đã chọn
@@ -139,25 +142,27 @@ public class Activity_Thong_Tin_Phong extends AppCompatActivity {
         }
         return type_room;
     }
-    phong new_room(){
+
+    phong new_room() {
         String name = edt_name.getText().toString();
         String description = edt_description.getText().toString();
-        int price =Integer.parseInt(edt_price.getText().toString());
+        int price = Integer.parseInt(edt_price.getText().toString());
         int sale = Integer.parseInt(edt_sale.getText().toString());
         String type = typeRoom();
-        ArrayList<String>anh=new ArrayList<>();
+        ArrayList<String> anh = new ArrayList<>();
         anh.add("anh 1");
         anh.add("anh2");
         //trạng thái
         int selectedPosition = sp_status.getSelectedItemPosition();
         trang_thai_phong selectedTrangThai = list_status.get(selectedPosition);
         String statusID = selectedTrangThai.getId_trang_thai_phong();
-        int luot_thue=0;
-        int rating=0;
+        int luot_thue = 0;
+        int rating = 0;
 
-        phong room=new phong(null,name,description,anh,type,statusID,luot_thue,price,sale,rating);
+        phong room = new phong(null, name, description, anh, type, statusID, luot_thue, price, sale, rating);
         return room;
     }
+
     private void loadTrangThaiPhong() {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("trang_thai_phong");
         reference.addValueEventListener(new ValueEventListener() {

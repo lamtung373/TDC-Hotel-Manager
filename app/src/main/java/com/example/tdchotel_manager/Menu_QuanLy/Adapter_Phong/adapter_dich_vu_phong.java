@@ -1,8 +1,10 @@
 package com.example.tdchotel_manager.Menu_QuanLy.Adapter_Phong;
 
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -24,7 +26,6 @@ public class adapter_dich_vu_phong extends RecyclerView.Adapter<adapter_dich_vu_
     public adapter_dich_vu_phong(){
         khoitao();
     }
-    public ArrayList<dich_vu_phong> selectedItems = new ArrayList<>();
 
     @NonNull
     @Override
@@ -32,38 +33,22 @@ public class adapter_dich_vu_phong extends RecyclerView.Adapter<adapter_dich_vu_
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_item_dich_vu_phong, parent, false);
         return new adapter_dich_vu_phong.MyViewHolder(itemView);
     }
-
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        ImageView iv_anh_dich_vu_phong;
+
         TextView tv_ten_dich_vu_phong;
+        EditText edt_so_luong;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             tv_ten_dich_vu_phong = itemView.findViewById(R.id.tv_ten_dich_vu_phong);
+            edt_so_luong=itemView.findViewById(R.id.edt_so_luong_dvp);
         }
     }
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        final dich_vu_phong data = datalist.get(position);
-//        holder.iv_anh_dich_vu_phong.setImageResource(data.getAnh_dich_vu_phong());
+        dich_vu_phong data = datalist.get(position);
         holder.tv_ten_dich_vu_phong.setText(data.getTen_dich_vu_phong());
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (selectedItems.contains(data)) {
-                    // Nếu mục đã được chọn, hãy bỏ chọn nó
-                    selectedItems.remove(data);
-                } else {
-                    // Nếu mục chưa được chọn, hãy chọn nó
-                    selectedItems.add(data);
-                }
-                notifyDataSetChanged(); // Cập nhật giao diện để thay đổi trạng thái của mục
-            }
-        });
-    }
-    public ArrayList<dich_vu_phong> getSelectedItems() {
-        return selectedItems;
     }
 
     @Override
