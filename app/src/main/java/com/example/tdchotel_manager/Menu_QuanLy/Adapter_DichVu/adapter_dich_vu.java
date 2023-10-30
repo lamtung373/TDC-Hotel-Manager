@@ -39,6 +39,9 @@ public class adapter_dich_vu extends RecyclerView.Adapter<adapter_dich_vu.MyView
 //        holder.img.setText(String.valueOf(data.getId_phong()));
         holder.tvten.setText(data.getTen_dich_vu());
         holder.tvgia.setText(String.valueOf(data.getGia_dich_vu()));
+        holder.tvloaidv.setText(data.getId_loai_dich_vu());;
+
+
     }
 
     @Override
@@ -47,12 +50,14 @@ public class adapter_dich_vu extends RecyclerView.Adapter<adapter_dich_vu.MyView
     }
     public class MyViewHolder extends  RecyclerView.ViewHolder{
         ImageView imganhdv;
-        TextView tvten,tvgia;
+        TextView tvten,tvgia,tvloaidv;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 //            imganhdv=itemView.findViewById(R.id.imgvDV);
             tvten=itemView.findViewById(R.id.tvTenDv1);
             tvgia=itemView.findViewById(R.id.tvGia1);
+            tvloaidv=itemView.findViewById(R.id.tvloaidv);
+
         }
     }
     void khoi_tao(){
