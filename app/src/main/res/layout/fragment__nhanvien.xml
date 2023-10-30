@@ -66,14 +66,15 @@
             android:textSize="15sp"
             android:textStyle="italic"
             android:paddingStart="20dp"
-            android:paddingEnd="20dp" />
+            android:paddingEnd="20dp"
+            android:id="@+id/edtSearch"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            tools:listitem="@layout/layout_item_quanlynhanvien"/>
+            android:id="@+id/recyclerViewNhanVien"/>
 
     </LinearLayout>
 
