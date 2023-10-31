@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -17,14 +18,15 @@
         <activity
             android:name=".Menu_QuanLy.Activity_Thong_Tin_Phong"
             android:exported="false" />
-        <!-- <activity -->
-        <!-- android:name=".Menu_QuanLy.TrangChu_QuanLy" -->
-        <!-- android:exported="false" /> -->
+
         <activity
             android:name=".Menu_QuanLy.Adapter_DichVu.activity_themdv"
             android:exported="false" />
         <activity
             android:name=".Menu_QuanLy.TrangChu_QuanLy"
+            android:exported="true" />
+        <activity
+            android:name=".DangNhap"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
