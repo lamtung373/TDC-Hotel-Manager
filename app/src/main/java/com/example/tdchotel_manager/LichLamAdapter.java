@@ -5,7 +5,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,13 +20,20 @@ import java.util.List;
 
 public class LichLamAdapter extends RecyclerView.Adapter<LichLamAdapter.ChamCongViewHolder>{
 
-    public LichLamAdapter(List<nhan_vien> nhanVienList, List<chuc_vu> chucVuList, List<ca_lam> caLamList) {
+    private IClickListener iClickListener;
+    public interface IClickListener {
+        void onClickUpdateItem(nhan_vien nhan_vien);
+    }
+    public LichLamAdapter(List<nhan_vien> nhanVienList, List<chuc_vu> chucVuList, List<ca_lam> caLamList, IClickListener listener) {
         this.nhanVienList = nhanVienList;
-        this.chucVuList = chucVuList;this.caLamList = caLamList;
+        this.chucVuList = chucVuList;
+        this.caLamList = caLamList;
+        this.iClickListener = listener;
     }
     private List<nhan_vien> nhanVienList;
     private List<chuc_vu> chucVuList;
     private List<ca_lam> caLamList;
+
     @NonNull
     @Override
     public ChamCongViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -35,6 +44,14 @@ public class LichLamAdapter extends RecyclerView.Adapter<LichLamAdapter.ChamCong
     @Override
     public void onBindViewHolder(@NonNull ChamCongViewHolder holder, int position) {
         nhan_vien nhan_vien = nhanVienList.get(position);
+        holder.layoutNhanVien.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.e("++ "+"Bao dep trai","phan_cong.getId_nhan_vien()");
+                iClickListener.onClickUpdateItem(nhan_vien);
+            }
+        });
+
         if(nhan_vien==null)
         {
             return;
@@ -52,60 +69,60 @@ public class LichLamAdapter extends RecyclerView.Adapter<LichLamAdapter.ChamCong
         int thu2Sang = -1,thu2Chieu = -1, thu3Sang  = -1, thu3Chieu  = -1, thu4Sang = -1, thu4Chieu = -1, thu5Sang = -1, thu5Chieu = -1, thu6Sang = -1, thu6Chieu = -1, thu7Sang = -1, thu7Chieu = -1, CNSang = -1, CNChieu = -1;
         for(int i = 0; i < nhan_vien.getPhanCongList().size(); i++)
         {
-
-                    if(nhan_vien.getPhanCongList().get(i).getDayofweek()==2&&nhan_vien.getPhanCongList().get(i).getId_ca_lam().equals(1))
-                    {
-                        thu2Sang = 1;
-                    }
-            if(nhan_vien.getPhanCongList().get(i).getDayofweek()==2&&nhan_vien.getPhanCongList().get(i).getId_ca_lam().equals(2))
+            Log.e(nhan_vien.getPhanCongList().get(i).getDayofweek()+"1","kkk");
+            if(nhan_vien.getPhanCongList().get(i).getDayofweek()==2 && nhan_vien.getPhanCongList().get(i).getId_ca_lam().equals("1"))
+            {
+                thu2Sang = 1;
+            }
+            if(nhan_vien.getPhanCongList().get(i).getDayofweek()==2&&nhan_vien.getPhanCongList().get(i).getId_ca_lam().equals("2"))
             {
                 thu2Chieu = 1;
             }
-            if(nhan_vien.getPhanCongList().get(i).getDayofweek()==3&&nhan_vien.getPhanCongList().get(i).getId_ca_lam().equals(1))
+            if(nhan_vien.getPhanCongList().get(i).getDayofweek()==3&&nhan_vien.getPhanCongList().get(i).getId_ca_lam().equals("1"))
             {
                 thu3Sang = 1;
             }
-            if(nhan_vien.getPhanCongList().get(i).getDayofweek()==3&&nhan_vien.getPhanCongList().get(i).getId_ca_lam().equals(2))
+            if(nhan_vien.getPhanCongList().get(i).getDayofweek()==3&&nhan_vien.getPhanCongList().get(i).getId_ca_lam().equals("2"))
             {
                 thu3Chieu = 1;
             }
-            if(nhan_vien.getPhanCongList().get(i).getDayofweek()==4&&nhan_vien.getPhanCongList().get(i).getId_ca_lam().equals(1))
+            if(nhan_vien.getPhanCongList().get(i).getDayofweek()==4&&nhan_vien.getPhanCongList().get(i).getId_ca_lam().equals("1"))
             {
                 thu4Sang = 1;
             }
-            if(nhan_vien.getPhanCongList().get(i).getDayofweek()==4&&nhan_vien.getPhanCongList().get(i).getId_ca_lam().equals(2))
+            if(nhan_vien.getPhanCongList().get(i).getDayofweek()==4&&nhan_vien.getPhanCongList().get(i).getId_ca_lam().equals("2"))
             {
                 thu4Chieu = 1;
             }
-            if(nhan_vien.getPhanCongList().get(i).getDayofweek()==5&&nhan_vien.getPhanCongList().get(i).getId_ca_lam().equals(1))
+            if(nhan_vien.getPhanCongList().get(i).getDayofweek()==5&&nhan_vien.getPhanCongList().get(i).getId_ca_lam().equals("1"))
             {
                 thu5Sang = 1;
             }
-            if(nhan_vien.getPhanCongList().get(i).getDayofweek()==5&&nhan_vien.getPhanCongList().get(i).getId_ca_lam().equals(2))
+            if(nhan_vien.getPhanCongList().get(i).getDayofweek()==5&&nhan_vien.getPhanCongList().get(i).getId_ca_lam().equals("2"))
             {
                 thu5Chieu = 1;
             }
-            if(nhan_vien.getPhanCongList().get(i).getDayofweek()==6&&nhan_vien.getPhanCongList().get(i).getId_ca_lam().equals(1))
+            if(nhan_vien.getPhanCongList().get(i).getDayofweek()==6&&nhan_vien.getPhanCongList().get(i).getId_ca_lam().equals("1"))
             {
                 thu6Sang = 1;
             }
-            if(nhan_vien.getPhanCongList().get(i).getDayofweek()==6&&nhan_vien.getPhanCongList().get(i).getId_ca_lam().equals(2))
+            if(nhan_vien.getPhanCongList().get(i).getDayofweek()==6&&nhan_vien.getPhanCongList().get(i).getId_ca_lam().equals("2"))
             {
                 thu6Chieu = 1;
             }
-            if(nhan_vien.getPhanCongList().get(i).getDayofweek()==7&&nhan_vien.getPhanCongList().get(i).getId_ca_lam().equals(1))
+            if(nhan_vien.getPhanCongList().get(i).getDayofweek()==7&&nhan_vien.getPhanCongList().get(i).getId_ca_lam().equals("1"))
             {
                 thu7Sang = 1;
             }
-            if(nhan_vien.getPhanCongList().get(i).getDayofweek()==7&&nhan_vien.getPhanCongList().get(i).getId_ca_lam().equals(2))
+            if(nhan_vien.getPhanCongList().get(i).getDayofweek()==7&&nhan_vien.getPhanCongList().get(i).getId_ca_lam().equals("2"))
             {
                 thu7Chieu = 1;
             }
-            if(nhan_vien.getPhanCongList().get(i).getDayofweek()==1&&nhan_vien.getPhanCongList().get(i).getId_ca_lam().equals(1))
+            if(nhan_vien.getPhanCongList().get(i).getDayofweek()==1&&nhan_vien.getPhanCongList().get(i).getId_ca_lam().equals("1"))
             {
                 CNSang = 1;
             }
-            if(nhan_vien.getPhanCongList().get(i).getDayofweek()==1&&nhan_vien.getPhanCongList().get(i).getId_ca_lam().equals(2))
+            if(nhan_vien.getPhanCongList().get(i).getDayofweek()==1&&nhan_vien.getPhanCongList().get(i).getId_ca_lam().equals("2"))
             {
                 CNChieu = 1;
             }
@@ -222,6 +239,7 @@ public class LichLamAdapter extends RecyclerView.Adapter<LichLamAdapter.ChamCong
         {
             holder.cbChieuCN.setChecked(false);
         }
+
     }
 
     @Override
@@ -236,6 +254,7 @@ public class LichLamAdapter extends RecyclerView.Adapter<LichLamAdapter.ChamCong
     class ChamCongViewHolder extends RecyclerView.ViewHolder
     {
         private TextView tvTenNhanVien, tvChucVu;
+        private LinearLayout layoutNhanVien;
         private CheckBox cbSangT2, cbChieuT2, cbSangT3, cbChieuT3, cbSangT4, cbChieuT4, cbSangT5, cbChieuT5, cbSangT6, cbChieuT6, cbSangT7, cbChieuT7, cbSangCN, cbChieuCN;
 
         public ChamCongViewHolder(@NonNull View itemView) {
@@ -256,6 +275,7 @@ public class LichLamAdapter extends RecyclerView.Adapter<LichLamAdapter.ChamCong
             cbChieuT7 = itemView.findViewById(R.id.cbChieuT7);
             cbSangCN = itemView.findViewById(R.id.cbSangCN);
             cbChieuCN = itemView.findViewById(R.id.cbChieuCN);
+            layoutNhanVien = itemView.findViewById(R.id.layoutNhanVien);
 
         }
     }

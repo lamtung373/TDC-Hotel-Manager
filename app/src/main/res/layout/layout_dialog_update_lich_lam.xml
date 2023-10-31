@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF">
+    <LinearLayout
+       android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_margin="16dp"
+        android:orientation="vertical"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="CẬP NHẬT LỊCH LÀM"
+            android:padding="12dp"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:background="@color/purple"></TextView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sáng thứ 2"
+                android:textColor="#000"
+                android:layout_gravity="center"></TextView>
+            <CheckBox
+                android:layout_width="35dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/cbSangT2"></CheckBox>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Chiều thứ 2"
+                android:textColor="#000"
+                android:layout_gravity="center"></TextView>
+            <CheckBox
+                android:layout_width="35dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/cbChieuT2"></CheckBox>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sáng thứ 3"
+                android:textColor="#000"
+                android:layout_gravity="center"></TextView>
+            <CheckBox
+                android:layout_width="35dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/cbSangT3"></CheckBox>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Chiều thứ 3"
+                android:textColor="#000"
+                android:layout_gravity="center"></TextView>
+            <CheckBox
+                android:layout_width="35dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/cbChieuT3"></CheckBox>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sáng thứ 4"
+                android:textColor="#000"
+                android:layout_gravity="center"></TextView>
+            <CheckBox
+                android:layout_width="35dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/cbSangT4"></CheckBox>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Chiều thứ 4"
+                android:textColor="#000"
+                android:layout_gravity="center"></TextView>
+            <CheckBox
+                android:layout_width="35dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/cbChieuT4"></CheckBox>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sáng thứ 5"
+                android:textColor="#000"
+                android:layout_gravity="center"></TextView>
+            <CheckBox
+                android:layout_width="35dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/cbSangT5"></CheckBox>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Chiều thứ 5"
+                android:textColor="#000"
+                android:layout_gravity="center"></TextView>
+            <CheckBox
+                android:layout_width="35dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/cbChieuT5"></CheckBox>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sáng thứ 6"
+                android:textColor="#000"
+                android:layout_gravity="center"></TextView>
+            <CheckBox
+                android:layout_width="35dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/cbSangT6"></CheckBox>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Chiều thứ 6"
+                android:textColor="#000"
+                android:layout_gravity="center"></TextView>
+        <CheckBox
+            android:layout_width="35dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/cbChieuT6"></CheckBox>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sáng thứ 7"
+                android:textColor="#000"
+                android:layout_gravity="center"></TextView>
+            <CheckBox
+                android:layout_width="35dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/cbSangT7"></CheckBox>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Chiều thứ 7"
+                android:textColor="#000"
+                android:layout_gravity="center"></TextView>
+            <CheckBox
+                android:layout_width="35dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/cbChieuT7"></CheckBox>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="  Sáng CN  "
+                android:textColor="#000"
+                android:layout_gravity="center"></TextView>
+            <CheckBox
+                android:layout_width="35dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/cbSangCN"></CheckBox>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="    Chiều CN"
+                android:textColor="#000"
+                android:layout_gravity="center"></TextView>
+            <CheckBox
+                android:layout_width="35dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/cbChieuCN"></CheckBox>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/btnLuu"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Lưu"></Button>
+            <Button
+                android:id="@+id/btnThoat"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Thoát"></Button>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
