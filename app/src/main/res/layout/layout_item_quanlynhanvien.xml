@@ -23,7 +23,8 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginLeft="20dp"
-                android:src="@color/green" />
+                android:src="@color/green"
+                android:scaleType="centerCrop"/>
             <LinearLayout
                 android:layout_marginLeft="40dp"
                 android:layout_width="wrap_content"

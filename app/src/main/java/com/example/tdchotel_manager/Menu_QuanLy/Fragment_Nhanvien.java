@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +18,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.tdchotel_manager.IOnClickItem;
 import com.example.tdchotel_manager.Menu_QuanLy.Adapter_NhanVien.NhanVien_Adapter;
 import com.example.tdchotel_manager.Menu_QuanLy.Adapter_NhanVien.ThemNhanVien;
+import com.example.tdchotel_manager.Menu_QuanLy.Adapter_NhanVien.ThongTinNhanVien;
 import com.example.tdchotel_manager.Model.nhan_vien;
 import com.example.tdchotel_manager.R;
 import com.google.firebase.database.DataSnapshot;
@@ -38,8 +42,6 @@ public class Fragment_Nhanvien extends Fragment {
     DatabaseReference databaseReference;
     HashMap<String, String> chucVuMapping = new HashMap<>();
 
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -54,7 +56,16 @@ public class Fragment_Nhanvien extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         // Thiết lập Adapter cho RecyclerView
-        adapter = new NhanVien_Adapter(data, chucVuMapping);
+        adapter = new NhanVien_Adapter(data, chucVuMapping, new IOnClickItem() {
+            @Override
+            public void OnItemClick(Object object) {
+                nhan_vien selectedNhanVien = (nhan_vien) object;
+                Intent intent = new Intent(getActivity(), ThongTinNhanVien.class);
+                intent.putExtra("selectedNhanVien", selectedNhanVien); // Assuming nhan_vien is Serializable
+                startActivity(intent);
+            }
+        });
+
 
         recyclerView.setAdapter(adapter);
 
@@ -104,6 +115,23 @@ public class Fragment_Nhanvien extends Fragment {
             }
         });
 
+        edtSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // Không cần thực hiện gì ở đây
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // Không cần thực hiện gì ở đây
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                filter(s.toString());
+            }
+        });
+
         // Kết nối các thành phần giao diện với các thành phần trong mã Java của các thành phần trong mã
         btnThemNV = view.findViewById(R.id.btnThemNV);
 
@@ -118,7 +146,18 @@ public class Fragment_Nhanvien extends Fragment {
                 startActivity(intent);
             }
         });
-
         return view;
+    }
+
+    private void filter(String text) {
+        ArrayList<nhan_vien> filteredList = new ArrayList<>();
+
+        for (nhan_vien nv : data) {
+            if (nv.getTen_nhan_vien().toLowerCase().contains(text.toLowerCase())) {
+                filteredList.add(nv);
+            }
+        }
+
+        adapter.filterList(filteredList);
     }
 }
