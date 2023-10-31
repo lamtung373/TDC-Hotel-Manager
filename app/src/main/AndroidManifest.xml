@@ -24,6 +24,9 @@
             android:name=".Menu_QuanLy.Adapter_DichVu.activity_themdv"
             android:exported="false" />
         <activity
+            android:name=".Menu_QuanLy.Adapter_DichVu.activity_chinhsuadichvu"
+            android:exported="false" />
+        <activity
             android:name=".Menu_QuanLy.TrangChu_QuanLy"
             android:exported="true">
             <intent-filter>

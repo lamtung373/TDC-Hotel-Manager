@@ -1,5 +1,7 @@
 package com.example.tdchotel_manager;
 
+import com.example.tdchotel_manager.Model.dich_vu;
+
 public interface IOnClickItem {
-    void OnItemClick(Object object);
+    void OnItemClick(int position);
 }

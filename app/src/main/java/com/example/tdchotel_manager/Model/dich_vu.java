@@ -1,5 +1,6 @@
 package com.example.tdchotel_manager.Model;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 

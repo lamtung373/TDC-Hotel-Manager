@@ -32,6 +32,7 @@ public class tabDichVu extends Fragment {
         rcvDV.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
         rcvDV.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL));
         rcvDV.setAdapter(adapter_dich_vu);
+
     }
 
     private void setControl(View view) {
