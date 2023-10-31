@@ -1,5 +1,6 @@
 package com.example.tdchotel_manager.Menu_QuanLy;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.icu.text.DecimalFormat;
 import android.icu.text.DecimalFormatSymbols;
@@ -113,7 +114,12 @@ public class Fragment_Trangchu extends Fragment {
     }
 
     private void setEvent() {
-
+btn_chamcong.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View view) {
+       // Intent intent=new Intent(getActivity(),)
+    }
+});
     }
 
     private void Initialization() {
@@ -144,6 +150,7 @@ public class Fragment_Trangchu extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 arr_nhanvien.clear();
+                Log.e("a",""+arr_nhanvien.size());
                 adapterCalam.notifyDataSetChanged();
                 ref_calam.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override

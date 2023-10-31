@@ -225,19 +225,21 @@ public class Fragment_Thongke extends Fragment {
 
 
                 }
-                BarDataSet barDataSet = new BarDataSet(barEntries, "Hiệu suất theo năm");
-                barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+                if (!barEntries.isEmpty()) {
+                    BarDataSet barDataSet = new BarDataSet(barEntries, "Hiệu suất theo năm");
+                    barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
 
-                BarData barData = new BarData(barDataSet);
-                barchart_thongke.getDescription().setEnabled(false);
-                barchart_thongke.setData(barData);
-                barchart_thongke.getXAxis().setValueFormatter(new IndexAxisValueFormatter(labels));
-                barchart_thongke.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
-                barchart_thongke.getXAxis().setGranularity(1f);
-                barchart_thongke.getXAxis().setLabelCount(12);
-                barchart_thongke.getXAxis().setGranularityEnabled(true);
-                barchart_thongke.animateY(1000);
-                barchart_thongke.invalidate();
+                    BarData barData = new BarData(barDataSet);
+                    barchart_thongke.getDescription().setEnabled(false);
+                    barchart_thongke.setData(barData);
+                    barchart_thongke.getXAxis().setValueFormatter(new IndexAxisValueFormatter(labels));
+                    barchart_thongke.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
+                    barchart_thongke.getXAxis().setGranularity(1f);
+                    barchart_thongke.getXAxis().setLabelCount(12);
+                    barchart_thongke.getXAxis().setGranularityEnabled(true);
+                    barchart_thongke.animateY(1000);
+                    barchart_thongke.invalidate();
+                }
 
             }
 
@@ -289,19 +291,21 @@ public class Fragment_Thongke extends Fragment {
                     }
 
                 }
-                BarDataSet barDataSet = new BarDataSet(barEntries, "Hiệu suất theo tháng");
-                barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+                if (!barEntries.isEmpty()) {
+                    BarDataSet barDataSet = new BarDataSet(barEntries, "Hiệu suất theo tháng");
+                    barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
 
-                BarData barData = new BarData(barDataSet);
-                barchart_thongke.getDescription().setEnabled(false);
-                barchart_thongke.setData(barData);
-                barchart_thongke.getXAxis().setValueFormatter(new IndexAxisValueFormatter(labels));
-                barchart_thongke.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
-                barchart_thongke.getXAxis().setGranularity(1f);
-                barchart_thongke.getXAxis().setLabelCount(12);
-                barchart_thongke.getXAxis().setGranularityEnabled(true);
-                barchart_thongke.animateY(1000);
-                barchart_thongke.invalidate();
+                    BarData barData = new BarData(barDataSet);
+                    barchart_thongke.getDescription().setEnabled(false);
+                    barchart_thongke.setData(barData);
+                    barchart_thongke.getXAxis().setValueFormatter(new IndexAxisValueFormatter(labels));
+                    barchart_thongke.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
+                    barchart_thongke.getXAxis().setGranularity(1f);
+                    barchart_thongke.getXAxis().setLabelCount(12);
+                    barchart_thongke.getXAxis().setGranularityEnabled(true);
+                    barchart_thongke.animateY(1000);
+                    barchart_thongke.invalidate();
+                }
 
             }
 
@@ -346,19 +350,21 @@ public class Fragment_Thongke extends Fragment {
                     barEntries.add(new BarEntry(i, (float) tongtien));
 
                 }
-                BarDataSet barDataSet = new BarDataSet(barEntries, "Doanh thu theo năm");
-                barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+                if (!barEntries.isEmpty()) {
+                    BarDataSet barDataSet = new BarDataSet(barEntries, "Doanh thu theo năm");
+                    barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
 
-                BarData barData = new BarData(barDataSet);
-                barchart_thongke.getDescription().setEnabled(false);
-                barchart_thongke.setData(barData);
-                barchart_thongke.getXAxis().setValueFormatter(new IndexAxisValueFormatter(labels));
-                barchart_thongke.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
-                barchart_thongke.getXAxis().setGranularity(1f);
-                barchart_thongke.getXAxis().setLabelCount(12);
-                barchart_thongke.getXAxis().setGranularityEnabled(true);
-                barchart_thongke.animateY(1000);
-                barchart_thongke.invalidate();
+                    BarData barData = new BarData(barDataSet);
+                    barchart_thongke.getDescription().setEnabled(false);
+                    barchart_thongke.setData(barData);
+                    barchart_thongke.getXAxis().setValueFormatter(new IndexAxisValueFormatter(labels));
+                    barchart_thongke.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
+                    barchart_thongke.getXAxis().setGranularity(1f);
+                    barchart_thongke.getXAxis().setLabelCount(12);
+                    barchart_thongke.getXAxis().setGranularityEnabled(true);
+                    barchart_thongke.animateY(1000);
+                    barchart_thongke.invalidate();
+                }
 
             }
 
@@ -391,30 +397,29 @@ public class Fragment_Thongke extends Fragment {
                 if (arr_DanhGia.size() > 10) {
                     for (int i = 0; i < 10; i++) {
                         barEntries.add(new BarEntry(i, (float) arr_DanhGia.get(i).getDanh_gia_sao()));
-                        String t[] = arr_DanhGia.get(i).getTen_phong().split(" ");
-                        labels.add(t[1]);
+                        labels.add(arr_DanhGia.get(i).getTen_phong());
 
                     }
                 } else {
                     for (int i = 0; i < arr_DanhGia.size(); i++) {
                         barEntries.add(new BarEntry(i, (float) arr_DanhGia.get(i).getDanh_gia_sao()));
-                        String t[] = arr_DanhGia.get(i).getTen_phong().split(" ");
-                        labels.add(t[1]);
+                        labels.add(arr_DanhGia.get(i).getTen_phong());
 
                     }
                 }
-
-                BarDataSet barDataSet = new BarDataSet(barEntries, "Đánh giá tốt");
-                barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
-                BarData barData = new BarData(barDataSet);
-                barchart_thongke.setData(barData);
-                barchart_thongke.getXAxis().setValueFormatter(new IndexAxisValueFormatter(labels));
-                barchart_thongke.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
-                barchart_thongke.getXAxis().setGranularity(1f);
-                barchart_thongke.getXAxis().setLabelCount(10);
-                barchart_thongke.getXAxis().setGranularityEnabled(true);
-                barchart_thongke.animateY(2000);
-                barchart_thongke.invalidate();
+                if (!barEntries.isEmpty()) {
+                    BarDataSet barDataSet = new BarDataSet(barEntries, "Đánh giá tốt");
+                    barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+                    BarData barData = new BarData(barDataSet);
+                    barchart_thongke.setData(barData);
+                    barchart_thongke.getXAxis().setValueFormatter(new IndexAxisValueFormatter(labels));
+                    barchart_thongke.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
+                    barchart_thongke.getXAxis().setGranularity(1f);
+                    barchart_thongke.getXAxis().setLabelCount(10);
+                    barchart_thongke.getXAxis().setGranularityEnabled(true);
+                    barchart_thongke.animateY(2000);
+                    barchart_thongke.invalidate();
+                }
             }
 
             @Override
@@ -446,32 +451,31 @@ public class Fragment_Thongke extends Fragment {
                 if (arr_LuotThue.size() > 10) {
                     for (int i = 0; i < 10; i++) {
                         barEntries.add(new BarEntry(i, arr_LuotThue.get(i).getLuot_thue()));
-                        String t[] = arr_LuotThue.get(i).getTen_phong().split(" ");
-                        labels.add(t[1]);
+                        labels.add(arr_LuotThue.get(i).getTen_phong());
 
                     }
                 } else {
                     for (int i = 0; i < arr_LuotThue.size(); i++) {
                         barEntries.add(new BarEntry(i, arr_LuotThue.get(i).getLuot_thue()));
-                        String t[] = arr_LuotThue.get(i).getTen_phong().split(" ");
-                        labels.add(t[1]);
+                        labels.add(arr_LuotThue.get(i).getTen_phong());
 
                     }
                 }
+                if (!barEntries.isEmpty()) {
+                    BarDataSet barDataSet = new BarDataSet(barEntries, "Lượt thuê");
+                    barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
 
-                BarDataSet barDataSet = new BarDataSet(barEntries, "Lượt thuê");
-                barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+                    BarData barData = new BarData(barDataSet);
+                    barchart_thongke.setData(barData);
 
-                BarData barData = new BarData(barDataSet);
-                barchart_thongke.setData(barData);
-
-                barchart_thongke.getXAxis().setValueFormatter(new IndexAxisValueFormatter(labels));
-                barchart_thongke.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
-                barchart_thongke.getXAxis().setGranularity(1f);
-                barchart_thongke.getXAxis().setLabelCount(10);
-                barchart_thongke.getXAxis().setGranularityEnabled(true);
-                barchart_thongke.animateY(1000);
-                barchart_thongke.invalidate();
+                    barchart_thongke.getXAxis().setValueFormatter(new IndexAxisValueFormatter(labels));
+                    barchart_thongke.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
+                    barchart_thongke.getXAxis().setGranularity(1f);
+                    barchart_thongke.getXAxis().setLabelCount(10);
+                    barchart_thongke.getXAxis().setGranularityEnabled(true);
+                    barchart_thongke.animateY(1000);
+                    barchart_thongke.invalidate();
+                }
             }
 
             @Override
@@ -520,20 +524,21 @@ public class Fragment_Thongke extends Fragment {
                     barEntries.add(new BarEntry(i, (float) tongtien));
 
                 }
-                BarDataSet barDataSet = new BarDataSet(barEntries, "Doanh thu theo tháng");
-                barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+                if (!barEntries.isEmpty()) {
+                    BarDataSet barDataSet = new BarDataSet(barEntries, "Doanh thu theo tháng");
+                    barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
 
-                BarData barData = new BarData(barDataSet);
-                barchart_thongke.getDescription().setEnabled(false);
-                barchart_thongke.setData(barData);
-                barchart_thongke.getXAxis().setValueFormatter(new IndexAxisValueFormatter(labels));
-                barchart_thongke.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
-                barchart_thongke.getXAxis().setGranularity(1f);
-                barchart_thongke.getXAxis().setLabelCount(12);
-                barchart_thongke.getXAxis().setGranularityEnabled(true);
-                barchart_thongke.animateY(1000);
-                barchart_thongke.invalidate();
-
+                    BarData barData = new BarData(barDataSet);
+                    barchart_thongke.getDescription().setEnabled(false);
+                    barchart_thongke.setData(barData);
+                    barchart_thongke.getXAxis().setValueFormatter(new IndexAxisValueFormatter(labels));
+                    barchart_thongke.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
+                    barchart_thongke.getXAxis().setGranularity(1f);
+                    barchart_thongke.getXAxis().setLabelCount(12);
+                    barchart_thongke.getXAxis().setGranularityEnabled(true);
+                    barchart_thongke.animateY(1000);
+                    barchart_thongke.invalidate();
+                }
             }
 
             @Override
@@ -620,7 +625,7 @@ public class Fragment_Thongke extends Fragment {
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             for (DataSnapshot item : snapshot.getChildren()) {
                                 chuc_vu cv = item.getValue(chuc_vu.class);
-                                if (nv.getId_chuc_vu().equals(cv.getId_chuc_vu())&&cv.getTen_chuc_vu().equals("Lao công")){
+                                if (nv.getId_chuc_vu().equals(cv.getId_chuc_vu()) && cv.getTen_chuc_vu().equals("Lao công")) {
                                     arr_sp_nv1.add(nv.getTen_nhan_vien());
                                     arr_sp_nv.add(nv);
                                 }
