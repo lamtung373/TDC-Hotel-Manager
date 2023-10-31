@@ -4,13 +4,18 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.tdchotel_manager.Menu_QuanLy.Activity_Thong_Tin_Phong;
 import com.example.tdchotel_manager.Menu_QuanLy.Fragment_Trangchu;
+import com.example.tdchotel_manager.Menu_QuanLy.TrangChu_QuanLy;
+import com.example.tdchotel_manager.Model.chuc_vu;
 import com.example.tdchotel_manager.Model.nhan_vien;
 import com.example.tdchotel_manager.Model.tien_nghi;
 import com.google.firebase.database.DataSnapshot;
@@ -22,18 +27,42 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 public class DangNhap extends AppCompatActivity {
+    private static String SHARED_PRE = "shared_pre";
+    private static String id_staff = "id_staff";
+    private static String chuc_vu_auto = "chuc_vu_auto";
+
     EditText edtusername, edtPassword;
     Button btnLogin;
-    ArrayList<nhan_vien> dataList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_login);
-
+        AutoLogin();
         setControl();
         setEvent();
+
         khoi_tao();
+    }
+
+    private void AutoLogin() {
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PRE, MODE_PRIVATE);
+        String id_staff_auto = sharedPreferences.getString("id_staff", "");
+        String chuc_vu_auto = sharedPreferences.getString("chuc_vu_auto", "");
+        switch (chuc_vu_auto.toLowerCase()) {
+            case "lao công":
+                break;
+            case "lễ tân":
+                break;
+            case "quản lý":
+                Intent intent = new Intent(DangNhap.this, TrangChu_QuanLy.class);
+                intent.putExtra("id_staff", id_staff_auto);
+                startActivity(intent);
+                finish();
+                break;
+            default:
+                break;
+        }
     }
 
     private void setControl() {
@@ -44,61 +73,75 @@ public class DangNhap extends AppCompatActivity {
 
     private void setEvent() {
         btnLogin.setOnClickListener(new View.OnClickListener() {
+
+
             @Override
             public void onClick(View v) {
-                boolean isLoginSuccessful = false;
+                DatabaseReference reference = FirebaseDatabase.getInstance().getReference("nhan_vien");
+                DatabaseReference reference_cv = FirebaseDatabase.getInstance().getReference("chuc_vu");
+                SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PRE, MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                reference.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                for (nhan_vien nv : dataList) {
-                    if (edtusername.getText().toString().equals(nv.getUsername())) {
-                        if (edtPassword.getText().toString().equals(nv.getPassword())) {
-                            // Đăng nhập thành công
-                            isLoginSuccessful = true;
+                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                            nhan_vien nhan_vien = dataSnapshot.getValue(nhan_vien.class);
+                            if (edtusername.getText().toString().equals(nhan_vien.getUsername())) {
+                                if (edtPassword.getText().toString().equals(nhan_vien.getPassword())) {
+                                    reference_cv.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                                                chuc_vu cv = dataSnapshot.getValue(chuc_vu.class);
 
-                            // Create an Intent to pass data to Fragment_Trangchu
-                            Intent intent = new Intent(DangNhap.this, Fragment_Trangchu.class);
-//                            intent.putExtra("username", nv.getUsername());
-                            startActivity(intent);
-                        }
-                        else {
-                            Toast.makeText(DangNhap.this, "Sai mật khẩu", Toast.LENGTH_SHORT).show();
+                                                if (nhan_vien.getId_chuc_vu().equals(cv.getId_chuc_vu())) {
+                                                    editor.putString(id_staff, nhan_vien.getId_nhan_vien());
+                                                    editor.putString(chuc_vu_auto, cv.getTen_chuc_vu());
+                                                    editor.apply();
+                                                    switch (cv.getTen_chuc_vu().toLowerCase()) {
+                                                        case "lao công":
+                                                            break;
+                                                        case "lễ tân":
+                                                            break;
+                                                        case "quản lý":
+                                                            Intent intent = new Intent(DangNhap.this, TrangChu_QuanLy.class);
+                                                            startActivity(intent);
+                                                            finish();
+                                                            break;
+                                                    }
+                                                }
+                                            }
+
+
+                                            // Create an Intent to pass data to Fragment_Trangchu
+
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+
+                                        }
+                                    });
+
+                                }
+                            }
                         }
 
                     }
 
-                }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        // Xử lý lỗi nếu có
+                    }
+                });
 
-                if (isLoginSuccessful) {
-                    // Hiển thị Toast thông báo đăng nhập thành công
-                    Toast.makeText(DangNhap.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
-                } else {
-                    // Hiển thị Toast thông báo đăng nhập không thành công
-                    Toast.makeText(DangNhap.this, "Không có thông tin của bạn", Toast.LENGTH_SHORT).show();
-                }
             }
         });
     }
 
     void khoi_tao() {
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("nhan_vien");
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                dataList.clear(); // Xóa dữ liệu cũ trước khi thêm dữ liệu mới để tránh trùng lặp
 
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    nhan_vien tienNghi = dataSnapshot.getValue(nhan_vien.class);
-                    if (tienNghi != null) {
-                        dataList.add(tienNghi);
-                    }
-                }
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                // Xử lý lỗi nếu có
-            }
-        });
     }
 
 }

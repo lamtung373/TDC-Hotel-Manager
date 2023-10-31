@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -48,6 +49,7 @@ public class Activity_Thong_Tin_Phong extends AppCompatActivity {
     ArrayList<chi_tiet_dich_vu_phong> list_chi_tietDVP = new ArrayList<>();
     ArrayList<chi_tiet_tien_nghi> list_chi_tietTN = new ArrayList<>();
     String IDphong = "";
+    phong detail_infor_room=new phong();
 
     private void setControl() {
         radiogroup = findViewById(R.id.radiogroup);
@@ -75,16 +77,20 @@ public class Activity_Thong_Tin_Phong extends AppCompatActivity {
         setControl();
         setEvent();
         loadTrangThaiPhong(); // Gọi phương thức để lấy danh sách trạng thái phòng từ Firebase
+
+    }
+    public boolean kiemtrathongtinphong(){
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+        detail_infor_room=getIntent().getSerializableExtra("phong",phong.class);
+    }
+        return false;
     }
 
     private void setEvent() {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
-            phong room=getIntent().getSerializableExtra("phong",phong.class);
-        }
         btn_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
+                finish(); // Finish the current activity
             }
         });
 

@@ -211,12 +211,13 @@ public class adapter_phong extends RecyclerView.Adapter<adapter_phong.MyViewHold
     private void khoi_tao() {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("phong");
         DatabaseReference reference_status = FirebaseDatabase.getInstance().getReference("trang_thai_phong");
-        room_list.clear();
-        status_list.clear();
+
 
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                room_list.clear();
+                status_list.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     phong rooms = dataSnapshot.getValue(phong.class);
                     if (rooms != null) {

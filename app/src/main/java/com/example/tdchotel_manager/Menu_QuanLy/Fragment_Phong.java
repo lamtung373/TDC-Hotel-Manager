@@ -120,6 +120,7 @@ public class Fragment_Phong extends Fragment {
                 filteredRoomList.add(room);
             }
         }
+
         adapter.updateRoomList(filteredRoomList);
     }
 
@@ -135,7 +136,7 @@ public class Fragment_Phong extends Fragment {
                     }
                 })
                 .setNegativeButton(android.R.string.no, null)
-                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setIcon(R.drawable.warning)
                 .show();
     }
 
