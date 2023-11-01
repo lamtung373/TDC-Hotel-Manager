@@ -15,7 +15,7 @@ import android.widget.ImageButton;
 
 import com.example.tdchotel_manager.Menu_QuanLy.Adapter_DichVu.Viewpageadapter;
 //import com.example.tdchotel_manager.Menu_QuanLy.Adapter_DichVu.adapter_dichvu;
-import com.example.tdchotel_manager.Menu_QuanLy.Adapter_DichVu.activity_themdv;
+import com.example.tdchotel_manager.Menu_QuanLy.Adapter_DichVu.themdichvu;
 import com.example.tdchotel_manager.R;
 import com.google.android.material.tabs.TabLayout;
 
@@ -24,9 +24,10 @@ public class Fragment_Dichvu extends Fragment {
     TabLayout tabLayout;
     ViewPager2 viewPager2;
     Viewpageadapter viewPagerAdapater;
-
     ImageButton imgButtonthem;
-    
+    RecyclerView rcv;
+
+
     public Fragment_Dichvu() {
     }
     public static Fragment_Dichvu newInstance() {
@@ -59,23 +60,25 @@ public class Fragment_Dichvu extends Fragment {
             }
         });
         viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
-                                                    @Override
-                                                    public void onPageSelected(int position) {
-                                                        super.onPageSelected(position);
-                                                        tabLayout.getTabAt(position).select();
-                                                    }
-                                                }
-        );
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                tabLayout.getTabAt(position).select();
+            }
+        });
+
         imgButtonthem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), activity_themdv.class);
+                Intent intent = new Intent(getActivity(), themdichvu.class);
                 startActivity(intent);
             }
         });
-    }
 
+    }
     private void setControl(View view) {
+        rcv = view.findViewById(R.id.rcvDV);
+
         imgButtonthem = view.findViewById(R.id.imgAdd);
         tabLayout = view.findViewById(R.id.tldichvu);
         viewPager2 = view.findViewById(R.id.viewpage);
@@ -91,6 +94,8 @@ public class Fragment_Dichvu extends Fragment {
 
         viewPagerAdapater = new Viewpageadapter(this);
         viewPager2.setAdapter(viewPagerAdapater);
+
+
 
     }
 }

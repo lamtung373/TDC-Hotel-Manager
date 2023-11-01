@@ -29,7 +29,10 @@
             android:name=".Menu_QuanLy.Activity_Thong_Tin_Phong"
             android:exported="false" />
         <activity
-            android:name=".Menu_QuanLy.Adapter_DichVu.activity_themdv"
+            android:name=".Menu_QuanLy.Adapter_DichVu.themdichvu"
+            android:exported="false" />
+        <activity
+            android:name=".Menu_QuanLy.Adapter_DichVu.chinhsuadichvu"
             android:exported="false" />
         <activity
             android:name=".Menu_QuanLy.QuanLyLichLam"
