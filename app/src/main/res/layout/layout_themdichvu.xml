@@ -40,7 +40,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -54,12 +55,14 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@drawable/bg_rv_item"
-            android:hint="   Tên dịch vụ"
-            android:layout_marginRight="40dp"/>
+            android:hint="Tên dịch vụ"
+            android:layout_marginRight="40dp"
+            android:paddingStart="10dp"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -72,7 +75,8 @@
             android:layout_height="50dp"
             android:background="@drawable/bg_rv_item"
             android:layout_marginRight="40dp"
-            android:hint="   Giá dịch vụ" />
+            android:hint="Giá dịch vụ"
+            android:paddingStart="10dp"/>
     </LinearLayout>
 
     <LinearLayout
@@ -90,7 +94,8 @@
                 android:id="@+id/rdPhong"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text=" Phòng"/>
+                android:text=" Phòng"
+                android:layout_marginRight="10dp"/>
             <RadioButton
                 android:id="@+id/rdNguoi"
                 android:layout_width="wrap_content"

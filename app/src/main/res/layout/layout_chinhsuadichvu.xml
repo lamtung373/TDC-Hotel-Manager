@@ -38,6 +38,7 @@
         android:layout_gravity="center"
         />
     <LinearLayout
+        android:layout_marginLeft="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -50,9 +51,10 @@
             android:id="@+id/edtGiaDv1"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:hint="   200.000 VND"
+            android:hint="200.000 VND"
             android:background="@drawable/bg_rv_item"
             android:layout_marginRight="40dp"
+            android:paddingStart="10dp"
             />
     </LinearLayout>
 
@@ -71,7 +73,8 @@
                 android:id="@+id/rdPhongCS"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text=" Phòng"/>
+                android:text=" Phòng"
+                android:layout_marginRight="10dp"/>
             <RadioButton
                 android:id="@+id/rdNguoiCS"
                 android:layout_width="wrap_content"
