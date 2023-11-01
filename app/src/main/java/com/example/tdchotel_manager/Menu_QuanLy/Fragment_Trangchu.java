@@ -114,12 +114,13 @@ public class Fragment_Trangchu extends Fragment {
     }
 
     private void setEvent() {
-btn_chamcong.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View view) {
-       // Intent intent=new Intent(getActivity(),)
-    }
-});
+        btn_chamcong.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), QuanLyLichLam.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void Initialization() {
@@ -128,17 +129,17 @@ btn_chamcong.setOnClickListener(new View.OnClickListener() {
         Chart_Hoadon();
         adapter_calam adapterCa_Sang = new adapter_calam(arr_nhanvien_sang);
         adapter_calam adapterCa_Toi = new adapter_calam(arr_nhanvien_toi);
-        Ca_Lam(adapterCa_Sang, "Ca sáng",arr_nhanvien_sang);
+        Ca_Lam(adapterCa_Sang, "Ca sáng", arr_nhanvien_sang);
         rcv_casang.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         rcv_casang.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
         rcv_casang.setAdapter(adapterCa_Sang);
-        Ca_Lam(adapterCa_Toi, "Ca tối",arr_nhanvien_toi);
+        Ca_Lam(adapterCa_Toi, "Ca tối", arr_nhanvien_toi);
         rcv_catoi.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         rcv_catoi.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
         rcv_catoi.setAdapter(adapterCa_Toi);
     }
 
-    void Ca_Lam(adapter_calam adapterCalam, String ca,ArrayList<nhan_vien> arr_nhanvien) {
+    void Ca_Lam(adapter_calam adapterCalam, String ca, ArrayList<nhan_vien> arr_nhanvien) {
 
         arr_nhanvien.clear();
         DatabaseReference reference_nhanvien = FirebaseDatabase.getInstance().getReference("nhan_vien");
@@ -150,7 +151,6 @@ btn_chamcong.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 arr_nhanvien.clear();
-                Log.e("a",""+arr_nhanvien.size());
                 adapterCalam.notifyDataSetChanged();
                 ref_calam.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -196,19 +196,18 @@ btn_chamcong.setOnClickListener(new View.OnClickListener() {
                                                                 }
                                                             }
                                                             adapterCalam.notifyDataSetChanged();
-//                                                            for(int i=0;i<arr_nhanvien.size();i++){
-//                                                                for(int j=0;j<arr_nhanvien.size();j++){
-//                                                                    if(j!=i&&arr_nhanvien.get(i).getId_nhan_vien().equals(arr_nhanvien.get(j).getId_nhan_vien())){
-//                                                                        try {
-//                                                                            arr_nhanvien.remove(i);
-//                                                                        }
-//                                                                        catch (Exception e){
-//                                                                            Log.e("Error",e.getMessage());
-//                                                                        }
-//                                                                    }
-//                                                                }
-//                                                            }
-//                                                            adapterCalam.notifyDataSetChanged();
+                                                            for (int i = 0; i < arr_nhanvien.size(); i++) {
+                                                                for (int j = 0; j < arr_nhanvien.size(); j++) {
+                                                                    if (j != i && arr_nhanvien.get(i).getId_nhan_vien().equals(arr_nhanvien.get(j).getId_nhan_vien())) {
+                                                                        try {
+                                                                            arr_nhanvien.remove(i);
+                                                                        } catch (Exception e) {
+                                                                            Log.e("Error", e.getMessage());
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                            adapterCalam.notifyDataSetChanged();
                                                         }
 
                                                         @Override
