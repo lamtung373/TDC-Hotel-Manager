@@ -111,9 +111,9 @@ public class Activity_Thong_Tin_Phong extends AppCompatActivity {
                         for (chi_tiet_tien_nghi detail_comfort : list_chi_tietTN) {
                             onClickAdd_comfort(comfort(detail_comfort.getId_tien_nghi(), detail_comfort.getSo_luong(), IDphong));
                         }
-                        finish();
                     }
                 });
+                finish();
             }
         });
         sp_status.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -131,6 +131,17 @@ public class Activity_Thong_Tin_Phong extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> parentView) {
                 Toast.makeText(Activity_Thong_Tin_Phong.this, "Vui lòng chọn trạng thái phòng", Toast.LENGTH_SHORT).show();
                 sp_status.findFocus();
+            }
+        });
+        sp_status.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
             }
         });
         rcv_tien_nghi.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
@@ -220,13 +231,12 @@ public class Activity_Thong_Tin_Phong extends AppCompatActivity {
             @Override
             public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
                 if (error == null) {
-                    IDphong = new_room.getKey(); // Lấy khóa con duy nhất đã tạo
-                    if (IDphong != null) {
-                        phong.setId_phong(IDphong); // Gán khóa con duy nhất làm id_phong cho phong
-
+                    String generatedId = new_room.getKey(); // Lấy khóa con duy nhất đã tạo
+                    IDphong = generatedId;
+                    if (generatedId != null) {
+                        phong.setId_phong(generatedId); // Gán khóa con duy nhất làm id_dich_vu cho dichvu
+                        new_room.setValue(phong); // Cập nhật lại dữ liệu với id_dich_vu mới
                         Toast.makeText(Activity_Thong_Tin_Phong.this, "Add success", Toast.LENGTH_SHORT).show();
-                        if (afterAdding != null)
-                            afterAdding.run(); // Gọi hàm callback sau khi thêm phòng
                     } else {
                         Toast.makeText(Activity_Thong_Tin_Phong.this, "Add failed", Toast.LENGTH_SHORT).show();
                     }
