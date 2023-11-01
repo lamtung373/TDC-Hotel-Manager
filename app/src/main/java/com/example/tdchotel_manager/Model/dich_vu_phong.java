@@ -7,12 +7,21 @@ import java.util.Map;
 public class dich_vu_phong {
     String id_dich_vu_phong,ten_dich_vu_phong,anh_dich_vu_phong;
     double gia_dich_vu_phong;
+    int so_luong;
 
     public dich_vu_phong(String id_dich_vu_phong, String ten_dich_vu_phong, String anh_dich_vu_phong, double gia_dich_vu_phong) {
         this.id_dich_vu_phong = id_dich_vu_phong;
         this.ten_dich_vu_phong = ten_dich_vu_phong;
         this.anh_dich_vu_phong = anh_dich_vu_phong;
         this.gia_dich_vu_phong = gia_dich_vu_phong;
+    }
+
+    public int getSo_luong() {
+        return so_luong;
+    }
+
+    public void setSo_luong(int so_luong) {
+        this.so_luong = so_luong;
     }
 
     public dich_vu_phong() {

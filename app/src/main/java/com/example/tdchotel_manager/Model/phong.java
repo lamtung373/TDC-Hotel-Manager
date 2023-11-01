@@ -1,10 +1,11 @@
 package com.example.tdchotel_manager.Model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class phong {
+public class phong implements Serializable{
     String  ten_phong, mo_ta_chung,  loai_phong,id_phong, id_trang_thai_phong;
     ArrayList<String> anh_phong;
     int luot_thue;

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".Menu_QuanLy.CheckInOut"
+    android:orientation="vertical">
+
+    <!-- TODO: Update blank fragment layout -->
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tlphong"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:layout_gravity="center"
+        app:tabIndicator="@drawable/tab_layout"
+        app:tabIndicatorAnimationMode="elastic"
+        app:tabIndicatorColor="@null"
+        app:tabIndicatorGravity="stretch"
+        app:tabMode="scrollable"
+        app:tabSelectedTextColor="#000000"
+        app:tabTextColor="@color/black" />
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/vp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</LinearLayout>
