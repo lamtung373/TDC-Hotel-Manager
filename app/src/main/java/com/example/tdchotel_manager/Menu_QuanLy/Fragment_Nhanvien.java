@@ -12,6 +12,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -35,6 +36,7 @@ import java.util.HashMap;
 
 public class Fragment_Nhanvien extends Fragment {
     ImageButton btnThemNV;
+    Button btnQuanLyLichLam;
     EditText edtSearch;
     RecyclerView recyclerView;
     NhanVien_Adapter adapter;
@@ -141,6 +143,19 @@ public class Fragment_Nhanvien extends Fragment {
             public void onClick(View v) {
                 // Tạo Intent để chuyển sang layout_themnhanvien.
                 Intent intent = new Intent(getActivity(), ThemNhanVien.class);
+
+                // Khởi động hoạt động mới.
+                startActivity(intent);
+            }
+        });
+
+        btnQuanLyLichLam = view.findViewById(R.id.btnQuanLyLichLam);
+
+        btnQuanLyLichLam.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Tạo Intent để chuyển sang layout.
+                Intent intent = new Intent(getActivity(), QuanLyLichLam.class);
 
                 // Khởi động hoạt động mới.
                 startActivity(intent);
