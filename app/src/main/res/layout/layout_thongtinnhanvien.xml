@@ -18,7 +18,7 @@
             android:orientation="horizontal">
 
             <ImageButton
-                android:id="@+id/btnThemNV"
+                android:id="@+id/btnQuayLai_TTNV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -27,6 +27,7 @@
                 android:src="@drawable/back" />
 
             <TextView
+                android:id="@+id/tvHoTen_TTNV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -46,9 +47,14 @@
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="30dp"
-            android:background="@drawable/border_images_nhanvien" />
+            android:background="@drawable/border_images_nhanvien"
+            android:padding="1.5dp"
+            android:scaleType="centerCrop"
+            android:outlineProvider="background"
+            android:clipToOutline="true"/>
 
         <EditText
+            android:id="@+id/edtTenDangNhap_TTNV"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginLeft="20dp"
@@ -64,6 +70,7 @@
             android:textStyle="italic" />
 
         <EditText
+            android:id="@+id/edtMatKhau_TTNV"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginLeft="20dp"
@@ -78,22 +85,24 @@
             android:textSize="15sp"
             android:textStyle="italic" />
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/border_button_nhanvien"
-            android:hint="Email"
-            android:inputType="text"
-            android:paddingStart="20dp"
-            android:paddingEnd="20dp"
-            android:textColor="#000000"
-            android:textSize="15sp"
-            android:textStyle="italic" />
+<!--        <EditText-->
+<!--            android:id="@+id/edtEmail_TTNV"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="50dp"-->
+<!--            android:layout_marginLeft="20dp"-->
+<!--            android:layout_marginTop="10dp"-->
+<!--            android:layout_marginRight="20dp"-->
+<!--            android:background="@drawable/border_button_nhanvien"-->
+<!--            android:hint="Email"-->
+<!--            android:inputType="text"-->
+<!--            android:paddingStart="20dp"-->
+<!--            android:paddingEnd="20dp"-->
+<!--            android:textColor="#000000"-->
+<!--            android:textSize="15sp"-->
+<!--            android:textStyle="italic" />-->
 
         <EditText
+            android:id="@+id/edtSoDienThoai_TTNV"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginLeft="20dp"
@@ -124,7 +133,9 @@
                 <ImageView
                     android:layout_width="100dp"
                     android:layout_height="80dp"
-                    android:src="@drawable/cccd"/>
+                    android:src="@drawable/cccd"
+                    android:id="@+id/imgCCCD_Truoc_TTNV"/>
+                    />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -143,7 +154,8 @@
                 <ImageView
                     android:layout_width="100dp"
                     android:layout_height="80dp"
-                    android:src="@drawable/cccd"/>
+                    android:src="@drawable/cccd"
+                    android:id="@+id/imgCCCD_Sau_TTNV"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -157,6 +169,7 @@
         </LinearLayout>
 
         <EditText
+            android:id="@+id/edtLuong_TTNV"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginLeft="20dp"
@@ -176,7 +189,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:id="@+id/radioGroup_TTNV">
 
             <RadioButton
                 android:layout_width="wrap_content"
@@ -184,14 +198,16 @@
                 android:layout_marginEnd="20dp"
                 android:text="Lễ tân"
                 android:textColor="#26A1EE"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:id="@+id/radioButtonLeTan_TTNV"/>
 
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Lao công"
                 android:textColor="#26A1EE"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:id="@+id/radioButtonLaoCong_TTNV"/>
 
         </RadioGroup>
 
@@ -204,6 +220,7 @@
             android:layout_marginBottom="60dp">
 
             <Button
+                android:id="@+id/btnXoa_TTNV"
                 android:layout_width="120dp"
                 android:layout_height="50dp"
                 android:layout_gravity="center"
@@ -213,6 +230,7 @@
                 android:text="Xoá" />
 
             <Button
+                android:id="@+id/btnSua_TTNV"
                 android:layout_width="120dp"
                 android:layout_height="50dp"
                 android:layout_gravity="center"
