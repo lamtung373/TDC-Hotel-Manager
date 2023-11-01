@@ -8,6 +8,7 @@ public class tien_nghi {
     int  gia_tien_nghi;
     String id_tien_nghi,ten_tien_nghi;
     String anh_tien_nghi;
+    boolean isSelected;
 
     public tien_nghi(String id_tien_nghi, int gia_tien_nghi, String ten_tien_nghi, String anh_tien_nghi) {
         this.id_tien_nghi = id_tien_nghi;
@@ -17,6 +18,14 @@ public class tien_nghi {
     }
 
     public tien_nghi() {
+    }
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
     }
 
     public Map<String, Object> toMap() {
