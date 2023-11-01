@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class dich_vu {
+public class dich_vu implements Serializable {
     int  gia_dich_vu;
     String id_loai_dich_vu,id_dich_vu,ten_dich_vu;
     String anh_dich_vu;

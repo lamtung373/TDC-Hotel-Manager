@@ -10,6 +10,7 @@
         android:background="#26A1EE"
         android:layout_marginBottom="10dp">
         <ImageButton
+            android:id="@+id/imvbBack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/back"
@@ -17,6 +18,7 @@
             android:layout_gravity="center"
             android:layout_marginLeft="10dp" />
         <TextView
+            android:id="@+id/tvTenDVcs"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -79,20 +81,22 @@
     </LinearLayout>
 
     <LinearLayout
+
         android:layout_marginTop="50dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center">
         <Button
-            android:id="@+id/btn_doimau_darkblue"
+
+            android:id="@+id/btnCSDV"
             style="@style/button"
             android:background="@drawable/selector_bg_button"
             android:text="Lưu"
             android:layout_marginRight="20dp"
             android:textColor="@color/white"/>
         <Button
-            android:id="@+id/btn_doimau_red"
+            android:id="@+id/btnXDV"
             style="@style/button"
             android:text="Xóa"
             android:background="@drawable/selector_bg_button"

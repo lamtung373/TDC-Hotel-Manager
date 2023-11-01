@@ -13,19 +13,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
-import com.example.tdchotel_manager.IOnClickItem;
 import com.example.tdchotel_manager.Menu_QuanLy.Adapter_DichVu.Viewpageadapter;
 //import com.example.tdchotel_manager.Menu_QuanLy.Adapter_DichVu.adapter_dichvu;
-import com.example.tdchotel_manager.Menu_QuanLy.Adapter_DichVu.activity_themdv;
-import com.example.tdchotel_manager.Menu_QuanLy.Adapter_DichVu.adapter_dich_vu;
-import com.example.tdchotel_manager.Model.dich_vu;
+import com.example.tdchotel_manager.Menu_QuanLy.Adapter_DichVu.themdichvu;
 import com.example.tdchotel_manager.R;
 import com.google.android.material.tabs.TabLayout;
 
-import java.util.List;
 
-
-public class Fragment_Dichvu extends Fragment implements IOnClickItem {
+public class Fragment_Dichvu extends Fragment {
     TabLayout tabLayout;
     ViewPager2 viewPager2;
     Viewpageadapter viewPagerAdapater;
@@ -75,7 +70,7 @@ public class Fragment_Dichvu extends Fragment implements IOnClickItem {
         imgButtonthem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), activity_themdv.class);
+                Intent intent = new Intent(getActivity(), themdichvu.class);
                 startActivity(intent);
             }
         });
@@ -101,10 +96,6 @@ public class Fragment_Dichvu extends Fragment implements IOnClickItem {
         viewPager2.setAdapter(viewPagerAdapater);
 
 
-
-    }
-    @Override
-    public void OnItemClick(int position) {
 
     }
 }

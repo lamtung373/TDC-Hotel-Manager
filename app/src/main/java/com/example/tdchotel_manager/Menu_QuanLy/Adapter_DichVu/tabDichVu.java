@@ -18,7 +18,7 @@ public class tabDichVu extends Fragment {
 
 
     private RecyclerView rcvDV;
-    private adapter_dich_vu adapter_dich_vu = new adapter_dich_vu();
+    private adapter_dich_vu adapter_dich_vu = new adapter_dich_vu(getContext());
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -29,10 +29,10 @@ public class tabDichVu extends Fragment {
     }
 
     private void setEvent() {
-        rcvDV.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
-        rcvDV.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL));
+        rcvDV.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        rcvDV.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
+        adapter_dich_vu = new adapter_dich_vu(getContext()); // Khởi tạo adapter với context
         rcvDV.setAdapter(adapter_dich_vu);
-
     }
 
     private void setControl(View view) {
