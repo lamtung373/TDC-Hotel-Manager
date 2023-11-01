@@ -3,6 +3,7 @@ package com.example.tdchotel_manager.Model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class nhan_vien implements Serializable {
@@ -11,6 +12,15 @@ public class nhan_vien implements Serializable {
     double luong;
     private String anh_CCCD_Truoc;
     private String anh_CCCD_Sau;
+    List<phan_cong> phanCongList;
+
+    public List<phan_cong> getPhanCongList() {
+        return phanCongList;
+    }
+
+    public void setPhanCongList(List<phan_cong> phanCongList) {
+        this.phanCongList = phanCongList;
+    }
 
     public String getChuc_vu() {
         return chuc_vu;
