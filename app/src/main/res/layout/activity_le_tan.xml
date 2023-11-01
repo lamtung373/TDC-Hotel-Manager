@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    tools:context=".Le_Tan.Activity_LeTan"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -15,28 +16,19 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
             android:layout_gravity="center"
             android:gravity="center"
-            android:text="Quản lý dịch vụ"
+            android:text="Trang chủ"
             android:textColor="@color/white"
             android:textSize="20dp"
-            android:textStyle="bold" />
-
-        <ImageButton
-            android:id="@+id/imgAdd"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_gravity="center"
-            android:layout_marginRight="10dp"
-            android:background="@null"
-            android:src="@drawable/add" />
+            android:textStyle="bold"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"/>
     </RelativeLayout>
 
+
     <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tldichvu"
+        android:id="@+id/tlphong"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
@@ -54,7 +46,7 @@
         android:background="@color/black" />
 
     <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/viewpage"
+        android:id="@+id/vpphong"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="20dp" />

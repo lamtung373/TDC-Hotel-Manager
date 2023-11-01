@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.tdchotel_manager.Le_Tan.Activity_LeTan;
 import com.example.tdchotel_manager.Menu_QuanLy.Activity_Thong_Tin_Phong;
 import com.example.tdchotel_manager.Menu_QuanLy.Fragment_Trangchu;
 import com.example.tdchotel_manager.Menu_QuanLy.TrangChu_QuanLy;
@@ -53,6 +54,10 @@ public class DangNhap extends AppCompatActivity {
             case "lao công":
                 break;
             case "lễ tân":
+                Intent intent_letan = new Intent(DangNhap.this, Activity_LeTan.class);
+                intent_letan.putExtra("id_staff", id_staff_auto);
+                startActivity(intent_letan);
+                finish();
                 break;
             case "quản lý":
                 Intent intent = new Intent(DangNhap.this, TrangChu_QuanLy.class);
@@ -103,6 +108,9 @@ public class DangNhap extends AppCompatActivity {
                                                         case "lao công":
                                                             break;
                                                         case "lễ tân":
+                                                            Intent intent_letan = new Intent(DangNhap.this, Activity_LeTan.class);
+                                                            startActivity(intent_letan);
+                                                            finish();
                                                             break;
                                                         case "quản lý":
                                                             Intent intent = new Intent(DangNhap.this, TrangChu_QuanLy.class);
