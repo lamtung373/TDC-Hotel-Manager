@@ -63,15 +63,15 @@ public class adapter_dich_vu_phong extends RecyclerView.Adapter<adapter_dich_vu_
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tv_ten_dich_vu_phong;
+        TextView tv_ten_tien_nghi;
         EditText edt_so_luong;
         ImageButton ib_increase, ib_decrease;
 
         public MyViewHolder(@NonNull View itemView) {
 
             super(itemView);
-            tv_ten_dich_vu_phong = itemView.findViewById(R.id.tv_ten_dich_vu_phong);
-            edt_so_luong = itemView.findViewById(R.id.edt_so_luong_dvp);
+            tv_ten_tien_nghi = itemView.findViewById(R.id.tv_chitiet);
+            edt_so_luong = itemView.findViewById(R.id.edt_so_luong);
             ib_increase = itemView.findViewById(R.id.ib_increase);
             ib_decrease = itemView.findViewById(R.id.ib_decrease);
         }
@@ -94,7 +94,7 @@ public class adapter_dich_vu_phong extends RecyclerView.Adapter<adapter_dich_vu_
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         dich_vu_phong data = datalist.get(position);
-        holder.tv_ten_dich_vu_phong.setText(data.getTen_dich_vu_phong());
+        holder.tv_ten_tien_nghi.setText(data.getTen_dich_vu_phong());
         holder.ib_decrease.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

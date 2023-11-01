@@ -111,7 +111,7 @@ public class adapter_phong extends RecyclerView.Adapter<adapter_phong.MyViewHold
             public void onClick(View v) {
                 int adapterPosition = holder.getAdapterPosition();
                 if (adapterPosition != RecyclerView.NO_POSITION) {
-                    if (onItemLongClickListener != null) {
+                    if (onItemClickListener != null) {
                         Intent intent=new Intent(context, Activity_Thong_Tin_Phong.class);
                         intent.putExtra("phong",room_list.get(adapterPosition));
                         context.startActivity(intent);
