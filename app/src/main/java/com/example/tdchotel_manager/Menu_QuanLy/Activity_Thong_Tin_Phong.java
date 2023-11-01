@@ -39,7 +39,7 @@ import java.util.List;
 
 public class Activity_Thong_Tin_Phong extends AppCompatActivity {
     Spinner sp_status;
-    ImageButton btn_back, btn_save, iv_decrease1, iv_decrease, iv_increase1, iv_increase;
+    ImageButton btn_back, btn_save, iv_decrease,iv_increase;
     EditText edt_name, edt_description, edt_price, edt_sale, edt_giuong_don, edt_giuong_doi;
     RadioGroup radiogroup;
     ArrayList<trang_thai_phong> list_status = new ArrayList<>();
@@ -49,25 +49,19 @@ public class Activity_Thong_Tin_Phong extends AppCompatActivity {
     ArrayList<chi_tiet_dich_vu_phong> list_chi_tietDVP = new ArrayList<>();
     ArrayList<chi_tiet_tien_nghi> list_chi_tietTN = new ArrayList<>();
     String IDphong = "";
-    phong detail_infor_room=new phong();
+    phong detail_infor_room = new phong();
 
     private void setControl() {
         radiogroup = findViewById(R.id.radiogroup);
         edt_sale = findViewById(R.id.edt_price_sale);
         edt_price = findViewById(R.id.edt_price_room);
         edt_description = findViewById(R.id.edt_description);
-        edt_giuong_don = findViewById(R.id.edt_giuong_don);
-        edt_giuong_doi = findViewById(R.id.edt_giuong_doi);
         sp_status = findViewById(R.id.sp_status);
         rcv_tien_nghi = findViewById(R.id.rcv_tien_nghi);
         rcv_dich_vu_phong = findViewById(R.id.rcv_dich_vu_phong);
         btn_back = findViewById(R.id.btn_back);
         btn_save = findViewById(R.id.btn_save);
         edt_name = findViewById(R.id.edt_name_room);
-        iv_decrease1 = findViewById(R.id.iv_decrease1);
-        iv_decrease = findViewById(R.id.ib_decrease);
-        iv_increase1 = findViewById(R.id.iv_increase1);
-        iv_increase = findViewById(R.id.ib_increase);
     }
 
     @Override
@@ -79,10 +73,11 @@ public class Activity_Thong_Tin_Phong extends AppCompatActivity {
         loadTrangThaiPhong(); // Gọi phương thức để lấy danh sách trạng thái phòng từ Firebase
 
     }
-    public boolean kiemtrathongtinphong(){
+
+    public boolean kiemtrathongtinphong() {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
-        detail_infor_room=getIntent().getSerializableExtra("phong",phong.class);
-    }
+            detail_infor_room = getIntent().getSerializableExtra("phong", phong.class);
+        }
         return false;
     }
 
@@ -97,65 +92,28 @@ public class Activity_Thong_Tin_Phong extends AppCompatActivity {
         btn_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onClickAdd_room(new_room());
-                list_chi_tietDVP = adapterDichVuPhong.getChiTietDichVu();
-                ArrayList<chi_tiet_dich_vu_phong> tempDVPList = new ArrayList<>();
-                for (chi_tiet_dich_vu_phong chiTietDVP : list_chi_tietDVP) {
-                    if (chiTietDVP.getSo_luong() != 0) {
-                        tempDVPList.add(chiTietDVP);
+                onClickAdd_room(new_room(), new Runnable() {
+                    @Override
+                    public void run() {
+                        list_chi_tietDVP = adapterDichVuPhong.getChiTietDichVu();
+                        ArrayList<chi_tiet_dich_vu_phong> tempDVPList = new ArrayList<>();
+                        for (chi_tiet_dich_vu_phong chiTietDVP : list_chi_tietDVP) {
+                            if (chiTietDVP.getSo_luong() != 0) {
+                                tempDVPList.add(chiTietDVP);
+                            }
+                        }
+                        list_chi_tietDVP = tempDVPList;
+                        for (chi_tiet_dich_vu_phong detail_facility : list_chi_tietDVP) {
+                            onClickAdd_facilities(facilities(detail_facility.getId_dich_vu_phong(), detail_facility.getSo_luong(), IDphong));
+                        }
+
+                        list_chi_tietTN = adapterTienNghi.getChi_tiet_tien_nghis();
+                        for (chi_tiet_tien_nghi detail_comfort : list_chi_tietTN) {
+                            onClickAdd_comfort(comfort(detail_comfort.getId_tien_nghi(), detail_comfort.getSo_luong(), IDphong));
+                        }
+                        finish();
                     }
-                }
-                list_chi_tietDVP = tempDVPList;
-                for (chi_tiet_dich_vu_phong detail_facility : list_chi_tietDVP) {
-                    onClickAdd_facilities(facilities(detail_facility.getId_dich_vu_phong(), detail_facility.getSo_luong()));
-                }
-
-                if (Integer.parseInt(edt_giuong_doi.getText().toString()) > 0) {
-                    int sl = Integer.parseInt(edt_giuong_doi.getText().toString());
-                    chi_tiet_tien_nghi cttn = new chi_tiet_tien_nghi();
-                    cttn.setId_tien_nghi("giuongdoi");
-                    cttn.setSo_luong(sl);
-                    list_chi_tietTN.add(cttn);
-                }
-                if (Integer.parseInt(edt_giuong_don.getText().toString()) > 0) {
-                    int sl = Integer.parseInt(edt_giuong_don.getText().toString());
-                    chi_tiet_tien_nghi cttn = new chi_tiet_tien_nghi();
-                    cttn.setId_tien_nghi("giuongdon");
-                    cttn.setSo_luong(sl);
-                    list_chi_tietTN.add(cttn);
-                }
-
-                list_chi_tietTN = adapterTienNghi.getChi_tiet_tien_nghis();
-                for (chi_tiet_tien_nghi detail_comfort : list_chi_tietTN) {
-                    onClickAdd_comfort(comfort(detail_comfort.getId_tien_nghi(), detail_comfort.getSo_luong()));
-                }
-            }
-        });
-        iv_decrease1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                decreaseValue(edt_giuong_don);
-            }
-        });
-
-        iv_increase1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                increaseValue(edt_giuong_don);
-            }
-        });
-
-        iv_decrease.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                decreaseValue(edt_giuong_doi);
-            }
-        });
-
-        iv_increase.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                increaseValue(edt_giuong_doi);
+                });
             }
         });
         sp_status.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -184,11 +142,11 @@ public class Activity_Thong_Tin_Phong extends AppCompatActivity {
         rcv_dich_vu_phong.setAdapter(adapterDichVuPhong);
     }
 
-    chi_tiet_dich_vu_phong facilities(String id_facility, int quantity) {
+    chi_tiet_dich_vu_phong facilities(String id_facility, int quantity, String id_phong) {
         chi_tiet_dich_vu_phong new_facilities = new chi_tiet_dich_vu_phong();
         new_facilities.setId_dich_vu_phong(id_facility);
         new_facilities.setSo_luong(quantity);
-        new_facilities.setId_phong(IDphong);
+        new_facilities.setId_phong(id_phong);
         return new_facilities;
     }
 
@@ -211,12 +169,12 @@ public class Activity_Thong_Tin_Phong extends AppCompatActivity {
         });
     }
 
-    chi_tiet_tien_nghi comfort(String id_comfort, int quantity) {
+    chi_tiet_tien_nghi comfort(String id_comfort, int quantity, String id_phong) {
 
         chi_tiet_tien_nghi new_comfort = new chi_tiet_tien_nghi();
         new_comfort.setId_tien_nghi(id_comfort);
         new_comfort.setSo_luong(quantity);
-        new_comfort.setId_phong(IDphong);
+        new_comfort.setId_phong(id_phong);
         return new_comfort;
     }
 
@@ -253,21 +211,27 @@ public class Activity_Thong_Tin_Phong extends AppCompatActivity {
         }
     }
 
-    private void onClickAdd_room(phong phong) {
+    private void onClickAdd_room(phong phong, final Runnable afterAdding) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference = database.getReference("phong");
         DatabaseReference new_room = databaseReference.push(); // Tạo một khóa con mới
+
         new_room.setValue(phong, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
-                String generatedId = new_room.getKey(); // Lấy khóa con duy nhất đã tạo
-                IDphong = generatedId;
-                if (generatedId != null) {
-                    phong.setId_phong(generatedId); // Gán khóa con duy nhất làm id_dich_vu cho dichvu
-                    new_room.setValue(phong); // Cập nhật lại dữ liệu với id_dich_vu mới
-                    Toast.makeText(Activity_Thong_Tin_Phong.this, "Add success", Toast.LENGTH_SHORT).show();
+                if (error == null) {
+                    IDphong = new_room.getKey(); // Lấy khóa con duy nhất đã tạo
+                    if (IDphong != null) {
+                        phong.setId_phong(IDphong); // Gán khóa con duy nhất làm id_phong cho phong
+
+                        Toast.makeText(Activity_Thong_Tin_Phong.this, "Add success", Toast.LENGTH_SHORT).show();
+                        if (afterAdding != null)
+                            afterAdding.run(); // Gọi hàm callback sau khi thêm phòng
+                    } else {
+                        Toast.makeText(Activity_Thong_Tin_Phong.this, "Add failed", Toast.LENGTH_SHORT).show();
+                    }
                 } else {
-                    Toast.makeText(Activity_Thong_Tin_Phong.this, "Add failed", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Activity_Thong_Tin_Phong.this, "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
         });

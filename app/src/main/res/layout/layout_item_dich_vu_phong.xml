@@ -5,7 +5,7 @@
 
 
     <TextView
-        android:id="@+id/tv_ten_dich_vu_phong"
+        android:id="@+id/tv_chitiet"
         style="@style/textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -18,12 +18,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_toLeftOf="@id/edt_so_luong_dvp"
+        android:layout_toLeftOf="@id/edt_so_luong"
         android:src="@drawable/decrease"
         android:background="@null"/>
 
     <EditText
-        android:id="@+id/edt_so_luong_dvp"
+        android:id="@+id/edt_so_luong"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="25dp"
