@@ -196,6 +196,19 @@ btn_chamcong.setOnClickListener(new View.OnClickListener() {
                                                                 }
                                                             }
                                                             adapterCalam.notifyDataSetChanged();
+//                                                            for(int i=0;i<arr_nhanvien.size();i++){
+//                                                                for(int j=0;j<arr_nhanvien.size();j++){
+//                                                                    if(j!=i&&arr_nhanvien.get(i).getId_nhan_vien().equals(arr_nhanvien.get(j).getId_nhan_vien())){
+//                                                                        try {
+//                                                                            arr_nhanvien.remove(i);
+//                                                                        }
+//                                                                        catch (Exception e){
+//                                                                            Log.e("Error",e.getMessage());
+//                                                                        }
+//                                                                    }
+//                                                                }
+//                                                            }
+//                                                            adapterCalam.notifyDataSetChanged();
                                                         }
 
                                                         @Override

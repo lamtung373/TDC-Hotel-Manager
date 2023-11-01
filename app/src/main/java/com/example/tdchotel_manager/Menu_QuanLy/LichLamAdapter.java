@@ -1,4 +1,4 @@
-package com.example.tdchotel_manager;
+package com.example.tdchotel_manager.Menu_QuanLy;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.tdchotel_manager.Model.ca_lam;
 import com.example.tdchotel_manager.Model.chuc_vu;
 import com.example.tdchotel_manager.Model.nhan_vien;
+import com.example.tdchotel_manager.R;
 
 import java.util.List;
 
