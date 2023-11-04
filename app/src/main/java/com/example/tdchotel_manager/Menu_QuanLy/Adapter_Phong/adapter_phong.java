@@ -1,59 +1,32 @@
 package com.example.tdchotel_manager.Menu_QuanLy.Adapter_Phong;
 
-import android.app.ProgressDialog;
+// Android imports
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+// Firebase imports
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+// App-specific imports
 import com.example.tdchotel_manager.Menu_QuanLy.Activity_Thong_Tin_Phong;
-import com.example.tdchotel_manager.Menu_QuanLy.Fragment_Phong;
 import com.example.tdchotel_manager.Model.phong;
 import com.example.tdchotel_manager.Model.trang_thai_phong;
 import com.example.tdchotel_manager.R;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
-import java.util.ArrayList;
-
-import android.content.Context;
-import android.graphics.Paint;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.example.tdchotel_manager.Model.phong;
-import com.example.tdchotel_manager.Model.trang_thai_phong;
-import com.example.tdchotel_manager.R;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -64,7 +37,6 @@ public class adapter_phong extends RecyclerView.Adapter<adapter_phong.MyViewHold
     private ArrayList<phong> room_list = new ArrayList<>();
     private ArrayList<trang_thai_phong> status_list = new ArrayList<>();
     private ArrayList<phong> originalRoomList = new ArrayList<>();
-
     private OnItemLongClickListener onItemLongClickListener;
     private OnItemClickListener onItemClickListener;
 
@@ -98,7 +70,7 @@ public class adapter_phong extends RecyclerView.Adapter<adapter_phong.MyViewHold
         this.onItemLongClickListener = listener;
     }
 
-    // Override Methods
+    // RecyclerView required methods
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_item_phong, parent, false);
@@ -107,6 +79,7 @@ public class adapter_phong extends RecyclerView.Adapter<adapter_phong.MyViewHold
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
+        // Bind data to views
         phong data = room_list.get(position);
         holder.tv_name_room.setText(String.valueOf(data.getTen_phong()));
         holder.tv_price.setText(String.valueOf(data.getGia()));
@@ -115,26 +88,22 @@ public class adapter_phong extends RecyclerView.Adapter<adapter_phong.MyViewHold
         holder.tv_type_room.setText(data.getLoai_phong());
         holder.tv_status_room.setText(setStatusView(data.getId_trang_thai_phong()));
 
-        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                int adapterPosition = holder.getAdapterPosition();
-                if (adapterPosition != RecyclerView.NO_POSITION && onItemLongClickListener != null) {
-                    onItemLongClickListener.onItemLongClick(adapterPosition);
-                }
-                return true;
+        // Long click listener for item
+        holder.itemView.setOnLongClickListener(v -> {
+            int adapterPosition = holder.getAdapterPosition();
+            if (adapterPosition != RecyclerView.NO_POSITION && onItemLongClickListener != null) {
+                onItemLongClickListener.onItemLongClick(adapterPosition);
             }
+            return true;
         });
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int adapterPosition = holder.getAdapterPosition();
-                if (adapterPosition != RecyclerView.NO_POSITION) {
-                    Intent intent = new Intent(context, Activity_Thong_Tin_Phong.class);
-                    intent.putExtra("phong", room_list.get(adapterPosition));
-                    context.startActivity(intent);
-                }
+        // Click listener to start a new activity
+        holder.itemView.setOnClickListener(v -> {
+            int adapterPosition = holder.getAdapterPosition();
+            if (adapterPosition != RecyclerView.NO_POSITION) {
+                Intent intent = new Intent(context, Activity_Thong_Tin_Phong.class);
+                intent.putExtra("phong", room_list.get(adapterPosition));
+                context.startActivity(intent);
             }
         });
     }
@@ -146,32 +115,26 @@ public class adapter_phong extends RecyclerView.Adapter<adapter_phong.MyViewHold
 
     // Custom Methods
     public void removeItem(int position) {
+        // Remove item from Firebase
         String objectIdToDelete = room_list.get(position).getId_phong();
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("phong");
-        databaseReference.child(objectIdToDelete).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                room_list.remove(position);
-                notifyItemRemoved(position);
-                Toast.makeText(context, "Xóa đối tượng thành công", Toast.LENGTH_SHORT).show();
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(context, "Xóa đối tượng thất bại: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
+        databaseReference.child(objectIdToDelete).removeValue()
+                .addOnSuccessListener(aVoid -> {
+                    room_list.remove(position);
+                    notifyItemRemoved(position);
+                    Toast.makeText(context, "Xóa đối tượng thành công", Toast.LENGTH_SHORT).show();
+                })
+                .addOnFailureListener(e -> Toast.makeText(context, "Xóa đối tượng thất bại: " + e.getMessage(), Toast.LENGTH_SHORT).show());
     }
 
     public String setStatusView(String id_status) {
-        String status = "Chưa tìm thấy dữ liệu trạng thái";
-        for (int i = 0; i < status_list.size(); i++) {
-            if (id_status.equals(status_list.get(i).getId_trang_thai_phong())) {
-                status = status_list.get(i).getTen_trang_thai();
-                return status;
+        // Get the status from status_list based on id_status
+        for (trang_thai_phong status : status_list) {
+            if (id_status.equals(status.getId_trang_thai_phong())) {
+                return status.getTen_trang_thai();
             }
         }
-        return status;
+        return "Chưa tìm thấy dữ liệu trạng thái";
     }
 
     public void updateRoomList(ArrayList<phong> filteredRoomList) {
@@ -180,6 +143,7 @@ public class adapter_phong extends RecyclerView.Adapter<adapter_phong.MyViewHold
     }
 
     private void khoi_tao() {
+        // Fetch data from Firebase
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("phong");
         DatabaseReference reference_status = FirebaseDatabase.getInstance().getReference("trang_thai_phong");
 
@@ -187,22 +151,18 @@ public class adapter_phong extends RecyclerView.Adapter<adapter_phong.MyViewHold
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 room_list.clear();
-                status_list.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     phong rooms = dataSnapshot.getValue(phong.class);
-                    if (rooms != null) {
-                        room_list.add(rooms);
-                    }
+                    if (rooms != null) room_list.add(rooms);
                 }
 
                 reference_status.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        status_list.clear();
                         for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                             trang_thai_phong status = dataSnapshot.getValue(trang_thai_phong.class);
-                            if (status != null) {
-                                status_list.add(status);
-                            }
+                            if (status != null) status_list.add(status);
                         }
                         notifyDataSetChanged();
                     }
@@ -232,31 +192,6 @@ public class adapter_phong extends RecyclerView.Adapter<adapter_phong.MyViewHold
             tv_sale = itemView.findViewById(R.id.tv_sale);
             tv_type_room = itemView.findViewById(R.id.tv_type_room);
             tv_status_room = itemView.findViewById(R.id.tv_status_room);
-
-            itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    if (onItemLongClickListener != null) {
-                        int position = getAdapterPosition();
-                        if (position != RecyclerView.NO_POSITION) {
-                            onItemLongClickListener.onItemLongClick(position);
-                        }
-                    }
-                    return true;
-                }
-            });
-
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (onItemClickListener != null) {
-                        int position = getAdapterPosition();
-                        if (position != RecyclerView.NO_POSITION) {
-                            onItemClickListener.onItemClick(position);
-                        }
-                    }
-                }
-            });
         }
     }
 }

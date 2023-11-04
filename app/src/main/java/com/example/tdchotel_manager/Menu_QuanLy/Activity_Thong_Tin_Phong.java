@@ -2,29 +2,34 @@ package com.example.tdchotel_manager.Menu_QuanLy;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.tdchotel_manager.Menu_QuanLy.Adapter_Phong.ImageAdapter;
 import com.example.tdchotel_manager.Menu_QuanLy.Adapter_Phong.adapter_dich_vu_phong;
 import com.example.tdchotel_manager.Menu_QuanLy.Adapter_Phong.adapter_tien_nghi;
 import com.example.tdchotel_manager.Model.chi_tiet_dich_vu_phong;
 import com.example.tdchotel_manager.Model.chi_tiet_tien_nghi;
-import com.example.tdchotel_manager.Model.dich_vu_phong;
 import com.example.tdchotel_manager.Model.phong;
 import com.example.tdchotel_manager.Model.trang_thai_phong;
 import com.example.tdchotel_manager.R;
@@ -33,24 +38,35 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Activity_Thong_Tin_Phong extends AppCompatActivity {
     Spinner sp_status;
-    ImageButton btn_back, btn_save, iv_decrease,iv_increase;
-    EditText edt_name, edt_description, edt_price, edt_sale, edt_giuong_don, edt_giuong_doi;
+    RecyclerView rcv_anhphong;
+    ImageButton btn_back, btn_save, ibChosseImg;
+    EditText edt_name, edt_description, edt_price, edt_sale;
     RadioGroup radiogroup;
     ArrayList<trang_thai_phong> list_status = new ArrayList<>();
     private RecyclerView rcv_tien_nghi, rcv_dich_vu_phong;
+    private ArrayList<String> list_ten_anh = new ArrayList<>();
     private adapter_tien_nghi adapterTienNghi = new adapter_tien_nghi();
     private adapter_dich_vu_phong adapterDichVuPhong = new adapter_dich_vu_phong();
     ArrayList<chi_tiet_dich_vu_phong> list_chi_tietDVP = new ArrayList<>();
     ArrayList<chi_tiet_tien_nghi> list_chi_tietTN = new ArrayList<>();
+    private DatabaseReference mDatabaseRef;
+    private StorageReference mStorageRef;
     String IDphong = "";
     phong detail_infor_room = new phong();
-
+    ArrayList<Uri> picture_list = new ArrayList<>();
+    private ImageView currentSelectedImageView;
+    private static final int REQUEST_IMAGE_CAPTURE = 1;
+    private static final int REQUEST_IMAGE_PICK = 2;
+    ImageAdapter imageAdapter;
     private void setControl() {
         radiogroup = findViewById(R.id.radiogroup);
         edt_sale = findViewById(R.id.edt_price_sale);
@@ -62,6 +78,9 @@ public class Activity_Thong_Tin_Phong extends AppCompatActivity {
         btn_back = findViewById(R.id.btn_back);
         btn_save = findViewById(R.id.btn_save);
         edt_name = findViewById(R.id.edt_name_room);
+        ibChosseImg = findViewById(R.id.ibChosseImg);
+        rcv_anhphong = findViewById(R.id.rcv_anh_phong);
+
     }
 
     @Override
@@ -69,9 +88,13 @@ public class Activity_Thong_Tin_Phong extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_thong_tin_chi_tiet_phong);
         setControl();
+        // Initialize the adapter with the context and the list of URIs
+        imageAdapter = new ImageAdapter(this, picture_list);
+        // Set the adapter to the RecyclerView
+        rcv_anhphong.setAdapter(imageAdapter);
+        rcv_anhphong.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         setEvent();
-        loadTrangThaiPhong(); // Gọi phương thức để lấy danh sách trạng thái phòng từ Firebase
-
+        loadTrangThaiPhong(); // Method call to load room status from Firebase
     }
 
     public boolean kiemtrathongtinphong() {
@@ -82,6 +105,19 @@ public class Activity_Thong_Tin_Phong extends AppCompatActivity {
     }
 
     private void setEvent() {
+        imageAdapter.setOnItemClickListener(new ImageAdapter.OnItemClickListener() {
+            @Override
+            public void onDeleteClick(int position) {
+                removeImageAtPosition(position);
+            }
+        });
+        ibChosseImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                currentSelectedImageView = ibChosseImg; // Lưu lại ImageView hiện tại để sử dụng sau
+                showImagePickDialog(); // Hiển thị dialog để người dùng chọn ảnh
+            }
+        });
         btn_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -113,6 +149,7 @@ public class Activity_Thong_Tin_Phong extends AppCompatActivity {
                         }
                     }
                 });
+               uploadImages(picture_list);
                 finish();
             }
         });
@@ -151,6 +188,108 @@ public class Activity_Thong_Tin_Phong extends AppCompatActivity {
         rcv_dich_vu_phong.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         rcv_dich_vu_phong.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         rcv_dich_vu_phong.setAdapter(adapterDichVuPhong);
+    }
+
+    public void uploadImages(ArrayList<Uri> imageUris) {
+        StorageReference storageReference = FirebaseStorage.getInstance().getReferenceFromUrl("gs://tdc-hotel-beb50.appspot.com");
+
+        for (Uri imageUri : imageUris) {
+            // Tạo tên file dựa trên thời gian hiện tại để đảm bảo tính duy nhất
+            final String fileName = "images/" + System.currentTimeMillis() + ".jpg";
+            StorageReference fileReference = storageReference.child(fileName);
+
+            UploadTask uploadTask = fileReference.putFile(imageUri);
+
+            uploadTask.addOnSuccessListener(taskSnapshot -> {
+                taskSnapshot.getStorage().getDownloadUrl().addOnSuccessListener(downloadUri -> {
+                    String imageUrl = downloadUri.toString();
+                    // Thêm tên file vào mảng
+                    list_ten_anh.add(fileName);
+                    // Gọi listener.onImageUploaded(imageUrl) hoặc xử lý imageUrl theo cách bạn muốn
+                    Log.d("Upload", "Image URL: " + imageUrl + ", File Name: " + fileName);
+                });
+            }).addOnFailureListener(e -> {
+                // Xử lý lỗi
+                Toast.makeText(Activity_Thong_Tin_Phong.this, "Lỗi khi tải ảnh lên: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            });
+        }
+
+    }
+
+
+    private void showImagePickDialog() {
+        String[] options = {"Camera", "Thư viện ảnh"};
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Chọn ảnh từ");
+        builder.setItems(options, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (which == 0) {
+                    // Camera
+                    Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+                        startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+                    }
+                } else if (which == 1) {
+                    // Thư viện ảnh
+                    Intent pickPhotoIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    pickPhotoIntent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true); // Cho phép chọn nhiều ảnh
+                    startActivityForResult(pickPhotoIntent, REQUEST_IMAGE_PICK);
+                }
+            }
+        });
+        builder.show();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+            if (requestCode == REQUEST_IMAGE_PICK) {
+                // Kiểm tra nếu chọn nhiều ảnh
+                if (data.getClipData() != null) {
+                    int count = data.getClipData().getItemCount(); // Lấy số lượng ảnh đã chọn
+                    picture_list.clear(); // Xóa danh sách cũ để thêm danh sách mới
+                    for (int i = 0; i < count; i++) {
+                        Uri imageUri = data.getClipData().getItemAt(i).getUri();
+                        picture_list.add(imageUri); // Thêm Uri vào mảng
+                    }
+                    // Cập nhật Adapter và RecyclerView
+                    updateRecyclerView();
+                } else if (data.getData() != null) {
+                    // Nếu chỉ chọn một ảnh
+                    Uri imageUri = data.getData();
+                    picture_list.clear(); // Xóa danh sách cũ để thêm danh sách mới
+                    picture_list.add(imageUri); // Thêm Uri vào mảng
+                    // Cập nhật Adapter và RecyclerView
+                    updateRecyclerView();
+                }
+            }
+        }
+    }
+    private void removeImageAtPosition(int position) {
+        if (position >= 0 && position < picture_list.size()) {
+            // Remove the image URI from the list at the specified position
+            picture_list.remove(position);
+            // Notify the adapter that an item has been removed
+            imageAdapter.notifyItemRemoved(position);
+            // Notify any registered observers that the itemCount items starting at position positionStart have changed.
+            imageAdapter.notifyItemRangeChanged(position, picture_list.size());
+        } else {
+            // Optionally, you can add a log or a Toast message here to inform that the removal was not successful
+            Toast.makeText(this, "Invalid position: " + position, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void updateRecyclerView() {
+        if (imageAdapter == null) {
+            imageAdapter = new ImageAdapter(this, picture_list);
+            rcv_anhphong.setAdapter(imageAdapter);
+            rcv_anhphong.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        } else {
+            imageAdapter.notifyDataSetChanged(); // Thông báo rằng dữ liệu đã thay đổi
+        }
     }
 
     chi_tiet_dich_vu_phong facilities(String id_facility, int quantity, String id_phong) {
@@ -266,8 +405,7 @@ public class Activity_Thong_Tin_Phong extends AppCompatActivity {
         int sale = Integer.parseInt(edt_sale.getText().toString());
         String type = typeRoom();
         ArrayList<String> anh = new ArrayList<>();
-        anh.add("anh 1");
-        anh.add("anh2");
+        anh=list_ten_anh;
         //trạng thái
         int selectedPosition = sp_status.getSelectedItemPosition();
         trang_thai_phong selectedTrangThai = list_status.get(selectedPosition);
