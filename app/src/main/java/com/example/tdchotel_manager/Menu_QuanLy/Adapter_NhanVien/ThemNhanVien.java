@@ -148,7 +148,7 @@ public class ThemNhanVien extends AppCompatActivity {
 
     private void saveEmployeeToFirebase(String imageUrl, ArrayList<String> cccdImages) {
         String id = mDatabaseRef.push().getKey();
-        String chucVu = radioGroup.getCheckedRadioButtonId() == R.id.radioButtonLeTan_ThemNV ? "1" : "2";
+        String chucVu = radioGroup.getCheckedRadioButtonId() == R.id.radioButtonLeTan_ThemNV ? "2" : "1";
         String hoTen = edtHoTen.getText().toString();
         String tenDangNhap = edtTenDangNhap.getText().toString();
         String matKhau = edtMatKhau.getText().toString();
