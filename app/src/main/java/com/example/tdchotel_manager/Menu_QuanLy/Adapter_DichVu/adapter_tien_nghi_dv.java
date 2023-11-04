@@ -1,5 +1,6 @@
 package com.example.tdchotel_manager.Menu_QuanLy.Adapter_DichVu;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,8 +21,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 public class adapter_tien_nghi_dv extends RecyclerView.Adapter<adapter_tien_nghi_dv.MyViewHolder> {
-
     ArrayList<tien_nghi> datalist = new ArrayList<>();
+
     public adapter_tien_nghi_dv() {
         khoi_tao();
     }

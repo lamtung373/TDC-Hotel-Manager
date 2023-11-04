@@ -1,5 +1,7 @@
 package com.example.tdchotel_manager.Menu_QuanLy.Adapter_DichVu;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,9 +23,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 public class adapter_dich_vu_phong extends RecyclerView.Adapter<adapter_dich_vu_phong.MyViewHolder> {
-
     ArrayList<dich_vu_phong> datalist = new ArrayList<>();
-    public adapter_dich_vu_phong() {
+    public adapter_dich_vu_phong( ) {
         khoi_tao();
     }
     @NonNull

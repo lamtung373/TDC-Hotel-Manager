@@ -45,7 +45,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Giá:     "
+            android:text="Giá:"
+            android:layout_marginRight="15dp"
             android:textColor="@color/black" />
         <EditText
             android:id="@+id/edtGiaDv1"
@@ -73,13 +74,13 @@
                 android:id="@+id/rdPhongCS"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text=" Phòng"
+                android:text="Phòng"
                 android:layout_marginRight="10dp"/>
             <RadioButton
                 android:id="@+id/rdNguoiCS"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text=" Người"/>
+                android:text="Người"/>
         </RadioGroup>
     </LinearLayout>
 

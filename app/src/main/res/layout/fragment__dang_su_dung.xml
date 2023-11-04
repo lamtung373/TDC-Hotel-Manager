@@ -5,10 +5,35 @@
     android:layout_height="match_parent"
     tools:context=".Le_Tan.Fragment_LeTan.Fragment_DangSuDung">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:orientation="vertical"
+        android:layout_marginTop="10dp">
 
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            android:hint="Tìm kiếm"
+            android:inputType="text"
+            android:background="@drawable/border_button_nhanvien"
+            android:textColor="#000000"
+            android:textSize="15sp"
+            android:textStyle="italic"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:id="@+id/edtSearch"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:id="@+id/recyclerViewNhanVien"/>
+
+    </LinearLayout>
 </FrameLayout>

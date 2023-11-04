@@ -98,7 +98,7 @@ public class chinhsuadichvu extends AppCompatActivity {
                 try {
                     giaValue = Integer.parseInt(edtGiaDV.getText().toString().trim());
                 } catch (NumberFormatException e) {
-                    Toast.makeText(chinhsuadichvu.this, "Lương không hợp lệ", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(chinhsuadichvu.this, "Giá không hợp lệ", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 String idChucVu = rdNguoi.isChecked() ? "Người" : "Phòng";
@@ -109,7 +109,7 @@ public class chinhsuadichvu extends AppCompatActivity {
                 ref.child("id_loai_dich_vu").setValue(idChucVu);
 
                 // Thông báo và quay lại màn hình trước
-                Toast.makeText(chinhsuadichvu.this, "Đã cập nhật thông tin nhân viên", Toast.LENGTH_SHORT).show();
+                Toast.makeText(chinhsuadichvu.this, "Đã cập nhật thông tin", Toast.LENGTH_SHORT).show();
                 finish();
             }
         });

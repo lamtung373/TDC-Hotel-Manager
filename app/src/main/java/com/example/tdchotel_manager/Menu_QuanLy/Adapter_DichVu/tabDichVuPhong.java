@@ -29,6 +29,7 @@ public class tabDichVuPhong extends Fragment {
     private void setEvent() {
         rcvDV.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
         rcvDV.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL));
+        adapter_dich_vu_phong = new adapter_dich_vu_phong(); // Khởi tạo adapter với context
         rcvDV.setAdapter(adapter_dich_vu_phong);
     }
 
