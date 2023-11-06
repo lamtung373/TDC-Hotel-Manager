@@ -23,6 +23,8 @@ public class LichLamAdapter extends RecyclerView.Adapter<LichLamAdapter.ChamCong
     private IClickListener iClickListener;
     public interface IClickListener {
         void onClickUpdateItem(nhan_vien nhan_vien);
+
+
     }
     public LichLamAdapter(List<nhan_vien> nhanVienList, List<chuc_vu> chucVuList, List<ca_lam> caLamList, IClickListener listener) {
         this.nhanVienList = nhanVienList;

@@ -9,42 +9,35 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.tdchotel_manager.LichLamAdapter;
 import com.example.tdchotel_manager.Model.chuc_vu;
 import com.example.tdchotel_manager.Model.nhan_vien;
 import com.example.tdchotel_manager.R;
 
 import java.util.List;
 
-public class NhanVienCheckInOutAdapter extends RecyclerView.Adapter<NhanVienCheckInOutAdapter.NhanVienViewHolder>{
+public class NhanVienCheckOutAdapter extends RecyclerView.Adapter<NhanVienCheckOutAdapter.NhanVienViewHolder>{
     private List<nhan_vien> nhanVienList;
     private List<chuc_vu> chucVuList;
-    private NhanVienCheckInOutAdapter.IClickListener iClickListener;
-    private NhanVienCheckInOutAdapter.IClickListener iClickListenerCheck;
 
-    public NhanVienCheckInOutAdapter(List<nhan_vien> nhanVienList, List<chuc_vu> chucVuList, NhanVienCheckOutAdapter.IClickListener iClickListener) {
-    }
-
-    public interface IClickListener {
-        void onClickUpdateItem(nhan_vien nhan_vien);
-        void onClickCheckItem(nhan_vien nhan_vien);
-    }
-
-    public NhanVienCheckInOutAdapter(List<nhan_vien> nhanVienList, List<chuc_vu> chucVuList, NhanVienCheckInOutAdapter.IClickListener iClickListener) {
+    public NhanVienCheckOutAdapter(List<nhan_vien> nhanVienList, List<chuc_vu> chucVuList, IClickListener iClickListenerCheck) {
         this.nhanVienList = nhanVienList;
         this.chucVuList = chucVuList;
-        this.iClickListener = iClickListener;
+        this.iClickListenerCheck = iClickListenerCheck;
     }
 
+    private NhanVienCheckOutAdapter.IClickListener iClickListenerCheck;
+    public interface IClickListener {
+        void onClickUpdateItem(nhan_vien nhan_vien);
+    }
     @NonNull
     @Override
     public NhanVienViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.custom_checkinout,parent,false);
-        return new NhanVienCheckInOutAdapter.NhanVienViewHolder(view);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.custom_checkout,parent,false);
+        return new NhanVienCheckOutAdapter.NhanVienViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull NhanVienCheckInOutAdapter.NhanVienViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull NhanVienViewHolder holder, int position) {
         nhan_vien nv = nhanVienList.get(position);
         if(nv==null)
         {
@@ -59,19 +52,14 @@ public class NhanVienCheckInOutAdapter extends RecyclerView.Adapter<NhanVienChec
                 break;
             }
         }
-        holder.btnOff.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                iClickListener.onClickUpdateItem(nv);
-            }
-        });
         holder.btnCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                iClickListener.onClickCheckItem(nv);
+                iClickListenerCheck.onClickUpdateItem(nv);
             }
         });
     }
+
     @Override
     public int getItemCount() {
         if(nhanVienList != null)
@@ -81,16 +69,15 @@ public class NhanVienCheckInOutAdapter extends RecyclerView.Adapter<NhanVienChec
         return 0;
     }
 
-    class NhanVienViewHolder extends RecyclerView.ViewHolder
-    {
+    class NhanVienViewHolder extends RecyclerView.ViewHolder{
+
         TextView tvTenNhanVien,tvChucVu;
-        Button btnCheck,btnOff;
+        Button btnCheck;
         public NhanVienViewHolder(@NonNull View itemView) {
             super(itemView);
             tvTenNhanVien = itemView.findViewById(R.id.tvTenNhanVien);
             tvChucVu = itemView.findViewById(R.id.tvChucVu);
             btnCheck = itemView.findViewById(R.id.btnCheck);
-            btnOff = itemView.findViewById(R.id.btnOff);
         }
     }
 }
