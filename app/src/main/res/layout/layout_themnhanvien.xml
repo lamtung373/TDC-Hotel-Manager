@@ -13,33 +13,36 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:background="#26A1EE"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content"
+                android:background="@color/dark_blue"
+                android:padding="10dp">
 
                 <ImageButton
                     android:id="@+id/btnQuayLai_ThemNV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
                     android:background="@null"
                     android:src="@drawable/back" />
 
                 <TextView
+                    android:id="@+id/tvHoTen_TTNV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
                     android:layout_gravity="center"
-                    android:layout_weight="1"
                     android:gravity="center"
                     android:text="Thêm nhân viên mới"
                     android:textColor="@color/white"
                     android:textSize="20dp"
                     android:textStyle="bold" />
 
-            </LinearLayout>
+            </RelativeLayout>
 
             <ImageView
                 android:id="@+id/imgNV_ThemNV"
@@ -48,7 +51,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="30dp"
-                android:background="@drawable/border_images_nhanvien"
+                android:background="@drawable/border_image_nhanvien"
                 android:clipToOutline="true"
                 android:outlineProvider="background"
                 android:padding="1.5dp"

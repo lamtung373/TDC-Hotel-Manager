@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -18,13 +19,28 @@
             android:gravity="center_vertical"
             android:layout_marginBottom="10dp">
 
-            <ImageView
-                android:id="@+id/imgNV"
+            <RelativeLayout
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_marginLeft="20dp"
-                android:src="@color/green"
-                android:scaleType="centerCrop"/>
+                android:layout_marginStart="20dp">
+
+                <ProgressBar
+                    android:id="@+id/progressBar_itemQLNV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_gravity="center"
+                    android:visibility="gone"/>
+
+                <ImageView
+                    android:id="@+id/imgNV"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@color/green"
+                    android:scaleType="centerCrop"/>
+
+            </RelativeLayout>
+
             <LinearLayout
                 android:layout_marginLeft="40dp"
                 android:layout_width="wrap_content"
