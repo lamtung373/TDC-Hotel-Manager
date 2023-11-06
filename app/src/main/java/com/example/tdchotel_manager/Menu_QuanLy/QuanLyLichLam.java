@@ -9,8 +9,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
 import android.graphics.Color;
+import android.graphics.drawable.ClipDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -19,25 +21,35 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Toast;
 
+
 import com.example.tdchotel_manager.Model.ca_lam;
 import com.example.tdchotel_manager.Model.chuc_vu;
 import com.example.tdchotel_manager.Model.nhan_vien;
 import com.example.tdchotel_manager.Model.phan_cong;
 import com.example.tdchotel_manager.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.TaskCompletionSource;
+import com.google.android.gms.tasks.Tasks;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 
 public class QuanLyLichLam extends AppCompatActivity {
 
     private RecyclerView rcvLichLam;
+    List<phan_cong> phanCongList12 = new ArrayList<>();
     List<ca_lam> caLamList = new ArrayList<>();
     List<nhan_vien> nhanVienList = new ArrayList<>();
     List<chuc_vu> chucVuList = new ArrayList<>();
@@ -62,27 +74,70 @@ public class QuanLyLichLam extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 chucVuList.clear();
+
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     chuc_vu chucVu = dataSnapshot.getValue(chuc_vu.class);
                     chucVuList.add(chucVu);
-
                 }
                 lichLamAdapter.notifyDataSetChanged();
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });
     }
+    private Task<Void> LoadPhanCong(){
+        DatabaseReference ref1 = FirebaseDatabase.getInstance().getReference("phan_cong");
+        CompletableFuture<Void> completableFuture = new CompletableFuture<>();
 
+        ChildEventListener childEventListener = new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                phan_cong phanCong = snapshot.getValue(phan_cong.class);
+                if(phanCong!=null)
+                {   Log.e("kkkkkkk","");
+                    phanCongList.add(phanCong);
+                    lichLamAdapter.notifyDataSetChanged();
+                }
+
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        };
+
+        ref1.addChildEventListener(childEventListener);
+        return Tasks.forResult(null);
+
+
+    }
     private void LoadNhanVien() {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("nhan_vien");
         DatabaseReference ref1 = FirebaseDatabase.getInstance().getReference("phan_cong");
+
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                nhanVienList.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     nhan_vien nhan_vien = dataSnapshot.getValue(nhan_vien.class);
 
@@ -93,11 +148,11 @@ public class QuanLyLichLam extends AppCompatActivity {
                     ref1.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
+
                             List<phan_cong> phanCongList1 = new ArrayList<>();
 
                             for (DataSnapshot snapshot1 : snapshot.getChildren()) {
                                 phan_cong phan_cong = snapshot1.getValue(phan_cong.class);
-                                phanCongList.add(phan_cong);
                                 if(nhan_vien.getId_nhan_vien().toString().equals(phan_cong.getId_nhan_vien().toString()))
                                 {
                                     phanCongList1.add(phan_cong);
@@ -133,7 +188,66 @@ public class QuanLyLichLam extends AppCompatActivity {
                 Log.e(String.valueOf(nhanVienList.size()) + " hao", "");
             }
         });
+
+//    ref.addChildEventListener(new ChildEventListener() {
+//        @Override
+//        public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+//            nhan_vien nhanVien = snapshot.getValue(nhan_vien.class);
+//            if(nhanVien!=null)
+//            {
+//                ref1.addListenerForSingleValueEvent(new ValueEventListener() {
+//                       @Override
+//                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                            phanCongList.clear();
+//                            List<phan_cong> phanCongList1 = new ArrayList<>();
+//
+//                            for (DataSnapshot snapshot1 : snapshot.getChildren()) {
+//                                phan_cong phan_cong = snapshot1.getValue(phan_cong.class);
+//                                phanCongList.add(phan_cong);
+//                                if(nhanVien.getId_nhan_vien().toString().equals(phan_cong.getId_nhan_vien().toString()))
+//                                {
+//                                    phanCongList1.add(phan_cong);
+//                                }
+//                            }
+//
+//                            nhanVien.setPhanCongList(phanCongList1);
+//                            nhanVienList.add(nhanVien);
+//
+//                            lichLamAdapter.notifyDataSetChanged();
+//                        }
+//
+//                        @Override
+//                        public void onCancelled(@NonNull DatabaseError error) {
+//
+//                        }
+//                    });
+//
+//                lichLamAdapter.notifyDataSetChanged();
+//            }
+//        }
+//
+//        @Override
+//        public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+//
+//        }
+//
+//        @Override
+//        public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+//
+//        }
+//
+//        @Override
+//        public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+//
+//        }
+//
+//        @Override
+//        public void onCancelled(@NonNull DatabaseError error) {
+//
+//        }
+//    });
     }
+
 
     private void getListNhanVien(List<nhan_vien> nhanVienList1) {
         nhanVienList.addAll(nhanVienList1);
@@ -144,6 +258,7 @@ public class QuanLyLichLam extends AppCompatActivity {
 
 
         LoadNhanVien();
+        LoadPhanCong();
         LoadChucVu();
 
 //        ArrayList<String>  CCCD = new ArrayList<>();
@@ -377,6 +492,7 @@ public class QuanLyLichLam extends AppCompatActivity {
         });
         btnLuu.setOnClickListener(new View.OnClickListener() {
             @Override
+
             public void onClick(View view) {
 
                 if(cbChieuT2.isChecked())
@@ -414,6 +530,96 @@ public class QuanLyLichLam extends AppCompatActivity {
                 else
                 {
                     xoaLichLam(nhan_vien,"1",3);
+                }
+                if(cbChieuT4.isChecked())
+                {
+                    Log.e("Đã3","");
+                    themLichLam(nhan_vien,"2",4);
+                }
+                else
+                {
+                    xoaLichLam(nhan_vien,"2",4);
+                }
+                if(cbSangT4.isChecked())
+                {
+                    Log.e("Đã3","");
+                    themLichLam(nhan_vien,"1",4);
+                }
+                else
+                {
+                    xoaLichLam(nhan_vien,"1",4);
+                }
+                if(cbChieuT5.isChecked())
+                {
+                    Log.e("Đã3","");
+                    themLichLam(nhan_vien,"2",5);
+                }
+                else
+                {
+                    xoaLichLam(nhan_vien,"2",5);
+                }
+                if(cbSangT5.isChecked())
+                {
+                    Log.e("Đã3","");
+                    themLichLam(nhan_vien,"1",5);
+                }
+                else
+                {
+                    xoaLichLam(nhan_vien,"1",5);
+                }
+                if(cbChieuT6.isChecked())
+                {
+                    Log.e("Đã3","");
+                    themLichLam(nhan_vien,"2",6);
+                }
+                else
+                {
+                    xoaLichLam(nhan_vien,"2",6);
+                }
+                if(cbSangT6.isChecked())
+                {
+                    Log.e("Đã3","");
+                    themLichLam(nhan_vien,"1",6);
+                }
+                else
+                {
+                    xoaLichLam(nhan_vien,"1",6);
+                }
+                if(cbChieuT7.isChecked())
+                {
+                    Log.e("Đã3","");
+                    themLichLam(nhan_vien,"2",7);
+                }
+                else
+                {
+                    xoaLichLam(nhan_vien,"2",7);
+                }
+                if(cbSangT7.isChecked())
+                {
+                    Log.e("Đã3","");
+                    themLichLam(nhan_vien,"1",7);
+                }
+                else
+                {
+                    xoaLichLam(nhan_vien,"1",7);
+                }
+                if(cbChieuCN.isChecked())
+                {
+                    Log.e("Đã3","");
+                    themLichLam(nhan_vien,"2",1);
+                }
+                else
+                {
+                    xoaLichLam(nhan_vien,"2",1);
+                }
+                if(cbSangCN.isChecked())
+                {
+                    Log.e("Đã3","");
+                    themLichLam(nhan_vien,"1",1);
+                }
+                else
+                {
+                    xoaLichLam(nhan_vien,"1",1);
                 }
             }
         });
@@ -489,8 +695,12 @@ public class QuanLyLichLam extends AppCompatActivity {
                         @Override
                         public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
                             Toast.makeText(QuanLyLichLam.this, "Thêm", Toast.LENGTH_SHORT).show();
-                            Log.e("DDD","DĐ");
-                            lichLamAdapter.notifyDataSetChanged();
+                            if(error==null)
+                            {
+
+                                LoadPhanCong();
+                            }
+
                         }
                     });
 
@@ -499,7 +709,6 @@ public class QuanLyLichLam extends AppCompatActivity {
                     Toast.makeText(QuanLyLichLam.this, "Đã thêm", Toast.LENGTH_SHORT).show();
                     Log.e("Đã thêm","");
                 }
-                lichLamAdapter.notifyDataSetChanged();
             }
 
             @Override
