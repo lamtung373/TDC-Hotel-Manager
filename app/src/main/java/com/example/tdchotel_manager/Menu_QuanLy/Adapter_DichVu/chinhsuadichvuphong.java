@@ -6,7 +6,6 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,6 +21,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.tdchotel_manager.Model.dich_vu;
+import com.example.tdchotel_manager.Model.dich_vu_phong;
 import com.example.tdchotel_manager.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -35,7 +35,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
-public class chinhsuadichvu extends AppCompatActivity {
+public class chinhsuadichvuphong extends AppCompatActivity {
     ImageButton imgButtonquaylai;
     TextView tvTenDV;
     EditText edtGiaDV;
@@ -49,7 +49,6 @@ public class chinhsuadichvu extends AppCompatActivity {
     private ImageView currentSelectedImageView;
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int REQUEST_IMAGE_PICK = 2;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,34 +71,27 @@ public class chinhsuadichvu extends AppCompatActivity {
                 finish();  // Kết thúc Activity này và quay lại Activity trước đó
             }
         });
-
-        String dichvuid = getIntent().getStringExtra("dichvuid");
-        if (dichvuid != null) {
-            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("dich_vu").child(dichvuid);
+        String dichvuphongid = getIntent().getStringExtra("dichvuphongid");
+        if (dichvuphongid != null) {
+            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("dich_vu_phong").child(dichvuphongid);
             databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    dich_vu nv = dataSnapshot.getValue(dich_vu.class);
+                    dich_vu_phong nv = dataSnapshot.getValue(dich_vu_phong.class);
                     if (nv != null) {
-                        tvTenDV.setText(nv.getTen_dich_vu());
-                        edtGiaDV.setText(String.valueOf(nv.getGia_dich_vu()));
-
-                        String loaiDichVu = nv.getId_loai_dich_vu();
-                        if ("Người".equals(loaiDichVu)) {
-                            radioGroup.check(R.id.rdNguoiCS);
-                        } else if ("Phòng".equals(loaiDichVu)) {
-                            radioGroup.check(R.id.rdPhongCS);
-                        }
-                        Picasso.get().load(nv.getAnh_dich_vu()).into(imageView);
+                        tvTenDV.setText(nv.getTen_dich_vu_phong());
+                        edtGiaDV.setText(String.valueOf(nv.getGia_dich_vu_phong()));
+                        Picasso.get().load(nv.getAnh_dich_vu_phong()).into(imageView);
 
                     }
+
                 }
 
 
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
                     // Xử lý khi có lỗi
-                    Toast.makeText(chinhsuadichvu.this, "Lỗi: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(chinhsuadichvuphong.this, "Lỗi: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -107,11 +99,11 @@ public class chinhsuadichvu extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Xoá nhân viên từ Firebase
-                DatabaseReference ref = FirebaseDatabase.getInstance().getReference("dich_vu").child(dichvuid);
+                DatabaseReference ref = FirebaseDatabase.getInstance().getReference("dich_vu_phong").child(dichvuphongid);
                 ref.removeValue();
 
                 // Thông báo và quay lại màn hình trước
-                Toast.makeText(chinhsuadichvu.this, "Đã xoá", Toast.LENGTH_SHORT).show();
+                Toast.makeText(chinhsuadichvuphong.this, "Đã xoá", Toast.LENGTH_SHORT).show();
                 finish();
             }
         });
@@ -122,7 +114,7 @@ public class chinhsuadichvu extends AppCompatActivity {
                 // Lấy dữ liệu từ các trường
                 String giaDV = edtGiaDV.getText().toString();
                 if (giaDV.isEmpty()) {
-                    Toast.makeText(chinhsuadichvu.this, "Vui lòng điền đầy đủ thông tin", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(chinhsuadichvuphong.this, "Vui lòng điền đầy đủ thông tin", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -130,28 +122,25 @@ public class chinhsuadichvu extends AppCompatActivity {
                 try {
                     giaValue = Integer.parseInt(edtGiaDV.getText().toString().trim());
                 } catch (NumberFormatException e) {
-                    Toast.makeText(chinhsuadichvu.this, "Giá không hợp lệ", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(chinhsuadichvuphong.this, "Giá không hợp lệ", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                String idChucVu = rdNguoi.isChecked() ? "Người" : "Phòng";
 
                 // Cập nhật dữ liệu trên Firebase
-                DatabaseReference ref = FirebaseDatabase.getInstance().getReference("dich_vu").child(dichvuid);
-                ref.child("gia_dich_vu").setValue(giaValue);
-                ref.child("id_loai_dich_vu").setValue(idChucVu);
+                DatabaseReference ref = FirebaseDatabase.getInstance().getReference("dich_vu_phong").child(dichvuphongid);
+                ref.child("gia_dich_vu_phong").setValue(giaValue);
 
                 if (imageChanged != null) { // Kiểm tra xem ảnh đã thay đổi
                     // Nếu ảnh đã thay đổi, cập nhật ảnh mới lên Firebase
                     saveImageToFirebase(ref); // Truyền tham số ref để lưu đường dẫn ảnh
                 } else {
                     // Thông báo và quay lại màn hình trước
-                    Toast.makeText(chinhsuadichvu.this, "Đã cập nhật thông tin", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(chinhsuadichvuphong.this, "Đã cập nhật thông tin", Toast.LENGTH_SHORT).show();
                     finish();
                 }
             }
         });
     }
-
     private void saveImageToFirebase(final DatabaseReference ref) {
         if (imageChanged != null) {
             // Tạo một StorageReference đến Firebase Storage
@@ -172,10 +161,10 @@ public class chinhsuadichvu extends AppCompatActivity {
                                     String imagePath = downloadUri.toString();
 
                                     // Cập nhật đường dẫn ảnh vào Firebase Realtime Database
-                                    ref.child("anh_dich_vu").setValue(imagePath);
+                                    ref.child("anh_dich_vu_phong").setValue(imagePath);
 
                                     // Thông báo và quay lại màn hình trước
-                                    Toast.makeText(chinhsuadichvu.this, "Đã cập nhật thông tin", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(chinhsuadichvuphong.this, "Đã cập nhật thông tin", Toast.LENGTH_SHORT).show();
                                     finish();
                                 }
                             });
@@ -185,7 +174,7 @@ public class chinhsuadichvu extends AppCompatActivity {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             // Xử lý khi có lỗi
-                            Toast.makeText(chinhsuadichvu.this, "Lỗi: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(chinhsuadichvuphong.this, "Lỗi: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });
         }
@@ -232,7 +221,6 @@ public class chinhsuadichvu extends AppCompatActivity {
             }
         }
     }
-
 
     private void setControl() {
         imageView = findViewById(R.id.imgvDVCS);

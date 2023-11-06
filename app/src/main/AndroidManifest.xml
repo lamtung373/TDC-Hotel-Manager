@@ -35,6 +35,12 @@
             android:name=".Menu_QuanLy.Adapter_DichVu.chinhsuadichvu"
             android:exported="false" />
         <activity
+            android:name=".Menu_QuanLy.Adapter_DichVu.chinhsuadichvuphong"
+            android:exported="false" />
+        <activity
+            android:name=".Menu_QuanLy.Adapter_DichVu.chinhsuatiennghi"
+            android:exported="false" />
+        <activity
             android:name=".Menu_QuanLy.Adapter_DichVu.themdichvuphong"
             android:exported="false"/>
         <activity

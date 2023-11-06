@@ -19,12 +19,15 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 public class adapter_dich_vu_phong extends RecyclerView.Adapter<adapter_dich_vu_phong.MyViewHolder> {
     ArrayList<dich_vu_phong> datalist = new ArrayList<>();
-    public adapter_dich_vu_phong( ) {
+    Context context;
+    public adapter_dich_vu_phong(Context context) {
+        this.context = context;
         khoi_tao();
     }
     @NonNull
@@ -37,9 +40,18 @@ public class adapter_dich_vu_phong extends RecyclerView.Adapter<adapter_dich_vu_
     @Override
     public void onBindViewHolder(@NonNull adapter_dich_vu_phong.MyViewHolder holder, int position) {
         dich_vu_phong data = datalist.get(position);
-//      holder.img.setText(String.valueOf(data.getId_phong()));
         holder.tvten.setText(data.getTen_dich_vu_phong());
         holder.tvgia.setText(String.valueOf(data.getGia_dich_vu_phong()));
+        Picasso.get().load(data.getAnh_dich_vu_phong()).into(holder.imganhdv);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, chinhsuadichvuphong.class);
+                intent.putExtra("dichvuphongid",data.getId_dich_vu_phong());
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -51,9 +63,11 @@ public class adapter_dich_vu_phong extends RecyclerView.Adapter<adapter_dich_vu_
         TextView tvten,tvgia;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-//            imganhdv=itemView.findViewById(R.id.imgvDV);
             tvten=itemView.findViewById(R.id.tvTenDv1);
             tvgia=itemView.findViewById(R.id.tvGia1);
+            imganhdv = itemView.findViewById(R.id.imgvDV);
+
+
         }
     }
     void khoi_tao(){

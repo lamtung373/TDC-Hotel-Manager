@@ -1,6 +1,7 @@
 package com.example.tdchotel_manager.Menu_QuanLy.Adapter_DichVu;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,16 +18,18 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 public class adapter_tien_nghi_dv extends RecyclerView.Adapter<adapter_tien_nghi_dv.MyViewHolder> {
     ArrayList<tien_nghi> datalist = new ArrayList<>();
 
-    public adapter_tien_nghi_dv() {
+    Context context;
+    public adapter_tien_nghi_dv(Context context) {
+        this.context = context;
         khoi_tao();
-    }
-    @NonNull
+    }    @NonNull
     @Override
     public adapter_tien_nghi_dv.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_item_dichvu, parent, false);
@@ -35,9 +38,18 @@ public class adapter_tien_nghi_dv extends RecyclerView.Adapter<adapter_tien_nghi
     @Override
     public void onBindViewHolder(@NonNull adapter_tien_nghi_dv.MyViewHolder holder, int position) {
         tien_nghi data = datalist.get(position);
-//        holder.img.setText(String.valueOf(data.getId_phong()));
         holder.tvten.setText(data.getTen_tien_nghi());
         holder.tvgia.setText(String.valueOf(data.getGia_tien_nghi()));
+        Picasso.get().load(data.getAnh_tien_nghi()).into(holder.imganhdv);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, chinhsuatiennghi.class);
+                intent.putExtra("tiennghiid",data.getId_tien_nghi());
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -49,7 +61,7 @@ public class adapter_tien_nghi_dv extends RecyclerView.Adapter<adapter_tien_nghi
         TextView tvten,tvgia;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-//            imganhdv=itemView.findViewById(R.id.imgvDV);
+            imganhdv = itemView.findViewById(R.id.imgvDV);
             tvten=itemView.findViewById(R.id.tvTenDv1);
             tvgia=itemView.findViewById(R.id.tvGia1);
         }

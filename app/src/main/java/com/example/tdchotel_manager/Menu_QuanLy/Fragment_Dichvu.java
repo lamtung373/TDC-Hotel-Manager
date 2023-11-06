@@ -75,7 +75,7 @@ public class Fragment_Dichvu extends Fragment {
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setTitle("Chọn một tùy chọn")
+                builder.setTitle("Chọn một loại quản lý")
                         .setItems(new CharSequence[]{"Dịch vụ", "Dịch vụ phòng", "Tiện nghi"}, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 // Xử lý sự kiện khi lựa chọn được chọn
