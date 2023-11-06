@@ -5,7 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class cham_cong {
-    String id_cham_cong, id_nhan_vien, dayofweek, id_ca_lam, check_in, check_out;
+    String id_cham_cong, id_nhan_vien, id_ca_lam, check_in, check_out;
+    int dayofweek;
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
         result.put("id_nhan_vien", id_nhan_vien);
@@ -18,7 +19,7 @@ public class cham_cong {
     public cham_cong() {
     }
 
-    public cham_cong(String id_cham_cong, String id_nhan_vien, String dayofweek, String id_ca_lam, String check_in, String check_out) {
+    public cham_cong(String id_cham_cong, String id_nhan_vien, int dayofweek, String id_ca_lam, String check_in, String check_out) {
         this.id_cham_cong = id_cham_cong;
         this.id_nhan_vien = id_nhan_vien;
         this.dayofweek = dayofweek;
@@ -43,11 +44,11 @@ public class cham_cong {
         this.id_nhan_vien = id_nhan_vien;
     }
 
-    public String getDayofweek() {
+    public int getDayofweek() {
         return dayofweek;
     }
 
-    public void setDayofweek(String dayofweek) {
+    public void setDayofweek(int dayofweek) {
         this.dayofweek = dayofweek;
     }
 
