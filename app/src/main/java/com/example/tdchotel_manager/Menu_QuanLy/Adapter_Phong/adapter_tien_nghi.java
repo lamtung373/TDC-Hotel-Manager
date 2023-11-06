@@ -126,39 +126,20 @@ public class adapter_tien_nghi extends RecyclerView.Adapter<adapter_tien_nghi.My
 
     public void filldata(ArrayList<chi_tiet_tien_nghi> list, RecyclerView rcv) {
 
-        // Duyệt qua tất cả các phần tử trong danh sách dữ liệu
+        // Đi qua từng ViewHolder hiện có và cập nhật số lượng
         for (int i = 0; i < getItemCount(); i++) {
-            Log.e("vaofor","jfkiwjfihwghwfgh");
             tien_nghi data = dataList.get(i);
-
-                Log.e("tiennghi",data.getId_tien_nghi()+data.getTen_tien_nghi());
-            // Tìm chi tiết tương ứng theo ID trong danh sách truyền vào
-            chi_tiet_tien_nghi detail = findChiTietTienNghiById(data.getId_tien_nghi(), list);
-            if (detail != null) {
-                // Lấy ViewHolder hiện tại
-                MyViewHolder holder = (MyViewHolder) rcv.findViewHolderForAdapterPosition(i);
-                if (holder != null) {
-                    // Cập nhật EditText với số lượng từ chi tiết tương ứng
-                    holder.edt_so_luong.setText(String.valueOf(detail.getSo_luong()));
-                } else {
-                  Log.e("nodata","jfkiwjfihwghwfgh");
+            // Lấy ViewHolder hiện tại
+            MyViewHolder holder = (MyViewHolder) rcv.findViewHolderForAdapterPosition(i);
+            if (holder != null) {
+                // Lấy ID tiện nghi tương ứng với ViewHolder này
+                String tienNghiID = list.get(i).getId_tien_nghi();
+                if (tienNghiID.equals(data.getId_tien_nghi())) {
+                    holder.edt_so_luong.setText(list.get(i).getSo_luong());
                 }
-            } else {
-                Log.e("nodata detail","jfkiwjfihwghwfgh");
             }
         }
     }
-
-    private chi_tiet_tien_nghi findChiTietTienNghiById(String id, ArrayList<chi_tiet_tien_nghi> list) {
-        for (chi_tiet_tien_nghi cttn : list) {
-            if (cttn.getId_tien_nghi().equals(id)) {
-                return cttn;
-            }
-        }
-        return null;
-    }
-
-
 
     private chi_tiet_tien_nghi findChiTietTienNghiById(String id) {
         for (chi_tiet_tien_nghi cttn : chi_tiet_tien_nghis) {

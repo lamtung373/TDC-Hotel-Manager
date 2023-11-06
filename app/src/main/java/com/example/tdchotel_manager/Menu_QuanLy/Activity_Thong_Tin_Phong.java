@@ -15,6 +15,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -96,7 +97,7 @@ public class Activity_Thong_Tin_Phong extends AppCompatActivity {
         ibChosseImg = findViewById(R.id.ibChosseImg);
         rcv_anhphong = findViewById(R.id.rcv_anh_phong);
         progressBar_luuphong = findViewById(R.id.progressBar_luuphong);
-        viewBlocking=findViewById(R.id.viewBlocking);
+        viewBlocking = findViewById(R.id.viewBlocking);
     }
 
     @Override
@@ -170,29 +171,9 @@ public class Activity_Thong_Tin_Phong extends AppCompatActivity {
                     uploadImages(picture_list, new OnAllImagesUploadedListener() {
                         @Override
                         public void onAllImagesUploaded(List<String> imageUrls) {
+                            Log.e("hhhhhhh", "đã thêm ảnh");
                             phong room = new_room();
-                            onClickAdd_room(new_room(), new Runnable() {
-                                @Override
-                                public void run() {
-                                    list_chi_tietDVP = adapterDichVuPhong.getChiTietDichVu();
-                                    ArrayList<chi_tiet_dich_vu_phong> tempDVPList = new ArrayList<>();
-                                    for (chi_tiet_dich_vu_phong chiTietDVP : list_chi_tietDVP) {
-                                        if (chiTietDVP.getSo_luong() != 0) {
-                                            tempDVPList.add(chiTietDVP);
-                                        }
-                                    }
-                                    list_chi_tietDVP = tempDVPList;
-                                    for (chi_tiet_dich_vu_phong detail_facility : list_chi_tietDVP) {
-                                        onClickAdd_facilities(facilities(detail_facility.getId_dich_vu_phong(), detail_facility.getSo_luong(), IDphong));
-                                    }
-
-                                    list_chi_tietTN = adapterTienNghi.getChi_tiet_tien_nghis();
-                                    for (chi_tiet_tien_nghi detail_comfort : list_chi_tietTN) {
-                                        onClickAdd_comfort(comfort(detail_comfort.getId_tien_nghi(), detail_comfort.getSo_luong(), IDphong));
-                                    }
-                                }
-                            });
-
+                            onClickAdd_room(new_room());
                             progressBar_luuphong.setVisibility(View.GONE);
                             viewBlocking.setVisibility(View.GONE);
                             Toast.makeText(Activity_Thong_Tin_Phong.this, "Thêm phòng thành công", Toast.LENGTH_SHORT).show();
@@ -458,7 +439,28 @@ public class Activity_Thong_Tin_Phong extends AppCompatActivity {
         }
     }
 
-    private void onClickAdd_room(phong phong, final Runnable afterAdding) {
+    public void ThemChiTiet(String id_phong) {
+        list_chi_tietDVP = adapterDichVuPhong.getChiTietDichVu();
+        ArrayList<chi_tiet_dich_vu_phong> tempDVPList = new ArrayList<>();
+        for (chi_tiet_dich_vu_phong chiTietDVP : list_chi_tietDVP) {
+            if (chiTietDVP.getSo_luong() != 0) {
+                tempDVPList.add(chiTietDVP);
+
+                Log.e("hhhhhhh", "đã thêm chi tiết dịch vu");
+            }
+        }
+        list_chi_tietDVP = tempDVPList;
+        for (chi_tiet_dich_vu_phong detail_facility : list_chi_tietDVP) {
+            onClickAdd_facilities(facilities(detail_facility.getId_dich_vu_phong(), detail_facility.getSo_luong(), id_phong));
+        }
+
+        list_chi_tietTN = adapterTienNghi.getChi_tiet_tien_nghis();
+        for (chi_tiet_tien_nghi detail_comfort : list_chi_tietTN) {
+            onClickAdd_comfort(comfort(detail_comfort.getId_tien_nghi(), detail_comfort.getSo_luong(), id_phong));
+        }
+    }
+
+    private void onClickAdd_room(phong phong) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference = database.getReference("phong");
         DatabaseReference new_room = databaseReference.push(); // Tạo một khóa con mới
@@ -469,6 +471,7 @@ public class Activity_Thong_Tin_Phong extends AppCompatActivity {
                 if (error == null) {
                     String generatedId = new_room.getKey(); // Lấy khóa con duy nhất đã tạo
                     IDphong = generatedId;
+                    ThemChiTiet(IDphong);
                     if (generatedId != null) {
                         phong.setId_phong(generatedId); // Gán khóa con duy nhất làm id_dich_vu cho dichvu
                         new_room.setValue(phong); // Cập nhật lại dữ liệu với id_dich_vu mới
@@ -528,7 +531,7 @@ public class Activity_Thong_Tin_Phong extends AppCompatActivity {
                     chi_tiet_tien_nghi tienNghi = postSnapshot.getValue(chi_tiet_tien_nghi.class);
                     list_tiennghi_dowload.add(tienNghi);
                 }
-                adapterTienNghi.filldata(list_tiennghi_dowload, rcv_tien_nghi);
+                // adapterTienNghi.filldata(list_tiennghi_dowload, rcv_tien_nghi);
             }
 
             @Override
