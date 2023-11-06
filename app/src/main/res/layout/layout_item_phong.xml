@@ -5,14 +5,26 @@
     android:background="@drawable/bg_rv_item"
     android:orientation="horizontal"
     android:padding="10dp"
-    android:layout_marginVertical="5dp">
-
+    android:layout_marginVertical="5dp"
+    >
+<RelativeLayout
+    android:layout_width="100dp"
+    android:layout_height="100dp">
+    <ProgressBar
+        android:id="@+id/progressBar_itemphong"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:progressDrawable="@drawable/refresh"
+        android:visibility="gone"/>
     <ImageView
         android:id="@+id/iv_item_phong"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:paddingLeft="10dp"
         android:src="@drawable/phong_1" />
+</RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

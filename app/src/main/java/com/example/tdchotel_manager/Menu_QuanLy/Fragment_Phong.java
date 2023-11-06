@@ -11,8 +11,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
@@ -37,6 +37,7 @@ public class Fragment_Phong extends Fragment {
     private adapter_phong adapter;
     ImageButton btn_add;
     EditText edt_search;
+    ProgressBar progressBar, progressBar_itemphong;
 
     public Fragment_Phong() {
         // Required empty public constructor
@@ -50,7 +51,7 @@ public class Fragment_Phong extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment__phong, container, false);
         setControl(view);
-        adapter = new adapter_phong(getContext());
+        adapter = new adapter_phong(getContext(), progressBar, progressBar_itemphong);
         setEvent();
         return view;
     }
@@ -88,7 +89,6 @@ public class Fragment_Phong extends Fragment {
                 showDeleteConfirmationDialog(position);
             }
         });
-
         edt_search.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -107,15 +107,28 @@ public class Fragment_Phong extends Fragment {
                     filterRoomList(searchText);
                 } else {
                     // Khi người dùng xóa hết nội dung tìm kiếm, hiển thị lại danh sách phòng ban đầu
-                    adapter.updateRoomList(adapter.getOriginalRoomList());
+                    adapter.updateRoomList(adapter.getDanh_sach_phong());
                 }
             }
         });
-
+//        sp_loai.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                String selectedType = String.valueOf(sp_loai.getSelectedItemPosition());
+//                // Lọc danh sách phòng theo loại phòng được chọn
+//                adapter.filterRoomListByType(selectedType);
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//
+//            }
+//        });
     }
+
     private void filterRoomList(String searchText) {
         filteredRoomList.clear(); // Thêm dòng này để xóa danh sách cũ
-        for (phong room : adapter.getOriginalRoomList()) {
+        for (phong room : adapter.getDanh_sach_phong()) {
             if (room.getTen_phong().toLowerCase().contains(searchText.toLowerCase())) {
                 filteredRoomList.add(room);
             }
@@ -143,7 +156,8 @@ public class Fragment_Phong extends Fragment {
     private void setControl(View view) {
         sp_loai = view.findViewById(R.id.spTypeRoom);
         rcv_roomlist = view.findViewById(R.id.rcv_roomlist);
-        btn_add = view.findViewById(R.id.btn_save);
-        edt_search=view.findViewById(R.id.edt_search);
+        btn_add = view.findViewById(R.id.btn_save_phong);
+        edt_search = view.findViewById(R.id.edt_search);
+        progressBar = view.findViewById(R.id.progressBar_phong);
     }
 }
