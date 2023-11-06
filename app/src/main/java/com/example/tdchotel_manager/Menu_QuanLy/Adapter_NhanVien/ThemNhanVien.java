@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
@@ -47,6 +48,14 @@ public class ThemNhanVien extends AppCompatActivity {
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int REQUEST_IMAGE_PICK = 2;
 
+    // Biến cấp lớp để theo dõi trạng thái của imgCCCD_Truoc Drawable
+    private boolean isImgCCCD_TruocDrawableChanged = false;
+    private boolean isImgCCCD_SauDrawableChanged = false;
+
+    private ProgressBar progressBar;
+    private View viewBlocking;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,10 +78,16 @@ public class ThemNhanVien extends AppCompatActivity {
         btnLuu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Lưu ảnh lên Firebase Storage
-                uploadImageToFirebaseStorage();
+                if (validateInput()) {
+                    viewBlocking.setVisibility(View.VISIBLE);
+                    progressBar.setVisibility(View.VISIBLE);
+
+                    // Chỉ lưu ảnh và thông tin nhân viên nếu tất cả dữ liệu đầu vào đã hợp lệ
+                    uploadImageToFirebaseStorage();
+                }
             }
         });
+
 
         imgNV.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,29 +116,25 @@ public class ThemNhanVien extends AppCompatActivity {
     }
 
     private void uploadImageToFirebaseStorage() {
-        if (imgNV.getDrawable() != null) {
-            uploadSingleImage(imgNV, new OnImageUploadedListener() {
-                @Override
-                public void onImageUploaded(String imageUrl) {
-                    uploadSingleImage(imgCCCD_Truoc, new OnImageUploadedListener() {
-                        @Override
-                        public void onImageUploaded(String cccdTruocUrl) {
-                            uploadSingleImage(imgCCCD_Sau, new OnImageUploadedListener() {
-                                @Override
-                                public void onImageUploaded(String cccdSauUrl) {
-                                    ArrayList<String> cccdImages = new ArrayList<>();
-                                    cccdImages.add(cccdTruocUrl);
-                                    cccdImages.add(cccdSauUrl);
-                                    saveEmployeeToFirebase(imageUrl, cccdImages);
-                                }
-                            });
-                        }
-                    });
-                }
-            });
-        } else {
-            saveEmployeeToFirebase("", new ArrayList<>());
-        }
+        uploadSingleImage(imgNV, new OnImageUploadedListener() {
+            @Override
+            public void onImageUploaded(String imageUrl) {
+                uploadSingleImage(imgCCCD_Truoc, new OnImageUploadedListener() {
+                    @Override
+                    public void onImageUploaded(String cccdTruocUrl) {
+                        uploadSingleImage(imgCCCD_Sau, new OnImageUploadedListener() {
+                            @Override
+                            public void onImageUploaded(String cccdSauUrl) {
+                                ArrayList<String> cccdImages = new ArrayList<>();
+                                cccdImages.add(cccdTruocUrl);
+                                cccdImages.add(cccdSauUrl);
+                                saveEmployeeToFirebase(imageUrl, cccdImages);
+                            }
+                        });
+                    }
+                });
+            }
+        });
     }
 
     private void uploadSingleImage(ImageView imageView, OnImageUploadedListener listener) {
@@ -169,6 +180,7 @@ public class ThemNhanVien extends AppCompatActivity {
         );
 
         mDatabaseRef.child(id).setValue(employee).addOnSuccessListener(aVoid -> {
+            progressBar.setVisibility(View.GONE);
             Toast.makeText(ThemNhanVien.this, "Thêm nhân viên thành công!", Toast.LENGTH_SHORT).show();
             finish();
         }).addOnFailureListener(e -> {
@@ -213,11 +225,51 @@ public class ThemNhanVien extends AppCompatActivity {
                 Bundle extras = data.getExtras();
                 Bitmap imageBitmap = (Bitmap) extras.get("data");
                 currentSelectedImageView.setImageBitmap(imageBitmap);
+                if (currentSelectedImageView == imgCCCD_Truoc) {
+                    isImgCCCD_TruocDrawableChanged = true;
+                }
+                if (currentSelectedImageView == imgCCCD_Sau) {
+                    isImgCCCD_SauDrawableChanged = true;
+                }
             } else if (requestCode == REQUEST_IMAGE_PICK) {
                 Uri imageUri = data.getData();
                 currentSelectedImageView.setImageURI(imageUri);
+                if (currentSelectedImageView == imgCCCD_Truoc) {
+                    isImgCCCD_TruocDrawableChanged = true;
+                }
+                if (currentSelectedImageView == imgCCCD_Sau) {
+                    isImgCCCD_SauDrawableChanged = true;
+                }
             }
         }
+    }
+
+    private boolean validateInput() {
+        if (edtHoTen.getText().toString().trim().isEmpty()) {
+            edtHoTen.setError("Họ tên không được để trống");
+            return false;
+        }
+        if (edtTenDangNhap.getText().toString().trim().isEmpty()) {
+            edtTenDangNhap.setError("Tên đăng nhập không được để trống");
+            return false;
+        }
+        if (edtMatKhau.getText().toString().trim().isEmpty()) {
+            edtMatKhau.setError("Mật khẩu không được để trống");
+            return false;
+        }
+        if (edtSoDienThoai.getText().toString().trim().isEmpty()) {
+            edtSoDienThoai.setError("Số điện thoại không được để trống");
+            return false;
+        }
+        if (edtLuong.getText().toString().trim().isEmpty()) {
+            edtLuong.setError("Lương không được để trống");
+            return false;
+        }
+        if (imgNV == null || !isImgCCCD_TruocDrawableChanged || !isImgCCCD_SauDrawableChanged) {
+            Toast.makeText(this, "Cần phải cung cấp đầy đủ hình ảnh!", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
     }
 
     private void setControl() {
@@ -232,6 +284,8 @@ public class ThemNhanVien extends AppCompatActivity {
         btnLuu = findViewById(R.id.btnLuu_ThemNV);
         imgCCCD_Truoc = findViewById(R.id.imgCCCD_Truoc_ThemNV);
         imgCCCD_Sau = findViewById(R.id.imgCCCD_Sau_ThemNV);
+        progressBar = findViewById(R.id.progressBar_ThemNV);
+        viewBlocking = findViewById(R.id.viewBlocking_ThemNV);
     }
 
 }
