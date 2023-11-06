@@ -21,6 +21,9 @@ String id_chi_tiet_tien_nghi, id_tien_nghi,id_phong;
         this.id_tien_nghi = id_tien_nghi;
         this.id_phong = id_phong;
     }
+    public chi_tiet_tien_nghi(String id_tien_nghi) {
+        this.id_tien_nghi = id_tien_nghi;
+    }
 
     public String getId_chi_tiet_tien_nghi() {
         return id_chi_tiet_tien_nghi;

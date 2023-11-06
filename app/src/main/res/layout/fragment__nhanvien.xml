@@ -43,6 +43,7 @@
         android:layout_marginTop="10dp">
 
         <Button
+            android:id="@+id/btnQuanLyLichLam"
             android:layout_width="match_parent"
             android:layout_height="70dp"
             android:layout_marginLeft="20dp"
@@ -61,19 +62,21 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="20dp"
             android:hint="Tìm kiếm"
+            android:inputType="text"
             android:background="@drawable/border_button_nhanvien"
             android:textColor="#000000"
             android:textSize="15sp"
             android:textStyle="italic"
             android:paddingStart="20dp"
-            android:paddingEnd="20dp" />
+            android:paddingEnd="20dp"
+            android:id="@+id/edtSearch"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            tools:listitem="@layout/layout_item_quanlynhanvien"/>
+            android:id="@+id/recyclerViewNhanVien"/>
 
     </LinearLayout>
 

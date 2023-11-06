@@ -84,7 +84,7 @@ public class Fragment_Dichvu extends Fragment {
         tabLayout.addTab(tabLayout.newTab().setText("Dịch vụ phòng"));
         tabLayout.addTab(tabLayout.newTab().setText("Tiện nghi"));
 
-        tabLayout.setSelectedTabIndicatorColor(Color.parseColor("#26A1EE"));
+      //  tabLayout.setSelectedTabIndicatorColor(Color.parseColor("#26A1EE"));
 
 
 
