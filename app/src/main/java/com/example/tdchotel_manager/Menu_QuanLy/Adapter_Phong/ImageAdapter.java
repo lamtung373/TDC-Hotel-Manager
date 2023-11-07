@@ -8,11 +8,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tdchotel_manager.R;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -21,6 +24,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
     private Context context;
     private ArrayList<Uri> imageUris;
     private OnItemClickListener listener;
+    ProgressBar progressBar_anhphong;
 
     public interface OnItemClickListener {
         void onDeleteClick(int position);
@@ -44,9 +48,24 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
 
     @Override
     public void onBindViewHolder(@NonNull ImageViewHolder holder, int position) {
+        holder.progressBar_anhphong.setVisibility(View.VISIBLE);
+
         Uri imageUri = imageUris.get(position);
         Log.e("ImageAdapter", "Binding image at position " + position + ": " + imageUri.toString());
-        holder.imageView.setImageURI(imageUri);
+        //holder.imageView.setImageURI(imageUri);
+        Picasso.get().load(imageUri).into(holder.imageView, new Callback() {
+            @Override
+            public void onSuccess() {
+                // Ẩn ProgressBar khi tải thành công
+                holder.progressBar_anhphong.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onError(Exception e) {
+                // Ẩn ProgressBar và xử lý lỗi
+                holder.progressBar_anhphong.setVisibility(View.GONE);
+            }
+        });
     }
 
     @Override
@@ -62,12 +81,13 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
     public class ImageViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
         ImageButton deleteButton;
+        ProgressBar progressBar_anhphong;
 
         public ImageViewHolder(View itemView, final OnItemClickListener listener) {
             super(itemView);
             imageView = itemView.findViewById(R.id.iv_anhchitietphong);
             deleteButton = itemView.findViewById(R.id.ib_deleteImage);
-
+            progressBar_anhphong=itemView.findViewById(R.id.progressBar_anhphong);
             deleteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

@@ -24,7 +24,7 @@ import java.util.ArrayList;
 
 public class adapter_tien_nghi extends RecyclerView.Adapter<adapter_tien_nghi.MyViewHolder> {
     private ArrayList<tien_nghi> dataList = new ArrayList<>();
-    ArrayList<chi_tiet_tien_nghi> chi_tiet_tien_nghis = new ArrayList<>();
+    private ArrayList<chi_tiet_tien_nghi> chi_tiet_tien_nghis = new ArrayList<>();
 
     public void addChiTietDichVu(String dichVuPhongId, int soLuong) {
         for (int i = 0; i < chi_tiet_tien_nghis.size(); i++) {
@@ -77,68 +77,49 @@ public class adapter_tien_nghi extends RecyclerView.Adapter<adapter_tien_nghi.My
         }
     }
 
-    private void increaseValue(EditText editText) {
-        int value = Integer.parseInt(editText.getText().toString());
+    private void increaseValue(int position, EditText editText) {
+        tien_nghi item = dataList.get(position);
+        int value = item.getSo_luong();
         value++;
+        item.setSo_luong(value); // Cập nhật giá trị trong dataList
         editText.setText(String.valueOf(value));
+        notifyItemChanged(position); // Cập nhật chỉ item tại vị trí này
     }
 
-    private void decreaseValue(EditText editText) {
-        int value = Integer.parseInt(editText.getText().toString());
+    private void decreaseValue(int position, EditText editText) {
+        tien_nghi item = dataList.get(position);
+        int value = item.getSo_luong();
         if (value > 0) {
             value--;
+            item.setSo_luong(value); // Cập nhật giá trị trong dataList
             editText.setText(String.valueOf(value));
+            notifyItemChanged(position); // Cập nhật chỉ item tại vị trí này
         }
     }
 
+    // Trong onBindViewHolder, cập nhật các sự kiện click để sử dụng các phương thức trên
     @Override
     public void onBindViewHolder(@NonNull adapter_tien_nghi.MyViewHolder holder, int position) {
         tien_nghi data = dataList.get(position);
         holder.tv_ten_tien_nghi.setText(data.getTen_tien_nghi());
-
-        // Set giá trị ban đầu cho EditText dựa trên chi tiết tiện nghi
-        chi_tiet_tien_nghi cttn = findChiTietTienNghiById(data.getId_tien_nghi());
-        holder.edt_so_luong.setText(cttn != null ? String.valueOf(cttn.getSo_luong()) : "0");
-
-        // Set tag để sử dụng trong onClick listener
-        holder.ib_decrease.setTag(data.getId_tien_nghi());
-        holder.ib_increase.setTag(data.getId_tien_nghi());
-
-        // Sử dụng một listener chung cho tất cả các ImageButton
-        View.OnClickListener listener = new View.OnClickListener() {
+        holder.edt_so_luong.setText(String.valueOf(data.getSo_luong()));
+        holder.ib_decrease.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String tienNghiID = (String) v.getTag();
-                int soLuong = Integer.parseInt(holder.edt_so_luong.getText().toString());
-                if (v.getId() == R.id.ib_increase) {
-                    soLuong++;
-                } else if (v.getId() == R.id.ib_decrease && soLuong > 0) {
-                    soLuong--;
-                }
-                holder.edt_so_luong.setText(String.valueOf(soLuong));
-                addChiTietDichVu(tienNghiID, soLuong);
+                decreaseValue(position, holder.edt_so_luong);
+                // Cập nhật chi tiết dịch vụ phòng
+                addChiTietDichVu(data.getId_tien_nghi(), data.getSo_luong());
             }
-        };
+        });
 
-        holder.ib_decrease.setOnClickListener(listener);
-        holder.ib_increase.setOnClickListener(listener);
-    }
-
-    public void filldata(ArrayList<chi_tiet_tien_nghi> list, RecyclerView rcv) {
-
-        // Đi qua từng ViewHolder hiện có và cập nhật số lượng
-        for (int i = 0; i < getItemCount(); i++) {
-            tien_nghi data = dataList.get(i);
-            // Lấy ViewHolder hiện tại
-            MyViewHolder holder = (MyViewHolder) rcv.findViewHolderForAdapterPosition(i);
-            if (holder != null) {
-                // Lấy ID tiện nghi tương ứng với ViewHolder này
-                String tienNghiID = list.get(i).getId_tien_nghi();
-                if (tienNghiID.equals(data.getId_tien_nghi())) {
-                    holder.edt_so_luong.setText(list.get(i).getSo_luong());
-                }
+        holder.ib_increase.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                increaseValue(position, holder.edt_so_luong);
+                // Cập nhật chi tiết dịch vụ phòng
+                addChiTietDichVu(data.getId_tien_nghi(), data.getSo_luong());
             }
-        }
+        });
     }
 
     private chi_tiet_tien_nghi findChiTietTienNghiById(String id) {
@@ -156,6 +137,35 @@ public class adapter_tien_nghi extends RecyclerView.Adapter<adapter_tien_nghi.My
         return dataList.size();
     }
 
+    public void GoiDuLieu(String idPhong) {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("chi_tiet_tien_nghi").child(idPhong);
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                ArrayList<chi_tiet_tien_nghi> newChiTietTienNghis = new ArrayList<>();
+                for (DataSnapshot facilitySnapshot : dataSnapshot.getChildren()) {
+                    chi_tiet_tien_nghi comfortDetail = facilitySnapshot.getValue(chi_tiet_tien_nghi.class);
+                    if (comfortDetail != null) {
+                        newChiTietTienNghis.add(comfortDetail);
+                    }
+                    for (tien_nghi ct : dataList) {
+                        if (ct.getId_tien_nghi().equals(comfortDetail.getId_tien_nghi())) {
+                            ct.setSo_luong(comfortDetail.getSo_luong());
+                        }
+                        notifyDataSetChanged();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Xử lý lỗi
+                Log.e("fetchComfortDetails", "Failed to read value.", databaseError.toException());
+            }
+        });
+    }
+
+
     void khoi_tao() {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("tien_nghi");
         reference.addValueEventListener(new ValueEventListener() {
@@ -167,6 +177,11 @@ public class adapter_tien_nghi extends RecyclerView.Adapter<adapter_tien_nghi.My
                     tien_nghi tienNghi = dataSnapshot.getValue(tien_nghi.class);
                     if (tienNghi != null) {
                         dataList.add(tienNghi);
+// Tạo một đối tượng chi tiết tiện nghi mới với số lượng mặc định là 0
+                        chi_tiet_tien_nghi cttn = new chi_tiet_tien_nghi();
+                        cttn.setId_tien_nghi(tienNghi.getId_tien_nghi());
+                        cttn.setSo_luong(0); // Hoặc giá trị mặc định nào đó
+                        chi_tiet_tien_nghis.add(cttn);
                     }
                 }
 

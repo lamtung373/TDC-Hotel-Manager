@@ -6,12 +6,24 @@
     android:padding="5dp"
     android:orientation="vertical"
     android:gravity="center">
-
+<RelativeLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <ProgressBar
+        android:id="@+id/progressBar_anhphong"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:progressDrawable="@drawable/refresh"
+        android:visibility="gone"/>
     <ImageView
         android:id="@+id/iv_anhchitietphong"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:background="@null" />
+</RelativeLayout>
+
 
     <ImageButton
         android:id="@+id/ib_deleteImage"

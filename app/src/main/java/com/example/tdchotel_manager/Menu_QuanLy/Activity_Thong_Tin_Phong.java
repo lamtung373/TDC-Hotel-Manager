@@ -53,7 +53,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Activity_Thong_Tin_Phong extends AppCompatActivity {
     Spinner sp_status;
@@ -70,8 +72,6 @@ public class Activity_Thong_Tin_Phong extends AppCompatActivity {
     ArrayList<chi_tiet_tien_nghi> list_chi_tietTN = new ArrayList<>();
     //danh sách tải về tiện nghi của phòng
     ArrayList<chi_tiet_tien_nghi> list_tiennghi_dowload = new ArrayList<>();
-    private DatabaseReference mDatabaseRef;
-    private StorageReference mStorageRef;
     String IDphong = "";
     phong detail_infor_room = new phong();
     ArrayList<Uri> picture_list = new ArrayList<>();
@@ -110,8 +110,8 @@ public class Activity_Thong_Tin_Phong extends AppCompatActivity {
         imageAdapter = new ImageAdapter(this, picture_list);
         rcv_anhphong.setAdapter(imageAdapter);
         rcv_anhphong.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        setEvent();
-        loadTrangThaiPhong(); // Method call to load room status from Firebase
+        loadTrangThaiPhong();
+        setEvent();// Method call to load room status from Firebase
         if (thong_tin_phong != null) {
             fill_data(thong_tin_phong);
         }
@@ -122,22 +122,44 @@ public class Activity_Thong_Tin_Phong extends AppCompatActivity {
         edt_description.setText(data_phong.getMo_ta_chung());
         edt_price.setText(String.valueOf(data_phong.getGia()));
         edt_sale.setText(String.valueOf(data_phong.getSale()));
-        for (int i = 0; i < list_status.size(); i++) {
-            trang_thai_phong status = list_status.get(i);
-            if (status.getId_trang_thai_phong().equals(data_phong.getId_trang_thai_phong())) {
-                sp_status.setSelection(i);
-                break;
-            }
-        }
         loadchitiettiennghi(data_phong.getId_phong());
-    }
-
-    public boolean kiemtrathongtinphong() {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
-            detail_infor_room = getIntent().getSerializableExtra("phong", phong.class);
+        adapterTienNghi.GoiDuLieu(data_phong.getId_phong());
+        loadImagesFromFirebase(data_phong);
+        switch (data_phong.getLoai_phong()){
+            case "1 Người":
+                radiogroup.check(R.id.rdo_1_nguoi);
+                break;
+            case "2 Người":
+                radiogroup.check(R.id.rdo_2_nguoi);
+                break;
+            case "3 Người":
+                radiogroup.check(R.id.rdo_3_nguoi);
+                break;
+            case "4 Người":
+                radiogroup.check(R.id.rdo_4_nguoi);
+                break;
+            case "5 Người":
+                radiogroup.check(R.id.rdo_5_nguoi);
+                break;
         }
-        return false;
     }
+    //truyền ảnh từ url vào adapter để hiện ảnh lên recyclerview
+    private void loadImagesFromFirebase(phong thongtin) {
+        picture_list.clear();
+        for (String url:thongtin.getAnh_phong()) {
+            Uri imageUri = Uri.parse(url);
+            picture_list.add(imageUri);
+            Log.e("urianhr",imageUri.toString());
+        }
+        imageAdapter.notifyDataSetChanged();
+    }
+//
+//    public boolean kiemtrathongtinphong() {
+//        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+//            detail_infor_room = getIntent().getSerializableExtra("phong", phong.class);
+//        }
+//        return false;
+//    }
 
     private void setEvent() {
         imageAdapter.setOnItemClickListener(new ImageAdapter.OnItemClickListener() {
@@ -378,24 +400,6 @@ public class Activity_Thong_Tin_Phong extends AppCompatActivity {
         return new_facilities;
     }
 
-    private void onClickAdd_facilities(chi_tiet_dich_vu_phong facility) {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference databaseReference = database.getReference("chi_tiet_dich_vu_phong");
-        DatabaseReference new_facilityt = databaseReference.push(); // Tạo một khóa con mới
-        new_facilityt.setValue(facility, new DatabaseReference.CompletionListener() {
-            @Override
-            public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
-                String generatedId_facility = new_facilityt.getKey(); // Lấy khóa con duy nhất đã tạo
-                if (generatedId_facility != null) {
-                    facility.setId_chi_tiet_dich_vu_phong(generatedId_facility); // Gán khóa con duy nhất làm id_dich_vu cho dichvu
-                    new_facilityt.setValue(facility); // Cập nhật lại dữ liệu với id_dich_vu mới
-                    Toast.makeText(Activity_Thong_Tin_Phong.this, "Add success", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(Activity_Thong_Tin_Phong.this, "Add failed", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-    }
 
     chi_tiet_tien_nghi comfort(String id_comfort, int quantity, String id_phong) {
 
@@ -406,21 +410,52 @@ public class Activity_Thong_Tin_Phong extends AppCompatActivity {
         return new_comfort;
     }
 
-    private void onClickAdd_comfort(chi_tiet_tien_nghi comfort) {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference databaseReference = database.getReference("chi_tiet_tien_nghi");
-        DatabaseReference new_comfort = databaseReference.push(); // Tạo một khóa con mới
-        new_comfort.setValue(comfort, new DatabaseReference.CompletionListener() {
-            @Override
-            public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
-                String generatedId_comfort = new_comfort.getKey(); // Lấy khóa con duy nhất đã tạo
-                if (generatedId_comfort != null) {
-                    comfort.setId_chi_tiet_tien_nghi(generatedId_comfort); // Gán khóa con duy nhất làm id_dich_vu cho dichvu
-                    new_comfort.setValue(comfort); // Cập nhật lại dữ liệu với id_dich_vu mới
-                    Toast.makeText(Activity_Thong_Tin_Phong.this, "Add success", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(Activity_Thong_Tin_Phong.this, "Add failed", Toast.LENGTH_SHORT).show();
+    private void onClickAdd_comfort(ArrayList<chi_tiet_tien_nghi> comfortList, String idPhong) {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+        Map<String, Object> chilUpdates = new HashMap<>();
+//Tạo các cập nhật cho mỗi chi tiêt tiện nghi
+        for (chi_tiet_tien_nghi comfort : comfortList) {
+            String comfortID = comfort.getId_tien_nghi();
+            if (comfortID != null) {
+                // Đường dẫn sẽ là /chi_tiet_tien_nghi/idPhong/key
+                Map<String, Object> comfortValues = comfort.toMap();
+                chilUpdates.put("/chi_tiet_tien_nghi/" + idPhong + "/" + comfortID, comfortValues);
                 }
+        }
+        //Thưc hiện cập nhật thông báo
+        databaseReference.updateChildren(chilUpdates).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                // Cập nhật thành công
+                Toast.makeText(Activity_Thong_Tin_Phong.this, "Comfort added successfully", Toast.LENGTH_SHORT).show();
+            } else {
+                // Cập nhật thất bại
+                Toast.makeText(Activity_Thong_Tin_Phong.this, "Failed to add comfort", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void onClickAddFacilities(ArrayList<chi_tiet_dich_vu_phong> facilitiesList, String idPhong) {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+        Map<String, Object> childUpdates = new HashMap<>();
+
+        // Tạo các cập nhật cho mỗi chi tiết dịch vụ phòng
+        for (chi_tiet_dich_vu_phong facility : facilitiesList) {
+            String facilityID = facility.getId_dich_vu_phong();
+            if (facilityID != null) {
+                // Đường dẫn sẽ là /chi_tiet_dich_vu_phong/idPhong/key
+                Map<String, Object> facilityValues = facility.toMap();
+                childUpdates.put("/chi_tiet_dich_vu_phong/" + idPhong + "/" + facilityID, facilityValues);
+            }
+        }
+
+        // Thực hiện cập nhật thông báo
+        databaseReference.updateChildren(childUpdates).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                // Cập nhật thành công
+                Toast.makeText(Activity_Thong_Tin_Phong.this, "Facilities added successfully", Toast.LENGTH_SHORT).show();
+            } else {
+                // Cập nhật thất bại
+                Toast.makeText(Activity_Thong_Tin_Phong.this, "Failed to add facilities", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -440,24 +475,13 @@ public class Activity_Thong_Tin_Phong extends AppCompatActivity {
     }
 
     public void ThemChiTiet(String id_phong) {
+        // Lấy danh sách chi tiết dịch vụ phòng từ adapter
         list_chi_tietDVP = adapterDichVuPhong.getChiTietDichVu();
-        ArrayList<chi_tiet_dich_vu_phong> tempDVPList = new ArrayList<>();
-        for (chi_tiet_dich_vu_phong chiTietDVP : list_chi_tietDVP) {
-            if (chiTietDVP.getSo_luong() != 0) {
-                tempDVPList.add(chiTietDVP);
-
-                Log.e("hhhhhhh", "đã thêm chi tiết dịch vu");
-            }
-        }
-        list_chi_tietDVP = tempDVPList;
-        for (chi_tiet_dich_vu_phong detail_facility : list_chi_tietDVP) {
-            onClickAdd_facilities(facilities(detail_facility.getId_dich_vu_phong(), detail_facility.getSo_luong(), id_phong));
-        }
+        // Thêm danh sách chi tiết dịch vụ phòng vào Firebase
+        onClickAddFacilities(list_chi_tietDVP, id_phong);
 
         list_chi_tietTN = adapterTienNghi.getChi_tiet_tien_nghis();
-        for (chi_tiet_tien_nghi detail_comfort : list_chi_tietTN) {
-            onClickAdd_comfort(comfort(detail_comfort.getId_tien_nghi(), detail_comfort.getSo_luong(), id_phong));
-        }
+        onClickAdd_comfort(list_chi_tietTN, id_phong);
     }
 
     private void onClickAdd_room(phong phong) {
@@ -556,9 +580,18 @@ public class Activity_Thong_Tin_Phong extends AppCompatActivity {
                         list_status.add(trangThai);
                     }
                 }
-
                 // Cập nhật Spinner sp_status khi có dữ liệu mới
                 updateSpinnerStatus();
+                if (thong_tin_phong != null) {
+                    for (int i = 0; i < list_status.size(); i++) {
+                        trang_thai_phong status = list_status.get(i);
+                        Log.e("trang thai phong",status.getId_trang_thai_phong().toString());
+                        if (status.getId_trang_thai_phong().equals(thong_tin_phong.getId_trang_thai_phong())) {
+                            sp_status.setSelection(i);
+                            break;
+                        }
+                    }
+                }
             }
 
             @Override
