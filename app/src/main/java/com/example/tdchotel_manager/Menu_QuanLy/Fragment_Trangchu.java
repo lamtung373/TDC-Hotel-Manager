@@ -1,5 +1,6 @@
 package com.example.tdchotel_manager.Menu_QuanLy;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -9,6 +10,7 @@ import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -128,13 +130,24 @@ public class Fragment_Trangchu extends Fragment {
         img_Logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                new AlertDialog.Builder(getContext())
+                        .setTitle("Đăng xuất")
+                        .setMessage("Bạn có chắc chắn muốn đăng xuất?")
+                        .setPositiveButton("Có", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                SharedPreferences sharedPreferences = getActivity().getSharedPreferences(DangNhap.SHARED_PRE, getActivity().MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.clear();
+                                editor.apply();
+                                getActivity().finish();
+                                Intent intent = new Intent(getActivity(), DangNhap.class);
+                                startActivity(intent);
+                            }
+                        })
+                        .setNegativeButton("Không", null)
+                        .setIcon(R.drawable.warning)
+                        .show();
 
-                SharedPreferences sharedPreferences = getActivity().getSharedPreferences(DangNhap.SHARED_PRE, getActivity().MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString(DangNhap.id_staff, "");
-                editor.apply();
-                Intent intent=new Intent(getActivity(), DangNhap.class);
-                startActivity(intent);
             }
         });
     }
