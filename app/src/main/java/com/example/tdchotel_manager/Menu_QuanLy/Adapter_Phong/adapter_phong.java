@@ -1,6 +1,7 @@
 package com.example.tdchotel_manager.Menu_QuanLy.Adapter_Phong;
 
 // Android imports
+
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
@@ -11,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -41,13 +43,13 @@ public class adapter_phong extends RecyclerView.Adapter<adapter_phong.MyViewHold
     private ArrayList<phong> danh_sach_phong_loc = new ArrayList<>();
     private OnItemLongClickListener onItemLongClickListener;
     private OnItemClickListener onItemClickListener;
-    ProgressBar progressBar,progressBar_itemphong;
+    ProgressBar progressBar, progressBar_itemphong;
 
     // Constructor
-    public adapter_phong(Context context,ProgressBar progressBar, ProgressBar progressBar_itemphong) {
+    public adapter_phong(Context context, ProgressBar progressBar, ProgressBar progressBar_itemphong) {
         this.context = context;
-        this.progressBar=progressBar;
-        this.progressBar_itemphong=progressBar_itemphong;
+        this.progressBar = progressBar;
+        this.progressBar_itemphong = progressBar_itemphong;
         khoi_tao();
     }
 
@@ -74,14 +76,12 @@ public class adapter_phong extends RecyclerView.Adapter<adapter_phong.MyViewHold
     public void setOnItemLongClickListener(OnItemLongClickListener listener) {
         this.onItemLongClickListener = listener;
     }
-
     // RecyclerView required methods
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_item_phong, parent, false);
         return new MyViewHolder(itemView);
     }
-
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         // Bind data to views
@@ -174,7 +174,8 @@ public class adapter_phong extends RecyclerView.Adapter<adapter_phong.MyViewHold
         room_list = filteredRoomList;
         notifyDataSetChanged();
     }
-//    public void filterRoomListByType(String type) {
+
+    //    public void filterRoomListByType(String type) {
 //        danh_sach_phong_loc.clear();
 //        for (phong room : danh_sach_phong) { // Đảm bảo bạn có danh sách phòng ban đầu để lọc từ đó
 //            if (room.getLoai_phong().equals(type)) {
@@ -236,7 +237,7 @@ public class adapter_phong extends RecyclerView.Adapter<adapter_phong.MyViewHold
             tv_sale = itemView.findViewById(R.id.tv_sale);
             tv_type_room = itemView.findViewById(R.id.tv_type_room);
             tv_status_room = itemView.findViewById(R.id.tv_status_room);
-            progressBar_itemphong=itemView.findViewById(R.id.progressBar_itemphong);
+            progressBar_itemphong = itemView.findViewById(R.id.progressBar_itemphong);
         }
     }
 }
