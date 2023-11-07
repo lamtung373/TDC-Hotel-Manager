@@ -95,29 +95,80 @@ public class adapter_tien_nghi extends RecyclerView.Adapter<adapter_tien_nghi.My
     public void onBindViewHolder(@NonNull adapter_tien_nghi.MyViewHolder holder, int position) {
         tien_nghi data = dataList.get(position);
         holder.tv_ten_tien_nghi.setText(data.getTen_tien_nghi());
-        holder.ib_decrease.setOnClickListener(new View.OnClickListener() {
+
+        // Set giá trị ban đầu cho EditText dựa trên chi tiết tiện nghi
+        chi_tiet_tien_nghi cttn = findChiTietTienNghiById(data.getId_tien_nghi());
+        holder.edt_so_luong.setText(cttn != null ? String.valueOf(cttn.getSo_luong()) : "0");
+
+        // Set tag để sử dụng trong onClick listener
+        holder.ib_decrease.setTag(data.getId_tien_nghi());
+        holder.ib_increase.setTag(data.getId_tien_nghi());
+
+        // Sử dụng một listener chung cho tất cả các ImageButton
+        View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                decreaseValue(holder.edt_so_luong);
+                String tienNghiID = (String) v.getTag();
                 int soLuong = Integer.parseInt(holder.edt_so_luong.getText().toString());
-                String tienNghiID = data.getId_tien_nghi(); // Lấy ID của tiện nghi
-                Log.d("Tiện Nghi", "ID: " + tienNghiID + "   SL: " + soLuong);
+                if (v.getId() == R.id.ib_increase) {
+                    soLuong++;
+                } else if (v.getId() == R.id.ib_decrease && soLuong > 0) {
+                    soLuong--;
+                }
+                holder.edt_so_luong.setText(String.valueOf(soLuong));
                 addChiTietDichVu(tienNghiID, soLuong);
             }
-        });
+        };
 
-        holder.ib_increase.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                increaseValue(holder.edt_so_luong);
-                int soLuong = Integer.parseInt(holder.edt_so_luong.getText().toString());
-                String tienNghiID = data.getId_tien_nghi(); // Lấy ID của dịch vụ phòng
-                Log.d("Tiện Nghi", "ID: " + tienNghiID + "   SL: " + soLuong);
-                addChiTietDichVu(tienNghiID, soLuong);
-            }
-        });
-
+        holder.ib_decrease.setOnClickListener(listener);
+        holder.ib_increase.setOnClickListener(listener);
     }
+
+    public void filldata(ArrayList<chi_tiet_tien_nghi> list, RecyclerView rcv) {
+
+        // Duyệt qua tất cả các phần tử trong danh sách dữ liệu
+        for (int i = 0; i < getItemCount(); i++) {
+            Log.e("vaofor","jfkiwjfihwghwfgh");
+            tien_nghi data = dataList.get(i);
+
+                Log.e("tiennghi",data.getId_tien_nghi()+data.getTen_tien_nghi());
+            // Tìm chi tiết tương ứng theo ID trong danh sách truyền vào
+            chi_tiet_tien_nghi detail = findChiTietTienNghiById(data.getId_tien_nghi(), list);
+            if (detail != null) {
+                // Lấy ViewHolder hiện tại
+                MyViewHolder holder = (MyViewHolder) rcv.findViewHolderForAdapterPosition(i);
+                if (holder != null) {
+                    // Cập nhật EditText với số lượng từ chi tiết tương ứng
+                    holder.edt_so_luong.setText(String.valueOf(detail.getSo_luong()));
+                } else {
+                  Log.e("nodata","jfkiwjfihwghwfgh");
+                }
+            } else {
+                Log.e("nodata detail","jfkiwjfihwghwfgh");
+            }
+        }
+    }
+
+    private chi_tiet_tien_nghi findChiTietTienNghiById(String id, ArrayList<chi_tiet_tien_nghi> list) {
+        for (chi_tiet_tien_nghi cttn : list) {
+            if (cttn.getId_tien_nghi().equals(id)) {
+                return cttn;
+            }
+        }
+        return null;
+    }
+
+
+
+    private chi_tiet_tien_nghi findChiTietTienNghiById(String id) {
+        for (chi_tiet_tien_nghi cttn : chi_tiet_tien_nghis) {
+            if (cttn.getId_tien_nghi().equals(id)) {
+                return cttn;
+            }
+        }
+        return null;
+    }
+
 
     @Override
     public int getItemCount() {
