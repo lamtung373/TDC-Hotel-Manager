@@ -17,7 +17,7 @@ import com.example.tdchotel_manager.R;
 public class tabTienNghi extends Fragment {
 
     private RecyclerView rcvDV;
-    private adapter_tien_nghi_dv adapterTienNghi = new adapter_tien_nghi_dv();
+    private adapter_tien_nghi_dv adapterTienNghi = new adapter_tien_nghi_dv(getContext());
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -30,6 +30,7 @@ public class tabTienNghi extends Fragment {
     private void setEvent() {
         rcvDV.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
         rcvDV.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL));
+        adapterTienNghi = new adapter_tien_nghi_dv(getContext()); // Khởi tạo adapter với context
         rcvDV.setAdapter(adapterTienNghi);
     }
 
