@@ -73,10 +73,10 @@ public class themdichvu extends AppCompatActivity {
         btnLuu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (validateInput()) {
+                    uploadImageToFirebaseStorage();
 
-                uploadImageToFirebaseStorage();
-
-
+                }
             }
 
         });
@@ -186,7 +186,22 @@ public class themdichvu extends AppCompatActivity {
             }
         }
     }
-
+    private boolean validateInput() {
+        if (edtTenDv.getText().toString().trim().isEmpty()) {
+            edtTenDv.setError("Tên dịch vụ không được để trống");
+            return false;
+        }
+        if (edtGiaDv.getText().toString().trim().isEmpty()) {
+            edtGiaDv.setError("Giá dịch vụ không được để trống");
+            return false;
+        }
+        if (!rdNguoi.isChecked() && !rdPhong.isChecked()) {
+            // Nếu không có RadioButton nào được chọn, hiển thị thông báo
+            Toast.makeText(this, "Vui lòng chọn loại dịch vụ", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
 
     private void setControl() {
         edtTenDv = findViewById(R.id.edtTenDv);
@@ -196,5 +211,6 @@ public class themdichvu extends AppCompatActivity {
         rdNguoi = findViewById(R.id.rdNguoi);
         rdPhong = findViewById(R.id.rdPhong);
         imageView = findViewById(R.id.imgthemDV);
+
     }
 }

@@ -49,6 +49,7 @@
             android:layout_marginRight="15dp"
             android:textColor="@color/black" />
         <EditText
+            android:inputType="number"
             android:id="@+id/edtGiaDv1"
             android:layout_width="match_parent"
             android:layout_height="50dp"

@@ -71,10 +71,10 @@ public class themtiennghi extends AppCompatActivity {
         btnLuu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (validateInput()) {
+                    uploadImageToFirebaseStorage();
 
-                uploadImageToFirebaseStorage();
-
-
+                }
             }
 
         });
@@ -184,7 +184,17 @@ public class themtiennghi extends AppCompatActivity {
             }
         }
     }
-
+    private boolean validateInput() {
+        if (edtTenDv.getText().toString().trim().isEmpty()) {
+            edtTenDv.setError("Tên dịch vụ không được để trống");
+            return false;
+        }
+        if (edtGiaDv.getText().toString().trim().isEmpty()) {
+            edtGiaDv.setError("Giá dịch vụ không được để trống");
+            return false;
+        }
+        return true;
+    }
 
 
     private void setControl() {

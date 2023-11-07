@@ -17,7 +17,7 @@
             android:layout_centerVertical="true"
             android:layout_gravity="center"
             android:gravity="center"
-            android:text="Quản lý dịch vụ"
+            android:text="Thêm các dịch vụ"
             android:textColor="@color/white"
             android:textSize="20dp"
             android:textStyle="bold" />
@@ -74,6 +74,7 @@
             android:textColor="@color/black" />
 
         <EditText
+            android:inputType="number"
             android:id="@+id/edtGiaDv"
             android:layout_width="match_parent"
             android:layout_height="50dp"
