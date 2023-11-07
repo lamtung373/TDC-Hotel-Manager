@@ -23,9 +23,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class DangNhap extends AppCompatActivity {
-    private static String SHARED_PRE = "shared_pre";
-    private static String id_staff = "id_staff";
-    private static String chuc_vu_auto = "chuc_vu_auto";
+    public static String SHARED_PRE = "shared_pre";
+    public static String id_staff = "id_staff";
+    public static String chuc_vu_auto = "chuc_vu_auto";
     ProgressBar progressBar;
 
     EditText edtusername, edtPassword;
