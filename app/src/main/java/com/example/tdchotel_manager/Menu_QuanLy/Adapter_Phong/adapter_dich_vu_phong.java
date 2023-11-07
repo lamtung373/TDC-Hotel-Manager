@@ -102,13 +102,13 @@ public class adapter_dich_vu_phong extends RecyclerView.Adapter<adapter_dich_vu_
     // Trong onBindViewHolder, cập nhật các sự kiện click để sử dụng các phương thức trên
     @Override
     public void onBindViewHolder(@NonNull adapter_dich_vu_phong.MyViewHolder holder, int position) {
-        dich_vu_phong data = datalist.get(position);
+        dich_vu_phong data = datalist.get(holder.getAdapterPosition());
         holder.tv_ten_tien_nghi.setText(data.getTen_dich_vu_phong());
         holder.edt_so_luong.setText(String.valueOf(data.getSo_luong()));
         holder.ib_decrease.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                decreaseValue(position, holder.edt_so_luong);
+                decreaseValue(holder.getAdapterPosition(), holder.edt_so_luong);
                 // Cập nhật chi tiết dịch vụ phòng
                 addChiTietDichVu(data.getId_dich_vu_phong(), data.getSo_luong());
             }
@@ -117,7 +117,7 @@ public class adapter_dich_vu_phong extends RecyclerView.Adapter<adapter_dich_vu_
         holder.ib_increase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                increaseValue(position, holder.edt_so_luong);
+                increaseValue(holder.getAdapterPosition(), holder.edt_so_luong);
                 // Cập nhật chi tiết dịch vụ phòng
                 addChiTietDichVu(data.getId_dich_vu_phong(), data.getSo_luong());
             }

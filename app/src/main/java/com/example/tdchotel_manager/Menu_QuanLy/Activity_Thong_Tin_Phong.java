@@ -124,6 +124,7 @@ public class Activity_Thong_Tin_Phong extends AppCompatActivity {
         edt_sale.setText(String.valueOf(data_phong.getSale()));
         loadchitiettiennghi(data_phong.getId_phong());
         adapterTienNghi.GoiDuLieu(data_phong.getId_phong());
+        adapterDichVuPhong.GoiDuLieu(data_phong.getId_phong());
         loadImagesFromFirebase(data_phong);
         switch (data_phong.getLoai_phong()){
             case "1 Người":
@@ -187,22 +188,7 @@ public class Activity_Thong_Tin_Phong extends AppCompatActivity {
         btn_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (validateRoomData()) {
-                    viewBlocking.setVisibility(View.VISIBLE);
-                    progressBar_luuphong.setVisibility(View.VISIBLE); // Hiển thị ProgressBar
-                    uploadImages(picture_list, new OnAllImagesUploadedListener() {
-                        @Override
-                        public void onAllImagesUploaded(List<String> imageUrls) {
-                            Log.e("hhhhhhh", "đã thêm ảnh");
-                            phong room = new_room();
-                            onClickAdd_room(new_room());
-                            progressBar_luuphong.setVisibility(View.GONE);
-                            viewBlocking.setVisibility(View.GONE);
-                            Toast.makeText(Activity_Thong_Tin_Phong.this, "Thêm phòng thành công", Toast.LENGTH_SHORT).show();
-                            finish();
-                        }
-                    });
-                }
+                save_data();
             }
         });
         sp_status.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -241,7 +227,24 @@ public class Activity_Thong_Tin_Phong extends AppCompatActivity {
         rcv_dich_vu_phong.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         rcv_dich_vu_phong.setAdapter(adapterDichVuPhong);
     }
-
+void save_data(){
+    if (validateRoomData()) {
+        viewBlocking.setVisibility(View.VISIBLE);
+        progressBar_luuphong.setVisibility(View.VISIBLE); // Hiển thị ProgressBar
+        uploadImages(picture_list, new OnAllImagesUploadedListener() {
+            @Override
+            public void onAllImagesUploaded(List<String> imageUrls) {
+                Log.e("hhhhhhh", "đã thêm ảnh");
+                phong room = new_room();
+                onClickAdd_room(new_room());
+                progressBar_luuphong.setVisibility(View.GONE);
+                viewBlocking.setVisibility(View.GONE);
+                Toast.makeText(Activity_Thong_Tin_Phong.this, "Thêm phòng thành công", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        });
+    }
+}
     public void uploadImages(ArrayList<Uri> imageUris, final OnAllImagesUploadedListener listener) {
         StorageReference storageReference = FirebaseStorage.getInstance().getReferenceFromUrl("gs://tdc-hotel-beb50.appspot.com");
         List<Task<Uri>> tasks = new ArrayList<>();
@@ -459,21 +462,6 @@ public class Activity_Thong_Tin_Phong extends AppCompatActivity {
             }
         });
     }
-
-    private void increaseValue(EditText editText) {
-        int value = Integer.parseInt(editText.getText().toString());
-        value++;
-        editText.setText(String.valueOf(value));
-    }
-
-    private void decreaseValue(EditText editText) {
-        int value = Integer.parseInt(editText.getText().toString());
-        if (value > 0) {
-            value--;
-            editText.setText(String.valueOf(value));
-        }
-    }
-
     public void ThemChiTiet(String id_phong) {
         // Lấy danh sách chi tiết dịch vụ phòng từ adapter
         list_chi_tietDVP = adapterDichVuPhong.getChiTietDichVu();
