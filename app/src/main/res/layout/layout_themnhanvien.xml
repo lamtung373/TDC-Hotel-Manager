@@ -55,7 +55,7 @@
                 android:clipToOutline="true"
                 android:outlineProvider="background"
                 android:padding="1.5dp"
-                android:scaleType="centerCrop" />
+                android:scaleType="centerCrop"/>
 
             <EditText
                 android:id="@+id/edtHoTen_ThemNV"
@@ -130,7 +130,7 @@
                 android:layout_marginRight="20dp"
                 android:background="@drawable/border_button_nhanvien"
                 android:hint="Số điện thoại"
-                android:inputType="text"
+                android:inputType="number"
                 android:paddingStart="20dp"
                 android:paddingEnd="20dp"
                 android:textColor="#000000"
@@ -196,7 +196,7 @@
                 android:layout_marginRight="20dp"
                 android:background="@drawable/border_button_nhanvien"
                 android:hint="Lương/h"
-                android:inputType="text"
+                android:inputType="number"
                 android:paddingStart="20dp"
                 android:paddingEnd="20dp"
                 android:textColor="#000000"
