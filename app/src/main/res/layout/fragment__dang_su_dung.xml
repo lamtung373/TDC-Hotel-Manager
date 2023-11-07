@@ -1,40 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Le_Tan.Fragment_LeTan.Fragment_DangSuDung">
+    android:orientation="vertical"
+    tools:context=".Menu_QuanLy.Fragment_Phong">
 
-    <LinearLayout
+
+    <EditText
+        android:id="@+id/edt_search"
+        style="@style/editText"
+        android:hint="Tìm kiếm" />
+    <ProgressBar
+        android:id="@+id/progressBar_phong"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:progressDrawable="@drawable/refresh"
+        android:visibility="gone"/>
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_marginTop="10dp">
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="20dp"
-            android:hint="Tìm kiếm"
-            android:inputType="text"
-            android:background="@drawable/border_button_nhanvien"
-            android:textColor="#000000"
-            android:textSize="15sp"
-            android:textStyle="italic"
-            android:paddingStart="20dp"
-            android:paddingEnd="20dp"
-            android:id="@+id/edtSearch"/>
-
+        android:layout_height="match_parent">
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcv_roomlist"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:id="@+id/recyclerViewNhanVien"
-            />
+            android:layout_marginHorizontal="10dp">
 
-    </LinearLayout>
-</FrameLayout>
+        </androidx.recyclerview.widget.RecyclerView>
+    </ScrollView>
+
+</LinearLayout>
