@@ -10,6 +10,14 @@ public class dich_vu_phong implements Serializable {
     double gia_dich_vu_phong;
     int so_luong;
 
+    public int getSo_luong() {
+        return so_luong;
+    }
+
+    public void setSo_luong(int so_luong) {
+        this.so_luong = so_luong;
+    }
+
     public dich_vu_phong() {
     }
 
