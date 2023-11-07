@@ -8,6 +8,7 @@
 
 
     <EditText
+        android:layout_margin="20dp"
         android:id="@+id/edt_search"
         style="@style/editText"
         android:hint="Tìm kiếm" />
@@ -23,6 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <androidx.recyclerview.widget.RecyclerView
+            android:layout_margin="20dp"
             android:id="@+id/rcv_roomlist"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
