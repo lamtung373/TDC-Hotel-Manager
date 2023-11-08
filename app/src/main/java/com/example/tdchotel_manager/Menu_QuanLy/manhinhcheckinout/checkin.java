@@ -1,14 +1,20 @@
 package com.example.tdchotel_manager.Menu_QuanLy.manhinhcheckinout;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -19,6 +25,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.tdchotel_manager.Menu_QuanLy.Activity_NghiLam;
 import com.example.tdchotel_manager.Menu_QuanLy.Adapter_NhanVien.NhanVienCheckInOutAdapter;
 import com.example.tdchotel_manager.Menu_QuanLy.QuanLyLichLam;
 import com.example.tdchotel_manager.Model.cham_cong;
@@ -55,6 +62,7 @@ public class checkin extends Fragment {
     private String mParam2;
     private RecyclerView rcvCheckIn;
     private Spinner spnCaLam;
+    private EditText edtTimKiem;
 
     private List<nhan_vien> nhanVien;
     private NhanVienCheckInOutAdapter nhanVienAdapter;
@@ -115,7 +123,18 @@ public class checkin extends Fragment {
 
             }
         });
+        edtTimKiem.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if (i == EditorInfo.IME_ACTION_DONE) {
 
+                        loadCheckIn(spnCaLam.getSelectedItem().toString());
+
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
     private void LoadChucVu() {
@@ -143,6 +162,8 @@ public class checkin extends Fragment {
         rcvCheckIn = view.findViewById(R.id.rcvCheckIn);
 
         spnCaLam = view.findViewById(R.id.spnCaLam);
+        edtTimKiem = view.findViewById(R.id.edtTimKiem);
+
         ArrayList<String> arrayLoai = new ArrayList<>();
         arrayLoai.add("Ca sáng");
         arrayLoai.add("Ca tối");
@@ -171,63 +192,94 @@ public class checkin extends Fragment {
         rcvCheckIn.setAdapter(nhanVienAdapter);
     }
     private void CheckIn(nhan_vien nhan_vien) {
-        String id_chamCong = String.valueOf(System.currentTimeMillis());
-        Calendar ca= Calendar.getInstance();
-        int dayofweek = ca.get(Calendar.DAY_OF_WEEK);
-        String idCaLam = "";
-        if(spnCaLam.getSelectedItem().toString().equals("Ca sáng"))
-        {
-            idCaLam = "1";
-        }
-        else
-        {
-            idCaLam = "2";
-        }
-        Date date = new Date();
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-        String strDate = formatter.format(date);
-        cham_cong cham_cong = new cham_cong(id_chamCong,nhan_vien.getId_nhan_vien(),dayofweek,idCaLam,strDate,"");
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("cham_cong");
-        ref.child(cham_cong.getId_cham_cong()).setValue(cham_cong, new DatabaseReference.CompletionListener() {
-            @Override
-            public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
-                if(error==null)
-                {
+        new AlertDialog.Builder(getActivity())
+                .setMessage("Bạn có muốn lưu thời gian bắt đầu ca?")
+                .setCancelable(false)
+                .setPositiveButton("Có", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
 
-                }
+                        Calendar ca= Calendar.getInstance();
+                        int dayofweek = ca.get(Calendar.DAY_OF_WEEK);
+                        String idCaLam = "";
+                        if(spnCaLam.getSelectedItem().toString().equals("Ca sáng"))
+                        {
+                            idCaLam = "1";
+                        }
+                        else
+                        {
+                            idCaLam = "2";
+                        }
+                        Date date = new Date();
+                        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+                        String strDate = formatter.format(date);
 
-            }
-        });
+                        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("cham_cong");
+                        String id_chamCong = ref.push().getKey();
+                        cham_cong cham_cong = new cham_cong(id_chamCong,nhan_vien.getId_nhan_vien(),dayofweek,idCaLam,strDate,"");
+                        ref.child(cham_cong.getId_cham_cong()).setValue(cham_cong, new DatabaseReference.CompletionListener() {
+                            @Override
+                            public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
+                                if(error==null)
+                                {
+
+                                }
+
+                            }
+                        });
+                    }
+                }).setNegativeButton("Không", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                }).show();
+
     }
     private void XinNghi(nhan_vien nhan_vien)
     {
-        String id_chamCong = String.valueOf(System.currentTimeMillis());
-        Calendar ca= Calendar.getInstance();
-        int dayofweek = ca.get(Calendar.DAY_OF_WEEK);
-        String idCaLam = "";
-        if(spnCaLam.getSelectedItem().toString().equals("Ca sáng"))
-        {
-            idCaLam = "1";
-        }
-        else
-        {
-            idCaLam = "2";
-        }
-        Date date = new Date();
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-        String strDate = formatter.format(date)+" Nghỉ";
-        cham_cong cham_cong = new cham_cong(id_chamCong,nhan_vien.getId_nhan_vien(),dayofweek,idCaLam,strDate,"");
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("cham_cong");
-        ref.child(cham_cong.getId_cham_cong()).setValue(cham_cong, new DatabaseReference.CompletionListener() {
-            @Override
-            public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
-                if(error==null)
-                {
+        new AlertDialog.Builder(getActivity())
+                .setMessage("Bạn có muốn cho nhân viên ngày nghỉ ca này không?")
+                .setCancelable(false)
+                .setPositiveButton("Có", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Calendar ca= Calendar.getInstance();
+                        int dayofweek = ca.get(Calendar.DAY_OF_WEEK);
+                        String idCaLam = "";
+                        if(spnCaLam.getSelectedItem().toString().equals("Ca sáng"))
+                        {
+                            idCaLam = "1";
+                        }
+                        else
+                        {
+                            idCaLam = "2";
+                        }
+                        Date date = new Date();
+                        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                        String strDate = formatter.format(date)+" Nghỉ";
 
-                }
+                        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("cham_cong");
+                        String id_chamCong = ref.push().getKey();
+                        cham_cong cham_cong = new cham_cong(id_chamCong,nhan_vien.getId_nhan_vien(),dayofweek,idCaLam,strDate,"");
+                        ref.child(cham_cong.getId_cham_cong()).setValue(cham_cong, new DatabaseReference.CompletionListener() {
+                            @Override
+                            public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
+                                if(error==null)
+                                {
 
-            }
-        });
+                                }
+
+                            }
+                        });
+                    }
+                }).setNegativeButton("Không", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                }).show();
+
     }
 
     private void loadCheckIn(String caLam) {
@@ -257,7 +309,7 @@ public class checkin extends Fragment {
                                         nhanVienList.clear();
                                         for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                                             nhan_vien nhan_vien = dataSnapshot.getValue(nhan_vien.class);
-                                            if(nhan_vien.getId_nhan_vien().equals(phanCong.getId_nhan_vien()))
+                                            if(nhan_vien.getId_nhan_vien().equals(phanCong.getId_nhan_vien())&&edtTimKiem.getText().toString().equals(""))
                                             {
                                                 refChamCong.addListenerForSingleValueEvent(new ValueEventListener() {
                                                     @Override
@@ -286,9 +338,66 @@ public class checkin extends Fragment {
                                                             }
                                                             if(phanCong.getId_ca_lam().equals(the))
                                                             {
-                                                                Log.e("Thành công",""+the);
-                                                                if(nhan_vien.getId_nhan_vien().equals(cham_cong.getId_nhan_vien())&&words[0].equals(strDate))
+                                                                if(nhan_vien.getId_nhan_vien().equals(cham_cong.getId_nhan_vien())&&words[0].equals(strDate)&&cham_cong.getId_ca_lam().equals(the))                                                                {
+
+                                                                    Log.e("Ceck",""+strDate);
+                                                                    check++;
+                                                                }
+                                                                else
                                                                 {
+
+                                                                }
+                                                            }
+                                                            else
+                                                            {
+                                                                check++;
+                                                            }
+
+
+                                                        }
+                                                        if(check==0)
+                                                        {
+                                                            nhanVienList.add(nhan_vien);
+                                                        }
+                                                        nhanVienAdapter.notifyDataSetChanged();
+                                                    }
+
+                                                    @Override
+                                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                                    }
+                                                });
+                                            }
+                                            else if(nhan_vien.getId_nhan_vien().equals(phanCong.getId_nhan_vien())&&edtTimKiem.getText().toString().equals(nhan_vien.getTen_nhan_vien()))
+                                            {
+                                                refChamCong.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                    @Override
+                                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                        int check = 0;
+                                                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                                                            cham_cong cham_cong = dataSnapshot.getValue(cham_cong.class);
+
+                                                            Date date = new Date();
+                                                            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                                                            String strDate = formatter.format(date);
+                                                            String[] words = cham_cong.getCheck_in().split("\\s");
+                                                            String the = "";
+                                                            if(caLam.equals("Ca sáng"))
+                                                            {
+                                                                the="1";
+                                                            }
+                                                            else
+                                                            {
+                                                                the="2";
+                                                            }
+                                                            Log.e("Cham cong id"+cham_cong.getId_ca_lam()+"nhan vien id"+nhan_vien.getId_nhan_vien()+"ngay h"+nhan_vien.getId_nhan_vien(),"Cham cong id"+the+"nhan vien id"+cham_cong.getId_nhan_vien()+"ngay h"+strDate);
+                                                            if(words[0].equals(strDate))
+                                                            {
+
+                                                            }
+                                                            if(phanCong.getId_ca_lam().equals(the))
+                                                            {
+                                                                if(nhan_vien.getId_nhan_vien().equals(cham_cong.getId_nhan_vien())&&words[0].equals(strDate)&&cham_cong.getId_ca_lam().equals(the))                                                                {
 
                                                                     Log.e("Ceck",""+strDate);
                                                                     check++;

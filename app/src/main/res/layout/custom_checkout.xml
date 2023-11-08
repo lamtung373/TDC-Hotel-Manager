@@ -32,6 +32,8 @@
             ></TextView>
     </LinearLayout>
         <Button
+            style="@style/button"
+            android:background="@drawable/selector_bg_button"
             android:id="@+id/btnCheck"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
