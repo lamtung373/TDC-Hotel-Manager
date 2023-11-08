@@ -102,7 +102,9 @@ public class Fragment_Nhanvien extends Fragment {
                 // Lặp qua các phần tử trong dataSnapshot
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     nhan_vien nv = snapshot.getValue(nhan_vien.class);
-                    data.add(nv);
+                    if (nv != null && !nv.getId_chuc_vu().equals("3")) {
+                        data.add(nv); // Thêm nhân viên vào danh sách nếu không có id_chuc_vu là 3
+                    }
                 }
 
                 adapter.notifyDataSetChanged(); // Thông báo cho Adapter cập nhật dữ liệu
