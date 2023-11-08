@@ -39,10 +39,11 @@ public class Activity_Chi_Tiet_Phong extends AppCompatActivity {
         //Lay du lieu duoc truyen tu man hinh danh sach phong san sang
         phong phong = (phong) getIntent().getSerializableExtra("phong");
         //Chuyen anh
-        Photo_Adapter adapter = new Photo_Adapter(phong.getAnh_phong());
-        vpiv.setAdapter(adapter);
-        ci.setViewPager(vpiv);
-
+        if (phong.getAnh_phong() != null && !phong.getAnh_phong().isEmpty()) {
+            Photo_Adapter adapter = new Photo_Adapter(phong.getAnh_phong());
+            vpiv.setAdapter(adapter);
+            ci.setViewPager(vpiv);
+        }
         //Tao hieu ung khi chuyen anh
         vpiv.setOffscreenPageLimit(3);
         vpiv.setClipToPadding(false);
@@ -63,18 +64,19 @@ public class Activity_Chi_Tiet_Phong extends AppCompatActivity {
 
         //Gach ngang chu
         tvGiacu.setPaintFlags(tvGiacu.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-        tvGiacu.setText(phong.getSale()+"");
+        tvGiacu.setText(phong.getSale() + "");
 
         //Tên phòng
         tv_tenphong.setText(phong.getTen_phong());
 
         //Gia
-        tvGiamoi.setText(phong.getGia()+"đ/đêm");
+        tvGiamoi.setText(phong.getGia() + "đ/đêm");
 
         //
     }
-    void LayDuLieuTienNghi(String id_phong){
-        DatabaseReference reference=FirebaseDatabase.getInstance().getReference("");
+
+    void LayDuLieuTienNghi(String id_phong) {
+//        DatabaseReference reference=FirebaseDatabase.getInstance().getReference("");
     }
 
     private void AutoSlideImage() {
