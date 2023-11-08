@@ -20,6 +20,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -49,9 +50,17 @@ public class adapter_dich_vu extends RecyclerView.Adapter<adapter_dich_vu.MyView
         holder.tvgia.setText(String.valueOf(dataItem.getGia_dich_vu()) + "đ/");
         holder.tvloaidv.setText(dataItem.getId_loai_dich_vu());
         holder.progressBar.setVisibility(View.VISIBLE);
+        Picasso.get().load(dataItem.getAnh_dich_vu()).into(holder.imganhdv, new Callback() {
+            @Override
+            public void onSuccess() {
+                holder.progressBar.setVisibility(View.GONE);
 
-        Picasso.get().load(dataItem.getAnh_dich_vu()).into(holder.imganhdv);
-        holder.progressBar.setVisibility(View.GONE);
+            }
+            @Override
+            public void onError(Exception e) {
+                holder.progressBar.setVisibility(View.GONE);
+            }
+        });
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
