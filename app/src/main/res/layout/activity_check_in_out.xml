@@ -12,7 +12,7 @@
         android:background="@color/dark_blue"
         android:padding="10dp">
         <ImageButton
-            android:id="@+id/btn_back"
+            android:id="@+id/btn_backChamCong"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -49,13 +49,13 @@
 
         </LinearLayout>
         <ImageButton
-            android:id="@+id/btn"
+            android:id="@+id/btnNghiLam"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
             android:layout_alignParentRight="true"
             android:background="@null"
-            android:src="@drawable/back" />
+            android:src="@drawable/icon_nghilam" />
 
     </RelativeLayout>
 

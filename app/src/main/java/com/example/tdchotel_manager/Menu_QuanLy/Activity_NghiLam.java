@@ -158,7 +158,12 @@ public class Activity_NghiLam extends AppCompatActivity {
 
             }
         });
-
+    btn_back.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            finish();
+        }
+    });
     }
     private void LoadChucVu() {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("chuc_vu");
