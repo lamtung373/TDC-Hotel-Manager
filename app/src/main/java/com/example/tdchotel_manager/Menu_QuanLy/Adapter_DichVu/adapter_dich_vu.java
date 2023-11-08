@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +35,7 @@ import java.util.List;
 
 public class adapter_dich_vu extends RecyclerView.Adapter<adapter_dich_vu.MyViewHolder> {
 
+    ProgressBar progressBar;
     private ArrayList<dich_vu> datalist = new ArrayList<>();
     Context context;
     public adapter_dich_vu(Context context) {
@@ -55,8 +57,10 @@ public class adapter_dich_vu extends RecyclerView.Adapter<adapter_dich_vu.MyView
         holder.tvten.setText(dataItem.getTen_dich_vu());
         holder.tvgia.setText(String.valueOf(dataItem.getGia_dich_vu()) + "đ/");
         holder.tvloaidv.setText(dataItem.getId_loai_dich_vu());
+        holder.progressBar.setVisibility(View.VISIBLE);
 
         Picasso.get().load(dataItem.getAnh_dich_vu()).into(holder.imganhdv);
+        holder.progressBar.setVisibility(View.GONE);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,6 +83,7 @@ public class adapter_dich_vu extends RecyclerView.Adapter<adapter_dich_vu.MyView
         LinearLayout layout;
         ImageView imganhdv;
         TextView tvten, tvgia, tvloaidv;
+        ProgressBar progressBar;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -87,6 +92,7 @@ public class adapter_dich_vu extends RecyclerView.Adapter<adapter_dich_vu.MyView
             tvloaidv = itemView.findViewById(R.id.tvloaidv);
             layout = itemView.findViewById(R.id.layout_dv);
             imganhdv = itemView.findViewById(R.id.imgvDV);
+            progressBar = itemView.findViewById(R.id.progressBar_itemDichVu);
         }
     }
 
