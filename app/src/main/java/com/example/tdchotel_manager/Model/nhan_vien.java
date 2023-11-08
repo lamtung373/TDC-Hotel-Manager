@@ -12,6 +12,16 @@ public class nhan_vien implements Serializable {
     double luong;
     private String anh_CCCD_Truoc;
     private String anh_CCCD_Sau;
+    private cham_cong cham_cong;
+
+    public com.example.tdchotel_manager.Model.cham_cong getCham_cong() {
+        return cham_cong;
+    }
+
+    public void setCham_cong(com.example.tdchotel_manager.Model.cham_cong cham_cong) {
+        this.cham_cong = cham_cong;
+    }
+
     List<phan_cong> phanCongList;
 
     public List<phan_cong> getPhanCongList() {

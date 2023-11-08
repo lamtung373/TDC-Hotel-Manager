@@ -1,6 +1,8 @@
 package com.example.tdchotel_manager.Menu_QuanLy;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.icu.text.DecimalFormat;
 import android.icu.text.DecimalFormatSymbols;
@@ -8,6 +10,7 @@ import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -18,9 +21,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.tdchotel_manager.DangNhap;
 import com.example.tdchotel_manager.Menu_QuanLy.Adapter_Trangchu.adapter_calam;
 import com.example.tdchotel_manager.Model.ca_lam;
 import com.example.tdchotel_manager.Model.chuc_vu;
@@ -68,6 +73,7 @@ public class Fragment_Trangchu extends Fragment {
     ArrayList<nhan_vien> arr_nhanvien_sang = new ArrayList<>();
     ArrayList<nhan_vien> arr_nhanvien_toi = new ArrayList<>();
     RecyclerView rcv_casang, rcv_catoi;
+    ImageView img_Logout;
 
     TextView tv_phong, tv_dichvu, tv_dichvuphong, tv_phongdanghoatdong, tv_phongdangtrong, tv_phongdangsua, tv_hoadoncoc, tv_hoadonchuathanhtoan, tv_hoadondathanhtoan;
 
@@ -117,8 +123,31 @@ public class Fragment_Trangchu extends Fragment {
         btn_chamcong.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), QuanLyLichLam.class);
+                Intent intent = new Intent(getActivity(), CheckInOut.class);
                 startActivity(intent);
+            }
+        });
+        img_Logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new AlertDialog.Builder(getContext())
+                        .setTitle("Đăng xuất")
+                        .setMessage("Bạn có chắc chắn muốn đăng xuất?")
+                        .setPositiveButton("Có", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                SharedPreferences sharedPreferences = getActivity().getSharedPreferences(DangNhap.SHARED_PRE, getActivity().MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.clear();
+                                editor.apply();
+                                getActivity().finish();
+                                Intent intent = new Intent(getActivity(), DangNhap.class);
+                                startActivity(intent);
+                            }
+                        })
+                        .setNegativeButton("Không", null)
+                        .setIcon(R.drawable.warning)
+                        .show();
+
             }
         });
     }
@@ -567,5 +596,6 @@ public class Fragment_Trangchu extends Fragment {
         tv_hoadoncoc = view.findViewById(R.id.tv_hoadoncoc);
         tv_hoadonchuathanhtoan = view.findViewById(R.id.tv_hoadonchuathanhtoan);
         tv_hoadondathanhtoan = view.findViewById(R.id.tv_hoadondathanhtoan);
+        img_Logout = view.findViewById(R.id.img_Logout);
     }
 }

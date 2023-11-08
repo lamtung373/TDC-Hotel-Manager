@@ -14,7 +14,9 @@
             android:layout_width="300dp"
             android:layout_height="50dp"
             android:layout_gravity="center"
-
+            android:id="@+id/edtTimKiem"
+            android:imeOptions="actionDone"
+            android:inputType="text"
             android:hint="Tìm kiếm..."></EditText>
         <Spinner
             android:id="@+id/spnCaLam"

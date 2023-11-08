@@ -36,6 +36,7 @@ import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class ThongTinNhanVien extends AppCompatActivity {
@@ -117,7 +118,14 @@ public class ThongTinNhanVien extends AppCompatActivity {
                         edtTenDangNhap.setText(nv.getUsername());
                         edtMatKhau.setText(nv.getPassword());
                         edtSoDienThoai.setText(nv.getSo_dien_thoai());
-                        edtLuong.setText(String.valueOf(nv.getLuong()));
+                        // Khởi tạo đối tượng DecimalFormat với mẫu định dạng "#.##"
+                        DecimalFormat decimalFormat = new DecimalFormat("#.##");
+
+                        // Chuyển đổi giá trị double thành chuỗi đã được định dạng
+                        String formattedValue = decimalFormat.format(nv.getLuong());
+
+                        // Thiết lập giá trị đã được định dạng vào trường edtLuong
+                        edtLuong.setText(formattedValue);
 
                         String chucVuId = nv.getId_chuc_vu();
                         if ("1".equals(chucVuId)) {

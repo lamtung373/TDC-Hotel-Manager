@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.tdchotel_manager.Model.chuc_vu;
 import com.example.tdchotel_manager.Model.nhan_vien;
 import com.example.tdchotel_manager.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -49,6 +51,7 @@ public class NhanVienCheckInOutAdapter extends RecyclerView.Adapter<NhanVienChec
         {
             return;
         }
+        Picasso.get().load(nv.getAnh_nhan_vien()).into(holder.ivAnhNhanVien);
         holder.tvTenNhanVien.setText(nv.getTen_nhan_vien());
         for(int i = 0; i < chucVuList.size(); i++)
         {
@@ -84,12 +87,14 @@ public class NhanVienCheckInOutAdapter extends RecyclerView.Adapter<NhanVienChec
     {
         TextView tvTenNhanVien,tvChucVu;
         Button btnCheck,btnOff;
+        ImageView ivAnhNhanVien;
         public NhanVienViewHolder(@NonNull View itemView) {
             super(itemView);
             tvTenNhanVien = itemView.findViewById(R.id.tvTenNhanVien);
             tvChucVu = itemView.findViewById(R.id.tvChucVu);
             btnCheck = itemView.findViewById(R.id.btnCheck);
             btnOff = itemView.findViewById(R.id.btnOff);
+            ivAnhNhanVien = itemView.findViewById(R.id.ivAnhNhanVien);
         }
     }
 }
