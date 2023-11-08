@@ -218,7 +218,8 @@
                     android:layout_marginEnd="20dp"
                     android:text="Lễ tân"
                     android:textColor="#26A1EE"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:checked="true"/>
 
                 <RadioButton
                     android:id="@+id/radioButtonLaoCong_ThemNV"
