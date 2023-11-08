@@ -57,6 +57,12 @@
             android:name=".Menu_QuanLy.TrangChu_QuanLy"
             android:exported="true" />
         <activity
+            android:name=".Menu_QuanLy.CheckInOut"
+            android:exported="true" />
+        <activity
+            android:name=".Menu_QuanLy.Activity_NghiLam"
+            android:exported="true" />
+        <activity
             android:name=".DangNhap"
             android:exported="true">
             <intent-filter>

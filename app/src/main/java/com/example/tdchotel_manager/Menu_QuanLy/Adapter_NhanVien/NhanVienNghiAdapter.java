@@ -1,6 +1,5 @@
 package com.example.tdchotel_manager.Menu_QuanLy.Adapter_NhanVien;
 
-import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,27 +17,20 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class NhanVienCheckOutAdapter extends RecyclerView.Adapter<NhanVienCheckOutAdapter.NhanVienViewHolder>{
-    private List<nhan_vien> nhanVienList;
-    private List<chuc_vu> chucVuList;
-
-    public NhanVienCheckOutAdapter(List<nhan_vien> nhanVienList, List<chuc_vu> chucVuList, IClickListener iClickListenerCheck) {
+public class NhanVienNghiAdapter extends RecyclerView.Adapter<NhanVienNghiAdapter.NhanVienViewHolder>{
+    public NhanVienNghiAdapter(List<nhan_vien> nhanVienList, List<chuc_vu> chucVuList) {
         this.nhanVienList = nhanVienList;
         this.chucVuList = chucVuList;
-        this.iClickListenerCheck = iClickListenerCheck;
     }
 
-    private NhanVienCheckOutAdapter.IClickListener iClickListenerCheck;
-    public interface IClickListener {
-        void onClickUpdateItem(nhan_vien nhan_vien);
-    }
+    private List<nhan_vien> nhanVienList;
+    private List<chuc_vu> chucVuList;
     @NonNull
     @Override
     public NhanVienViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.custom_checkout,parent,false);
-        return new NhanVienCheckOutAdapter.NhanVienViewHolder(view);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.custom_danhsachnghi,parent,false);
+        return new NhanVienNghiAdapter.NhanVienViewHolder(view);
     }
-
     @Override
     public void onBindViewHolder(@NonNull NhanVienViewHolder holder, int position) {
         nhan_vien nv = nhanVienList.get(position);
@@ -56,13 +48,16 @@ public class NhanVienCheckOutAdapter extends RecyclerView.Adapter<NhanVienCheckO
                 break;
             }
         }
-
-        holder.btnCheck.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                iClickListenerCheck.onClickUpdateItem(nv);
-            }
-        });
+        if(nv.getCham_cong().getId_ca_lam().equals("1"))
+        {
+            holder.tvBuoiNghi.setText("Sáng");
+        }
+        else
+        {
+            holder.tvBuoiNghi.setText("Tối");
+        }
+        String[] ngayNghi = nv.getCham_cong().getCheck_in().split(" ");
+        holder.tvNgayNghi.setText(ngayNghi[0]);
     }
 
     @Override
@@ -75,16 +70,15 @@ public class NhanVienCheckOutAdapter extends RecyclerView.Adapter<NhanVienCheckO
     }
 
     class NhanVienViewHolder extends RecyclerView.ViewHolder{
-
-        TextView tvTenNhanVien,tvChucVu;
-        Button btnCheck;
+        TextView tvTenNhanVien,tvChucVu,tvNgayNghi,tvBuoiNghi;
         ImageView ivAnhNhanVien;
         public NhanVienViewHolder(@NonNull View itemView) {
             super(itemView);
             tvTenNhanVien = itemView.findViewById(R.id.tvTenNhanVien);
             tvChucVu = itemView.findViewById(R.id.tvChucVu);
-            btnCheck = itemView.findViewById(R.id.btnCheck);
             ivAnhNhanVien = itemView.findViewById(R.id.ivAnhNhanVien);
+            tvNgayNghi = itemView.findViewById(R.id.tvNgayNghi);
+            tvBuoiNghi = itemView.findViewById(R.id.tvBuoiNghi);
         }
     }
 }
