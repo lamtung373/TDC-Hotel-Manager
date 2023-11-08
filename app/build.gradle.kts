@@ -46,7 +46,7 @@ dependencies {
 
     // Các thư viện bên ngoài khác
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
-    implementation("com.squareup.picasso:picasso:2.8")
+    implementation("com.squareup.picasso:picasso:2.71828")
 
     // Thư viện dành cho việc kiểm thử
     testImplementation("junit:junit:4.13.2")
