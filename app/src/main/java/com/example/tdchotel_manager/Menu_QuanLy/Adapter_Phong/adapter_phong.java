@@ -1,59 +1,33 @@
 package com.example.tdchotel_manager.Menu_QuanLy.Adapter_Phong;
 
-import android.app.ProgressDialog;
+// Android imports
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+// Firebase imports
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+// App-specific imports
 import com.example.tdchotel_manager.Menu_QuanLy.Activity_Thong_Tin_Phong;
-import com.example.tdchotel_manager.Menu_QuanLy.Fragment_Phong;
 import com.example.tdchotel_manager.Model.phong;
 import com.example.tdchotel_manager.Model.trang_thai_phong;
 import com.example.tdchotel_manager.R;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
-import java.util.ArrayList;
-
-import android.content.Context;
-import android.graphics.Paint;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.example.tdchotel_manager.Model.phong;
-import com.example.tdchotel_manager.Model.trang_thai_phong;
-import com.example.tdchotel_manager.R;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -63,14 +37,17 @@ public class adapter_phong extends RecyclerView.Adapter<adapter_phong.MyViewHold
     private Context context;
     private ArrayList<phong> room_list = new ArrayList<>();
     private ArrayList<trang_thai_phong> status_list = new ArrayList<>();
-    private ArrayList<phong> originalRoomList = new ArrayList<>();
-
+    private ArrayList<phong> danh_sach_phong = new ArrayList<>();
+    private ArrayList<phong> danh_sach_phong_loc = new ArrayList<>();
     private OnItemLongClickListener onItemLongClickListener;
     private OnItemClickListener onItemClickListener;
+    ProgressBar progressBar,progressBar_itemphong;
 
     // Constructor
-    public adapter_phong(Context context) {
+    public adapter_phong(Context context,ProgressBar progressBar, ProgressBar progressBar_itemphong) {
         this.context = context;
+        this.progressBar=progressBar;
+        this.progressBar_itemphong=progressBar_itemphong;
         khoi_tao();
     }
 
@@ -84,9 +61,9 @@ public class adapter_phong extends RecyclerView.Adapter<adapter_phong.MyViewHold
     }
 
     // Accessors
-    public ArrayList<phong> getOriginalRoomList() {
-        this.originalRoomList.addAll(room_list);
-        return originalRoomList;
+    public ArrayList<phong> getDanh_sach_phong() {
+        this.danh_sach_phong.addAll(room_list);
+        return danh_sach_phong;
     }
 
     public ArrayList<phong> getRoomList() {
@@ -98,7 +75,7 @@ public class adapter_phong extends RecyclerView.Adapter<adapter_phong.MyViewHold
         this.onItemLongClickListener = listener;
     }
 
-    // Override Methods
+    // RecyclerView required methods
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_item_phong, parent, false);
@@ -107,7 +84,36 @@ public class adapter_phong extends RecyclerView.Adapter<adapter_phong.MyViewHold
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
+        // Bind data to views
         phong data = room_list.get(position);
+        if (data.getAnh_phong() != null && !data.getAnh_phong().isEmpty()) {
+            String imageUrl = data.getAnh_phong().get(0); // Sử dụng phần tử đầu tiên hoặc bất kỳ phần tử nào bạn muốn hiển thị
+
+            // Hiển thị ProgressBar
+            holder.progressBar_itemphong.setVisibility(View.VISIBLE);
+
+            // Sử dụng Picasso để tải ảnh
+            Picasso.get().load(imageUrl).into(holder.iv_item_phong, new Callback() {
+                @Override
+                public void onSuccess() {
+                    // Ẩn ProgressBar khi tải thành công
+                    holder.progressBar_itemphong.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onError(Exception e) {
+                    // Ẩn ProgressBar và xử lý lỗi
+                    holder.progressBar_itemphong.setVisibility(View.GONE);
+                    // Bạn có thể đặt một ảnh mặc định nếu tải ảnh thất bại
+                    holder.iv_item_phong.setImageResource(R.drawable.phong); // Thay thế bằng ảnh mặc định của bạn
+                }
+            });
+        } else {
+            // Set a default image or hide the ImageView
+            holder.iv_item_phong.setImageResource(R.drawable.phong); // Replace with your default image resource
+            // Ẩn ProgressBar vì không có ảnh để tải
+            holder.progressBar_itemphong.setVisibility(View.GONE);
+        }
         holder.tv_name_room.setText(String.valueOf(data.getTen_phong()));
         holder.tv_price.setText(String.valueOf(data.getGia()));
         holder.tv_price.setPaintFlags(holder.tv_price.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
@@ -115,26 +121,22 @@ public class adapter_phong extends RecyclerView.Adapter<adapter_phong.MyViewHold
         holder.tv_type_room.setText(data.getLoai_phong());
         holder.tv_status_room.setText(setStatusView(data.getId_trang_thai_phong()));
 
-        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                int adapterPosition = holder.getAdapterPosition();
-                if (adapterPosition != RecyclerView.NO_POSITION && onItemLongClickListener != null) {
-                    onItemLongClickListener.onItemLongClick(adapterPosition);
-                }
-                return true;
+        // Long click listener for item
+        holder.itemView.setOnLongClickListener(v -> {
+            int adapterPosition = holder.getAdapterPosition();
+            if (adapterPosition != RecyclerView.NO_POSITION && onItemLongClickListener != null) {
+                onItemLongClickListener.onItemLongClick(adapterPosition);
             }
+            return true;
         });
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int adapterPosition = holder.getAdapterPosition();
-                if (adapterPosition != RecyclerView.NO_POSITION) {
-                    Intent intent = new Intent(context, Activity_Thong_Tin_Phong.class);
-                    intent.putExtra("phong", room_list.get(adapterPosition));
-                    context.startActivity(intent);
-                }
+        // Click listener to start a new activity
+        holder.itemView.setOnClickListener(v -> {
+            int adapterPosition = holder.getAdapterPosition();
+            if (adapterPosition != RecyclerView.NO_POSITION) {
+                Intent intent = new Intent(context, Activity_Thong_Tin_Phong.class);
+                intent.putExtra("phong", room_list.get(adapterPosition));
+                context.startActivity(intent);
             }
         });
     }
@@ -146,40 +148,44 @@ public class adapter_phong extends RecyclerView.Adapter<adapter_phong.MyViewHold
 
     // Custom Methods
     public void removeItem(int position) {
+        // Remove item from Firebase
         String objectIdToDelete = room_list.get(position).getId_phong();
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("phong");
-        databaseReference.child(objectIdToDelete).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                room_list.remove(position);
-                notifyItemRemoved(position);
-                Toast.makeText(context, "Xóa đối tượng thành công", Toast.LENGTH_SHORT).show();
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(context, "Xóa đối tượng thất bại: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
+        databaseReference.child(objectIdToDelete).removeValue()
+                .addOnSuccessListener(aVoid -> {
+                    room_list.remove(position);
+                    notifyItemRemoved(position);
+                    Toast.makeText(context, "Xóa đối tượng thành công", Toast.LENGTH_SHORT).show();
+                })
+                .addOnFailureListener(e -> Toast.makeText(context, "Xóa đối tượng thất bại: " + e.getMessage(), Toast.LENGTH_SHORT).show());
     }
 
     public String setStatusView(String id_status) {
-        String status = "Chưa tìm thấy dữ liệu trạng thái";
-        for (int i = 0; i < status_list.size(); i++) {
-            if (id_status.equals(status_list.get(i).getId_trang_thai_phong())) {
-                status = status_list.get(i).getTen_trang_thai();
-                return status;
+        // Get the status from status_list based on id_status
+        for (trang_thai_phong status : status_list) {
+            if (id_status.equals(status.getId_trang_thai_phong())) {
+                return status.getTen_trang_thai();
             }
         }
-        return status;
+        return "Chưa tìm thấy dữ liệu trạng thái";
     }
 
     public void updateRoomList(ArrayList<phong> filteredRoomList) {
         room_list = filteredRoomList;
         notifyDataSetChanged();
     }
-
+//    public void filterRoomListByType(String type) {
+//        danh_sach_phong_loc.clear();
+//        for (phong room : danh_sach_phong) { // Đảm bảo bạn có danh sách phòng ban đầu để lọc từ đó
+//            if (room.getLoai_phong().equals(type)) {
+//                danh_sach_phong_loc.add(room);
+//            }
+//        }
+//        updateRoomList(danh_sach_phong_loc);
+//    }
     private void khoi_tao() {
+        progressBar.setVisibility(View.VISIBLE);
+        // Fetch data from Firebase
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("phong");
         DatabaseReference reference_status = FirebaseDatabase.getInstance().getReference("trang_thai_phong");
 
@@ -187,24 +193,21 @@ public class adapter_phong extends RecyclerView.Adapter<adapter_phong.MyViewHold
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 room_list.clear();
-                status_list.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     phong rooms = dataSnapshot.getValue(phong.class);
-                    if (rooms != null) {
-                        room_list.add(rooms);
-                    }
+                    if (rooms != null) room_list.add(rooms);
                 }
 
                 reference_status.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        status_list.clear();
                         for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                             trang_thai_phong status = dataSnapshot.getValue(trang_thai_phong.class);
-                            if (status != null) {
-                                status_list.add(status);
-                            }
+                            if (status != null) status_list.add(status);
                         }
                         notifyDataSetChanged();
+                        progressBar.setVisibility(View.GONE);
                     }
 
                     @Override
@@ -223,6 +226,7 @@ public class adapter_phong extends RecyclerView.Adapter<adapter_phong.MyViewHold
     public class MyViewHolder extends RecyclerView.ViewHolder {
         ImageView iv_item_phong;
         TextView tv_name_room, tv_price, tv_sale, tv_type_room, tv_status_room;
+        ProgressBar progressBar_itemphong;
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -232,31 +236,7 @@ public class adapter_phong extends RecyclerView.Adapter<adapter_phong.MyViewHold
             tv_sale = itemView.findViewById(R.id.tv_sale);
             tv_type_room = itemView.findViewById(R.id.tv_type_room);
             tv_status_room = itemView.findViewById(R.id.tv_status_room);
-
-            itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    if (onItemLongClickListener != null) {
-                        int position = getAdapterPosition();
-                        if (position != RecyclerView.NO_POSITION) {
-                            onItemLongClickListener.onItemLongClick(position);
-                        }
-                    }
-                    return true;
-                }
-            });
-
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (onItemClickListener != null) {
-                        int position = getAdapterPosition();
-                        if (position != RecyclerView.NO_POSITION) {
-                            onItemClickListener.onItemClick(position);
-                        }
-                    }
-                }
-            });
+            progressBar_itemphong=itemView.findViewById(R.id.progressBar_itemphong);
         }
     }
 }

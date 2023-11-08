@@ -18,10 +18,13 @@
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/Theme.TDCHotelManager"
         tools:targetApi="31">
+        <activity
+            android:name=".Lao_Cong.Activity_LaoCong"
+            android:exported="false" />
         <activity
             android:name=".Le_Tan.Activity_LeTan"
             android:exported="false" />
@@ -29,8 +32,23 @@
             android:name=".Menu_QuanLy.Activity_Thong_Tin_Phong"
             android:exported="false" />
         <activity
-            android:name=".Menu_QuanLy.Adapter_DichVu.activity_themdv"
+            android:name=".Menu_QuanLy.Adapter_DichVu.themdichvu"
             android:exported="false" />
+        <activity
+            android:name=".Menu_QuanLy.Adapter_DichVu.chinhsuadichvu"
+            android:exported="false" />
+        <activity
+            android:name=".Menu_QuanLy.Adapter_DichVu.chinhsuadichvuphong"
+            android:exported="false" />
+        <activity
+            android:name=".Menu_QuanLy.Adapter_DichVu.chinhsuatiennghi"
+            android:exported="false" />
+        <activity
+            android:name=".Menu_QuanLy.Adapter_DichVu.themdichvuphong"
+            android:exported="false"/>
+        <activity
+            android:name=".Menu_QuanLy.Adapter_DichVu.themtiennghi"
+            android:exported="false"/>
         <activity
             android:name=".Menu_QuanLy.QuanLyLichLam"
             android:exported="false" />

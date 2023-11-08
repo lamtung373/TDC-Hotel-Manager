@@ -1,245 +1,251 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:background="#26A1EE"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <ImageButton
-                android:id="@+id/btnQuayLai_TTNV"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="10dp"
-                android:background="@null"
-                android:src="@drawable/back" />
+                android:background="@color/dark_blue"
+                android:padding="10dp">
 
-            <TextView
-                android:id="@+id/tvHoTen_TTNV"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                <ImageButton
+                    android:id="@+id/btnQuayLai_TTNV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="10dp"
+                    android:background="@null"
+                    android:src="@drawable/back" />
+
+                <TextView
+                    android:id="@+id/tvHoTen_TTNV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="Tên nhân viên"
+                    android:textColor="@color/white"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
+
+            <ImageView
+                android:id="@+id/imgNV"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
                 android:layout_gravity="center"
-                android:layout_weight="1"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="30dp"
+                android:background="@drawable/border_image_nhanvien"
+                android:clipToOutline="true"
+                android:outlineProvider="background"
+                android:padding="1.5dp"
+                android:scaleType="centerCrop" />
+
+            <EditText
+                android:id="@+id/edtTenDangNhap_TTNV"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/border_button_nhanvien"
+                android:hint="Tên đăng nhập"
+                android:inputType="text"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:textColor="#000000"
+                android:textSize="15sp"
+                android:textStyle="italic" />
+
+            <EditText
+                android:id="@+id/edtMatKhau_TTNV"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/border_button_nhanvien"
+                android:hint="Mật khẩu"
+                android:inputType="text"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:textColor="#000000"
+                android:textSize="15sp"
+                android:textStyle="italic" />
+
+            <EditText
+                android:id="@+id/edtSoDienThoai_TTNV"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/border_button_nhanvien"
+                android:hint="Số điện thoại"
+                android:inputType="number"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:textColor="#000000"
+                android:textSize="15sp"
+                android:textStyle="italic" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:gravity="center"
-                android:text="Tên nhân viên"
-                android:textColor="@color/white"
-                android:textSize="20dp"
-                android:textStyle="bold" />
+                android:orientation="horizontal">
 
-        </LinearLayout>
-
-        <ImageView
-            android:id="@+id/imgNV"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="30dp"
-            android:background="@drawable/border_images_nhanvien"
-            android:padding="1.5dp"
-            android:scaleType="centerCrop"
-            android:outlineProvider="background"
-            android:clipToOutline="true"/>
-
-        <EditText
-            android:id="@+id/edtTenDangNhap_TTNV"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/border_button_nhanvien"
-            android:hint="Tên đăng nhập"
-            android:inputType="text"
-            android:paddingStart="20dp"
-            android:paddingEnd="20dp"
-            android:textColor="#000000"
-            android:textSize="15sp"
-            android:textStyle="italic" />
-
-        <EditText
-            android:id="@+id/edtMatKhau_TTNV"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/border_button_nhanvien"
-            android:hint="Mật khẩu"
-            android:inputType="text"
-            android:paddingStart="20dp"
-            android:paddingEnd="20dp"
-            android:textColor="#000000"
-            android:textSize="15sp"
-            android:textStyle="italic" />
-
-<!--        <EditText-->
-<!--            android:id="@+id/edtEmail_TTNV"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="50dp"-->
-<!--            android:layout_marginLeft="20dp"-->
-<!--            android:layout_marginTop="10dp"-->
-<!--            android:layout_marginRight="20dp"-->
-<!--            android:background="@drawable/border_button_nhanvien"-->
-<!--            android:hint="Email"-->
-<!--            android:inputType="text"-->
-<!--            android:paddingStart="20dp"-->
-<!--            android:paddingEnd="20dp"-->
-<!--            android:textColor="#000000"-->
-<!--            android:textSize="15sp"-->
-<!--            android:textStyle="italic" />-->
-
-        <EditText
-            android:id="@+id/edtSoDienThoai_TTNV"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/border_button_nhanvien"
-            android:hint="Số điện thoại"
-            android:inputType="text"
-            android:paddingStart="20dp"
-            android:paddingEnd="20dp"
-            android:textColor="#000000"
-            android:textSize="15sp"
-            android:textStyle="italic" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:layout_marginTop="10dp">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginEnd="30dp">
-
-                <ImageView
-                    android:layout_width="100dp"
-                    android:layout_height="80dp"
-                    android:src="@drawable/cccd"
-                    android:id="@+id/imgCCCD_Truoc_TTNV"/>
-                    />
-
-                <TextView
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="CCCD mặt trước"
-                    android:textColor="#000000"/>
+                    android:layout_marginEnd="30dp"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/imgCCCD_Truoc_TTNV"
+                        android:layout_width="100dp"
+                        android:layout_height="80dp"
+                        android:src="@drawable/cccd" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="CCCD mặt trước"
+                        android:textColor="#000000" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/imgCCCD_Sau_TTNV"
+                        android:layout_width="100dp"
+                        android:layout_height="80dp"
+                        android:src="@drawable/cccd" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="CCCD mặt sau"
+                        android:textColor="#000000" />
+
+                </LinearLayout>
 
             </LinearLayout>
 
+            <EditText
+                android:id="@+id/edtLuong_TTNV"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/border_button_nhanvien"
+                android:hint="Lương/h"
+                android:inputType="number"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:textColor="#000000"
+                android:textSize="15sp"
+                android:textStyle="italic" />
+
+            <RadioGroup
+                android:id="@+id/radioGroup_TTNV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/radioButtonLeTan_TTNV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="20dp"
+                    android:text="Lễ tân"
+                    android:textColor="#26A1EE"
+                    android:textStyle="bold" />
+
+                <RadioButton
+                    android:id="@+id/radioButtonLaoCong_TTNV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Lao công"
+                    android:textColor="#26A1EE"
+                    android:textStyle="bold" />
+
+            </RadioGroup>
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="60dp"
+                android:orientation="horizontal">
 
-                <ImageView
-                    android:layout_width="100dp"
-                    android:layout_height="80dp"
-                    android:src="@drawable/cccd"
-                    android:id="@+id/imgCCCD_Sau_TTNV"/>
+                <Button
+                    android:id="@+id/btnXoa_TTNV"
+                    android:layout_width="120dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="40dp"
+                    android:background="@drawable/border_button_b_nhanvien"
+                    android:text="Xoá"
+                    android:textColor="#FFFFFF" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="CCCD mặt sau"
-                    android:textColor="#000000"/>
+                <Button
+                    android:id="@+id/btnSua_TTNV"
+                    android:layout_width="120dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/border_button_a_nhanvien"
+                    android:text="Chỉnh sửa"
+                    android:textColor="#FFFFFF" />
 
             </LinearLayout>
 
         </LinearLayout>
 
-        <EditText
-            android:id="@+id/edtLuong_TTNV"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/border_button_nhanvien"
-            android:hint="Lương/h"
-            android:inputType="text"
-            android:paddingStart="20dp"
-            android:paddingEnd="20dp"
-            android:textColor="#000000"
-            android:textSize="15sp"
-            android:textStyle="italic" />
+    </ScrollView>
 
-        <RadioGroup
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:id="@+id/radioGroup_TTNV">
+    <View
+        android:id="@+id/viewBlocking_TTNV"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:focusable="true"
+        android:visibility="gone"
+        android:background="#80000000"/> <!-- Background mờ để cho thấy là đang bận -->
 
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="20dp"
-                android:text="Lễ tân"
-                android:textColor="#26A1EE"
-                android:textStyle="bold"
-                android:id="@+id/radioButtonLeTan_TTNV"/>
+    <ProgressBar
+        android:id="@+id/progressBar_TTNV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone" />
 
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Lao công"
-                android:textColor="#26A1EE"
-                android:textStyle="bold"
-                android:id="@+id/radioButtonLaoCong_TTNV"/>
-
-        </RadioGroup>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="60dp">
-
-            <Button
-                android:id="@+id/btnXoa_TTNV"
-                android:layout_width="120dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:background="@drawable/border_button_b_nhanvien"
-                android:textColor="#FFFFFF"
-                android:layout_marginEnd="40dp"
-                android:text="Xoá" />
-
-            <Button
-                android:id="@+id/btnSua_TTNV"
-                android:layout_width="120dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:background="@drawable/border_button_a_nhanvien"
-                android:textColor="#FFFFFF"
-                android:text="Chỉnh sửa" />
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-</ScrollView>
+</FrameLayout>

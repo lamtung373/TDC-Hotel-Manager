@@ -24,7 +24,7 @@ import java.util.ArrayList;
 
 public class adapter_tien_nghi extends RecyclerView.Adapter<adapter_tien_nghi.MyViewHolder> {
     private ArrayList<tien_nghi> dataList = new ArrayList<>();
-    ArrayList<chi_tiet_tien_nghi> chi_tiet_tien_nghis = new ArrayList<>();
+    private ArrayList<chi_tiet_tien_nghi> chi_tiet_tien_nghis = new ArrayList<>();
 
     public void addChiTietDichVu(String dichVuPhongId, int soLuong) {
         for (int i = 0; i < chi_tiet_tien_nghis.size(); i++) {
@@ -77,52 +77,94 @@ public class adapter_tien_nghi extends RecyclerView.Adapter<adapter_tien_nghi.My
         }
     }
 
-    private void increaseValue(EditText editText) {
-        int value = Integer.parseInt(editText.getText().toString());
+    private void increaseValue(int position, EditText editText) {
+        tien_nghi item = dataList.get(position);
+        int value = item.getSo_luong();
         value++;
+        item.setSo_luong(value); // Cập nhật giá trị trong dataList
         editText.setText(String.valueOf(value));
+        notifyItemChanged(position); // Cập nhật chỉ item tại vị trí này
     }
 
-    private void decreaseValue(EditText editText) {
-        int value = Integer.parseInt(editText.getText().toString());
+    private void decreaseValue(int position, EditText editText) {
+        tien_nghi item = dataList.get(position);
+        int value = item.getSo_luong();
         if (value > 0) {
             value--;
+            item.setSo_luong(value); // Cập nhật giá trị trong dataList
             editText.setText(String.valueOf(value));
+            notifyItemChanged(position); // Cập nhật chỉ item tại vị trí này
         }
     }
 
+    // Trong onBindViewHolder, cập nhật các sự kiện click để sử dụng các phương thức trên
     @Override
     public void onBindViewHolder(@NonNull adapter_tien_nghi.MyViewHolder holder, int position) {
-        tien_nghi data = dataList.get(position);
+        tien_nghi data = dataList.get(holder.getAdapterPosition());
         holder.tv_ten_tien_nghi.setText(data.getTen_tien_nghi());
+        holder.edt_so_luong.setText(String.valueOf(data.getSo_luong()));
         holder.ib_decrease.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                decreaseValue(holder.edt_so_luong);
-                int soLuong = Integer.parseInt(holder.edt_so_luong.getText().toString());
-                String tienNghiID = data.getId_tien_nghi(); // Lấy ID của tiện nghi
-                Log.d("Tiện Nghi", "ID: " + tienNghiID + "   SL: " + soLuong);
-                addChiTietDichVu(tienNghiID, soLuong);
+                decreaseValue(holder.getAdapterPosition(), holder.edt_so_luong);
+                // Cập nhật chi tiết dịch vụ phòng
+                addChiTietDichVu(data.getId_tien_nghi(), data.getSo_luong());
             }
         });
 
         holder.ib_increase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                increaseValue(holder.edt_so_luong);
-                int soLuong = Integer.parseInt(holder.edt_so_luong.getText().toString());
-                String tienNghiID = data.getId_tien_nghi(); // Lấy ID của dịch vụ phòng
-                Log.d("Tiện Nghi", "ID: " + tienNghiID + "   SL: " + soLuong);
-                addChiTietDichVu(tienNghiID, soLuong);
+                increaseValue(holder.getAdapterPosition(), holder.edt_so_luong);
+                // Cập nhật chi tiết dịch vụ phòng
+                addChiTietDichVu(data.getId_tien_nghi(), data.getSo_luong());
             }
         });
-
     }
+
+    private chi_tiet_tien_nghi findChiTietTienNghiById(String id) {
+        for (chi_tiet_tien_nghi cttn : chi_tiet_tien_nghis) {
+            if (cttn.getId_tien_nghi().equals(id)) {
+                return cttn;
+            }
+        }
+        return null;
+    }
+
 
     @Override
     public int getItemCount() {
         return dataList.size();
     }
+
+    public void GoiDuLieu(String idPhong) {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("chi_tiet_tien_nghi").child(idPhong);
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                ArrayList<chi_tiet_tien_nghi> newChiTietTienNghis = new ArrayList<>();
+                for (DataSnapshot facilitySnapshot : dataSnapshot.getChildren()) {
+                    chi_tiet_tien_nghi comfortDetail = facilitySnapshot.getValue(chi_tiet_tien_nghi.class);
+                    if (comfortDetail != null) {
+                        newChiTietTienNghis.add(comfortDetail);
+                    }
+                    for (tien_nghi ct : dataList) {
+                        if (ct.getId_tien_nghi().equals(comfortDetail.getId_tien_nghi())) {
+                            ct.setSo_luong(comfortDetail.getSo_luong());
+                        }
+                        notifyDataSetChanged();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Xử lý lỗi
+                Log.e("fetchComfortDetails", "Failed to read value.", databaseError.toException());
+            }
+        });
+    }
+
 
     void khoi_tao() {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("tien_nghi");
@@ -135,6 +177,11 @@ public class adapter_tien_nghi extends RecyclerView.Adapter<adapter_tien_nghi.My
                     tien_nghi tienNghi = dataSnapshot.getValue(tien_nghi.class);
                     if (tienNghi != null) {
                         dataList.add(tienNghi);
+// Tạo một đối tượng chi tiết tiện nghi mới với số lượng mặc định là 0
+                        chi_tiet_tien_nghi cttn = new chi_tiet_tien_nghi();
+                        cttn.setId_tien_nghi(tienNghi.getId_tien_nghi());
+                        cttn.setSo_luong(0); // Hoặc giá trị mặc định nào đó
+                        chi_tiet_tien_nghis.add(cttn);
                     }
                 }
 

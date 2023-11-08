@@ -6,31 +6,27 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
+import android.widget.ProgressBar;
 
+import com.example.tdchotel_manager.Lao_Cong.Activity_LaoCong;
 import com.example.tdchotel_manager.Le_Tan.Activity_LeTan;
-import com.example.tdchotel_manager.Menu_QuanLy.Activity_Thong_Tin_Phong;
-import com.example.tdchotel_manager.Menu_QuanLy.Fragment_Trangchu;
 import com.example.tdchotel_manager.Menu_QuanLy.TrangChu_QuanLy;
 import com.example.tdchotel_manager.Model.chuc_vu;
 import com.example.tdchotel_manager.Model.nhan_vien;
-import com.example.tdchotel_manager.Model.tien_nghi;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
-
 public class DangNhap extends AppCompatActivity {
-    private static String SHARED_PRE = "shared_pre";
-    private static String id_staff = "id_staff";
-    private static String chuc_vu_auto = "chuc_vu_auto";
+    public static String SHARED_PRE = "shared_pre";
+    public static String id_staff = "id_staff";
+    public static String chuc_vu_auto = "chuc_vu_auto";
+    ProgressBar progressBar;
 
     EditText edtusername, edtPassword;
     Button btnLogin;
@@ -74,12 +70,11 @@ public class DangNhap extends AppCompatActivity {
         btnLogin = findViewById(R.id.btnLogin);
         edtusername = findViewById(R.id.edtUsername);
         edtPassword = findViewById(R.id.edtPassword);
+        progressBar=findViewById(R.id.progressBar_phong);
     }
 
     private void setEvent() {
         btnLogin.setOnClickListener(new View.OnClickListener() {
-
-
             @Override
             public void onClick(View v) {
                 DatabaseReference reference = FirebaseDatabase.getInstance().getReference("nhan_vien");
@@ -89,7 +84,7 @@ public class DangNhap extends AppCompatActivity {
                 reference.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-
+                        progressBar.setVisibility(View.VISIBLE);
                         for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                             nhan_vien nhan_vien = dataSnapshot.getValue(nhan_vien.class);
                             if (edtusername.getText().toString().equals(nhan_vien.getUsername())) {
@@ -106,15 +101,21 @@ public class DangNhap extends AppCompatActivity {
                                                     editor.apply();
                                                     switch (cv.getTen_chuc_vu().toLowerCase()) {
                                                         case "lao công":
+                                                            Intent intent_laocong = new Intent(DangNhap.this, Activity_LaoCong.class);
+                                                            startActivity(intent_laocong);
+                                                            progressBar.setVisibility(View.GONE);
+                                                            finish();
                                                             break;
                                                         case "lễ tân":
                                                             Intent intent_letan = new Intent(DangNhap.this, Activity_LeTan.class);
                                                             startActivity(intent_letan);
+                                                            progressBar.setVisibility(View.GONE);
                                                             finish();
                                                             break;
                                                         case "quản lý":
                                                             Intent intent = new Intent(DangNhap.this, TrangChu_QuanLy.class);
                                                             startActivity(intent);
+                                                            progressBar.setVisibility(View.GONE);
                                                             finish();
                                                             break;
                                                     }

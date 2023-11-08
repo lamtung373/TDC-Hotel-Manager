@@ -11,22 +11,33 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.tdchotel_manager.Model.nhan_vien;
 import com.example.tdchotel_manager.R;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
+
+import java.io.ByteArrayOutputStream;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 public class ThongTinNhanVien extends AppCompatActivity {
     ImageButton btnQuayLai;
@@ -36,15 +47,28 @@ public class ThongTinNhanVien extends AppCompatActivity {
     RadioGroup radioGroup;
     RadioButton radioButtonLeTan, radioButtonLaoCong;
     Button btnXoa, btnSua;
+
+
     private ImageView currentSelectedImageView;
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int REQUEST_IMAGE_PICK = 2;
+
+    private ProgressBar progressBar;
+    private View viewBlocking;
+
+    private DatabaseReference mDatabaseRef;
+    private StorageReference mStorageRef;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_thongtinnhanvien);
         setControl();
         setEvent();
+
+        // Initialize Firebase references
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference("nhan_vien");
+        mStorageRef = FirebaseStorage.getInstance().getReference("images");
     }
 
 
@@ -94,7 +118,14 @@ public class ThongTinNhanVien extends AppCompatActivity {
                         edtTenDangNhap.setText(nv.getUsername());
                         edtMatKhau.setText(nv.getPassword());
                         edtSoDienThoai.setText(nv.getSo_dien_thoai());
-                        edtLuong.setText(String.valueOf(nv.getLuong()));
+                        // Khởi tạo đối tượng DecimalFormat với mẫu định dạng "#.##"
+                        DecimalFormat decimalFormat = new DecimalFormat("#.##");
+
+                        // Chuyển đổi giá trị double thành chuỗi đã được định dạng
+                        String formattedValue = decimalFormat.format(nv.getLuong());
+
+                        // Thiết lập giá trị đã được định dạng vào trường edtLuong
+                        edtLuong.setText(formattedValue);
 
                         String chucVuId = nv.getId_chuc_vu();
                         if ("1".equals(chucVuId)) {
@@ -123,6 +154,8 @@ public class ThongTinNhanVien extends AppCompatActivity {
         btnXoa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                viewBlocking.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.VISIBLE);
                 // Xoá nhân viên từ Firebase
                 DatabaseReference ref = FirebaseDatabase.getInstance().getReference("nhan_vien").child(nhanVienId);
                 ref.removeValue();
@@ -154,6 +187,7 @@ public class ThongTinNhanVien extends AppCompatActivity {
                     Toast.makeText(ThongTinNhanVien.this, "Lương không hợp lệ", Toast.LENGTH_SHORT).show();
                     return;
                 }
+
                 String idChucVu = radioButtonLaoCong.isChecked() ? "1" : "2";
 
                 // Cập nhật dữ liệu trên Firebase
@@ -164,10 +198,127 @@ public class ThongTinNhanVien extends AppCompatActivity {
                 ref.child("luong").setValue(luongValue);
                 ref.child("id_chuc_vu").setValue(idChucVu);
 
-                // Thông báo và quay lại màn hình trước
-                Toast.makeText(ThongTinNhanVien.this, "Đã cập nhật thông tin nhân viên", Toast.LENGTH_SHORT).show();
+                // Kiểm tra nếu có ảnh mới được chọn
+                if (currentSelectedImageView != null) {
+                    viewBlocking.setVisibility(View.VISIBLE);
+                    progressBar.setVisibility(View.VISIBLE);
+                    uploadImageToFirebaseStorage();  // Tải lên ảnh và cập nhật thông tin nhân viên
+                } else {
+                    // Thông báo và quay lại màn hình trước
+                    Toast.makeText(ThongTinNhanVien.this, "Đã cập nhật thông tin nhân viên", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+            }
+        });
+    }
+
+    private void updateEmployeeInformation(ArrayList<String> imageUrls) {
+        String id = getIntent().getStringExtra("nhanVienId");
+        String chucVu = radioButtonLaoCong.isChecked() ? "1" : "2";
+        String hoTen = tvHoTen.getText().toString();
+        String tenDangNhap = edtTenDangNhap.getText().toString();
+        String matKhau = edtMatKhau.getText().toString();
+        String soDienThoai = edtSoDienThoai.getText().toString();
+        double luong = Double.parseDouble(edtLuong.getText().toString());
+        String imageUrlNV = imageUrls.get(0);
+        String imageUrlCCCD_Truoc = imageUrls.get(1);
+        String imageUrlCCCD_Sau = imageUrls.get(2);
+
+        nhan_vien updatedEmployee = new nhan_vien(
+                id,
+                chucVu,
+                hoTen,
+                tenDangNhap,
+                matKhau,
+                imageUrlNV,  // Cập nhật URL ảnh mới
+                soDienThoai,
+                luong,
+                imageUrlCCCD_Truoc,  // Cập nhật URL CCCD trước mới
+                imageUrlCCCD_Sau   // Cập nhật URL CCCD sau mới
+        );
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("nhan_vien").child(id);
+        ref.setValue(updatedEmployee).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                progressBar.setVisibility(View.GONE);
+                Toast.makeText(ThongTinNhanVien.this, "Cập nhật thông tin nhân viên thành công!", Toast.LENGTH_SHORT).show();
                 finish();
             }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(ThongTinNhanVien.this, "Lỗi khi cập nhật thông tin nhân viên!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void uploadImageToFirebaseStorage() {
+        ArrayList<String> imageUrls = new ArrayList<>();
+
+        uploadSingleImage(imgNV, new OnImageUploadedListener() {
+            @Override
+            public void onImageUploaded(String imageUrl) {
+                imageUrls.add(imageUrl);
+
+                // Tiếp tục tải lên ảnh CCCD Trước sau khi đã tải lên ảnh NV
+                uploadSingleImage(imgCCCD_Truoc, new OnImageUploadedListener() {
+                    @Override
+                    public void onImageUploaded(String imageUrl) {
+                        imageUrls.add(imageUrl);
+
+                        // Tiếp tục tải lên ảnh CCCD Sau sau khi đã tải lên ảnh CCCD Trước
+                        uploadSingleImage(imgCCCD_Sau, new OnImageUploadedListener() {
+                            @Override
+                            public void onImageUploaded(String imageUrl) {
+                                imageUrls.add(imageUrl);
+
+                                // Sau khi tải lên cả 3 ảnh, cập nhật thông tin nhân viên
+                                updateEmployeeInformation(imageUrls);
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    }
+
+    // Định nghĩa interface OnImageUploadedListener
+    public interface OnImageUploadedListener {
+        void onImageUploaded(String imageUrl);
+    }
+
+    // Định nghĩa hàm uploadSingleImage
+    private void uploadSingleImage(ImageView imageView,
+                                   final OnImageUploadedListener listener) {
+        // Lấy Bitmap từ ImageView của ảnh cần tải lên
+        imageView.setDrawingCacheEnabled(true);
+        imageView.buildDrawingCache();
+        Bitmap bitmap = imageView.getDrawingCache();
+
+        // Tạo tên file duy nhất cho ảnh (ví dụ: "image123.jpg")
+        String filename = System.currentTimeMillis() + ".jpg";
+
+        // Lưu ảnh vào Firebase Storage
+        StorageReference storageRef = FirebaseStorage.getInstance().getReference();
+        StorageReference imageRef = storageRef.child("images/" + filename);
+
+        // Chuyển đổi Bitmap thành byte array
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] data = baos.toByteArray();
+
+        // Tải ảnh lên Firebase Storage
+        UploadTask uploadTask = imageRef.putBytes(data);
+        uploadTask.addOnSuccessListener(taskSnapshot -> {
+            // Lấy URL của ảnh sau khi tải lên thành công
+            imageRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                String imageUrl = uri.toString();
+                listener.onImageUploaded(imageUrl); // Gọi callback với URL của ảnh
+            });
+        }).addOnFailureListener(e -> {
+            // Xử lý khi có lỗi trong quá trình tải lên ảnh
+            Toast.makeText(ThongTinNhanVien.this, "Lỗi khi tải ảnh lên!", Toast.LENGTH_SHORT).show();
         });
     }
 
@@ -225,6 +376,7 @@ public class ThongTinNhanVien extends AppCompatActivity {
         radioButtonLaoCong = findViewById(R.id.radioButtonLaoCong_TTNV);
         btnXoa = findViewById(R.id.btnXoa_TTNV);
         btnSua = findViewById(R.id.btnSua_TTNV);
+        progressBar = findViewById(R.id.progressBar_TTNV);
+        viewBlocking = findViewById(R.id.viewBlocking_TTNV);
     }
-
 }

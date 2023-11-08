@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<ImageView
+    android:layout_width="100dp"
+    android:layout_height="100dp"
+    android:id="@+id/imgphong"
+    android:layout_gravity="center_vertical"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/textview"
+            android:text="tên phòng"
+            android:id="@+id/tvtenphong"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal">
+            <Button
+                android:id="@+id/btnKiemtra"
+                android:layout_height="wrap_content"
+                android:layout_width="100dp"
+                android:background="@drawable/selector_bg_button"
+                android:text="Kiểm tra"
+                android:layout_marginRight="10dp"/>
+            <Button
+                android:id="@+id/btnhoantat"
+                android:layout_height="wrap_content"
+                android:layout_width="100dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/selector_bg_button"
+                android:text="Hoàn tất"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
