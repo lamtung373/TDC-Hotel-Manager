@@ -68,7 +68,7 @@ public class NhanVien_Adapter extends RecyclerView.Adapter<NhanVien_Adapter.Nhan
                 // Có lỗi khi tải ảnh, ẩn ProgressBar và có thể hiển thị ảnh lỗi
                 holder.progressBar.setVisibility(View.GONE);
                 // Set ảnh lỗi nếu có
-                holder.imgNV.setImageResource(R.color.green);
+                holder.imgNV.setImageResource(R.drawable.nhanvien);
             }
         });
 
