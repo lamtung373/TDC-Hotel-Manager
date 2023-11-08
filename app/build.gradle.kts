@@ -53,10 +53,6 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
-    implementation("androidx.activity:activity:1.3.1")
-    implementation("androidx.fragment:fragment:1.3.6")
-
-
     //Thu vien chuyen anh
     implementation ("me.relex:circleindicator:2.1.6")
     implementation ("com.github.bumptech.glide:glide:4.16.0")

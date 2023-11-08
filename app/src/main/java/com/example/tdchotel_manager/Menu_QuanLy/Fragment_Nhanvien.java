@@ -15,11 +15,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.tdchotel_manager.IOnClickItem;
+import com.example.tdchotel_manager.IOnItemClick;
 import com.example.tdchotel_manager.Menu_QuanLy.Adapter_NhanVien.NhanVien_Adapter;
 import com.example.tdchotel_manager.Menu_QuanLy.Adapter_NhanVien.ThemNhanVien;
 import com.example.tdchotel_manager.Menu_QuanLy.Adapter_NhanVien.ThongTinNhanVien;
@@ -58,7 +56,7 @@ public class Fragment_Nhanvien extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         // Thiết lập Adapter cho RecyclerView
-        adapter = new NhanVien_Adapter(data, chucVuMapping, new IOnClickItem() {
+        adapter = new NhanVien_Adapter(data, chucVuMapping, new IOnItemClick() {
             @Override
             public void OnItemClick(Object object) {
                 nhan_vien selectedNhanVien = (nhan_vien) object;

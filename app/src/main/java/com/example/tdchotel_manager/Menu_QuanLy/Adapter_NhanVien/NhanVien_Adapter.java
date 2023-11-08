@@ -10,24 +10,22 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.tdchotel_manager.IOnClickItem;
-import com.example.tdchotel_manager.Model.chuc_vu;
+import com.example.tdchotel_manager.IOnItemClick;
 import com.example.tdchotel_manager.Model.nhan_vien;
 import com.example.tdchotel_manager.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class NhanVien_Adapter extends RecyclerView.Adapter<NhanVien_Adapter.NhanVienViewHolder> {
     private ArrayList<nhan_vien> data = new ArrayList<>();
 
     private HashMap<String, String> chucVuMapping;
 
-    private IOnClickItem onClickItem;
+    private IOnItemClick onClickItem;
 
-    public NhanVien_Adapter(ArrayList<nhan_vien> data, HashMap<String, String> chucVuMapping, IOnClickItem onClickItem) {
+    public NhanVien_Adapter(ArrayList<nhan_vien> data, HashMap<String, String> chucVuMapping, IOnItemClick onClickItem) {
         this.data = data;
         this.chucVuMapping = chucVuMapping;
         this.onClickItem = onClickItem;

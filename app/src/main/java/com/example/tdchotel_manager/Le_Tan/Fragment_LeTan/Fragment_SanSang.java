@@ -9,12 +9,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 
+import com.example.tdchotel_manager.Le_Tan.Fragment_LeTan.Adapter_Phong_Sansang.Adapter_SanSang;
 import com.example.tdchotel_manager.Menu_QuanLy.Adapter_Phong.adapter_phong;
 import com.example.tdchotel_manager.Model.phong;
 import com.example.tdchotel_manager.R;
@@ -38,9 +40,10 @@ public class Fragment_SanSang extends Fragment {
     private String mParam2;
     EditText edt_search;
     RecyclerView rcv_roomlist;
+    ArrayList<phong> data_loc = new ArrayList<>();
+    ArrayList<phong> data_original = new ArrayList<>();
     ProgressBar progressBar, progressBar_itemphong;
-    private ArrayList<phong> filteredRoomList = new ArrayList<>();
-    adapter_phong adapter;
+    Adapter_SanSang adapter;
 
     public Fragment_SanSang() {
         // Required empty public constructor
@@ -84,19 +87,21 @@ public class Fragment_SanSang extends Fragment {
     }
 
     private void filterRoomList(String searchText) {
-        filteredRoomList.clear(); // Thêm dòng này để xóa danh sách cũ
-        for (phong room : adapter.getDanh_sach_phong()) {
+        adapter.ClearData();
+        data_loc.clear();
+        for (phong room : adapter.getData_original()) {
             if (room.getTen_phong().toLowerCase().contains(searchText.toLowerCase())) {
-                filteredRoomList.add(room);
+                data_loc.add(room);
             }
         }
-
-        adapter.updateRoomList(filteredRoomList);
+        Log.e("abc",""+adapter.getData_original());
+        adapter.setRoom_list(data_loc);
+        adapter.notifyDataSetChanged();
     }
 
     private void setEvent() {
-        //Set data cho rcv_roomlist
-        adapter = new adapter_phong(getContext(), progressBar, progressBar_itemphong);
+        adapter = new Adapter_SanSang(getContext(), progressBar, progressBar_itemphong);
+
         rcv_roomlist.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         rcv_roomlist.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
 
@@ -119,7 +124,8 @@ public class Fragment_SanSang extends Fragment {
                     filterRoomList(searchText);
                 } else {
                     // Khi người dùng xóa hết nội dung tìm kiếm, hiển thị lại danh sách phòng ban đầu
-                    adapter.updateRoomList(adapter.getDanh_sach_phong());
+                    adapter.ClearData();
+                    adapter.Load();
                 }
             }
         });

@@ -16,6 +16,8 @@ import android.widget.TextView;
 
 import com.example.tdchotel_manager.Model.phong;
 import com.example.tdchotel_manager.R;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import me.relex.circleindicator.CircleIndicator3;
 
@@ -23,7 +25,7 @@ public class Activity_Chi_Tiet_Phong extends AppCompatActivity {
     ViewPager2 vpiv;
     CircleIndicator3 ci;
     Button btnDatphong;
-    TextView tvGiacu;
+    TextView tvGiacu, tv_tenphong, tvGiamoi, tv_tiennghi, tv_danhgia, tv_mota;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +36,6 @@ public class Activity_Chi_Tiet_Phong extends AppCompatActivity {
     }
 
     private void Initialization() {
-
-
         //Lay du lieu duoc truyen tu man hinh danh sach phong san sang
         phong phong = (phong) getIntent().getSerializableExtra("phong");
         //Chuyen anh
@@ -63,8 +63,18 @@ public class Activity_Chi_Tiet_Phong extends AppCompatActivity {
 
         //Gach ngang chu
         tvGiacu.setPaintFlags(tvGiacu.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+        tvGiacu.setText(phong.getSale()+"");
 
+        //Tên phòng
+        tv_tenphong.setText(phong.getTen_phong());
 
+        //Gia
+        tvGiamoi.setText(phong.getGia()+"đ/đêm");
+
+        //
+    }
+    void LayDuLieuTienNghi(String id_phong){
+        DatabaseReference reference=FirebaseDatabase.getInstance().getReference("");
     }
 
     private void AutoSlideImage() {
@@ -115,10 +125,13 @@ public class Activity_Chi_Tiet_Phong extends AppCompatActivity {
     private void setControl() {
         vpiv = findViewById(R.id.vpiv);
         ci = findViewById(R.id.ci);
-
         btnDatphong = findViewById(R.id.btnDatphong);
         tvGiacu = findViewById(R.id.tvGiacu);
-
+        tv_tenphong = findViewById(R.id.tv_tenphong);
+        tv_tiennghi = findViewById(R.id.tv_tiennghi);
+        tv_danhgia = findViewById(R.id.tv_danhgia);
+        tv_mota = findViewById(R.id.tv_mota);
+        tvGiamoi = findViewById(R.id.tvGiamoi);
 
     }
 }

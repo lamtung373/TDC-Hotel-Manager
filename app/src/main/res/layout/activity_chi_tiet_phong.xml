@@ -78,6 +78,7 @@
 
 
                 <TextView
+                    android:id="@+id/tv_tenphong"
                     style="@style/textview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -86,7 +87,7 @@
             </LinearLayout>
 
             <TextView
-
+                android:id="@+id/tv_danhgia"
                 style="@style/textview"
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
@@ -124,6 +125,7 @@
             android:text="Tiện nghi phòng" />
 
         <TextView
+            android:id="@+id/tv_tiennghi"
             style="@style/textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -140,6 +142,7 @@
             android:text="Mô tả" />
 
         <TextView
+            android:id="@+id/tv_mota"
             style="@style/textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
