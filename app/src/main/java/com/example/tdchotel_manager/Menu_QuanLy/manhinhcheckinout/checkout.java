@@ -1,13 +1,19 @@
 package com.example.tdchotel_manager.Menu_QuanLy.manhinhcheckinout;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -58,6 +64,7 @@ public class checkout extends Fragment {
     private List<chuc_vu> chucVuList = new ArrayList<>();
     private RecyclerView rcvCheckOut;
     private Spinner spnCaLam;
+    private EditText edtTimKiem;
 
     public checkout() {
         // Required empty public constructor
@@ -104,13 +111,25 @@ public class checkout extends Fragment {
         spnCaLam.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                loadCheckOut(spnCaLam.getSelectedItem().toString());
 
+                                loadCheckOut(spnCaLam.getSelectedItem().toString());
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
 
+            }
+        });
+        edtTimKiem.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if (i == EditorInfo.IME_ACTION_DONE) {
+
+                    loadCheckOut(spnCaLam.getSelectedItem().toString());
+
+                    return true;
+                }
+                return false;
             }
         });
     }
@@ -153,14 +172,30 @@ public class checkout extends Fragment {
                                         nhan_vien nhan_vien = dataSnapshot.getValue(nhan_vien.class);
                                         if(nhan_vien.getId_nhan_vien().equals(cham_cong.getId_nhan_vien())&&cham_cong.getDayofweek()==dayofweek&&cham_cong.getId_ca_lam().equals(finalThe))
                                         {
-                                            if(cham_cong.getCheck_out().equals("")&&!cham_cong.getCheck_in().equals(strDate))
+                                            if(edtTimKiem.getText().toString().equals(""))
                                             {
-                                                nhanVienList.add(nhan_vien);
+                                                if(cham_cong.getCheck_out().equals("")&&!cham_cong.getCheck_in().equals(strDate))
+                                                {
+                                                    nhanVienList.add(nhan_vien);
+                                                }
+                                                else
+                                                {
+
+                                                }
                                             }
-                                            else
+                                            else if(edtTimKiem.getText().toString().equals(nhan_vien.getTen_nhan_vien()))
                                             {
+                                                if(cham_cong.getCheck_out().equals("")&&!cham_cong.getCheck_in().equals(strDate))
+                                                {
+                                                    nhanVienList.add(nhan_vien);
+                                                }
+                                                else
+                                                {
+
+                                                }
 
                                             }
+
 
                                         }
                                     }
@@ -194,6 +229,7 @@ public class checkout extends Fragment {
 
     private void setControl(View view) {
         rcvCheckOut = view.findViewById(R.id.rcvCheckOut);
+        edtTimKiem = view.findViewById(R.id.edtTimKiem);
 
         spnCaLam = view.findViewById(R.id.spnCaLam);
         ArrayList<String> arrayLoai = new ArrayList<>();
@@ -207,7 +243,21 @@ public class checkout extends Fragment {
         nhanVienAdapter = new NhanVienCheckOutAdapter(nhanVienList, chucVuList, new NhanVienCheckOutAdapter.IClickListener() {
             @Override
             public void onClickUpdateItem(nhan_vien nhan_vien) {
-                CheckOut(nhan_vien);
+                new AlertDialog.Builder(getActivity())
+                        .setMessage("Bạn có muốn lưu thời gian kết thúc ca?")
+                        .setCancelable(false)
+                        .setPositiveButton("Có", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                CheckOut(nhan_vien);
+                            }
+                        }).setNegativeButton("Không", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                            }
+                        }).show();
+
             }
         });
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
@@ -239,7 +289,6 @@ public class checkout extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     cham_cong cham_cong = dataSnapshot.getValue(cham_cong.class);
-                    Log.e(date.toString(),"ddd");
                     if(nhanVien.getId_nhan_vien().equals(cham_cong.getId_nhan_vien())&&!strDate.equals(cham_cong.getCheck_in()))
                     {
                         SimpleDateFormat formatterChuan = new SimpleDateFormat("dd/MM/yyyy HH:mm");
