@@ -25,7 +25,7 @@
         android:layout_height="match_parent">
         <androidx.recyclerview.widget.RecyclerView
             android:layout_margin="20dp"
-            android:id="@+id/rcv_roomlist"
+            android:id="@+id/rcv_DangSD"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginHorizontal="10dp">
