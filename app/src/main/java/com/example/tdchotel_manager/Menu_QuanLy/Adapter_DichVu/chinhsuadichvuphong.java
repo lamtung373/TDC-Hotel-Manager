@@ -35,6 +35,8 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
+import java.text.DecimalFormat;
+
 public class chinhsuadichvuphong extends AppCompatActivity {
     ImageButton imgButtonquaylai;
     TextView tvTenDV;
@@ -80,7 +82,9 @@ public class chinhsuadichvuphong extends AppCompatActivity {
                     dich_vu_phong nv = dataSnapshot.getValue(dich_vu_phong.class);
                     if (nv != null) {
                         tvTenDV.setText(nv.getTen_dich_vu_phong());
-                        edtGiaDV.setText(String.valueOf(nv.getGia_dich_vu_phong()));
+                        DecimalFormat decimalFormat = new DecimalFormat("#.##");
+                        String formattedValue = decimalFormat.format(nv.getGia_dich_vu_phong());
+                        edtGiaDV.setText(formattedValue);
                         Picasso.get().load(nv.getAnh_dich_vu_phong()).into(imageView);
 
                     }

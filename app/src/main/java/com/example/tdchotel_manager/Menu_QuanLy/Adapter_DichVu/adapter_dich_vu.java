@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -19,12 +20,14 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 public class adapter_dich_vu extends RecyclerView.Adapter<adapter_dich_vu.MyViewHolder> {
 
+    ProgressBar progressBar;
     private ArrayList<dich_vu> datalist = new ArrayList<>();
     Context context;
     public adapter_dich_vu(Context context) {
@@ -46,8 +49,18 @@ public class adapter_dich_vu extends RecyclerView.Adapter<adapter_dich_vu.MyView
         holder.tvten.setText(dataItem.getTen_dich_vu());
         holder.tvgia.setText(String.valueOf(dataItem.getGia_dich_vu()) + "đ/");
         holder.tvloaidv.setText(dataItem.getId_loai_dich_vu());
+        holder.progressBar.setVisibility(View.VISIBLE);
+        Picasso.get().load(dataItem.getAnh_dich_vu()).into(holder.imganhdv, new Callback() {
+            @Override
+            public void onSuccess() {
+                holder.progressBar.setVisibility(View.GONE);
 
-        Picasso.get().load(dataItem.getAnh_dich_vu()).into(holder.imganhdv);
+            }
+            @Override
+            public void onError(Exception e) {
+                holder.progressBar.setVisibility(View.GONE);
+            }
+        });
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,6 +83,7 @@ public class adapter_dich_vu extends RecyclerView.Adapter<adapter_dich_vu.MyView
         LinearLayout layout;
         ImageView imganhdv;
         TextView tvten, tvgia, tvloaidv;
+        ProgressBar progressBar;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -78,6 +92,7 @@ public class adapter_dich_vu extends RecyclerView.Adapter<adapter_dich_vu.MyView
             tvloaidv = itemView.findViewById(R.id.tvloaidv);
             layout = itemView.findViewById(R.id.layout_dv);
             imganhdv = itemView.findViewById(R.id.imgvDV);
+            progressBar = itemView.findViewById(R.id.progressBar_itemDichVu);
         }
     }
 
