@@ -1,10 +1,5 @@
 package com.example.tdchotel_manager.Menu_QuanLy.Adapter_DichVu;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -20,10 +15,13 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import com.example.tdchotel_manager.Menu_QuanLy.Adapter_NhanVien.ThemNhanVien;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.tdchotel_manager.Model.dich_vu;
 import com.example.tdchotel_manager.Model.dich_vu_phong;
-import com.example.tdchotel_manager.Model.nhan_vien;
 import com.example.tdchotel_manager.R;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.database.DatabaseError;
@@ -34,9 +32,8 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
-import java.util.ArrayList;
 
-public class themdichvu extends AppCompatActivity {
+public class themdichvuphong extends AppCompatActivity {
     EditText edtTenDv, edtGiaDv;
     Button btnLuu;
     RadioGroup loaiDichVu;
@@ -49,6 +46,7 @@ public class themdichvu extends AppCompatActivity {
     private ImageView currentSelectedImageView;
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int REQUEST_IMAGE_PICK = 2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,7 +56,7 @@ public class themdichvu extends AppCompatActivity {
 
 
         // Initialize Firebase references
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference("dich_vu");
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference("dich_vu_phong");
         mStorageRef = FirebaseStorage.getInstance().getReference("images");
     }
 
@@ -91,18 +89,18 @@ public class themdichvu extends AppCompatActivity {
     }
     private void uploadImageToFirebaseStorage() {
         if (imageView.getDrawable() != null) {
-            uploadSingleImage(imageView, new OnImageUploadedListener() {
+            uploadSingleImage(imageView, new themdichvu.OnImageUploadedListener() {
                 @Override
                 public void onImageUploaded(String imageUrl) {
                     saveEmployeeToFirebase(imageUrl);
                 }
-                });
-            } else {
-                saveEmployeeToFirebase("");
-            }
+            });
+        } else {
+            saveEmployeeToFirebase("");
         }
+    }
 
-    private void uploadSingleImage(ImageView imageView, OnImageUploadedListener onImageUploadedListener) {
+    private void uploadSingleImage(ImageView imageView, themdichvu.OnImageUploadedListener onImageUploadedListener) {
         StorageReference fileReference = mStorageRef.child(System.currentTimeMillis() + ".jpg");
         imageView.setDrawingCacheEnabled(true);
         imageView.buildDrawingCache();
@@ -118,29 +116,27 @@ public class themdichvu extends AppCompatActivity {
                 onImageUploadedListener.onImageUploaded(imageUrl);
             });
         }).addOnFailureListener(e -> {
-            Toast.makeText(themdichvu.this, "Lỗi khi tải ảnh lên!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(themdichvuphong.this, "Lỗi khi tải ảnh lên!", Toast.LENGTH_SHORT).show();
         });
     }
     private void saveEmployeeToFirebase(String imageUrl) {
         String idDichVu = mDatabaseRef.push().getKey();
-        String id_Loai_Dich_Vu = rdNguoi.isChecked() ? "Người" : "Phòng";
         String tenDichVu = edtTenDv.getText().toString();
         int giaDichVu = Integer.parseInt(edtGiaDv.getText().toString());
 
-        dich_vu employee = new dich_vu(
-              id_Loai_Dich_Vu,
-                giaDichVu,
+        dich_vu_phong employee = new dich_vu_phong(
                 idDichVu,
                 tenDichVu,
-                imageUrl
+                imageUrl,
+                giaDichVu
 
         );
 
         mDatabaseRef.child(idDichVu).setValue(employee).addOnSuccessListener(aVoid -> {
-            Toast.makeText(themdichvu.this, "Thêm dịch vụ thành công", Toast.LENGTH_SHORT).show();
+            Toast.makeText(themdichvuphong.this, "Thêm dịch vụ phong thành công", Toast.LENGTH_SHORT).show();
             finish();
         }).addOnFailureListener(e -> {
-            Toast.makeText(themdichvu.this, "Lỗi khi thêm dịch vụ", Toast.LENGTH_SHORT).show();
+            Toast.makeText(themdichvuphong.this, "Lỗi khi thêm dịch vụ phòng", Toast.LENGTH_SHORT).show();
         });
     }
 
@@ -186,6 +182,7 @@ public class themdichvu extends AppCompatActivity {
             }
         }
     }
+
     private boolean validateInput() {
         if (edtTenDv.getText().toString().trim().isEmpty()) {
             edtTenDv.setError("Tên dịch vụ không được để trống");
@@ -193,11 +190,6 @@ public class themdichvu extends AppCompatActivity {
         }
         if (edtGiaDv.getText().toString().trim().isEmpty()) {
             edtGiaDv.setError("Giá dịch vụ không được để trống");
-            return false;
-        }
-        if (!rdNguoi.isChecked() && !rdPhong.isChecked()) {
-            // Nếu không có RadioButton nào được chọn, hiển thị thông báo
-            Toast.makeText(this, "Vui lòng chọn loại dịch vụ", Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;
@@ -211,6 +203,5 @@ public class themdichvu extends AppCompatActivity {
         rdNguoi = findViewById(R.id.rdNguoi);
         rdPhong = findViewById(R.id.rdPhong);
         imageView = findViewById(R.id.imgthemDV);
-
     }
 }

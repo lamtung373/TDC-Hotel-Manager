@@ -180,7 +180,6 @@ public class ThemNhanVien extends AppCompatActivity {
         );
 
         mDatabaseRef.child(id).setValue(employee).addOnSuccessListener(aVoid -> {
-            progressBar.setVisibility(View.GONE);
             Toast.makeText(ThemNhanVien.this, "Thêm nhân viên thành công!", Toast.LENGTH_SHORT).show();
             finish();
         }).addOnFailureListener(e -> {

@@ -12,7 +12,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tdchotel_manager.Model.chi_tiet_dich_vu_phong;
+import com.example.tdchotel_manager.Model.chi_tiet_tien_nghi;
 import com.example.tdchotel_manager.Model.dich_vu_phong;
+import com.example.tdchotel_manager.Model.tien_nghi;
 import com.example.tdchotel_manager.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -77,51 +79,81 @@ public class adapter_dich_vu_phong extends RecyclerView.Adapter<adapter_dich_vu_
         }
     }
 
-    private void increaseValue(EditText editText) {
-        int value = Integer.parseInt(editText.getText().toString());
+    private void increaseValue(int position, EditText editText) {
+        dich_vu_phong item = datalist.get(position);
+        int value = item.getSo_luong();
         value++;
+        item.setSo_luong(value); // Cập nhật giá trị trong dataList
         editText.setText(String.valueOf(value));
+        notifyItemChanged(position); // Cập nhật chỉ item tại vị trí này
     }
 
-    private void decreaseValue(EditText editText) {
-        int value = Integer.parseInt(editText.getText().toString());
+    private void decreaseValue(int position, EditText editText) {
+        dich_vu_phong item = datalist.get(position);
+        int value = item.getSo_luong();
         if (value > 0) {
             value--;
+            item.setSo_luong(value); // Cập nhật giá trị trong dataList
             editText.setText(String.valueOf(value));
+            notifyItemChanged(position); // Cập nhật chỉ item tại vị trí này
         }
     }
 
+    // Trong onBindViewHolder, cập nhật các sự kiện click để sử dụng các phương thức trên
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        dich_vu_phong data = datalist.get(position);
+    public void onBindViewHolder(@NonNull adapter_dich_vu_phong.MyViewHolder holder, int position) {
+        dich_vu_phong data = datalist.get(holder.getAdapterPosition());
         holder.tv_ten_tien_nghi.setText(data.getTen_dich_vu_phong());
+        holder.edt_so_luong.setText(String.valueOf(data.getSo_luong()));
         holder.ib_decrease.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                decreaseValue(holder.edt_so_luong);
-                int soLuong = Integer.parseInt(holder.edt_so_luong.getText().toString());
-                String dichVuPhongId = data.getId_dich_vu_phong(); // Lấy ID của dịch vụ phòng
-                Log.d("DichVuPhongId", "ID: " + dichVuPhongId + "   SL: " + soLuong);
-                addChiTietDichVu(dichVuPhongId, soLuong);
+                decreaseValue(holder.getAdapterPosition(), holder.edt_so_luong);
+                // Cập nhật chi tiết dịch vụ phòng
+                addChiTietDichVu(data.getId_dich_vu_phong(), data.getSo_luong());
             }
         });
 
         holder.ib_increase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                increaseValue(holder.edt_so_luong);
-                int soLuong = Integer.parseInt(holder.edt_so_luong.getText().toString());
-                String dichVuPhongId = data.getId_dich_vu_phong(); // Lấy ID của dịch vụ phòng
-                Log.d("DichVuPhongId", "ID: " + dichVuPhongId + "   SL: " + soLuong);
-                addChiTietDichVu(dichVuPhongId, soLuong);
+                increaseValue(holder.getAdapterPosition(), holder.edt_so_luong);
+                // Cập nhật chi tiết dịch vụ phòng
+                addChiTietDichVu(data.getId_dich_vu_phong(), data.getSo_luong());
             }
         });
-
     }
 
     @Override
     public int getItemCount() {
         return datalist.size();
+    }
+    public void GoiDuLieu(String idPhong) {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("chi_tiet_dich_vu_phong").child(idPhong);
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                ArrayList<chi_tiet_dich_vu_phong> newChiTietDichVuPhongs = new ArrayList<>();
+                for (DataSnapshot FacilitySnapshot : dataSnapshot.getChildren()) {
+                    chi_tiet_dich_vu_phong facilityDetail = FacilitySnapshot.getValue(chi_tiet_dich_vu_phong.class);
+                    if (facilityDetail != null) {
+                        newChiTietDichVuPhongs.add(facilityDetail);
+                        for (dich_vu_phong dvp : datalist) {
+                            if (dvp.getId_dich_vu_phong().equals(facilityDetail.getId_dich_vu_phong())) {
+                                dvp.setSo_luong(facilityDetail.getSo_luong());
+                            }
+                            notifyDataSetChanged();
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Xử lý lỗi
+                Log.e("fetchFacilityDetails", "Failed to read value.", databaseError.toException());
+            }
+        });
     }
 
     void khoitao() {

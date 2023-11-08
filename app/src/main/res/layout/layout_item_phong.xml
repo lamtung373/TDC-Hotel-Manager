@@ -19,6 +19,7 @@
         android:progressDrawable="@drawable/refresh"
         android:visibility="visible"/>
     <ImageView
+        android:scaleType="centerCrop"
         android:id="@+id/iv_item_phong"
         android:layout_width="100dp"
         android:layout_height="100dp"

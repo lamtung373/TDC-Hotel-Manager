@@ -19,13 +19,14 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 public class adapter_dich_vu extends RecyclerView.Adapter<adapter_dich_vu.MyViewHolder> {
-    Context context;
-    private ArrayList<dich_vu> datalist = new ArrayList<>();
 
+    private ArrayList<dich_vu> datalist = new ArrayList<>();
+    Context context;
     public adapter_dich_vu(Context context) {
         this.context = context;
         khoi_tao();
@@ -46,6 +47,8 @@ public class adapter_dich_vu extends RecyclerView.Adapter<adapter_dich_vu.MyView
         holder.tvgia.setText(String.valueOf(dataItem.getGia_dich_vu()) + "đ/");
         holder.tvloaidv.setText(dataItem.getId_loai_dich_vu());
 
+        Picasso.get().load(dataItem.getAnh_dich_vu()).into(holder.imganhdv);
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -53,7 +56,9 @@ public class adapter_dich_vu extends RecyclerView.Adapter<adapter_dich_vu.MyView
                 intent.putExtra("dichvuid",dataItem.getId_dich_vu());
                 context.startActivity(intent);
             }
+
         });
+
     }
 
     @Override
@@ -72,6 +77,7 @@ public class adapter_dich_vu extends RecyclerView.Adapter<adapter_dich_vu.MyView
             tvgia = itemView.findViewById(R.id.tvGia1);
             tvloaidv = itemView.findViewById(R.id.tvloaidv);
             layout = itemView.findViewById(R.id.layout_dv);
+            imganhdv = itemView.findViewById(R.id.imgvDV);
         }
     }
 

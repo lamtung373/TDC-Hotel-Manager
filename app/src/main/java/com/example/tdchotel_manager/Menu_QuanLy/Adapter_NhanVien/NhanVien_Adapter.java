@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -52,7 +53,24 @@ public class NhanVien_Adapter extends RecyclerView.Adapter<NhanVien_Adapter.Nhan
                 v.getContext().startActivity(intent);
             }
         });
-        Picasso.get().load(nv.getAnh_nhan_vien()).into(holder.imgNV);
+        // Hiển thị ProgressBar khi bắt đầu tải ảnh
+        holder.progressBar.setVisibility(View.VISIBLE);
+
+        Picasso.get().load(nv.getAnh_nhan_vien()).into(holder.imgNV, new com.squareup.picasso.Callback() {
+            @Override
+            public void onSuccess() {
+                // Ảnh đã được tải, ẩn ProgressBar
+                holder.progressBar.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onError(Exception e) {
+                // Có lỗi khi tải ảnh, ẩn ProgressBar và có thể hiển thị ảnh lỗi
+                holder.progressBar.setVisibility(View.GONE);
+                // Set ảnh lỗi nếu có
+                holder.imgNV.setImageResource(R.color.green);
+            }
+        });
 
     }
 
@@ -69,12 +87,14 @@ public class NhanVien_Adapter extends RecyclerView.Adapter<NhanVien_Adapter.Nhan
     public class NhanVienViewHolder extends RecyclerView.ViewHolder {
         TextView tvTen, tvLoai;
         ImageView imgNV;
+        ProgressBar progressBar;
 
         public NhanVienViewHolder(@NonNull View itemView) {
             super(itemView);
             tvTen = itemView.findViewById(R.id.tvTenNV);
             tvLoai = itemView.findViewById(R.id.tvLoaiNV);
             imgNV = itemView.findViewById(R.id.imgNV); // Khởi tạo ImageView
+            progressBar = itemView.findViewById(R.id.progressBar_itemQLNV);
         }
 
     }
