@@ -67,7 +67,9 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
             }
         });
     }
-
+public ArrayList<Uri> getData(){
+        return imageUris;
+}
     @Override
     public int getItemCount() {
         return imageUris.size();

@@ -12,16 +12,30 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         >
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ProgressBar
+                android:id="@+id/progressBar_itemDichVu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:progressDrawable="@drawable/refresh"
+                android:visibility="gone"/>
+            <ImageView
+                android:clipToOutline="true"
+                android:outlineProvider="background"
+                android:scaleType="centerCrop"
+                android:id="@+id/imgvDV"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="20dp"
+                android:src="@drawable/hoboi"/>
+        </RelativeLayout>
 
-        <ImageView
-            android:scaleType="centerCrop"
-            android:id="@+id/imgvDV"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="20dp"
-            android:src="@drawable/hoboi"/>
         <LinearLayout
             android:layout_margin="20dp"
             android:layout_width="wrap_content"
