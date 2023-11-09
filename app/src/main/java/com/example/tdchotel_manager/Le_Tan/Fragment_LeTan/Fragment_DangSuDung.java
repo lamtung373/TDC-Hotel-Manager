@@ -1,35 +1,23 @@
 package com.example.tdchotel_manager.Le_Tan.Fragment_LeTan;
 
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager2.widget.ViewPager2;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.ProgressBar;
+
 
 import com.example.tdchotel_manager.Le_Tan.Adapter_DangSuDung.adapter_dangsudung;
-import com.example.tdchotel_manager.Menu_QuanLy.Adapter_DichVu.Viewpageadapter;
-import com.example.tdchotel_manager.Menu_QuanLy.Adapter_DichVu.themdichvu;
-import com.example.tdchotel_manager.Menu_QuanLy.Adapter_DichVu.themdichvuphong;
-import com.example.tdchotel_manager.Menu_QuanLy.Adapter_DichVu.themtiennghi;
-import com.example.tdchotel_manager.Menu_QuanLy.Adapter_Phong.adapter_phong;
-import com.example.tdchotel_manager.Menu_QuanLy.Fragment_Dichvu;
-import com.example.tdchotel_manager.Model.hoa_don;
-import com.example.tdchotel_manager.Model.phong;
-import com.example.tdchotel_manager.R;
-import com.google.android.material.tabs.TabLayout;
 
-import java.util.ArrayList;
+import com.example.tdchotel_manager.R;
+
 
 
 public class Fragment_DangSuDung extends Fragment {
@@ -55,10 +43,39 @@ public class Fragment_DangSuDung extends Fragment {
     private void setEvent() {
         rcv.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter_dangsudung adapter = new adapter_dangsudung(getContext());
+        adapter.setOnItemLongClickListener(new adapter_dangsudung.OnItemLongClickListener() {
+            @Override
+            public void onItemLongClick(int position) {
+                // Xử lý khi người dùng giữ vào một item
+                // Hiển thị dialog lựa chọn ở đây
+                showItemOptions(position);
+            }
+        });
+
         rcv.setAdapter(adapter);
     }
+
     private void setControl(View view) {
         rcv = view.findViewById(R.id.rcv_DangSD);
     }
-}
 
+    private void showItemOptions(int position) {
+        // Xử lý khi người dùng giữ vào một item
+        // Hiển thị dialog lựa chọn ở đây
+        // Ví dụ: AlertDialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Lựa chọn hình thức");
+        builder.setItems(new CharSequence[]{"Gia hạn", "Trả phòng", "Dịch vụ"}, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Xử lý tùy thuộc vào lựa chọn của người dùng (Tác vụ 1 hoặc Tác vụ 2)
+                if (which == 0) {
+                    // Thực hiện Tác vụ 1
+                } else if (which == 1) {
+                    // Thực hiện Tác vụ 2
+                }
+            }
+        });
+        builder.show();
+    }
+}
