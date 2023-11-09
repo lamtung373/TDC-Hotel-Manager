@@ -85,9 +85,9 @@ public class chinhsuadichvu extends AppCompatActivity {
                         edtGiaDV.setText(String.valueOf(nv.getGia_dich_vu()));
 
                         String loaiDichVu = nv.getId_loai_dich_vu();
-                        if ("Người".equals(loaiDichVu)) {
+                        if ("2".equals(loaiDichVu)) {
                             radioGroup.check(R.id.rdNguoiCS);
-                        } else if ("Phòng".equals(loaiDichVu)) {
+                        } else if ("1".equals(loaiDichVu)) {
                             radioGroup.check(R.id.rdPhongCS);
                         }
                         Picasso.get().load(nv.getAnh_dich_vu()).into(imageView);
@@ -135,7 +135,7 @@ public class chinhsuadichvu extends AppCompatActivity {
                 }
 
 
-                String idChucVu = rdNguoi.isChecked() ? "Người" : "Phòng";
+                String idChucVu = rdNguoi.isChecked() ? "2" : "1";
 
                 // Cập nhật dữ liệu trên Firebase
                 DatabaseReference ref = FirebaseDatabase.getInstance().getReference("dich_vu").child(dichvuid);
