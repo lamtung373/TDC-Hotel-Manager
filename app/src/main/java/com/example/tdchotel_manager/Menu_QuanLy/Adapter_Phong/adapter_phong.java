@@ -4,6 +4,7 @@ package com.example.tdchotel_manager.Menu_QuanLy.Adapter_Phong;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -115,9 +116,20 @@ public class adapter_phong extends RecyclerView.Adapter<adapter_phong.MyViewHold
             holder.progressBar_itemphong.setVisibility(View.GONE);
         }
         holder.tv_name_room.setText(String.valueOf(data.getTen_phong()));
-        holder.tv_price.setText(String.valueOf(data.getGia()));
-        holder.tv_price.setPaintFlags(holder.tv_price.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-        holder.tv_sale.setText(String.valueOf(data.getSale()) + " VNĐ");
+        java.text.DecimalFormat formatter = new java.text.DecimalFormat("#");
+        holder.tv_price.setText(String.valueOf(formatter.format(data.getGia())));
+        if (data.getSale()!=0){
+            holder.tv_price.setTextColor(Color.GRAY);
+            holder.tv_price.setTextSize(13);
+            holder.tv_price.setPaintFlags(holder.tv_price.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+        }
+        else {
+            holder.tv_sale.setVisibility(View.GONE);
+            holder.tv_price.setTextColor(Color.RED);
+            holder.tv_price.setTextSize(15);
+            holder.tv_price.setPaintFlags(holder.tv_price.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+        }
+        holder.tv_sale.setText(formatter.format(data.getSale()) + " VNĐ");
         holder.tv_type_room.setText(data.getLoai_phong());
         holder.tv_status_room.setText(setStatusView(data.getId_trang_thai_phong()));
 

@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.icu.text.DecimalFormat;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -56,6 +57,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Activity_Thong_Tin_Phong extends AppCompatActivity {
     Spinner sp_status;
@@ -120,13 +122,14 @@ public class Activity_Thong_Tin_Phong extends AppCompatActivity {
     public void fill_data(phong data_phong) {
         edt_name.setText(data_phong.getTen_phong());
         edt_description.setText(data_phong.getMo_ta_chung());
-        edt_price.setText(String.valueOf(data_phong.getGia()));
-        edt_sale.setText(String.valueOf(data_phong.getSale()));
+        java.text.DecimalFormat formatter = new java.text.DecimalFormat("#");
+        edt_price.setText(formatter.format(data_phong.getGia()));
+        edt_sale.setText(formatter.format(data_phong.getSale()));
         loadchitiettiennghi(data_phong.getId_phong());
         adapterTienNghi.GoiDuLieu(data_phong.getId_phong());
         adapterDichVuPhong.GoiDuLieu(data_phong.getId_phong());
         loadImagesFromFirebase(data_phong);
-        switch (data_phong.getLoai_phong()){
+        switch (data_phong.getLoai_phong()) {
             case "1 Người":
                 radiogroup.check(R.id.rdo_1_nguoi);
                 break;
@@ -144,23 +147,45 @@ public class Activity_Thong_Tin_Phong extends AppCompatActivity {
                 break;
         }
     }
+
+    private void loadchitiettiennghi(String id_phong) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference ref = database.getReference("chi_tiet_tien_nghi");
+
+// Tạo một query để lọc các phần tử có id_phong cần tìm
+        Query query = ref.orderByChild("id_phong").equalTo(id_phong);
+
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ArrayList<Object> danhSachTienNghi = new ArrayList<>();
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    // Giả sử Object là class của bạn có thuộc tính id_phong
+                    chi_tiet_tien_nghi tienNghi = postSnapshot.getValue(chi_tiet_tien_nghi.class);
+                    list_tiennghi_dowload.add(tienNghi);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Lỗi khi không thể thực hiện truy vấn hoặc truy vấn bị hủy
+                System.out.println("loadPost:onCancelled: " + databaseError.toException());
+            }
+        });
+
+    }
+
     //truyền ảnh từ url vào adapter để hiện ảnh lên recyclerview
     private void loadImagesFromFirebase(phong thongtin) {
         picture_list.clear();
-        for (String url:thongtin.getAnh_phong()) {
+        for (String url : thongtin.getAnh_phong()) {
+            list_ten_anh.add(url);
             Uri imageUri = Uri.parse(url);
             picture_list.add(imageUri);
-            Log.e("urianhr",imageUri.toString());
+            Log.e("urianhr", imageUri.toString());
         }
         imageAdapter.notifyDataSetChanged();
     }
-//
-//    public boolean kiemtrathongtinphong() {
-//        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
-//            detail_infor_room = getIntent().getSerializableExtra("phong", phong.class);
-//        }
-//        return false;
-//    }
 
     private void setEvent() {
         imageAdapter.setOnItemClickListener(new ImageAdapter.OnItemClickListener() {
@@ -188,7 +213,12 @@ public class Activity_Thong_Tin_Phong extends AppCompatActivity {
         btn_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                save_data();
+                if (thong_tin_phong == null) {
+                    save_data();
+                } else {
+                    update_data(thong_tin_phong.getId_phong());
+
+                }
             }
         });
         sp_status.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -227,16 +257,61 @@ public class Activity_Thong_Tin_Phong extends AppCompatActivity {
         rcv_dich_vu_phong.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         rcv_dich_vu_phong.setAdapter(adapterDichVuPhong);
     }
-void save_data(){
-    if (validateRoomData()) {
-        viewBlocking.setVisibility(View.VISIBLE);
-        progressBar_luuphong.setVisibility(View.VISIBLE); // Hiển thị ProgressBar
-        uploadImages(picture_list, new OnAllImagesUploadedListener() {
+
+    //sửa phòng
+    private void update_data(String idPhong) {
+        if (validateRoomData()) {
+            viewBlocking.setVisibility(View.VISIBLE);
+            progressBar_luuphong.setVisibility(View.VISIBLE); // Hiển thị ProgressBar
+            SuaThongTinCoBan(idPhong, list_ten_anh);
+
+        }
+    }
+
+    void SuaThongTinCoBan(String id_phong, ArrayList<String> anh_phong) {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("phong").child(id_phong);
+        String ten_phong = edt_name.getText().toString();
+        String mo_ta_chung = edt_description.getText().toString();
+        String loai_phong = typeRoom();
+        int selectedPosition = sp_status.getSelectedItemPosition();
+        trang_thai_phong selectedTrangThai = list_status.get(selectedPosition);
+        String id_trang_thai_phong = selectedTrangThai.getId_trang_thai_phong();
+        double gia = Double.parseDouble(edt_price.getText().toString());
+        double sale = Double.parseDouble(edt_sale.getText().toString());
+
+        // Tạo một HashMap để cập nhật thông tin của phòng
+        Map<String, Object> updates = new HashMap<>();
+        updates.put("ten_phong", ten_phong);
+        updates.put("mo_ta_chung", mo_ta_chung);
+        updates.put("loai_phong", loai_phong);
+        updates.put("id_trang_thai_phong", id_trang_thai_phong);
+        updates.put("gia", gia);
+        updates.put("sale", sale);
+
+        // Đối với danh sách ảnh phòng, bạn có thể cập nhật chúng bằng cách tạo một đối tượng chứa danh sách ảnh.
+        //updates.put("anh_phong", anh_phong);
+
+        // Cập nhật thông tin của phòng
+        ref.updateChildren(updates).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                // Cập nhật thành công
+                Log.d("Firebase", "Thông tin phòng đã được cập nhật.");
+            } else {
+                // Cập nhật thất bại, xử lý lỗi
+                Log.d("Firebase", "Cập nhật thông tin phòng thất bại: " + task.getException().getMessage());
+            }
+        });
+
+        // Sau khi cập nhật thông tin cơ bản của phòng, bạn có thể tiếp tục với việc cập nhật danh sách chi tiết dịch vụ phòng và tiện nghi.
+        SuaChiTiet(id_phong);
+        uploadImagesUpdate(imageAdapter.getData(), new OnAllImagesUploadedListener() {
             @Override
             public void onAllImagesUploaded(List<String> imageUrls) {
-                Log.e("hhhhhhh", "đã thêm ảnh");
-                phong room = new_room();
-                onClickAdd_room(new_room());
+                // Xử lý khi tất cả ảnh đã được tải lên và bạn đã nhận được danh sách đường dẫn URL của ảnh
+                updatePhongAnh(list_ten_anh, id_phong);
+                for (String str : list_ten_anh) {
+                    Log.e("uledvvffrg", str);
+                }
                 progressBar_luuphong.setVisibility(View.GONE);
                 viewBlocking.setVisibility(View.GONE);
                 Toast.makeText(Activity_Thong_Tin_Phong.this, "Thêm phòng thành công", Toast.LENGTH_SHORT).show();
@@ -244,7 +319,156 @@ void save_data(){
             }
         });
     }
-}
+
+    private void updatePhongAnh(ArrayList<String> newImageUrls, String phongId) {
+        // Lấy tham chiếu đến Firebase Database
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference roomRef = database.getReference("phong").child(phongId);
+
+        // Cập nhật trường `anh_phong` với mảng mới
+        roomRef.child("anh_phong").setValue(newImageUrls)
+                .addOnSuccessListener(aVoid -> {
+                    // Cập nhật thành công
+                    System.out.println("Images updated successfully.");
+                })
+                .addOnFailureListener(e -> {
+                    // Có lỗi xảy ra
+                    e.printStackTrace();
+                });
+    }
+
+    private void uploadImagesUpdate(List<Uri> imageUris, final OnAllImagesUploadedListener listener) {
+        // Khởi tạo StorageReference
+        StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+        final ArrayList<String> downloadUrls = new ArrayList<>();
+        final AtomicInteger uploadCount = new AtomicInteger(0);
+
+        // Kiểm tra nếu imageUris trống
+        if (imageUris.isEmpty()) {
+            listener.onAllImagesUploaded(downloadUrls); // Gọi listener với danh sách trống
+            return;
+        }
+
+        for (Uri imageUri : imageUris) {
+            // Đặt tên duy nhất cho ảnh tải lên (ví dụ: theo thời gian hiện tại)
+            String uniqueName = "image" + System.currentTimeMillis() + "_" + uploadCount.incrementAndGet();
+
+            // Xây dựng đường dẫn lưu trữ trên Firebase Storage
+            StorageReference imageRef = storageReference.child("images/" + uniqueName);
+
+            // Tải lên ảnh lên Firebase Storage
+            imageRef.putFile(imageUri)
+                    .addOnSuccessListener(taskSnapshot -> {
+                        // Ảnh đã tải lên thành công, lấy URL của ảnh
+                        taskSnapshot.getStorage().getDownloadUrl().addOnSuccessListener(downloadUri -> {
+                            downloadUrls.add(downloadUri.toString());
+                            if (uploadCount.get() == imageUris.size()) {
+                                // Gọi listener khi tất cả ảnh đã được tải lên và lấy URL thành công
+                                listener.onAllImagesUploaded(downloadUrls);
+                                updatePhongAnh(downloadUrls, thong_tin_phong.getId_phong());
+                            }
+                        });
+                    })
+                    .addOnFailureListener(e -> {
+                        // Xử lý lỗi khi tải lên ảnh thất bại
+                        Log.e("Firebase", "Lỗi khi tải lên ảnh: " + e.getMessage());
+                        // Nếu muốn, bạn cũng có thể thông báo cho listener về lỗi ở đây
+                    });
+        }
+    }
+
+    public void SuaChiTiet(String id_phong) {
+        list_chi_tietDVP.clear();
+        //sách chi tiết dịch vụ phòng từ adapter
+        list_chi_tietDVP = adapterDichVuPhong.getChiTietDichVu();
+        // Thêm danh sách chi tiết dịch vụ phòng vào Firebase
+        onClickUpdatefacilities(list_chi_tietDVP, id_phong);
+
+
+        list_chi_tietTN.clear();
+        list_chi_tietTN = adapterTienNghi.getChi_tiet_tien_nghis();
+        for (int i = 0; i < list_chi_tietTN.size(); i++) {
+            Log.e("chi tiet tien nghi lấy về", list_chi_tietTN.get(i).getId_tien_nghi() + " " + list_chi_tietTN.get(i).getSo_luong());
+        }
+        onClickUpdateComfort(list_chi_tietTN, id_phong);
+    }
+
+    //hàm cập nhật tiện nghi
+    private void onClickUpdateComfort(ArrayList<chi_tiet_tien_nghi> comfortList, String idPhong) {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+        Map<String, Object> childUpdates = new HashMap<>();
+
+        // Tạo các cập nhật cho mỗi chi tiết tiện nghi
+        for (chi_tiet_tien_nghi comfort : comfortList) {
+            String comfortID = comfort.getId_tien_nghi();
+            if (comfortID != null) {
+                // Đường dẫn sẽ là /chi_tiet_tien_nghi/idPhong/comfortID
+                Map<String, Object> comfortValues = comfort.toMap();
+                childUpdates.put("/chi_tiet_tien_nghi/" + idPhong + "/" + comfortID, comfortValues);
+            }
+        }
+
+        // Thực hiện cập nhật thông tin
+        databaseReference.updateChildren(childUpdates).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                // Cập nhật thành công
+                Log.e("sửa tiện nghi", "thành công");
+                //Toast.makeText(Activity_Thong_Tin_Phong.this, "Comfort updated successfully", Toast.LENGTH_SHORT).show();
+            } else {
+                // Cập nhật thất bại
+                Log.e("sửa tiện nghi", "thất bại");
+                //Toast.makeText(Activity_Thong_Tin_Phong.this, "Failed to update comfort", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    //hàm cập nhật dịch vụ phòng
+    private void onClickUpdatefacilities(ArrayList<chi_tiet_dich_vu_phong> facilityList, String idPhong) {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+        Map<String, Object> childUpdates = new HashMap<>();
+
+        // Tạo các cập nhật cho mỗi chi tiết tiện nghi
+        for (chi_tiet_dich_vu_phong facility : facilityList) {
+            String facilityID = facility.getId_dich_vu_phong();
+            if (facilityID != null) {
+                // Đường dẫn sẽ là /chi_tiet_tien_nghi/idPhong/comfortID
+                Map<String, Object> facilityValues = facility.toMap();
+                childUpdates.put("/chi_tiet_dich_vu_phong/" + idPhong + "/" + facilityID, facilityValues);
+            }
+        }
+
+        // Thực hiện cập nhật thông tin
+        databaseReference.updateChildren(childUpdates).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                // Cập nhật thành công
+                Log.e("sửa dịch vụ phòng", "thành công");
+            } else {
+                // Cập nhật thất bại
+                Log.e("sửa dịch vụ phòng", "thất bại");
+            }
+        });
+    }
+
+    //Lưu phòng mới
+    void save_data() {
+        if (validateRoomData()) {
+            viewBlocking.setVisibility(View.VISIBLE);
+            progressBar_luuphong.setVisibility(View.VISIBLE); // Hiển thị ProgressBar
+            uploadImages(picture_list, new OnAllImagesUploadedListener() {
+                @Override
+                public void onAllImagesUploaded(List<String> imageUrls) {
+                    Log.e("hhhhhhh", "đã thêm ảnh");
+                    phong room = new_room();
+                    onClickAdd_room(new_room());
+                    progressBar_luuphong.setVisibility(View.GONE);
+                    viewBlocking.setVisibility(View.GONE);
+                    Toast.makeText(Activity_Thong_Tin_Phong.this, "Thêm phòng thành công", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+            });
+        }
+    }
+
     public void uploadImages(ArrayList<Uri> imageUris, final OnAllImagesUploadedListener listener) {
         StorageReference storageReference = FirebaseStorage.getInstance().getReferenceFromUrl("gs://tdc-hotel-beb50.appspot.com");
         List<Task<Uri>> tasks = new ArrayList<>();
@@ -265,7 +489,6 @@ void save_data(){
                 if (task.isSuccessful()) {
                     Uri downloadUri = task.getResult();
                     list_ten_anh.add(downloadUri.toString());
-                } else {
                 }
             });
             tasks.add(urlTask);
@@ -286,7 +509,6 @@ void save_data(){
     public interface OnAllImagesUploadedListener {
         void onAllImagesUploaded(List<String> imageUrls);
     }
-
 
     private void showImagePickDialog() {
         String[] options = {"Camera", "Thư viện ảnh"};
@@ -423,7 +645,7 @@ void save_data(){
                 // Đường dẫn sẽ là /chi_tiet_tien_nghi/idPhong/key
                 Map<String, Object> comfortValues = comfort.toMap();
                 chilUpdates.put("/chi_tiet_tien_nghi/" + idPhong + "/" + comfortID, comfortValues);
-                }
+            }
         }
         //Thưc hiện cập nhật thông báo
         databaseReference.updateChildren(chilUpdates).addOnCompleteListener(task -> {
@@ -462,6 +684,7 @@ void save_data(){
             }
         });
     }
+
     public void ThemChiTiet(String id_phong) {
         // Lấy danh sách chi tiết dịch vụ phòng từ adapter
         list_chi_tietDVP = adapterDichVuPhong.getChiTietDichVu();
@@ -514,46 +737,28 @@ void save_data(){
         String name = edt_name.getText().toString();
         String description = edt_description.getText().toString();
         int price = Integer.parseInt(edt_price.getText().toString());
-        int sale = Integer.parseInt(edt_sale.getText().toString());
+        int sale = 0;
+        if (!edt_sale.getText().toString().isEmpty()) {
+            sale = Integer.parseInt(edt_sale.getText().toString());
+        }
+
         String type = typeRoom();
         //trạng thái
         int selectedPosition = sp_status.getSelectedItemPosition();
         trang_thai_phong selectedTrangThai = list_status.get(selectedPosition);
         String statusID = selectedTrangThai.getId_trang_thai_phong();
         int luot_thue = 0;
-        int rating = 0;
-
-        phong room = new phong(null, name, description, list_ten_anh, type, statusID, luot_thue, price, sale, rating);
+        ArrayList<String>list_anh;
+        int rating = 5;if (list_ten_anh!=null){
+           list_anh= list_ten_anh;
+        }else {
+            list_anh=new ArrayList<>();
+        }
+        String ngay_don_phong = "";
+        phong room = new phong(null, name, description, list_anh, type, statusID, luot_thue, price, sale, rating, ngay_don_phong);
         return room;
     }
 
-    private void loadchitiettiennghi(String id_phong) {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference ref = database.getReference("chi_tiet_tien_nghi");
-
-// Tạo một query để lọc các phần tử có id_phong cần tìm
-        Query query = ref.orderByChild("id_phong").equalTo(id_phong);
-
-        query.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                ArrayList<Object> danhSachTienNghi = new ArrayList<>();
-                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    // Giả sử Object là class của bạn có thuộc tính id_phong
-                    chi_tiet_tien_nghi tienNghi = postSnapshot.getValue(chi_tiet_tien_nghi.class);
-                    list_tiennghi_dowload.add(tienNghi);
-                }
-                // adapterTienNghi.filldata(list_tiennghi_dowload, rcv_tien_nghi);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                // Lỗi khi không thể thực hiện truy vấn hoặc truy vấn bị hủy
-                System.out.println("loadPost:onCancelled: " + databaseError.toException());
-            }
-        });
-
-    }
 
     private void loadTrangThaiPhong() {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("trang_thai_phong");
@@ -573,7 +778,7 @@ void save_data(){
                 if (thong_tin_phong != null) {
                     for (int i = 0; i < list_status.size(); i++) {
                         trang_thai_phong status = list_status.get(i);
-                        Log.e("trang thai phong",status.getId_trang_thai_phong().toString());
+                        Log.e("trang thai phong", status.getId_trang_thai_phong().toString());
                         if (status.getId_trang_thai_phong().equals(thong_tin_phong.getId_trang_thai_phong())) {
                             sp_status.setSelection(i);
                             break;
@@ -620,20 +825,20 @@ void save_data(){
             price = Integer.parseInt(priceText);
         }
 
-        if (!saleText.isEmpty()) {
-            sale = Integer.parseInt(saleText);
-            if (sale >= price) {
-                Toast.makeText(this, "Giá sale phải nhỏ hơn giá phòng", Toast.LENGTH_SHORT).show();
-                edt_sale.setText(""); // Xóa giá sale nếu không hợp lệ
-                return false;
-            }
+        if (sale >= price) {
+            Toast.makeText(this, "Giá sale phải nhỏ hơn giá phòng", Toast.LENGTH_SHORT).show();
+            edt_sale.setText(""); // Xóa giá sale nếu không hợp lệ
+            return false;
         }
 
         if (type.isEmpty()) {
             Toast.makeText(this, "Vui lòng chọn loại phòng", Toast.LENGTH_SHORT).show();
             return false;
         }
-
+        if (picture_list.isEmpty()) {
+            Toast.makeText(this, "Vui lòng chọn ảnh phòng", Toast.LENGTH_SHORT).show();
+            return false;
+        }
         // Nếu tất cả điều kiện đều hợp lệ, trả về true
         return true;
     }
