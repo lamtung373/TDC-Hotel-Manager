@@ -49,7 +49,7 @@ public class Adapter_DVTheoNguoi extends RecyclerView.Adapter<Adapter_DVTheoNguo
     public void onBindViewHolder(@NonNull DV_TheoNguoi_Holder holder, int position) {
         if(!data_dv.isEmpty()&&data_dv!=null) {
             holder.tv_dv.setText(data_dv.get(position).getTen_dich_vu());
-            holder.tvGia.setText(data_dv.get(position).getGia_dich_vu() + "đ/phòng");
+            holder.tvGia.setText(data_dv.get(position).getGia_dich_vu() + "đ/người");
             holder.ivCong.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

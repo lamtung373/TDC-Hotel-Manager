@@ -49,7 +49,7 @@ public class Adapter_DVTheoPhong extends RecyclerView.Adapter<Adapter_DVTheoPhon
     public void onBindViewHolder(@NonNull DVTheoPhong_Holder holder, int position) {
         if (!data_dv.isEmpty() && data_dv != null) {
             holder.tv_dv.setText(data_dv.get(position).getTen_dich_vu());
-            holder.tvGia.setText(data_dv.get(position).getGia_dich_vu() + "đ/người");
+            holder.tvGia.setText(data_dv.get(position).getGia_dich_vu() + "đ/phòng");
             holder.cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
