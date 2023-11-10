@@ -1,4 +1,4 @@
-package com.example.tdchotel_manager.Le_Tan;
+package com.example.tdchotel_manager.Le_Tan.Adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;

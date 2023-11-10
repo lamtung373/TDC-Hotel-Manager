@@ -12,14 +12,8 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp">
 
             <RelativeLayout
                 android:id="@+id/rl_title"
@@ -83,7 +77,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:text="Tên phòng" />
+                 />
             </LinearLayout>
 
             <TextView
@@ -95,7 +89,6 @@
                 android:layout_alignParentEnd="true"
                 android:layout_marginRight="20dp"
                 android:drawableEnd="@drawable/star"
-                android:text="5.0"
                 android:textStyle="normal" />
         </RelativeLayout>
 
@@ -105,7 +98,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:text="90.000đ/h"
             android:textSize="15dp"
             android:textStyle="normal" />
 
@@ -114,15 +106,15 @@
             style="@style/textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:text="89.000đ/h" />
+            android:layout_marginLeft="10dp" />
 
         <TextView
             style="@style/textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:text="Tiện nghi phòng" />
+            android:text="Tiện nghi phòng"
+            android:layout_marginTop="10dp"/>
 
         <TextView
             android:id="@+id/tv_tiennghi"
@@ -130,7 +122,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
-            android:text="\u2022  View Biển \n\u2022  2 giường ngủ\n\u2022  1 phòng tắm\n\u2022  Bồn tắm riêng\n\u2022  TiVi\n\u2022  Điều hòa"
             android:textSize="15dp"
             android:textStyle="normal" />
 
@@ -147,7 +138,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="Khi bước vào phòng, bạn sẽ cảm nhận được sự sang trọng và ấm cúng. Tường phòng được sơn màu trắng tinh tế, kết hợp với nội thất gỗ màu nâu trầm tạo nên một không gian hài hòa và trang nhã.\nGiường ngủ là điểm nhấn của phòng, với kích thước lớn và đệm mềm mại. Bàn làm việc được đặt cạnh cửa sổ, thuận tiện cho bạn làm việc hoặc giải trí. Tủ quần áo rộng rãi có thể chứa được nhiều đồ đạc.\nPhòng tắm được thiết kế hiện đại với bồn tắm và vòi sen riêng biệt. Các đồ dùng vệ sinh cá nhân được cung cấp đầy đủ."
             android:textSize="15dp"
             android:textStyle="normal" />
 
@@ -159,7 +149,7 @@
             android:id="@+id/btnDatphong"
             style="@style/button"
             android:background="@drawable/selector_bg_button"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="50dp"
