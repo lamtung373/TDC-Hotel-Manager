@@ -10,8 +10,17 @@ public class phong implements Serializable{
     ArrayList<String> anh_phong;
     int luot_thue;
     double gia,sale, danh_gia_sao;
+    String ngay_don_phong;
 
-    public phong(String id_phong, String ten_phong, String mo_ta_chung, ArrayList<String> anh_phong, String loai_phong, String id_trang_thai_phong, int luot_thue, double gia, double sale, double danh_gia_sao) {
+    public String getNgay_don_phong() {
+        return ngay_don_phong;
+    }
+
+    public void setNgay_don_phong(String ngay_don_phong) {
+        this.ngay_don_phong = ngay_don_phong;
+    }
+
+    public phong(String id_phong, String ten_phong, String mo_ta_chung, ArrayList<String> anh_phong, String loai_phong, String id_trang_thai_phong, int luot_thue, double gia, double sale, double danh_gia_sao, String ngay_don_phong) {
         this.ten_phong = ten_phong;
         this.mo_ta_chung = mo_ta_chung;
         this.anh_phong = anh_phong;
@@ -22,6 +31,7 @@ public class phong implements Serializable{
         this.gia = gia;
         this.sale = sale;
         this.danh_gia_sao = danh_gia_sao;
+        this.ngay_don_phong=ngay_don_phong;
     }
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();

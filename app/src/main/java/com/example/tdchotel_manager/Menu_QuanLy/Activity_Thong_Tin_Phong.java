@@ -309,8 +309,8 @@ public class Activity_Thong_Tin_Phong extends AppCompatActivity {
             public void onAllImagesUploaded(List<String> imageUrls) {
                 // Xử lý khi tất cả ảnh đã được tải lên và bạn đã nhận được danh sách đường dẫn URL của ảnh
                 updatePhongAnh(list_ten_anh, id_phong);
-                for (String str:list_ten_anh){
-                    Log.e("uledvvffrg",str);
+                for (String str : list_ten_anh) {
+                    Log.e("uledvvffrg", str);
                 }
                 progressBar_luuphong.setVisibility(View.GONE);
                 viewBlocking.setVisibility(View.GONE);
@@ -737,16 +737,25 @@ public class Activity_Thong_Tin_Phong extends AppCompatActivity {
         String name = edt_name.getText().toString();
         String description = edt_description.getText().toString();
         int price = Integer.parseInt(edt_price.getText().toString());
-        int sale = Integer.parseInt(edt_sale.getText().toString());
+        int sale = 0;
+        if (!edt_sale.getText().toString().isEmpty()) {
+            sale = Integer.parseInt(edt_sale.getText().toString());
+        }
+
         String type = typeRoom();
         //trạng thái
         int selectedPosition = sp_status.getSelectedItemPosition();
         trang_thai_phong selectedTrangThai = list_status.get(selectedPosition);
         String statusID = selectedTrangThai.getId_trang_thai_phong();
         int luot_thue = 0;
-        int rating = 0;
-
-        phong room = new phong(null, name, description, list_ten_anh, type, statusID, luot_thue, price, sale, rating);
+        ArrayList<String>list_anh;
+        int rating = 5;if (list_ten_anh!=null){
+           list_anh= list_ten_anh;
+        }else {
+            list_anh=new ArrayList<>();
+        }
+        String ngay_don_phong = "";
+        phong room = new phong(null, name, description, list_anh, type, statusID, luot_thue, price, sale, rating, ngay_don_phong);
         return room;
     }
 
@@ -816,13 +825,10 @@ public class Activity_Thong_Tin_Phong extends AppCompatActivity {
             price = Integer.parseInt(priceText);
         }
 
-        if (!saleText.isEmpty()) {
-            sale = Integer.parseInt(saleText);
-            if (sale >= price) {
-                Toast.makeText(this, "Giá sale phải nhỏ hơn giá phòng", Toast.LENGTH_SHORT).show();
-                edt_sale.setText(""); // Xóa giá sale nếu không hợp lệ
-                return false;
-            }
+        if (sale >= price) {
+            Toast.makeText(this, "Giá sale phải nhỏ hơn giá phòng", Toast.LENGTH_SHORT).show();
+            edt_sale.setText(""); // Xóa giá sale nếu không hợp lệ
+            return false;
         }
 
         if (type.isEmpty()) {
@@ -830,7 +836,7 @@ public class Activity_Thong_Tin_Phong extends AppCompatActivity {
             return false;
         }
         if (picture_list.isEmpty()) {
-            Toast.makeText(this, "Chưa có ảnh phòng cđmm", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Vui lòng chọn ảnh phòng", Toast.LENGTH_SHORT).show();
             return false;
         }
         // Nếu tất cả điều kiện đều hợp lệ, trả về true
