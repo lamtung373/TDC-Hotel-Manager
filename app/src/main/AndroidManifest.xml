@@ -23,6 +23,9 @@
         android:theme="@style/Theme.TDCHotelManager"
         tools:targetApi="31">
         <activity
+            android:name=".Le_Tan.Activity_XacNhanDatPhongDichVu"
+            android:exported="false" />
+        <activity
             android:name=".Le_Tan.Activity_Chi_Tiet_Phong"
             android:exported="false" />
         <activity
@@ -48,10 +51,10 @@
             android:exported="false" />
         <activity
             android:name=".Menu_QuanLy.Adapter_DichVu.themdichvuphong"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".Menu_QuanLy.Adapter_DichVu.themtiennghi"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".Menu_QuanLy.QuanLyLichLam"
             android:exported="false" />

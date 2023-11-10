@@ -16,8 +16,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 
-import com.example.tdchotel_manager.Le_Tan.Fragment_LeTan.Adapter_Phong_Sansang.Adapter_SanSang;
-import com.example.tdchotel_manager.Menu_QuanLy.Adapter_Phong.adapter_phong;
+import com.example.tdchotel_manager.Le_Tan.Adapter.Adapter_SanSang;
 import com.example.tdchotel_manager.Model.phong;
 import com.example.tdchotel_manager.R;
 

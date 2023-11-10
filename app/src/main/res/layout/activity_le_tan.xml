@@ -24,6 +24,15 @@
             android:textStyle="bold"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"/>
+        <ImageView
+            android:id="@+id/iv_ca_nhan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="center"
+            android:layout_marginRight="10dp"
+            android:background="@null"
+            android:src="@drawable/baseline_person_24" />
     </RelativeLayout>
 
 
