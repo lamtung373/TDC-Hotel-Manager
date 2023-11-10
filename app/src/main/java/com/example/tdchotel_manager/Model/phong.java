@@ -10,6 +10,15 @@ public class phong implements Serializable{
     ArrayList<String> anh_phong;
     int luot_thue;
     double gia,sale, danh_gia_sao;
+    String ngay_don_phong;
+
+    public String getNgay_don_phong() {
+        return ngay_don_phong;
+    }
+
+    public void setNgay_don_phong(String ngay_don_phong) {
+        this.ngay_don_phong = ngay_don_phong;
+    }
 
     public phong(String id_phong, String ten_phong, String mo_ta_chung, ArrayList<String> anh_phong, String loai_phong, String id_trang_thai_phong, int luot_thue, double gia, double sale, double danh_gia_sao) {
         this.ten_phong = ten_phong;
