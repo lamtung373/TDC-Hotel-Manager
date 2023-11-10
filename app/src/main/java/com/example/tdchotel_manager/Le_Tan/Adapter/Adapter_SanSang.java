@@ -1,4 +1,4 @@
-package com.example.tdchotel_manager.Le_Tan.Fragment_LeTan.Adapter_Phong_Sansang;
+package com.example.tdchotel_manager.Le_Tan.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,7 +13,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.tdchotel_manager.IOnItemClick;
 import com.example.tdchotel_manager.Le_Tan.Activity_Chi_Tiet_Phong;
 import com.example.tdchotel_manager.Model.phong;
 import com.example.tdchotel_manager.Model.trang_thai_phong;
