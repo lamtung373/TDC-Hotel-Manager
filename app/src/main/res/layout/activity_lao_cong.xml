@@ -9,7 +9,7 @@
         android:background="@color/dark_blue"
         android:gravity="center_vertical"
         android:paddingLeft="10dp"
-        android:text="Xin chào, Quản lý"
+        android:text="Xin chào,"
         android:textColor="@color/white"
         android:textSize="20dp"
         android:textStyle="bold" />
