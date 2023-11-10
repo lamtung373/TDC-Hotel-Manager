@@ -3,6 +3,7 @@ package com.example.tdchotel_manager.Le_Tan.Fragment_LeTan;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -14,8 +15,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
-import com.example.tdchotel_manager.Le_Tan.Adapter_DangSuDung.adapter_dangsudung;
+import com.example.tdchotel_manager.Le_Tan.Fragment_LeTan.Adapter_DangSuDung.adapter_dangsudung;
 
+import com.example.tdchotel_manager.Le_Tan.Fragment_LeTan.Adapter_DangSuDung.dichvu_letan;
+import com.example.tdchotel_manager.Le_Tan.Fragment_LeTan.Adapter_DangSuDung.giahanthoigian;
 import com.example.tdchotel_manager.R;
 
 
@@ -70,9 +73,13 @@ public class Fragment_DangSuDung extends Fragment {
             public void onClick(DialogInterface dialog, int which) {
                 // Xử lý tùy thuộc vào lựa chọn của người dùng (Tác vụ 1 hoặc Tác vụ 2)
                 if (which == 0) {
-                    // Thực hiện Tác vụ 1
+                    Intent intent = new Intent(getActivity(), giahanthoigian.class);
+                    startActivity(intent);
                 } else if (which == 1) {
                     // Thực hiện Tác vụ 2
+                }else if (which == 2) {
+                    Intent intent2 = new Intent(getActivity(), dichvu_letan.class);
+                    startActivity(intent2);
                 }
             }
         });

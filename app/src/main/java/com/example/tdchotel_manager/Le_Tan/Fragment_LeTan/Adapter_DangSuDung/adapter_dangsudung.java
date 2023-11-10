@@ -1,38 +1,25 @@
-package com.example.tdchotel_manager.Le_Tan.Adapter_DangSuDung;
+package com.example.tdchotel_manager.Le_Tan.Fragment_LeTan.Adapter_DangSuDung;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.tdchotel_manager.Menu_QuanLy.Activity_Thong_Tin_Phong;
-import com.example.tdchotel_manager.Menu_QuanLy.Adapter_DichVu.adapter_dich_vu;
-import com.example.tdchotel_manager.Menu_QuanLy.Adapter_DichVu.chinhsuadichvu;
-import com.example.tdchotel_manager.Menu_QuanLy.Adapter_Phong.adapter_phong;
-import com.example.tdchotel_manager.Model.dich_vu;
 import com.example.tdchotel_manager.Model.hoa_don;
 import com.example.tdchotel_manager.Model.khach_hang;
 import com.example.tdchotel_manager.Model.phong;
-import com.example.tdchotel_manager.Model.trang_thai_phong;
 import com.example.tdchotel_manager.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -165,6 +152,7 @@ public class adapter_dangsudung extends RecyclerView.Adapter<adapter_dangsudung.
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
+
             tv_tenkhach = itemView.findViewById(R.id.tvTenKhachHang);
             tv_tenphong = itemView.findViewById(R.id.tvTenPhong);
             tv_mahoadon = itemView.findViewById(R.id.tvMaHoaDon);
