@@ -15,10 +15,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
-import com.example.tdchotel_manager.Le_Tan.Fragment_LeTan.Adapter_DangSuDung.adapter_dangsudung;
+import com.example.tdchotel_manager.Le_Tan.Activity_XacNhanDatPhongDichVu;
+import com.example.tdchotel_manager.Le_Tan.Adapter_DangSuDung.adapter_dangsudung;
 
-import com.example.tdchotel_manager.Le_Tan.Fragment_LeTan.Adapter_DangSuDung.dichvu_letan;
-import com.example.tdchotel_manager.Le_Tan.Fragment_LeTan.Adapter_DangSuDung.giahanthoigian;
+import com.example.tdchotel_manager.Le_Tan.Adapter_DangSuDung.dichvu_letan;
+import com.example.tdchotel_manager.Le_Tan.Adapter_DangSuDung.giahanthoigian;
 import com.example.tdchotel_manager.R;
 
 

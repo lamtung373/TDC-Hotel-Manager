@@ -1,4 +1,4 @@
-package com.example.tdchotel_manager.Le_Tan.Fragment_LeTan.Adapter_DangSuDung;
+package com.example.tdchotel_manager.Le_Tan.Adapter_DangSuDung;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
