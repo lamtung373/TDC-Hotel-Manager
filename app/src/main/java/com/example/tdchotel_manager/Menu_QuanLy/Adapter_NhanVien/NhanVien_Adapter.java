@@ -54,21 +54,25 @@ public class NhanVien_Adapter extends RecyclerView.Adapter<NhanVien_Adapter.Nhan
             }
         });
         // Hiển thị ProgressBar khi bắt đầu tải ảnh
-        holder.progressBar.setVisibility(View.VISIBLE);
+        holder.progressBarItem.setVisibility(View.VISIBLE);
 
         Picasso.get().load(nv.getAnh_nhan_vien()).into(holder.imgNV, new com.squareup.picasso.Callback() {
             @Override
             public void onSuccess() {
                 // Ảnh đã được tải, ẩn ProgressBar
-                holder.progressBar.setVisibility(View.GONE);
+                holder.progressBarItem.setVisibility(View.GONE);
+                // Set viền khi đã load ảnh
+                holder.imgNV.setBackgroundResource(R.drawable.border_image_nhanvien);
             }
 
             @Override
             public void onError(Exception e) {
                 // Có lỗi khi tải ảnh, ẩn ProgressBar và có thể hiển thị ảnh lỗi
-                holder.progressBar.setVisibility(View.GONE);
+                holder.progressBarItem.setVisibility(View.GONE);
                 // Set ảnh lỗi nếu có
                 holder.imgNV.setImageResource(R.drawable.nhanvien);
+
+                holder.imgNV.setBackgroundResource(R.drawable.border_image_nhanvien);
             }
         });
 
@@ -87,14 +91,15 @@ public class NhanVien_Adapter extends RecyclerView.Adapter<NhanVien_Adapter.Nhan
     public class NhanVienViewHolder extends RecyclerView.ViewHolder {
         TextView tvTen, tvLoai;
         ImageView imgNV;
-        ProgressBar progressBar;
+        ProgressBar progressBarItem, progressBarRCV;
 
         public NhanVienViewHolder(@NonNull View itemView) {
             super(itemView);
             tvTen = itemView.findViewById(R.id.tvTenNV);
             tvLoai = itemView.findViewById(R.id.tvLoaiNV);
             imgNV = itemView.findViewById(R.id.imgNV); // Khởi tạo ImageView
-            progressBar = itemView.findViewById(R.id.progressBar_itemQLNV);
+            progressBarItem = itemView.findViewById(R.id.progressBar_itemQLNV);
+            progressBarRCV = itemView.findViewById(R.id.progressBar_QLNV);
         }
 
     }
