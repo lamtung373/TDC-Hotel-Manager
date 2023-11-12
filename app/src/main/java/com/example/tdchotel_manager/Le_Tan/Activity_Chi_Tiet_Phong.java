@@ -92,14 +92,22 @@ public class Activity_Chi_Tiet_Phong extends AppCompatActivity {
         AutoSlideImage();
 
         //Gach ngang chu
-        tvGiacu.setPaintFlags(tvGiacu.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-        tvGiacu.setText(phong.getSale() + "đ/đêm");
+        java.text.DecimalFormat formatter = new java.text.DecimalFormat("#");
+        if(phong.getSale()!=0){
+            tvGiacu.setPaintFlags(tvGiacu.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            tvGiacu.setText(formatter.format(phong.getGia()) + "đ/đêm");
+            //Giá
+            tvGiamoi.setText(formatter.format(phong.getSale()) + "đ/đêm");
+        }
+        else {
+            tvGiamoi.setVisibility(View.GONE);
+            tvGiacu.setText(formatter.format(phong.getGia()) + "đ/đêm");
+        }
 
         //Tên phòng
         tv_tenphong.setText(phong.getTen_phong());
 
-        //Giá
-        tvGiamoi.setText(phong.getGia() + "đ/đêm");
+
 
         //Tiện nghi
         LayDuLieuTienNghi(phong.getId_phong());
