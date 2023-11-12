@@ -91,7 +91,7 @@ public class NhanVien_Adapter extends RecyclerView.Adapter<NhanVien_Adapter.Nhan
     public class NhanVienViewHolder extends RecyclerView.ViewHolder {
         TextView tvTen, tvLoai;
         ImageView imgNV;
-        ProgressBar progressBarItem, progressBarRCV;
+        ProgressBar progressBarItem;
 
         public NhanVienViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -99,7 +99,6 @@ public class NhanVien_Adapter extends RecyclerView.Adapter<NhanVien_Adapter.Nhan
             tvLoai = itemView.findViewById(R.id.tvLoaiNV);
             imgNV = itemView.findViewById(R.id.imgNV); // Khởi tạo ImageView
             progressBarItem = itemView.findViewById(R.id.progressBar_itemQLNV);
-            progressBarRCV = itemView.findViewById(R.id.progressBar_QLNV);
         }
 
     }

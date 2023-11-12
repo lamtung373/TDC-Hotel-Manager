@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.tdchotel_manager.IOnItemClick;
@@ -41,6 +42,7 @@ public class Fragment_Nhanvien extends Fragment {
     ArrayList<nhan_vien> data = new ArrayList<>();
     DatabaseReference databaseReference;
     HashMap<String, String> chucVuMapping = new HashMap<>();
+    ProgressBar progressBarRCV;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -51,6 +53,10 @@ public class Fragment_Nhanvien extends Fragment {
         // Kết nối RecyclerView trong layout
         recyclerView = view.findViewById(R.id.recyclerViewNhanVien);
         edtSearch = view.findViewById(R.id.edtSearch);
+
+        //Ánh xạ ProgressBarRCV
+        progressBarRCV = view.findViewById(R.id.progressBar_QLNV);
+        progressBarRCV.setVisibility(View.VISIBLE);
 
         // Thiết lập LayoutManager cho RecyclerView
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -108,12 +114,16 @@ public class Fragment_Nhanvien extends Fragment {
                 }
 
                 adapter.notifyDataSetChanged(); // Thông báo cho Adapter cập nhật dữ liệu
+
+                progressBarRCV.setVisibility(View.GONE);
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 // Xử lý khi có lỗi
                 Toast.makeText(getActivity(), "Lỗi: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+
+                progressBarRCV.setVisibility(View.GONE);
             }
         });
 
