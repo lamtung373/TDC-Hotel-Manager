@@ -74,12 +74,26 @@
             android:paddingEnd="20dp"
             android:id="@+id/edtSearch"/>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:id="@+id/recyclerViewNhanVien"/>
+            android:layout_marginRight="20dp">
+
+            <ProgressBar
+                android:id="@+id/progressBar_QLNV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:visibility="gone"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/recyclerViewNhanVien"/>
+
+        </RelativeLayout>
 
     </LinearLayout>
 
