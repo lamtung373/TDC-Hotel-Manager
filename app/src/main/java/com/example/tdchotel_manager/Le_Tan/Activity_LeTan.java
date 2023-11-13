@@ -29,8 +29,9 @@ public class Activity_LeTan extends AppCompatActivity {
         iv_ca_nhan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(Activity_LeTan.this,Activity_LeTan.class);
-               // startActivity(intent);
+                Intent intent = new Intent(Activity_LeTan.this, Activity_Xem_Thong_Tin_Le_Tan.class);
+                intent.putExtra("key_id","-NiiIWhIXCqxy2_niaux");
+                startActivity(intent);
             }
         });
     }
