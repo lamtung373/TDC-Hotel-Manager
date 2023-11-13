@@ -47,13 +47,6 @@ public class Fragment_DangSuDung extends Fragment {
     private void setEvent() {
         rcv.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter_dangsudung adapter = new adapter_dangsudung(getContext());
-        adapter.setOnItemClickListener(new adapter_dangsudung.OnItemClickListener() {
-            @Override
-            public void onItemClick(int position) {
-                showItemOptions(position);
-            }
-        });
-
         rcv.setAdapter(adapter);
     }
 
@@ -61,25 +54,5 @@ public class Fragment_DangSuDung extends Fragment {
         rcv = view.findViewById(R.id.rcv_DangSD);
     }
 
-    private void showItemOptions(int position) {
-        // Xử lý khi người dùng giữ vào một item
-        // Hiển thị dialog lựa chọn ở đây
-        // Ví dụ: AlertDialog
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setTitle("Lựa chọn hình thức");
-        builder.setItems(new CharSequence[]{"Gia hạn","Dịch vụ"}, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // Xử lý tùy thuộc vào lựa chọn của người dùng (Tác vụ 1 hoặc Tác vụ 2)
-                if (which == 0) {
-                    Intent intent = new Intent(getActivity(), giahanthoigian.class);
-                    startActivity(intent);
-                } else if (which == 1) {
-                    Intent intent2 = new Intent(getActivity(), dichvu_letan.class);
-                    startActivity(intent2);
-                }
-            }
-        });
-        builder.show();
-    }
+
 }

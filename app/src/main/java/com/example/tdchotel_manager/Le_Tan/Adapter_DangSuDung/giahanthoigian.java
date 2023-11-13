@@ -54,6 +54,13 @@ public class giahanthoigian extends AppCompatActivity {
         Initialization();
         setEvent();
     }
+    private void updateThoiGianNhanTraPhong(String idPhong, String idHoaDon, String thoiGianNhan, String thoiGianTra) {
+        DatabaseReference hoaDonRef = FirebaseDatabase.getInstance().getReference("hoa_don").child(idPhong).child(idHoaDon);
+
+        hoaDonRef.child("thoi_gian_nhan_phong").setValue(thoiGianNhan);
+        hoaDonRef.child("thoi_gian_tra_phong").setValue(thoiGianTra);
+    }
+
 
     private void setEvent() {
         btnXacNhanDV.setOnClickListener(new View.OnClickListener() {
@@ -73,21 +80,21 @@ public class giahanthoigian extends AppCompatActivity {
                         return;
                     }
 
-                    // Cập nhật thời gian đã chọn lên Firebase
-                    DatabaseReference hoaDonRef = FirebaseDatabase.getInstance().getReference("hoa_don");
-                    String hoaDonId = "1";  // Đặt ID hoa_don tương ứng
-                    hoaDonRef.child(hoaDonId).child("thoi_gian_nhan_phong").setValue(btnTGdukien.getText().toString());
-                    hoaDonRef.child(hoaDonId).child("thoi_gian_tra_phong").setValue(btnTGketthuc.getText().toString());
+                    Intent intent = getIntent();
+                    if (intent != null) {
+                        String idPhong = intent.getStringExtra("idPhong");
+                        String idHoaDon = intent.getStringExtra("idHoaDon");
+                        updateThoiGianNhanTraPhong(idPhong, idHoaDon, new SimpleDateFormat("dd/MM/yyyy HH:mm").format(thoi_gian_nhan), new SimpleDateFormat("dd/MM/yyyy HH:mm").format(thoi_gian_tra));
 
-                    // Các kiểm tra khác ở đây...
+                    }
+
                 } catch (Exception e) {
                     Log.e("Lỗi chuyển đổi dữ liệu thời gian đã đặt", e.getMessage());
                 }
             }
         });
     }
-
-    private void Initialization() {
+        private void Initialization() {
         ChonThoiGian(btnTGdukien);
         ChonThoiGian(btnTGketthuc);
     }
