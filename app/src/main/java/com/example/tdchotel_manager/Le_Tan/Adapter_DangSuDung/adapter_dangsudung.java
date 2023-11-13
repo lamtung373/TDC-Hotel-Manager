@@ -5,6 +5,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -24,14 +25,15 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 public class adapter_dangsudung extends RecyclerView.Adapter<adapter_dangsudung.MyViewHolder> {
-    public interface OnItemLongClickListener {
-        void onItemLongClick(int position);
+    public interface OnItemClickListener {
+        void onItemClick(int position);
     }
 
-    private OnItemLongClickListener onItemLongClickListener;
+    // Trong adapter_dangsudung, thêm một trường OnItemClickListener và phương thức setter
+    private OnItemClickListener onItemClickListener;
 
-    public void setOnItemLongClickListener(OnItemLongClickListener listener) {
-        this.onItemLongClickListener = listener;
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.onItemClickListener = listener;
     }
 
     private ArrayList<hoa_don> datalist = new ArrayList<>();
@@ -110,18 +112,104 @@ public class adapter_dangsudung extends RecyclerView.Adapter<adapter_dangsudung.
         holder.tv_tong.setText(String.valueOf(dataItem.getTong_thanh_toan()));
         holder.tv_tenphong.setText(findTenPhongById(dataItem.getId_phong()));
         holder.tv_tenkhach.setText(findTenKhachById(dataItem.getSo_dien_thoai()));
+        holder.tv_trangthai.setText(findTenTrangThaiPhongById(dataItem.getId_phong()));
 
-        holder.layout.setOnLongClickListener(new View.OnLongClickListener() {
+        holder.traphong.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onLongClick(View v) {
-                if (onItemLongClickListener != null) {
-                    onItemLongClickListener.onItemLongClick(position);
+            public void onClick(View v) {
+                // Xử lý khi nút được nhấn
+                confirmTraPhong(dataItem.getId_phong());
+            }
+        });
+
+
+        holder.layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (onItemClickListener != null) {
+                    onItemClickListener.onItemClick(position);
                 }
-                return true;
             }
         });
     }
 
+    @Override
+    public int getItemCount() {
+        return datalist.size();
+    }
+
+    public class MyViewHolder extends RecyclerView.ViewHolder {
+        LinearLayout layout;
+        Button traphong;
+        TextView tv_trangthai,tv_mahoadon, tv_ngaynhan, tv_ngaytra, tv_datra, tv_tong, tv_tenphong, tv_tenkhach;
+
+        public MyViewHolder(@NonNull View itemView) {
+            super(itemView);
+            tv_trangthai = itemView.findViewById(R.id.tvTrangThaiPhong);
+            traphong = itemView.findViewById(R.id.btnXacNhanTraPhong);
+            tv_tenkhach = itemView.findViewById(R.id.tvTenKhachHang);
+            tv_tenphong = itemView.findViewById(R.id.tvTenPhong);
+            tv_mahoadon = itemView.findViewById(R.id.tvMaHoaDon);
+            tv_ngaynhan = itemView.findViewById(R.id.tvNgayNhanPhong);
+            tv_ngaytra = itemView.findViewById(R.id.tvNgayTraPhong);
+            layout = itemView.findViewById(R.id.layout_hoadon);
+            tv_datra = itemView.findViewById(R.id.tvDaTra);
+            tv_tong = itemView.findViewById(R.id.tvTong);
+        }
+    }
+
+    void khoi_tao() {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference hoaDonRef = database.getReference("hoa_don");
+
+        hoaDonRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                datalist.clear();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    for (DataSnapshot childSnapshot : snapshot.getChildren()) {
+                        String idPhong = childSnapshot.child("id_phong").getValue(String.class);
+                        String thoiGianNhanPhong = childSnapshot.child("thoi_gian_nhan_phong").getValue(String.class);
+                        String thoiGianTraPhong = childSnapshot.child("thoi_gian_tra_phong").getValue(String.class);
+
+                        if (idPhong != null && !thoiGianNhanPhong.equals("") && thoiGianTraPhong.equals("")) {
+                            hoa_don hoaDon = childSnapshot.getValue(hoa_don.class);
+                            datalist.add(hoaDon);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Xử lý lỗi
+            }
+        });
+    }
+    private void confirmTraPhong(String idPhong) {
+        DatabaseReference phongReference = FirebaseDatabase.getInstance().getReference("phong");
+        phongReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                datalist.clear();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    phong phong = dataSnapshot.getValue(phong.class);
+                    if (phong.getId_phong().equals(idPhong)) {
+              // Cập nhật id trạng thái phòng về 5 (hoặc giá trị tương ứng)
+               phongReference.child(idPhong).child("id_trang_thai_phong").setValue("5");
+
+                    }
+                }
+                notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // Xử lý lỗi nếu cần
+            }
+        });
+    }
     private String findTenPhongById(String idPhong) {
         for (phong phong : phongList) {
             if (phong.getId_phong().equals(idPhong)) {
@@ -140,61 +228,31 @@ public class adapter_dangsudung extends RecyclerView.Adapter<adapter_dangsudung.
         return "Tên khách hàng không tồn tại"; // Hoặc bạn có thể trả về chuỗi mặc định khác
     }
 
-
-    @Override
-    public int getItemCount() {
-        return datalist.size();
-    }
-
-    public class MyViewHolder extends RecyclerView.ViewHolder {
-        LinearLayout layout;
-        TextView tv_mahoadon, tv_ngaynhan, tv_ngaytra, tv_datra, tv_tong, tv_tenphong, tv_tenkhach;
-
-        public MyViewHolder(@NonNull View itemView) {
-            super(itemView);
-
-            tv_tenkhach = itemView.findViewById(R.id.tvTenKhachHang);
-            tv_tenphong = itemView.findViewById(R.id.tvTenPhong);
-            tv_mahoadon = itemView.findViewById(R.id.tvMaHoaDon);
-            tv_ngaynhan = itemView.findViewById(R.id.tvNgayNhanPhong);
-            tv_ngaytra = itemView.findViewById(R.id.tvNgayTraPhong);
-            layout = itemView.findViewById(R.id.layout_hoadon);
-            tv_datra = itemView.findViewById(R.id.tvDaTra);
-            tv_tong = itemView.findViewById(R.id.tvTong);
-        }
-    }
-
-    void khoi_tao() {
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("hoa_don");
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                datalist.clear();
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    hoa_don hoaDon = dataSnapshot.getValue(hoa_don.class);
-                    if (hoaDon != null) {
-                        // Kiểm tra trạng thái của phòng trước khi thêm vào danh sách
-                        if (isPhongDangSuDung(hoaDon.getId_phong())) {
-                            datalist.add(hoaDon);
-                        }
-                    }
-                }
-                notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                // Xử lý lỗi nếu cần
-            }
-        });
-    }
-
-    private boolean isPhongDangSuDung(String idPhong) {
+    private String findTenTrangThaiPhongById(String idPhong) {
         for (phong phong : phongList) {
-            if (phong.getId_phong().equals(idPhong) && phong.getId_trang_thai_phong().equals("4")) {
-                return true;
+            if (phong.getId_phong().equals(idPhong)) {
+                return mapIdToTenTrangThai(phong.getId_trang_thai_phong());
             }
         }
-        return false;
+        return "Trạng thái không xác định";
+    }
+
+    private String mapIdToTenTrangThai(String idTrangThai) {
+        switch (idTrangThai) {
+            case "1":
+                return "Sẵn sàng";
+            case "2":
+                return "Đang sửa";
+            case "3":
+                return "Đã đặt";
+            case "4":
+                return "Đang sử dụng";
+            case "5":
+                return "Đang kiểm tra";
+            case "6":
+                return "Đang dọn";
+            default:
+                return "Trạng thái không xác định";
+        }
     }
 }

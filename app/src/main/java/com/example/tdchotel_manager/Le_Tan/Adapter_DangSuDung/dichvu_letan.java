@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.tdchotel_manager.Le_Tan.Activity_XacNhanDatPhongDichVu;
 import com.example.tdchotel_manager.Le_Tan.Adapter.Adapter_DVTheoNguoi;
 import com.example.tdchotel_manager.Le_Tan.Adapter.Adapter_DVTheoPhong;
+import com.example.tdchotel_manager.Model.chi_tiet_hoa_don_dich_vu_phong;
 import com.example.tdchotel_manager.Model.dich_vu;
 import com.example.tdchotel_manager.Model.hoa_don;
 import com.example.tdchotel_manager.Model.phong;
@@ -68,21 +69,49 @@ public class dichvu_letan extends AppCompatActivity {
                         return;
                     }
 
-                    // Tiếp tục xử lý logic của bạn ở đây
-
-                    Intent intent = new Intent(dichvu_letan.this, Activity_XacNhanDatPhongDichVu.class);
-                    intent.putExtra("dich_vu_theo_nguoi", dvTheoNguoi);
-                    intent.putExtra("dich_vu_phong", dvTheoPhong);
-
-                    Log.e("dvphong", "" + dvTheoPhong.get(0).getTen_dich_vu() + " " + dvTheoPhong.get(0).isCheck());
-                    Log.e("dvphong", "" + dvTheoNguoi.get(0).getTen_dich_vu() + " " + dvTheoNguoi.get(0).getSo_luong());
-
-                    startActivity(intent);
+                    // Lưu chi tiết hóa đơn dịch vụ vào Firebase
+                    saveChiTietHoaDonDichVuToFirebase(dvTheoNguoi, dvTheoPhong);
                 } catch (Exception e) {
                     Log.e("Lỗi chuyển đổi dữ liệu số lượng khách", e.getMessage());
                 }
             }
         });
+    }
+    private void saveChiTietHoaDonDichVuToFirebase(ArrayList<dich_vu> dvTheoNguoi, ArrayList<dich_vu> dvTheoPhong) {
+        DatabaseReference chiTietHoaDonDichVuRef = FirebaseDatabase.getInstance().getReference("chi_tiet_hoa_don_dich_vu_phong");
+
+        // Lấy mã hóa đơn hoặc tạo mới nếu cần
+        String maHoaDon = chiTietHoaDonDichVuRef.push().getKey(); // Tạo một ID hóa đơn mới
+
+        // Lưu chi tiết hóa đơn dịch vụ theo người
+        for (dich_vu dv : dvTheoNguoi) {
+            chi_tiet_hoa_don_dich_vu_phong chiTietHoaDonDichVu = new chi_tiet_hoa_don_dich_vu_phong();
+            chiTietHoaDonDichVu.setId_hoa_don(maHoaDon); // Liên kết với hóa đơn
+            chiTietHoaDonDichVu.setId_dich_vu_phong(dv.getId_dich_vu());
+            chiTietHoaDonDichVu.setSo_luong(dv.getSo_luong());
+
+            // Tạo một ID duy nhất cho chi tiết hóa đơn dịch vụ
+            String chiTietHoaDonDichVuId = chiTietHoaDonDichVuRef.push().getKey();
+
+            // Lưu chi tiết hóa đơn dịch vụ vào Firebase
+            chiTietHoaDonDichVuRef.child(chiTietHoaDonDichVuId).setValue(chiTietHoaDonDichVu);
+        }
+
+        // Lưu chi tiết hóa đơn dịch vụ theo phòng
+        for (dich_vu dv : dvTheoPhong) {
+            chi_tiet_hoa_don_dich_vu_phong chiTietHoaDonDichVu = new chi_tiet_hoa_don_dich_vu_phong();
+            chiTietHoaDonDichVu.setId_hoa_don(maHoaDon); // Liên kết với hóa đơn
+            chiTietHoaDonDichVu.setId_dich_vu_phong(dv.getId_dich_vu());
+            chiTietHoaDonDichVu.setSo_luong(dv.getSo_luong());
+
+            // Tạo một ID duy nhất cho chi tiết hóa đơn dịch vụ
+            String chiTietHoaDonDichVuId = chiTietHoaDonDichVuRef.push().getKey();
+
+            // Lưu chi tiết hóa đơn dịch vụ vào Firebase
+            chiTietHoaDonDichVuRef.child(chiTietHoaDonDichVuId).setValue(chiTietHoaDonDichVu);
+        }
+
+        Toast.makeText(dichvu_letan.this, "Đã lưu chi tiết hóa đơn dịch vụ", Toast.LENGTH_SHORT).show();
     }
 
     private void Initialization() {
