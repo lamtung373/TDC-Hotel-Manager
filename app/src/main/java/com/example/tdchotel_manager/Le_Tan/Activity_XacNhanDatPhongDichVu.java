@@ -63,7 +63,7 @@ public class Activity_XacNhanDatPhongDichVu extends AppCompatActivity {
     }
 
     private void setEvent() {
-        DatabaseReference reference_hoadon=FirebaseDatabase.getInstance().getReference("hoa_don");
+        DatabaseReference reference_hoadon=FirebaseDatabase.getInstance().getReference("hoa_don/"+phong.getId_phong());
         btnXacNhanDV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -90,7 +90,7 @@ public class Activity_XacNhanDatPhongDichVu extends AppCompatActivity {
 
 
                                 //Lấy những hóa đơn chưa thanh toán
-                                if(hoa_don.getThoi_gian_thanh_toan().equals("")&&hoa_don.getId_phong().equals(phong.getId_phong())){
+                                if(hoa_don.getThoi_gian_thanh_toan().equals("")){
                                     try{
 
 

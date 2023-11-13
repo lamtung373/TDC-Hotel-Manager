@@ -62,6 +62,9 @@
             android:name=".Le_Tan.Adapter_DangSuDung.giahanthoigian"
             android:exported="false"/>
         <activity
+            android:name=".Le_Tan.Activity_XacNhanDatPhongDichVu"
+            android:exported="false"/>
+        <activity
             android:name=".Le_Tan.Adapter_DangSuDung.dichvu_letan"
             android:exported="false"/>
 
