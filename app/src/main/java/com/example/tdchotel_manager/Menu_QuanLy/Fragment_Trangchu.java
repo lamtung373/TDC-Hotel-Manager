@@ -404,7 +404,7 @@ public class Fragment_Trangchu extends Fragment {
                                 thoi_gian_coc = "";
                             }
                             if (!hoa_don.getThoi_gian_nhan_phong().equals("")) {
-                                thoi_gian_nhan_phong = dateFormat.format(new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(hoa_don.getThoi_gian_nhan_phong()));
+                                thoi_gian_nhan_phong = dateFormat.format(new SimpleDateFormat("dd/MM/yyyy").parse(hoa_don.getThoi_gian_nhan_phong()));
                             } else {
                                 thoi_gian_nhan_phong = "";
                             }
@@ -417,13 +417,14 @@ public class Fragment_Trangchu extends Fragment {
                                 da_thanh_toan++;
 
                             } else {
-                                //So sanh thoi gian coc voi thoi gian hien tai
+                                //So sanh thoi gian nhan phong voi thoi gian hien tai
                                 if (dateFormat.format(now.getTime()).equals(thoi_gian_nhan_phong)) {
                                     chua_thanh_toan++;
-                                } else if ((dateFormat.format(now.getTime()).equals(thoi_gian_coc))) {
-                                    coc++;
                                 }
                                 //So sanh thoi gian coc voi thoi gian hien tai
+                                else if ((dateFormat.format(now.getTime()).equals(thoi_gian_coc))) {
+                                    coc++;
+                                }
 
 
                             }
