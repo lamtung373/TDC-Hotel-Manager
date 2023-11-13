@@ -196,8 +196,8 @@ public class adapter_dangsudung extends RecyclerView.Adapter<adapter_dangsudung.
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     phong phong = dataSnapshot.getValue(phong.class);
                     if (phong.getId_phong().equals(idPhong)) {
-              // Cập nhật id trạng thái phòng về 5 (hoặc giá trị tương ứng)
-               phongReference.child(idPhong).child("id_trang_thai_phong").setValue("5");
+                        // Cập nhật id trạng thái phòng về 5 (hoặc giá trị tương ứng)
+                        phongReference.child(idPhong).child("id_trang_thai_phong").setValue("5");
 
                     }
                 }
