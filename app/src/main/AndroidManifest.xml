@@ -23,7 +23,7 @@
         android:theme="@style/Theme.TDCHotelManager"
         tools:targetApi="31">
         <activity
-            android:name=".Le_Tan.Activity_XacNhanDatPhongDichVu"
+            android:name=".Lao_Cong.Activity_ChiTietDonPhong"
             android:exported="false" />
         <activity
             android:name=".Le_Tan.Activity_Chi_Tiet_Phong"

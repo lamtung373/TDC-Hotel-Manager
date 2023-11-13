@@ -36,18 +36,18 @@
         android:background="@drawable/selector_bg_edittext"
         android:hint="Nhập mật khẩu"
         android:inputType="textPassword"/>
-    <ProgressBar
-        android:id="@+id/progressBar_phong"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_gravity="center"
-        android:visibility="gone"/>
-    <Button
-        android:id="@+id/btnLogin"
-        style="@style/button"
-        android:background="@drawable/selector_bg_button"
-        android:text="Đăng nhập" />
+        <ProgressBar
+            android:id="@+id/progressBar_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:visibility="gone"/>
+        <Button
+            android:id="@+id/btnLogin"
+            style="@style/button"
+            android:background="@drawable/selector_bg_button"
+            android:text="Đăng nhập" />
 
     <Button
         android:layout_width="wrap_content"
