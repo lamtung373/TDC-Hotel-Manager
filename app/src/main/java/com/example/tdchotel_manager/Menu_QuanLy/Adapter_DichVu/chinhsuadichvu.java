@@ -85,9 +85,9 @@ public class chinhsuadichvu extends AppCompatActivity {
                         edtGiaDV.setText(String.valueOf(nv.getGia_dich_vu()));
 
                         String loaiDichVu = nv.getId_loai_dich_vu();
-                        if ("2".equals(loaiDichVu)) {
+                        if ("Người".equals(loaiDichVu)) {
                             radioGroup.check(R.id.rdNguoiCS);
-                        } else if ("1".equals(loaiDichVu)) {
+                        } else if ("Phòng".equals(loaiDichVu)) {
                             radioGroup.check(R.id.rdPhongCS);
                         }
                         Picasso.get().load(nv.getAnh_dich_vu()).into(imageView);
@@ -133,8 +133,6 @@ public class chinhsuadichvu extends AppCompatActivity {
                     Toast.makeText(chinhsuadichvu.this, "Giá không hợp lệ", Toast.LENGTH_SHORT).show();
                     return;
                 }
-
-
                 String idChucVu = rdNguoi.isChecked() ? "2" : "1";
 
                 // Cập nhật dữ liệu trên Firebase
