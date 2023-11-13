@@ -10,6 +10,7 @@
         android:background="#26A1EE"
         android:layout_marginBottom="10dp">
         <ImageButton
+            android:id="@+id/imvbBack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/back"
@@ -17,6 +18,7 @@
             android:layout_gravity="center"
             android:layout_marginLeft="10dp" />
         <TextView
+            android:id="@+id/tvTenDVcs"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -27,29 +29,39 @@
             android:textStyle="bold"
             android:layout_weight="1" />
     </LinearLayout>
+
     <ImageView
-        android:layout_marginBottom="30dp"
-        android:id="@+id/imgvSp"
-        android:layout_width="180dp"
-        android:layout_height="180dp"
-        android:src="@drawable/hoboi"
+        android:layout_marginTop="20dp"
+        android:clipToOutline="true"
+        android:outlineProvider="background"
+        android:scaleType="centerCrop"
+        android:id="@+id/imgvDVCS"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:layout_gravity="center"
-        />
+        android:layout_marginBottom="30dp"
+        android:src="@drawable/hoboi" />
+
     <LinearLayout
+        android:layout_marginLeft="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Giá:     "
+            android:text="Giá:"
+            android:layout_marginRight="15dp"
             android:textColor="@color/black" />
         <EditText
+            android:inputType="number"
+            android:id="@+id/edtGiaDv1"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:hint="   200.000 VND"
+            android:hint="200.000 VND"
             android:background="@drawable/bg_rv_item"
             android:layout_marginRight="40dp"
+            android:paddingStart="10dp"
             />
     </LinearLayout>
 
@@ -58,37 +70,43 @@
         android:layout_height="55dp"
         android:orientation="horizontal">
         <RadioGroup
+            android:id="@+id/rgLoaiDvCS"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:orientation="horizontal"
             android:layout_weight="1"
             android:gravity="center">
             <RadioButton
+                android:id="@+id/rdPhongCS"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text=" Phòng"/>
+                android:text="Phòng"
+                android:layout_marginRight="10dp"/>
             <RadioButton
+                android:id="@+id/rdNguoiCS"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text=" Người"/>
+                android:text="Người"/>
         </RadioGroup>
     </LinearLayout>
 
     <LinearLayout
+
         android:layout_marginTop="50dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center">
         <Button
-            android:id="@+id/btn_doimau_darkblue"
+
+            android:id="@+id/btnCSDV"
             style="@style/button"
             android:background="@drawable/selector_bg_button"
             android:text="Lưu"
             android:layout_marginRight="20dp"
             android:textColor="@color/white"/>
         <Button
-            android:id="@+id/btn_doimau_red"
+            android:id="@+id/btnXDV"
             style="@style/button"
             android:text="Xóa"
             android:background="@drawable/selector_bg_button"

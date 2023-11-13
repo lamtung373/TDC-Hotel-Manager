@@ -5,7 +5,7 @@
 
 
     <TextView
-        android:id="@+id/tv_ten_dich_vu_phong"
+        android:id="@+id/tv_chitiet"
         style="@style/textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -13,31 +13,33 @@
         android:layout_marginLeft="10dp"
         android:text="Giường đơn" />
 
-    <ImageView
-        android:id="@+id/iv_decrease"
+    <ImageButton
+        android:id="@+id/ib_decrease"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_toLeftOf="@id/edt_so_luong_dvp"
-        android:src="@drawable/decrease" />
+        android:layout_toLeftOf="@id/edt_so_luong"
+        android:src="@drawable/decrease"
+        android:background="@null"/>
 
     <EditText
-        android:id="@+id/edt_so_luong_dvp"
+        android:id="@+id/edt_so_luong"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"
-        android:layout_toLeftOf="@id/iv_increase"
+        android:layout_toLeftOf="@id/ib_increase"
         android:inputType="number"
         android:text="0" />
 
-    <ImageView
-        android:id="@+id/iv_increase"
+    <ImageButton
+        android:id="@+id/ib_increase"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="30dp"
-        android:src="@drawable/increase" />
+        android:src="@drawable/increase"
+        android:background="@null"/>
 
 </RelativeLayout>

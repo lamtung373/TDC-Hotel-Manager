@@ -15,7 +15,7 @@ import com.example.tdchotel_manager.R;
 
 public class tabDichVuPhong extends Fragment {
     private RecyclerView rcvDV;
-    private adapter_dich_vu_phong adapter_dich_vu_phong = new adapter_dich_vu_phong();
+    private adapter_dich_vu_phong adapter_dich_vu_phong = new adapter_dich_vu_phong(getContext());
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -29,6 +29,7 @@ public class tabDichVuPhong extends Fragment {
     private void setEvent() {
         rcvDV.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
         rcvDV.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL));
+        adapter_dich_vu_phong = new adapter_dich_vu_phong(getContext()); // Khởi tạo adapter với context
         rcvDV.setAdapter(adapter_dich_vu_phong);
     }
 

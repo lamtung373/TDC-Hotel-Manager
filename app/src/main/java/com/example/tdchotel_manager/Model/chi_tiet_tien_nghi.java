@@ -5,29 +5,25 @@ import java.util.Map;
 
 public class chi_tiet_tien_nghi {
     int so_luong;
-String id_chi_tiet_tien_nghi, id_tien_nghi,id_phong;
+String id_tien_nghi,id_phong;
     public chi_tiet_tien_nghi() {
     }
 
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
+        result.put("id_tien_nghi", id_tien_nghi);
+        result.put("id_phong", id_phong);
         result.put("so_luong", so_luong);
         return result;
     }
 
-    public chi_tiet_tien_nghi(int so_luong, String id_chi_tiet_tien_nghi, String id_tien_nghi, String id_phong) {
+    public chi_tiet_tien_nghi(int so_luong, String id_tien_nghi, String id_phong) {
         this.so_luong = so_luong;
-        this.id_chi_tiet_tien_nghi = id_chi_tiet_tien_nghi;
         this.id_tien_nghi = id_tien_nghi;
         this.id_phong = id_phong;
     }
-
-    public String getId_chi_tiet_tien_nghi() {
-        return id_chi_tiet_tien_nghi;
-    }
-
-    public void setId_chi_tiet_tien_nghi(String id_chi_tiet_tien_nghi) {
-        this.id_chi_tiet_tien_nghi = id_chi_tiet_tien_nghi;
+    public chi_tiet_tien_nghi(String id_tien_nghi) {
+        this.id_tien_nghi = id_tien_nghi;
     }
 
     public String getId_tien_nghi() {

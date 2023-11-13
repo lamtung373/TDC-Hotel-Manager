@@ -1,5 +1,8 @@
 package com.example.tdchotel_manager.Menu_QuanLy;
 
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.icu.text.DecimalFormat;
 import android.icu.text.DecimalFormatSymbols;
@@ -7,6 +10,7 @@ import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -17,9 +21,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.tdchotel_manager.DangNhap;
 import com.example.tdchotel_manager.Menu_QuanLy.Adapter_Trangchu.adapter_calam;
 import com.example.tdchotel_manager.Model.ca_lam;
 import com.example.tdchotel_manager.Model.chuc_vu;
@@ -67,6 +73,7 @@ public class Fragment_Trangchu extends Fragment {
     ArrayList<nhan_vien> arr_nhanvien_sang = new ArrayList<>();
     ArrayList<nhan_vien> arr_nhanvien_toi = new ArrayList<>();
     RecyclerView rcv_casang, rcv_catoi;
+    ImageView img_Logout;
 
     TextView tv_phong, tv_dichvu, tv_dichvuphong, tv_phongdanghoatdong, tv_phongdangtrong, tv_phongdangsua, tv_hoadoncoc, tv_hoadonchuathanhtoan, tv_hoadondathanhtoan;
 
@@ -113,26 +120,55 @@ public class Fragment_Trangchu extends Fragment {
     }
 
     private void setEvent() {
+        btn_chamcong.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), CheckInOut.class);
+                startActivity(intent);
+            }
+        });
+        img_Logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new AlertDialog.Builder(getContext())
+                        .setTitle("Đăng xuất")
+                        .setMessage("Bạn có chắc chắn muốn đăng xuất?")
+                        .setPositiveButton("Có", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                SharedPreferences sharedPreferences = getActivity().getSharedPreferences(DangNhap.SHARED_PRE, getActivity().MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.clear();
+                                editor.apply();
+                                getActivity().finish();
+                                Intent intent = new Intent(getActivity(), DangNhap.class);
+                                startActivity(intent);
+                            }
+                        })
+                        .setNegativeButton("Không", null)
+                        .setIcon(R.drawable.warning)
+                        .show();
 
+            }
+        });
     }
 
     private void Initialization() {
         Chart_DoanhThu();
         Chart_Phong();
-        Chart_Hoadon();
+        Chart_HoaDon();
         adapter_calam adapterCa_Sang = new adapter_calam(arr_nhanvien_sang);
         adapter_calam adapterCa_Toi = new adapter_calam(arr_nhanvien_toi);
-        Ca_Lam(adapterCa_Sang, "Ca sáng",arr_nhanvien_sang);
+        Ca_Lam(adapterCa_Sang, "Ca sáng", arr_nhanvien_sang);
         rcv_casang.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         rcv_casang.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
         rcv_casang.setAdapter(adapterCa_Sang);
-        Ca_Lam(adapterCa_Toi, "Ca tối",arr_nhanvien_toi);
+        Ca_Lam(adapterCa_Toi, "Ca tối", arr_nhanvien_toi);
         rcv_catoi.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         rcv_catoi.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
         rcv_catoi.setAdapter(adapterCa_Toi);
     }
 
-    void Ca_Lam(adapter_calam adapterCalam, String ca,ArrayList<nhan_vien> arr_nhanvien) {
+    void Ca_Lam(adapter_calam adapterCalam, String ca, ArrayList<nhan_vien> arr_nhanvien) {
 
         arr_nhanvien.clear();
         DatabaseReference reference_nhanvien = FirebaseDatabase.getInstance().getReference("nhan_vien");
@@ -140,71 +176,94 @@ public class Fragment_Trangchu extends Fragment {
         DatabaseReference ref_phancong = FirebaseDatabase.getInstance().getReference("phan_cong");
         DatabaseReference ref_calam = FirebaseDatabase.getInstance().getReference("ca_lam");
 
-        ref_calam.addListenerForSingleValueEvent(new ValueEventListener() {
+        ref_phancong.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                arr_nhanvien.clear();
+                adapterCalam.notifyDataSetChanged();
+                ref_calam.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                for (DataSnapshot item : snapshot.getChildren()) {
-                    ca_lam ca_lam = item.getValue(ca_lam.class);
-                    if (ca_lam.getTen_ca_lam().equals(ca)) {
-                        ref_phancong.addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                int thu_now = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
-                                for (DataSnapshot item : snapshot.getChildren()) {
-                                    phan_cong phanCong = item.getValue(phan_cong.class);
-                                    if (ca_lam.getId_ca_lam().equals(phanCong.getId_ca_lam())) {
+                        for (DataSnapshot item : snapshot.getChildren()) {
+                            ca_lam ca_lam = item.getValue(ca_lam.class);
+                            if (ca_lam.getTen_ca_lam().equals(ca)) {
+                                ref_phancong.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        int thu_now = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
+                                        for (DataSnapshot item : snapshot.getChildren()) {
+                                            phan_cong phanCong = item.getValue(phan_cong.class);
+                                            if (ca_lam.getId_ca_lam().equals(phanCong.getId_ca_lam())) {
 
-                                        if (thu_now == phanCong.getDayofweek()) {
-                                            Log.e("a","aaaa");
-                                            reference_nhanvien.addListenerForSingleValueEvent(new ValueEventListener() {
-                                                @Override
-                                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                if (thu_now == phanCong.getDayofweek()) {
+                                                    reference_nhanvien.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                        @Override
+                                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                                                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                                                        nhan_vien nv = dataSnapshot.getValue(nhan_vien.class);
-                                                        if (nv.getId_nhan_vien().equals(phanCong.getId_nhan_vien())) {
-                                                            ref_chucvu.addListenerForSingleValueEvent(new ValueEventListener() {
-                                                                @Override
-                                                                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                                                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                                                                        chuc_vu cv = dataSnapshot.getValue(chuc_vu.class);
-                                                                        if (nv.getId_chuc_vu().equals(cv.getId_chuc_vu())) {
-                                                                            nv.setUsername(cv.getTen_chuc_vu());
+                                                            for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                                                                nhan_vien nv = dataSnapshot.getValue(nhan_vien.class);
+                                                                if (nv.getId_nhan_vien().equals(phanCong.getId_nhan_vien())) {
+                                                                    ref_chucvu.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                                        @Override
+                                                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                                            for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                                                                                chuc_vu cv = dataSnapshot.getValue(chuc_vu.class);
+                                                                                if (nv.getId_chuc_vu().equals(cv.getId_chuc_vu())) {
+                                                                                    nv.setChuc_vu(cv.getTen_chuc_vu());
+                                                                                }
+                                                                            }
+                                                                            adapterCalam.notifyDataSetChanged();
+                                                                        }
+
+                                                                        @Override
+                                                                        public void onCancelled(@NonNull DatabaseError error) {
+
+                                                                        }
+                                                                    });
+                                                                    arr_nhanvien.add(nv);
+                                                                }
+                                                            }
+                                                            adapterCalam.notifyDataSetChanged();
+                                                            for (int i = 0; i < arr_nhanvien.size(); i++) {
+                                                                for (int j = 0; j < arr_nhanvien.size(); j++) {
+                                                                    if (j != i && arr_nhanvien.get(i).getId_nhan_vien().equals(arr_nhanvien.get(j).getId_nhan_vien())) {
+                                                                        try {
+                                                                            arr_nhanvien.remove(i);
+                                                                        } catch (Exception e) {
+                                                                            Log.e("Error", e.getMessage());
                                                                         }
                                                                     }
-                                                                    adapterCalam.notifyDataSetChanged();
                                                                 }
-
-                                                                @Override
-                                                                public void onCancelled(@NonNull DatabaseError error) {
-
-                                                                }
-                                                            });
-                                                            arr_nhanvien.add(nv);
+                                                            }
+                                                            adapterCalam.notifyDataSetChanged();
                                                         }
-                                                    }
-                                                    adapterCalam.notifyDataSetChanged();
+
+                                                        @Override
+                                                        public void onCancelled(@NonNull DatabaseError error) {
+
+                                                        }
+                                                    });
+
                                                 }
-
-                                                @Override
-                                                public void onCancelled(@NonNull DatabaseError error) {
-
-                                                }
-                                            });
-
+                                            }
                                         }
                                     }
-                                }
-                            }
 
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
 
+                                    }
+                                });
                             }
-                        });
+                        }
                     }
-                }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
             }
 
             @Override
@@ -216,7 +275,7 @@ public class Fragment_Trangchu extends Fragment {
 
     }
 
-    private void Chart_Hoadon() {
+    private void Chart_DoanhThu() {
         ArrayList<PieEntry> pieEntries = new ArrayList<>();
 
         //Lay du lieu firebase
@@ -225,45 +284,44 @@ public class Fragment_Trangchu extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 pieEntries.clear();
-
                 //khai bao bien
                 double phong = 0;
                 double dich_vu = 0;
                 double dich_vu_phong = 0;
                 Date thoi_gian_thanh_toan = null;
                 Date thoi_gian_coc = null;
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    for (DataSnapshot item : dataSnapshot.getChildren()) {
+                        hoa_don hoa_don = item.getValue(hoa_don.class);
+                        try {
 
+                            //Chuyen doi thoi gian thanh toan tu firebase
+                            thoi_gian_thanh_toan = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(hoa_don.getThoi_gian_thanh_toan());
 
-                for (DataSnapshot item : snapshot.getChildren()) {
-                    hoa_don hoa_don = item.getValue(hoa_don.class);
-                    try {
+                            //Chuyen doi thoi gian coc tu firebase
+                            thoi_gian_coc = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(hoa_don.getThoi_gian_coc());
 
-                        //Chuyen doi thoi gian thanh toan tu firebase
-                        thoi_gian_thanh_toan = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").parse(hoa_don.getThoi_gian_thanh_toan());
+                            //Lay thoi gian hien tai
+                            Date now = new Date();
+                            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                            //  SimpleDateFormat dateFormat=new SimpleDateFormat("dd/MM/yyyy");
 
-                        //Chuyen doi thoi gian coc tu firebase
-                        thoi_gian_coc = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").parse(hoa_don.getThoi_gian_coc());
+                            //So sanh thoi gian thanh toan voi thoi gian hien tai
+                            if (dateFormat.format(now.getTime()).equals(dateFormat.format(thoi_gian_thanh_toan.getTime()))) {
+                                phong += hoa_don.getTien_phong();
+                                dich_vu += hoa_don.getTong_phi_dich_vu();
+                                dich_vu_phong += hoa_don.getTong_phi_dich_vu_phong();
+                            } else {
 
-                        //Lay thoi gian hien tai
-                        Date now = new Date();
-                        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-                        //  SimpleDateFormat dateFormat=new SimpleDateFormat("dd/MM/yyyy");
+                                //So sanh thoi gian coc voi thoi gian hien tai
+                                if (dateFormat.format(now.getTime()).equals(dateFormat.format(thoi_gian_coc.getTime()))) {
+                                    phong += hoa_don.getTien_coc();
+                                }
 
-                        //So sanh thoi gian thanh toan voi thoi gian hien tai
-                        if (dateFormat.format(now.getTime()).equals(dateFormat.format(thoi_gian_thanh_toan.getTime()))) {
-                            phong += hoa_don.getTien_phong();
-                            dich_vu += hoa_don.getTong_phi_dich_vu();
-                            dich_vu_phong += hoa_don.getTong_phi_dich_vu_phong();
-                        } else {
-
-                            //So sanh thoi gian coc voi thoi gian hien tai
-                            if (dateFormat.format(now.getTime()).equals(dateFormat.format(thoi_gian_coc.getTime()))) {
-                                phong += hoa_don.getTien_coc();
                             }
-
+                        } catch (ParseException e) {
+                            Log.e("Lỗi chuyển đổi dữ liệu thời gian thanh toán", e.getMessage());
                         }
-                    } catch (ParseException e) {
-                        Log.e("Lỗi chuyển đổi dữ liệu thời gian thanh toán", e.getMessage());
                     }
                 }
 
@@ -272,13 +330,10 @@ public class Fragment_Trangchu extends Fragment {
                 tv_dichvu.setText(dich_vu + " đ");
                 tv_dichvuphong.setText(dich_vu_phong + " đ");
                 double tong = phong + dich_vu + dich_vu_phong;
-
-
                 //them du lieu cho chart
                 if (tong != 0) {
                     if (phong != 0) {
                         pieEntries.add(new PieEntry((float) (phong / tong) * 100, "% Phòng"));
-
                     }
                     if (dich_vu != 0) {
                         pieEntries.add(new PieEntry((float) (dich_vu / tong) * 100, "% Dịch vụ"));
@@ -312,7 +367,7 @@ public class Fragment_Trangchu extends Fragment {
         });
     }
 
-    private void Chart_DoanhThu() {
+    private void Chart_HoaDon() {
         ArrayList<PieEntry> pieEntries = new ArrayList<>();
 
         //Lay du lieu firebase
@@ -330,53 +385,53 @@ public class Fragment_Trangchu extends Fragment {
                 //Lay thoi gian hien tai
                 Date now = new Date();
                 SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    for (DataSnapshot item : dataSnapshot.getChildren()) {
+                        hoa_don hoa_don = item.getValue(hoa_don.class);
+                        try {
 
-                for (DataSnapshot item : snapshot.getChildren()) {
-                    hoa_don hoa_don = item.getValue(hoa_don.class);
-                    try {
-
-                        //Chuyen doi thoi gian thanh toan tu firebase
-                        if (!hoa_don.getThoi_gian_thanh_toan().equals("")) {
-                            thoi_gian_thanh_toan = dateFormat.format(new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").parse(hoa_don.getThoi_gian_thanh_toan()));
-                        } else {
-                            thoi_gian_thanh_toan = "";
-                        }
-
-                        //Chuyen doi thoi gian coc tu firebase
-                        if (!hoa_don.getThoi_gian_coc().equals("")) {
-                            thoi_gian_coc = dateFormat.format(new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").parse(hoa_don.getThoi_gian_coc()));
-                        } else {
-                            thoi_gian_coc = "";
-                        }
-                        if (!hoa_don.getThoi_gian_nhan_phong().equals("")) {
-                            thoi_gian_nhan_phong = dateFormat.format(new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").parse(hoa_don.getThoi_gian_nhan_phong()));
-                        } else {
-                            thoi_gian_nhan_phong = "";
-                        }
-
-
-                        //  SimpleDateFormat dateFormat=new SimpleDateFormat("dd/MM/yyyy");
-
-                        //So sanh thoi gian thanh toan voi thoi gian hien tai
-                        if (dateFormat.format(now.getTime()).equals(thoi_gian_thanh_toan)) {
-                            da_thanh_toan++;
-
-                        } else {
-                            //So sanh thoi gian coc voi thoi gian hien tai
-                            if (dateFormat.format(now.getTime()).equals(thoi_gian_nhan_phong)) {
-                                chua_thanh_toan++;
-                            } else if ((dateFormat.format(now.getTime()).equals(thoi_gian_coc))) {
-                                coc++;
+                            //Chuyen doi thoi gian thanh toan tu firebase
+                            if (!hoa_don.getThoi_gian_thanh_toan().equals("")) {
+                                thoi_gian_thanh_toan = dateFormat.format(new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(hoa_don.getThoi_gian_thanh_toan()));
+                            } else {
+                                thoi_gian_thanh_toan = "";
                             }
-                            //So sanh thoi gian coc voi thoi gian hien tai
+
+                            //Chuyen doi thoi gian coc tu firebase
+                            if (!hoa_don.getThoi_gian_coc().equals("")) {
+                                thoi_gian_coc = dateFormat.format(new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(hoa_don.getThoi_gian_coc()));
+                            } else {
+                                thoi_gian_coc = "";
+                            }
+                            if (!hoa_don.getThoi_gian_nhan_phong().equals("")) {
+                                thoi_gian_nhan_phong = dateFormat.format(new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(hoa_don.getThoi_gian_nhan_phong()));
+                            } else {
+                                thoi_gian_nhan_phong = "";
+                            }
 
 
+                            //  SimpleDateFormat dateFormat=new SimpleDateFormat("dd/MM/yyyy");
+
+                            //So sanh thoi gian thanh toan voi thoi gian hien tai
+                            if (dateFormat.format(now.getTime()).equals(thoi_gian_thanh_toan)) {
+                                da_thanh_toan++;
+
+                            } else {
+                                //So sanh thoi gian coc voi thoi gian hien tai
+                                if (dateFormat.format(now.getTime()).equals(thoi_gian_nhan_phong)) {
+                                    chua_thanh_toan++;
+                                } else if ((dateFormat.format(now.getTime()).equals(thoi_gian_coc))) {
+                                    coc++;
+                                }
+                                //So sanh thoi gian coc voi thoi gian hien tai
+
+
+                            }
+                        } catch (ParseException e) {
+                            Log.e("Lỗi chuyển đổi dữ liệu thời gian thanh toán", e.getMessage());
                         }
-                    } catch (ParseException e) {
-                        Log.e("Lỗi chuyển đổi dữ liệu thời gian thanh toán", e.getMessage());
                     }
                 }
-
                 //thiet lap du lieu
                 tv_hoadondathanhtoan.setText("Hóa đơn đã thanh toán: " + da_thanh_toan);
                 tv_hoadonchuathanhtoan.setText("Hóa đơn đã thanh toán: " + chua_thanh_toan);
@@ -453,7 +508,7 @@ public class Fragment_Trangchu extends Fragment {
 
                                 if (phong.getId_trang_thai_phong().equals(trang_thai_phong.getId_trang_thai_phong())) {
 
-                                    if (trang_thai_phong.getTen_trang_thai().equals("Đang sử dụng")) {
+                                    if (trang_thai_phong.getTen_trang_thai().equals("Đang sử dụng") || trang_thai_phong.getTen_trang_thai().equals("Đang dọn") || trang_thai_phong.getTen_trang_thai().equals("Đang kiểm tra")) {
                                         hoat_dong[0]++;
 
                                     } else if (trang_thai_phong.getTen_trang_thai().equals("Sẵn sàng")) {
@@ -537,5 +592,6 @@ public class Fragment_Trangchu extends Fragment {
         tv_hoadoncoc = view.findViewById(R.id.tv_hoadoncoc);
         tv_hoadonchuathanhtoan = view.findViewById(R.id.tv_hoadonchuathanhtoan);
         tv_hoadondathanhtoan = view.findViewById(R.id.tv_hoadondathanhtoan);
+        img_Logout = view.findViewById(R.id.img_Logout);
     }
 }
