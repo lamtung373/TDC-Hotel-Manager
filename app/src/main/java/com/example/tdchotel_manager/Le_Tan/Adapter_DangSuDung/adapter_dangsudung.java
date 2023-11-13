@@ -16,6 +16,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.tdchotel_manager.Menu_QuanLy.Activity_Thong_Tin_Phong;
 import com.example.tdchotel_manager.Model.hoa_don;
 import com.example.tdchotel_manager.Model.khach_hang;
 import com.example.tdchotel_manager.Model.phong;
@@ -139,7 +140,17 @@ public class adapter_dangsudung extends RecyclerView.Adapter<adapter_dangsudung.
                 }
             }
         });
+        ////////////////
+        holder.itemView.setOnClickListener(v -> {
+            int adapterPosition = holder.getAdapterPosition();
+            if (adapterPosition != RecyclerView.NO_POSITION) {
+                Intent intent = new Intent(context, Activity_Thong_Tin_Phong.class);
+                intent.putExtra("hoa_don", datalist.get(adapterPosition));
+                context.startActivity(intent);
+            }
+        });
     }
+    //////////////
 
     @Override
     public int getItemCount() {
@@ -149,11 +160,12 @@ public class adapter_dangsudung extends RecyclerView.Adapter<adapter_dangsudung.
     public class MyViewHolder extends RecyclerView.ViewHolder {
         boolean isItemEnabled = true;
         LinearLayout layout;
-        Button traphong;
+        Button traphong,thanhtoan;
         TextView tv_trangthai, tv_mahoadon, tv_ngaynhan, tv_ngaytra, tv_datra, tv_tong, tv_tenphong, tv_tenkhach;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
+            thanhtoan = itemView.findViewById(R.id.btnXacNhanThanhToan);
             tv_trangthai = itemView.findViewById(R.id.tvTrangThaiPhong);
             traphong = itemView.findViewById(R.id.btnXacNhanTraPhong);
             tv_tenkhach = itemView.findViewById(R.id.tvTenKhachHang);
