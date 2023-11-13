@@ -30,7 +30,7 @@
                 android:layout_centerVertical="true"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="Đặt phòng"
+                android:text="Duyệt cọc"
                 android:textColor="@color/white"
                 android:textSize="20dp"
                 android:textStyle="bold" />
@@ -61,22 +61,41 @@
                     android:textSize="15dp"
                     android:textStyle="bold" />
 
-<!--                <TextView-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginStart="20dp"-->
-<!--                    android:layout_marginTop="10dp"-->
-<!--                    android:layout_marginEnd="20dp"-->
-<!--                    android:text="Mã HĐ: XXXXX"-->
-<!--                    android:textColor="#000000"-->
-<!--                    android:textSize="15dp"-->
-<!--                    android:textStyle="bold" />-->
-
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="10dp"
+                    android:layout_marginEnd="20dp"
+                    android:text="Mã HĐ: XXXXX"
+                    android:textColor="#000000"
+                    android:textSize="15dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:text="Khách hàng: Nguyễn Văn A"
+                    android:textColor="#000000"
+                    android:textSize="15dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:text="Số điện thoại: 09XXXXXXXX"
+                    android:textColor="#000000"
+                    android:textSize="15dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
                     android:layout_marginEnd="20dp"
                     android:text="Phòng: XXX"
                     android:textColor="#000000"
@@ -245,6 +264,34 @@
 
                 </LinearLayout>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:orientation="horizontal"
+                    android:weightSum="3">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:text="TIỀN CỌC (50% tiền phòng):"
+                        android:textColor="#000000"
+                        android:textSize="13dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="450.000đ"
+                        android:textColor="#000000"
+                        android:textSize="13dp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -260,95 +307,6 @@
 
         </RelativeLayout>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:text="Thông tin khách hàng"
-            android:textColor="#000000"
-            android:textSize="15dp"
-            android:textStyle="bold" />
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/border_button_nhanvien"
-            android:hint="Họ Tên Khách Hàng"
-            android:inputType="text"
-            android:paddingStart="20dp"
-            android:paddingEnd="20dp"
-            android:textColor="#000000"
-            android:textSize="13dp"
-            android:textStyle="italic" />
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/border_button_nhanvien"
-            android:hint="Số Điện Thoại"
-            android:inputType="text"
-            android:paddingStart="20dp"
-            android:paddingEnd="20dp"
-            android:textColor="#000000"
-            android:textSize="13dp"
-            android:textStyle="italic" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="30dp"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="100dp"
-                    android:layout_height="80dp"
-                    android:src="@drawable/cccd" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="CCCD mặt trước"
-                    android:textColor="#000000" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="100dp"
-                    android:layout_height="80dp"
-                    android:src="@drawable/cccd" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="CCCD mặt sau"
-                    android:textColor="#000000" />
-
-            </LinearLayout>
-
-        </LinearLayout>
-
         <Button
             android:layout_width="match_parent"
             android:layout_height="50dp"
@@ -358,7 +316,7 @@
             android:layout_marginTop="20dp"
             android:layout_marginBottom="60dp"
             android:background="@drawable/border_button_a_nhanvien"
-            android:text="Đặt phòng"
+            android:text="Xác nhận đã thanh toán cọc"
             android:textColor="#FFFFFF" />
 
     </LinearLayout>
