@@ -14,6 +14,7 @@ public class hoa_don {
     String thoi_gian_tra_phong;
     String thoi_gian_huy;
     String thoi_gian_thanh_toan;
+    String thoi_gian_duyet;
 
     public String getThoi_gian_duyet() {
         return thoi_gian_duyet;
@@ -23,7 +24,6 @@ public class hoa_don {
         this.thoi_gian_duyet = thoi_gian_duyet;
     }
 
-    String thoi_gian_duyet;
 
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
