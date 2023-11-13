@@ -1,80 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="10dp">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+    <TextView
+        android:textStyle="normal"
+        android:id="@+id/tvdichvu"
+        style="@style/textview"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="30dp"
+        android:text="Spa" />
 
+    <TextView
+        android:textStyle="normal"
+        android:id="@+id/tvGia"
+        style="@style/textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@id/tvdichvu"
+        android:text="89000đ/người" />
 
-        <TextView
-            android:id="@+id/tv_chitiet"
-            style="@style/textview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:text="Spa" />
-        <LinearLayout
-            android:layout_marginLeft="60dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <TextView
-                android:id="@+id/tvGiaDVN"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Tên dịch vụ"
-                android:layout_marginLeft="10dp"
-                android:textColor="@color/black" />
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <TextView
-                    android:id="@+id/tvGiaSaleDVN"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="giá sale"
-                    android:layout_marginLeft="10dp"
-                    android:textColor="@color/black"/>
-                <TextView
-                    android:id="@+id/tvloaidv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="" />
-            </LinearLayout>
-        </LinearLayout>
-        <ImageButton
-            android:id="@+id/ib_decrease"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toLeftOf="@id/edt_so_luong"
-            android:background="@null"
-            android:src="@drawable/decrease" />
+    <ImageView
+        android:id="@+id/ivTru"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@id/ivCong"
+        android:layout_marginRight="80dp"
+        android:src="@drawable/decrease" />
 
-        <EditText
-            android:id="@+id/edt_so_luong"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="25dp"
-            android:layout_marginRight="25dp"
-            android:layout_toLeftOf="@id/ib_increase"
-            android:inputType="number"
-            android:text="0" />
+    <EditText
+        android:textStyle="normal"
+        android:id="@+id/edtSonguoi"
+        style="@style/textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_toLeftOf="@id/ivCong"
+        android:text="0" />
 
-        <ImageButton
-            android:id="@+id/ib_increase"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="30dp"
-            android:background="@null"
-            android:src="@drawable/increase" />
-
-    </RelativeLayout>
+    <ImageView
+        android:id="@+id/ivCong"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/increase" />
 </RelativeLayout>

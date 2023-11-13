@@ -2,13 +2,32 @@ package com.example.tdchotel_manager.Le_Tan.Fragment_LeTan;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
+import com.example.tdchotel_manager.Le_Tan.DaDatAdapter;
+import com.example.tdchotel_manager.Le_Tan.DuyetCocAdapter;
+import com.example.tdchotel_manager.Model.hoa_don;
+import com.example.tdchotel_manager.Model.khach_hang;
+import com.example.tdchotel_manager.Model.phong;
 import com.example.tdchotel_manager.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,7 +44,12 @@ public class Fragment_Duyetcoc extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
+    private List<hoa_don> hoaDonList = new ArrayList<>();
+    private List<khach_hang> khachHangList = new ArrayList<>();
+    private List<phong> phongList = new ArrayList<>();
+    private RecyclerView rcv_roomlist;
+    private EditText edt_search;
+    private DuyetCocAdapter duyetCocAdapter;
     public Fragment_Duyetcoc() {
         // Required empty public constructor
     }
@@ -61,6 +85,95 @@ public class Fragment_Duyetcoc extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment__duyetcoc, container, false);
+        View view = inflater.inflate(R.layout.fragment__duyetcoc, container, false);
+        setControl(view);
+        setEvent(view);
+        return view;
+    }
+
+    private void setEvent(View view) {
+    }
+
+    private void setControl(View view) {
+        rcv_roomlist = view.findViewById(R.id.rcv_roomlist);
+        edt_search = view.findViewById(R.id.edt_search);
+        LoadHoaDon();
+        LoadPhong();
+        LoadKhachHang();
+        duyetCocAdapter = new DuyetCocAdapter(getActivity(),hoaDonList,phongList,khachHangList);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        rcv_roomlist.setLayoutManager(linearLayoutManager);
+        RecyclerView.ItemDecoration decoration = new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL);
+        rcv_roomlist.addItemDecoration(decoration);
+        rcv_roomlist.setAdapter(duyetCocAdapter);
+    }
+
+    private void LoadHoaDon() {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("hoa_don");
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                hoaDonList.clear();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                        hoa_don hoaDon = dataSnapshot1.getValue(hoa_don.class);
+
+                        if(hoaDon.getThoi_gian_duyet().equals(""))
+                        {
+                            Log.e("eee"+hoaDon.getThoi_gian_huy()+"ee","555"+hoaDon.getThoi_gian_thanh_toan()+"dfsf");
+                            if(hoaDon.getThoi_gian_thanh_toan().equals("")&&hoaDon.getThoi_gian_huy().equals(""))
+                            {
+                                Log.e("eee","666");
+                                hoaDonList.add(hoaDon);
+                            }
+                        }
+                    }
+                }
+                duyetCocAdapter.notifyDataSetChanged();
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+    private void LoadKhachHang() {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("khach_hang");
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                khachHangList.clear();
+
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    khach_hang khachHang = dataSnapshot.getValue(khach_hang.class);
+                    khachHangList.add(khachHang);
+                }
+                duyetCocAdapter.notifyDataSetChanged();
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+    private void LoadPhong() {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("phong");
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                phongList.clear();
+
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+
+                    phong phong = dataSnapshot.getValue(phong.class);
+                    phongList.add(phong);
+                }
+                duyetCocAdapter.notifyDataSetChanged();
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 }

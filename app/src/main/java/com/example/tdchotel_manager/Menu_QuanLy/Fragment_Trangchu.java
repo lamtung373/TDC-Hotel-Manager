@@ -512,7 +512,7 @@ public class Fragment_Trangchu extends Fragment {
 
                                 if (phong.getId_trang_thai_phong().equals(trang_thai_phong.getId_trang_thai_phong())) {
 
-                                    if (trang_thai_phong.getTen_trang_thai().equals("Đang sử dụng")) {
+                                    if (trang_thai_phong.getTen_trang_thai().equals("Đang sử dụng")||trang_thai_phong.getTen_trang_thai().equals("Đang dọn")||trang_thai_phong.getTen_trang_thai().equals("Đang kiểm tra")) {
                                         hoat_dong[0]++;
 
                                     } else if (trang_thai_phong.getTen_trang_thai().equals("Sẵn sàng")) {

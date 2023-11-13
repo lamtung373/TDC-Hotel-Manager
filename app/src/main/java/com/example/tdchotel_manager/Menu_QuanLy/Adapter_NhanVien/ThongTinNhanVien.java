@@ -169,6 +169,8 @@ public class ThongTinNhanVien extends AppCompatActivity {
         btnSua.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                viewBlocking.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.VISIBLE);
                 // Lấy dữ liệu từ các trường
                 String tenDangNhap = edtTenDangNhap.getText().toString();
                 String matKhau = edtMatKhau.getText().toString();
@@ -200,8 +202,6 @@ public class ThongTinNhanVien extends AppCompatActivity {
 
                 // Kiểm tra nếu có ảnh mới được chọn
                 if (currentSelectedImageView != null) {
-                    viewBlocking.setVisibility(View.VISIBLE);
-                    progressBar.setVisibility(View.VISIBLE);
                     uploadImageToFirebaseStorage();  // Tải lên ảnh và cập nhật thông tin nhân viên
                 } else {
                     // Thông báo và quay lại màn hình trước
