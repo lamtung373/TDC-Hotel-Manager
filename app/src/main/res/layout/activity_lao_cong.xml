@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="60dp"
@@ -24,10 +25,27 @@
         android:textColor="@color/dark_blue"
         android:textSize="20dp"
         android:textStyle="bold" />
+
+
+    <ProgressBar
+        android:id="@+id/progressBar_phongdon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:progressDrawable="@drawable/refresh"
+        android:visibility="gone" />
+
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rcv_danhsachviec"
+        android:id="@+id/rcv_phong_kiemtra"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginHorizontal="10dp"
-        android:paddingHorizontal="10dp"/>
+        android:paddingHorizontal="10dp" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcv_don_thuong_nhat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:paddingHorizontal="10dp" />
 </LinearLayout>

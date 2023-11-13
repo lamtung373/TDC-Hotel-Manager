@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -38,8 +39,6 @@ public class DangNhap extends AppCompatActivity {
         AutoLogin();
         setControl();
         setEvent();
-
-        khoi_tao();
     }
 
     private void AutoLogin() {
@@ -48,6 +47,10 @@ public class DangNhap extends AppCompatActivity {
         String chuc_vu_auto = sharedPreferences.getString("chuc_vu_auto", "");
         switch (chuc_vu_auto.toLowerCase()) {
             case "lao công":
+                Intent intent_laocong = new Intent(DangNhap.this, Activity_LaoCong.class);
+                intent_laocong.putExtra("id_staff", id_staff_auto);
+                startActivity(intent_laocong);
+                finish();
                 break;
             case "lễ tân":
                 Intent intent_letan = new Intent(DangNhap.this, Activity_LeTan.class);
@@ -70,87 +73,116 @@ public class DangNhap extends AppCompatActivity {
         btnLogin = findViewById(R.id.btnLogin);
         edtusername = findViewById(R.id.edtUsername);
         edtPassword = findViewById(R.id.edtPassword);
-        progressBar=findViewById(R.id.progressBar_phong);
+        progressBar = findViewById(R.id.progressBar_login);
+    }
+
+    private void loginUser(String enteredUsername, String enteredPassword) {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("nhan_vien");
+        DatabaseReference reference_cv = FirebaseDatabase.getInstance().getReference("chuc_vu");
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PRE, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                boolean userExists = false;
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    nhan_vien nhanVien = dataSnapshot.getValue(nhan_vien.class);
+                    if (nhanVien != null && enteredUsername.equals(nhanVien.getUsername())) {
+                        userExists = true;
+                        if (enteredPassword.equals(nhanVien.getPassword())) {
+                            // Khi người dùng và mật khẩu đúng
+                            checkUserRole(nhanVien, editor);
+                        } else {
+                            edtPassword.setError("Mật khẩu không đúng");
+                            progressBar.setVisibility(View.GONE);
+                            btnLogin.setVisibility(View.VISIBLE);
+                        }
+                        break;
+                    }
+                }
+                if (!userExists) {
+                    edtusername.setError("Người dùng không tồn tại");
+                    progressBar.setVisibility(View.GONE);
+                    btnLogin.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // Xử lý lỗi nếu có
+            }
+        });
+    }
+
+    private void checkUserRole(nhan_vien nhanVien, SharedPreferences.Editor editor) {
+        DatabaseReference reference_cv = FirebaseDatabase.getInstance().getReference("chuc_vu");
+        reference_cv.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    chuc_vu cv = dataSnapshot.getValue(chuc_vu.class);
+                    if (cv != null && nhanVien.getId_chuc_vu().equals(cv.getId_chuc_vu())) {
+                        editor.putString(id_staff, nhanVien.getId_nhan_vien());
+                        editor.putString(chuc_vu_auto, cv.getTen_chuc_vu());
+                        editor.apply();
+
+                        switch (cv.getTen_chuc_vu().toLowerCase()) {
+                            case "lao công":
+                                startActivityWithIntent(Activity_LaoCong.class);
+                                return;
+                            case "lễ tân":
+                                startActivityWithIntent(Activity_LeTan.class);
+                                return;
+                            case "quản lý":
+                                startActivityWithIntent(TrangChu_QuanLy.class);
+                                return;
+                        }
+                    }
+                }
+                progressBar.setVisibility(View.GONE);
+                btnLogin.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // Xử lý lỗi nếu có
+            }
+        });
+    }
+
+
+    private void startActivityWithIntent(Class<?> cls) {
+        Intent intent = new Intent(DangNhap.this, cls);
+        progressBar.setVisibility(View.GONE);
+        btnLogin.setVisibility(View.VISIBLE);
+        startActivity(intent);
+        finish();
     }
 
     private void setEvent() {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatabaseReference reference = FirebaseDatabase.getInstance().getReference("nhan_vien");
-                DatabaseReference reference_cv = FirebaseDatabase.getInstance().getReference("chuc_vu");
-                SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PRE, MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                reference.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        progressBar.setVisibility(View.VISIBLE);
-                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                            nhan_vien nhan_vien = dataSnapshot.getValue(nhan_vien.class);
-                            if (edtusername.getText().toString().equals(nhan_vien.getUsername())) {
-                                if (edtPassword.getText().toString().equals(nhan_vien.getPassword())) {
-                                    reference_cv.addListenerForSingleValueEvent(new ValueEventListener() {
-                                        @Override
-                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                            for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                                                chuc_vu cv = dataSnapshot.getValue(chuc_vu.class);
+                String enteredUsername = edtusername.getText().toString().trim();
+                String enteredPassword = edtPassword.getText().toString().trim();
 
-                                                if (nhan_vien.getId_chuc_vu().equals(cv.getId_chuc_vu())) {
-                                                    editor.putString(id_staff, nhan_vien.getId_nhan_vien());
-                                                    editor.putString(chuc_vu_auto, cv.getTen_chuc_vu());
-                                                    editor.apply();
-                                                    switch (cv.getTen_chuc_vu().toLowerCase()) {
-                                                        case "lao công":
-                                                            Intent intent_laocong = new Intent(DangNhap.this, Activity_LaoCong.class);
-                                                            startActivity(intent_laocong);
-                                                            progressBar.setVisibility(View.GONE);
-                                                            finish();
-                                                            break;
-                                                        case "lễ tân":
-                                                            Intent intent_letan = new Intent(DangNhap.this, Activity_LeTan.class);
-                                                            startActivity(intent_letan);
-                                                            progressBar.setVisibility(View.GONE);
-                                                            finish();
-                                                            break;
-                                                        case "quản lý":
-                                                            Intent intent = new Intent(DangNhap.this, TrangChu_QuanLy.class);
-                                                            startActivity(intent);
-                                                            progressBar.setVisibility(View.GONE);
-                                                            finish();
-                                                            break;
-                                                    }
-                                                }
-                                            }
-
-
-                                            // Create an Intent to pass data to Fragment_Trangchu
-
-                                        }
-
-                                        @Override
-                                        public void onCancelled(@NonNull DatabaseError error) {
-
-                                        }
-                                    });
-
-                                }
-                            }
-                        }
-
+                if (TextUtils.isEmpty(enteredUsername) || TextUtils.isEmpty(enteredPassword)) {
+                    if (TextUtils.isEmpty(enteredUsername)) {
+                        edtusername.setError("Tên đăng nhập không được để trống");
                     }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                        // Xử lý lỗi nếu có
+                    if (TextUtils.isEmpty(enteredPassword)) {
+                        edtPassword.setError("Mật khẩu không được để trống");
                     }
-                });
+                    return;
+                }
 
+                progressBar.setVisibility(View.VISIBLE);
+                btnLogin.setVisibility(View.GONE);
+                loginUser(enteredUsername, enteredPassword);
             }
         });
     }
 
-    void khoi_tao() {
-
-    }
 
 }
