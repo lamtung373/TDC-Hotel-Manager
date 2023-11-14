@@ -1,17 +1,22 @@
 package com.example.tdchotel_manager.Le_Tan.Adapter_DangSuDung;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.tdchotel_manager.Menu_QuanLy.Activity_Thong_Tin_Phong;
 import com.example.tdchotel_manager.Model.hoa_don;
 import com.example.tdchotel_manager.Model.khach_hang;
 import com.example.tdchotel_manager.Model.phong;
@@ -29,26 +34,28 @@ public class adapter_dangsudung extends RecyclerView.Adapter<adapter_dangsudung.
         void onItemClick(int position);
     }
 
-    // Trong adapter_dangsudung, thêm một trường OnItemClickListener và phương thức setter
     private OnItemClickListener onItemClickListener;
-
-    public void setOnItemClickListener(OnItemClickListener listener) {
-        this.onItemClickListener = listener;
-    }
-
     private ArrayList<hoa_don> datalist = new ArrayList<>();
-    private ArrayList<phong> phongList = new ArrayList(); // Danh sách các phòng
-    private ArrayList<khach_hang> khachhangList = new ArrayList(); // Danh sách các phòng
-
-    Context context;
+    private ArrayList<phong> phongList = new ArrayList<>();
+    private ArrayList<khach_hang> khachhangList = new ArrayList<>();
+    private Context context;
 
     public adapter_dangsudung(Context context) {
         this.context = context;
         khoi_tao();
-        loadPhongData(); // Tải dữ liệu của các phòng
-        loadKhachData(); // Tải dữ liệu của các phòng
+        loadPhongData();
+        loadKhachData();
 
+        setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                showItemOptions(datalist.get(position).getId_phong(), datalist.get(position).getId_hoa_don());
+            }
+        });
+    }
 
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.onItemClickListener = listener;
     }
 
     private void loadPhongData() {
@@ -74,8 +81,8 @@ public class adapter_dangsudung extends RecyclerView.Adapter<adapter_dangsudung.
     }
 
     private void loadKhachData() {
-        DatabaseReference phongReference = FirebaseDatabase.getInstance().getReference("khach_hang");
-        phongReference.addValueEventListener(new ValueEventListener() {
+        DatabaseReference khachHangReference = FirebaseDatabase.getInstance().getReference("khach_hang");
+        khachHangReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 khachhangList.clear();
@@ -117,22 +124,33 @@ public class adapter_dangsudung extends RecyclerView.Adapter<adapter_dangsudung.
         holder.traphong.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Xử lý khi nút được nhấn
-                confirmTraPhong(dataItem.getId_phong());
+                if (holder.isItemEnabled) {
+                    confirmTraPhong(dataItem.getId_phong(), holder);
+                } else {
+                    // Bạn có thể hiển thị một thông báo hoặc không làm gì cả khi item bị vô hiệu hóa
+                }
             }
         });
-
 
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                if (onItemClickListener != null) {
+                if (onItemClickListener != null && holder.isItemEnabled) {
                     onItemClickListener.onItemClick(position);
                 }
             }
         });
+        ////////////////
+        holder.itemView.setOnClickListener(v -> {
+            int adapterPosition = holder.getAdapterPosition();
+            if (adapterPosition != RecyclerView.NO_POSITION) {
+                Intent intent = new Intent(context, Activity_Thong_Tin_Phong.class);
+                intent.putExtra("hoa_don", datalist.get(adapterPosition));
+                context.startActivity(intent);
+            }
+        });
     }
+    //////////////
 
     @Override
     public int getItemCount() {
@@ -140,12 +158,14 @@ public class adapter_dangsudung extends RecyclerView.Adapter<adapter_dangsudung.
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
+        boolean isItemEnabled = true;
         LinearLayout layout;
-        Button traphong;
-        TextView tv_trangthai,tv_mahoadon, tv_ngaynhan, tv_ngaytra, tv_datra, tv_tong, tv_tenphong, tv_tenkhach;
+        Button traphong,thanhtoan;
+        TextView tv_trangthai, tv_mahoadon, tv_ngaynhan, tv_ngaytra, tv_datra, tv_tong, tv_tenphong, tv_tenkhach;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
+            thanhtoan = itemView.findViewById(R.id.btnXacNhanThanhToan);
             tv_trangthai = itemView.findViewById(R.id.tvTrangThaiPhong);
             traphong = itemView.findViewById(R.id.btnXacNhanTraPhong);
             tv_tenkhach = itemView.findViewById(R.id.tvTenKhachHang);
@@ -159,6 +179,7 @@ public class adapter_dangsudung extends RecyclerView.Adapter<adapter_dangsudung.
         }
     }
 
+    // Phương thức này khởi tạo dữ liệu từ Firebase và thêm vào ArrayList datalist
     void khoi_tao() {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference hoaDonRef = database.getReference("hoa_don");
@@ -171,14 +192,16 @@ public class adapter_dangsudung extends RecyclerView.Adapter<adapter_dangsudung.
                     for (DataSnapshot childSnapshot : snapshot.getChildren()) {
                         String idPhong = childSnapshot.child("id_phong").getValue(String.class);
                         String thoiGianNhanPhong = childSnapshot.child("thoi_gian_nhan_phong").getValue(String.class);
-                        String thoiGianTraPhong = childSnapshot.child("thoi_gian_tra_phong").getValue(String.class);
+                        String thoiGianThanhToan = childSnapshot.child("thoi_gian_thanh_toan").getValue(String.class);
 
-                        if (idPhong != null && !thoiGianNhanPhong.equals("") && thoiGianTraPhong.equals("")) {
+                        // Kiểm tra điều kiện để lấy dữ liệu đang sử dụng
+                        if (idPhong != null && !thoiGianNhanPhong.equals("") && thoiGianThanhToan.equals("")) {
                             hoa_don hoaDon = childSnapshot.getValue(hoa_don.class);
                             datalist.add(hoaDon);
                         }
                     }
                 }
+                notifyDataSetChanged();
             }
 
             @Override
@@ -187,18 +210,43 @@ public class adapter_dangsudung extends RecyclerView.Adapter<adapter_dangsudung.
             }
         });
     }
-    private void confirmTraPhong(String idPhong) {
+
+    // Hiển thị dialog chọn hình thức khi click vào item
+    private void showItemOptions(String idPhong, String idHoaDon) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Lựa chọn hình thức");
+        builder.setItems(new CharSequence[]{"Gia hạn", "Dịch vụ"}, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (which == 0) {
+                    Intent intent = new Intent(context, giahanthoigian.class);
+                    intent.putExtra("idPhong", idPhong);
+                    intent.putExtra("idHoaDon", idHoaDon);
+                    context.startActivity(intent);
+                } else if (which == 1) {
+                    Intent intent2 = new Intent(context, dichvu_letan.class);
+                    intent2.putExtra("idPhong", idPhong);
+                    context.startActivity(intent2);
+                }
+            }
+        });
+        builder.show();
+    }
+
+    // Xác nhận trả phòng và cập nhật trạng thái phòng
+    private void confirmTraPhong(String idPhong, MyViewHolder holder) {
+        DatabaseReference hoaDonReference = FirebaseDatabase.getInstance().getReference("hoa_don").child(idPhong);
         DatabaseReference phongReference = FirebaseDatabase.getInstance().getReference("phong");
-        phongReference.addValueEventListener(new ValueEventListener() {
+
+        hoaDonReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                datalist.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     phong phong = dataSnapshot.getValue(phong.class);
-                    if (phong.getId_phong().equals(idPhong)) {
-                        // Cập nhật id trạng thái phòng về 5 (hoặc giá trị tương ứng)
+                    if (phong != null) {
                         phongReference.child(idPhong).child("id_trang_thai_phong").setValue("5");
-
+                        Toast.makeText(context, "Phòng đã trả và đang được kiểm tra!", Toast.LENGTH_SHORT).show();
+                        holder.isItemEnabled = false; // Vô hiệu hóa item sau khi trả phòng
                     }
                 }
                 notifyDataSetChanged();
@@ -210,24 +258,28 @@ public class adapter_dangsudung extends RecyclerView.Adapter<adapter_dangsudung.
             }
         });
     }
+
+    // Tìm kiếm tên phòng dựa vào ID phòng
     private String findTenPhongById(String idPhong) {
         for (phong phong : phongList) {
             if (phong.getId_phong().equals(idPhong)) {
                 return phong.getTen_phong();
             }
         }
-        return "Phòng không tồn tại"; // Hoặc bạn có thể trả về chuỗi mặc định khác
+        return "Phòng không tồn tại";
     }
 
+    // Tìm kiếm tên khách hàng dựa vào số điện thoại
     private String findTenKhachById(String sdt) {
         for (khach_hang kh : khachhangList) {
             if (kh.getSo_dien_thoai().equals(sdt)) {
                 return kh.getTen();
             }
         }
-        return "Tên khách hàng không tồn tại"; // Hoặc bạn có thể trả về chuỗi mặc định khác
+        return "Tên khách hàng không tồn tại";
     }
 
+    // Tìm kiếm tên trạng thái phòng dựa vào ID phòng
     private String findTenTrangThaiPhongById(String idPhong) {
         for (phong phong : phongList) {
             if (phong.getId_phong().equals(idPhong)) {
@@ -237,6 +289,7 @@ public class adapter_dangsudung extends RecyclerView.Adapter<adapter_dangsudung.
         return "Trạng thái không xác định";
     }
 
+    // Ánh xạ ID trạng thái phòng sang tên trạng thái
     private String mapIdToTenTrangThai(String idTrangThai) {
         switch (idTrangThai) {
             case "1":
