@@ -17,7 +17,7 @@
         android:layout_centerInParent="true"
         android:layout_gravity="center"
         android:progressDrawable="@drawable/refresh"
-        android:visibility="gone"/>
+        android:visibility="visible"/>
     <ImageView
         android:scaleType="centerCrop"
         android:id="@+id/iv_item_phong"
@@ -53,8 +53,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Giá"
-                android:textColor="@color/gray"
-                android:textSize="13dp"/>
+                android:textColor="@color/red"
+                android:textSize="15dp" />
 
             <TextView
                 android:id="@+id/tv_sale"

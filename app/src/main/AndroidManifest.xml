@@ -23,6 +23,18 @@
         android:theme="@style/Theme.TDCHotelManager"
         tools:targetApi="31">
         <activity
+            android:name=".Le_Tan.Activity_HoaDon.Activity_HoaDon_SanSang"
+            android:exported="false" />
+        <activity
+            android:name=".Le_Tan.Activity_Xem_Thong_Tin_Le_Tan"
+            android:exported="false" />
+        <activity
+            android:name=".Lao_Cong.Activity_ChiTietDonPhong"
+            android:exported="false" />
+        <activity
+            android:name=".Le_Tan.Activity_Chi_Tiet_Phong"
+            android:exported="false" />
+        <activity
             android:name=".Lao_Cong.Activity_LaoCong"
             android:exported="false" />
         <activity
@@ -45,10 +57,20 @@
             android:exported="false" />
         <activity
             android:name=".Menu_QuanLy.Adapter_DichVu.themdichvuphong"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".Menu_QuanLy.Adapter_DichVu.themtiennghi"
+            android:exported="false" />
+        <activity
+            android:name=".Le_Tan.Adapter_DangSuDung.giahanthoigian"
             android:exported="false"/>
+        <activity
+            android:name=".Le_Tan.Activity_XacNhanDatPhongDichVu"
+            android:exported="false"/>
+        <activity
+            android:name=".Le_Tan.Adapter_DangSuDung.dichvu_letan"
+            android:exported="false"/>
+
         <activity
             android:name=".Menu_QuanLy.QuanLyLichLam"
             android:exported="false" />

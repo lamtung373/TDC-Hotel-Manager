@@ -2,26 +2,20 @@ package com.example.tdchotel_manager.Menu_QuanLy.Adapter_DichVu;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.tdchotel_manager.IOnClickItem;
-import com.example.tdchotel_manager.Menu_QuanLy.Fragment_Dichvu;
 import com.example.tdchotel_manager.Model.dich_vu;
+import com.example.tdchotel_manager.Model.loai_dich_vu;
+import com.example.tdchotel_manager.Model.phong;
 import com.example.tdchotel_manager.R;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -30,12 +24,14 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class adapter_dich_vu extends RecyclerView.Adapter<adapter_dich_vu.MyViewHolder> {
 
     private ArrayList<dich_vu> datalist = new ArrayList<>();
+    private ArrayList<loai_dich_vu> loaiDichVuList = new ArrayList<>();
+
     Context context;
+
     public adapter_dich_vu(Context context) {
         this.context = context;
         khoi_tao();
@@ -54,7 +50,7 @@ public class adapter_dich_vu extends RecyclerView.Adapter<adapter_dich_vu.MyView
         dich_vu dataItem = datalist.get(position);
         holder.tvten.setText(dataItem.getTen_dich_vu());
         holder.tvgia.setText(String.valueOf(dataItem.getGia_dich_vu()) + "đ/");
-        holder.tvloaidv.setText(dataItem.getId_loai_dich_vu());
+        holder.tvloaidv.setText(findLoaiDichVuById(dataItem.getId_loai_dich_vu()));
 
         Picasso.get().load(dataItem.getAnh_dich_vu()).into(holder.imganhdv);
 
@@ -62,12 +58,21 @@ public class adapter_dich_vu extends RecyclerView.Adapter<adapter_dich_vu.MyView
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, chinhsuadichvu.class);
-                intent.putExtra("dichvuid",dataItem.getId_dich_vu());
+                intent.putExtra("dichvuid", dataItem.getId_dich_vu());
                 context.startActivity(intent);
             }
 
         });
 
+    }
+
+    private String findLoaiDichVuById(String idLoaiDichVu) {
+        for (loai_dich_vu loaiDichVu : loaiDichVuList) {
+            if (loaiDichVu.getId_loai_dich_vu().equals(idLoaiDichVu)) {
+                return loaiDichVu.getTen_loai_dich_vu();
+            }
+        }
+        return "Phòng không tồn tại"; // Hoặc bạn có thể trả về chuỗi mặc định khác
     }
 
     @Override
@@ -91,8 +96,28 @@ public class adapter_dich_vu extends RecyclerView.Adapter<adapter_dich_vu.MyView
     }
 
     void khoi_tao() {
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("dich_vu");
-        reference.addValueEventListener(new ValueEventListener() {
+        DatabaseReference loaiDichVuReference = FirebaseDatabase.getInstance().getReference("loai_dich_vu");
+        loaiDichVuReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                loaiDichVuList.clear();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    loai_dich_vu loaiDichVu = dataSnapshot.getValue(loai_dich_vu.class);
+                    if (loaiDichVu != null) {
+                        loaiDichVuList.add(loaiDichVu);
+                    }
+                }
+                notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // Xử lý lỗi nếu cần
+            }
+        });
+
+        DatabaseReference dichVuReference = FirebaseDatabase.getInstance().getReference("dich_vu");
+        dichVuReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 datalist.clear();
@@ -107,7 +132,7 @@ public class adapter_dich_vu extends RecyclerView.Adapter<adapter_dich_vu.MyView
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                // Handle the error if necessary
+                // Xử lý lỗi nếu cần
             }
         });
     }

@@ -155,7 +155,7 @@ public class Fragment_Trangchu extends Fragment {
     private void Initialization() {
         Chart_DoanhThu();
         Chart_Phong();
-        Chart_Hoadon();
+        Chart_HoaDon();
         adapter_calam adapterCa_Sang = new adapter_calam(arr_nhanvien_sang);
         adapter_calam adapterCa_Toi = new adapter_calam(arr_nhanvien_toi);
         Ca_Lam(adapterCa_Sang, "Ca sáng", arr_nhanvien_sang);
@@ -275,7 +275,7 @@ public class Fragment_Trangchu extends Fragment {
 
     }
 
-    private void Chart_Hoadon() {
+    private void Chart_DoanhThu() {
         ArrayList<PieEntry> pieEntries = new ArrayList<>();
 
         //Lay du lieu firebase
@@ -284,45 +284,44 @@ public class Fragment_Trangchu extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 pieEntries.clear();
-
                 //khai bao bien
                 double phong = 0;
                 double dich_vu = 0;
                 double dich_vu_phong = 0;
                 Date thoi_gian_thanh_toan = null;
                 Date thoi_gian_coc = null;
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    for (DataSnapshot item : dataSnapshot.getChildren()) {
+                        hoa_don hoa_don = item.getValue(hoa_don.class);
+                        try {
 
+                            //Chuyen doi thoi gian thanh toan tu firebase
+                            thoi_gian_thanh_toan = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(hoa_don.getThoi_gian_thanh_toan());
 
-                for (DataSnapshot item : snapshot.getChildren()) {
-                    hoa_don hoa_don = item.getValue(hoa_don.class);
-                    try {
+                            //Chuyen doi thoi gian coc tu firebase
+                            thoi_gian_coc = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(hoa_don.getThoi_gian_coc());
 
-                        //Chuyen doi thoi gian thanh toan tu firebase
-                        thoi_gian_thanh_toan = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").parse(hoa_don.getThoi_gian_thanh_toan());
+                            //Lay thoi gian hien tai
+                            Date now = new Date();
+                            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                            //  SimpleDateFormat dateFormat=new SimpleDateFormat("dd/MM/yyyy");
 
-                        //Chuyen doi thoi gian coc tu firebase
-                        thoi_gian_coc = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").parse(hoa_don.getThoi_gian_coc());
+                            //So sanh thoi gian thanh toan voi thoi gian hien tai
+                            if (dateFormat.format(now.getTime()).equals(dateFormat.format(thoi_gian_thanh_toan.getTime()))) {
+                                phong += hoa_don.getTien_phong();
+                                dich_vu += hoa_don.getTong_phi_dich_vu();
+                                dich_vu_phong += hoa_don.getTong_phi_dich_vu_phong();
+                            } else {
 
-                        //Lay thoi gian hien tai
-                        Date now = new Date();
-                        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-                        //  SimpleDateFormat dateFormat=new SimpleDateFormat("dd/MM/yyyy");
+                                //So sanh thoi gian coc voi thoi gian hien tai
+                                if (dateFormat.format(now.getTime()).equals(dateFormat.format(thoi_gian_coc.getTime()))) {
+                                    phong += hoa_don.getTien_coc();
+                                }
 
-                        //So sanh thoi gian thanh toan voi thoi gian hien tai
-                        if (dateFormat.format(now.getTime()).equals(dateFormat.format(thoi_gian_thanh_toan.getTime()))) {
-                            phong += hoa_don.getTien_phong();
-                            dich_vu += hoa_don.getTong_phi_dich_vu();
-                            dich_vu_phong += hoa_don.getTong_phi_dich_vu_phong();
-                        } else {
-
-                            //So sanh thoi gian coc voi thoi gian hien tai
-                            if (dateFormat.format(now.getTime()).equals(dateFormat.format(thoi_gian_coc.getTime()))) {
-                                phong += hoa_don.getTien_coc();
                             }
-
+                        } catch (ParseException e) {
+                            Log.e("Lỗi chuyển đổi dữ liệu thời gian thanh toán", e.getMessage());
                         }
-                    } catch (ParseException e) {
-                        Log.e("Lỗi chuyển đổi dữ liệu thời gian thanh toán", e.getMessage());
                     }
                 }
 
@@ -331,13 +330,10 @@ public class Fragment_Trangchu extends Fragment {
                 tv_dichvu.setText(dich_vu + " đ");
                 tv_dichvuphong.setText(dich_vu_phong + " đ");
                 double tong = phong + dich_vu + dich_vu_phong;
-
-
                 //them du lieu cho chart
                 if (tong != 0) {
                     if (phong != 0) {
                         pieEntries.add(new PieEntry((float) (phong / tong) * 100, "% Phòng"));
-
                     }
                     if (dich_vu != 0) {
                         pieEntries.add(new PieEntry((float) (dich_vu / tong) * 100, "% Dịch vụ"));
@@ -371,7 +367,7 @@ public class Fragment_Trangchu extends Fragment {
         });
     }
 
-    private void Chart_DoanhThu() {
+    private void Chart_HoaDon() {
         ArrayList<PieEntry> pieEntries = new ArrayList<>();
 
         //Lay du lieu firebase
@@ -389,53 +385,54 @@ public class Fragment_Trangchu extends Fragment {
                 //Lay thoi gian hien tai
                 Date now = new Date();
                 SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    for (DataSnapshot item : dataSnapshot.getChildren()) {
+                        hoa_don hoa_don = item.getValue(hoa_don.class);
+                        try {
 
-                for (DataSnapshot item : snapshot.getChildren()) {
-                    hoa_don hoa_don = item.getValue(hoa_don.class);
-                    try {
-
-                        //Chuyen doi thoi gian thanh toan tu firebase
-                        if (!hoa_don.getThoi_gian_thanh_toan().equals("")) {
-                            thoi_gian_thanh_toan = dateFormat.format(new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").parse(hoa_don.getThoi_gian_thanh_toan()));
-                        } else {
-                            thoi_gian_thanh_toan = "";
-                        }
-
-                        //Chuyen doi thoi gian coc tu firebase
-                        if (!hoa_don.getThoi_gian_coc().equals("")) {
-                            thoi_gian_coc = dateFormat.format(new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").parse(hoa_don.getThoi_gian_coc()));
-                        } else {
-                            thoi_gian_coc = "";
-                        }
-                        if (!hoa_don.getThoi_gian_nhan_phong().equals("")) {
-                            thoi_gian_nhan_phong = dateFormat.format(new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").parse(hoa_don.getThoi_gian_nhan_phong()));
-                        } else {
-                            thoi_gian_nhan_phong = "";
-                        }
-
-
-                        //  SimpleDateFormat dateFormat=new SimpleDateFormat("dd/MM/yyyy");
-
-                        //So sanh thoi gian thanh toan voi thoi gian hien tai
-                        if (dateFormat.format(now.getTime()).equals(thoi_gian_thanh_toan)) {
-                            da_thanh_toan++;
-
-                        } else {
-                            //So sanh thoi gian coc voi thoi gian hien tai
-                            if (dateFormat.format(now.getTime()).equals(thoi_gian_nhan_phong)) {
-                                chua_thanh_toan++;
-                            } else if ((dateFormat.format(now.getTime()).equals(thoi_gian_coc))) {
-                                coc++;
+                            //Chuyen doi thoi gian thanh toan tu firebase
+                            if (!hoa_don.getThoi_gian_thanh_toan().equals("")) {
+                                thoi_gian_thanh_toan = dateFormat.format(new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(hoa_don.getThoi_gian_thanh_toan()));
+                            } else {
+                                thoi_gian_thanh_toan = "";
                             }
-                            //So sanh thoi gian coc voi thoi gian hien tai
+
+                            //Chuyen doi thoi gian coc tu firebase
+                            if (!hoa_don.getThoi_gian_coc().equals("")) {
+                                thoi_gian_coc = dateFormat.format(new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(hoa_don.getThoi_gian_coc()));
+                            } else {
+                                thoi_gian_coc = "";
+                            }
+                            if (!hoa_don.getThoi_gian_nhan_phong().equals("")) {
+                                thoi_gian_nhan_phong = dateFormat.format(new SimpleDateFormat("dd/MM/yyyy").parse(hoa_don.getThoi_gian_nhan_phong()));
+                            } else {
+                                thoi_gian_nhan_phong = "";
+                            }
 
 
+                            //  SimpleDateFormat dateFormat=new SimpleDateFormat("dd/MM/yyyy");
+
+                            //So sanh thoi gian thanh toan voi thoi gian hien tai
+                            if (dateFormat.format(now.getTime()).equals(thoi_gian_thanh_toan)) {
+                                da_thanh_toan++;
+
+                            } else {
+                                //So sanh thoi gian nhan phong voi thoi gian hien tai
+                                if (dateFormat.format(now.getTime()).equals(thoi_gian_nhan_phong)) {
+                                    chua_thanh_toan++;
+                                }
+                                //So sanh thoi gian coc voi thoi gian hien tai
+                                else if ((dateFormat.format(now.getTime()).equals(thoi_gian_coc))) {
+                                    coc++;
+                                }
+
+
+                            }
+                        } catch (ParseException e) {
+                            Log.e("Lỗi chuyển đổi dữ liệu thời gian thanh toán", e.getMessage());
                         }
-                    } catch (ParseException e) {
-                        Log.e("Lỗi chuyển đổi dữ liệu thời gian thanh toán", e.getMessage());
                     }
                 }
-
                 //thiet lap du lieu
                 tv_hoadondathanhtoan.setText("Hóa đơn đã thanh toán: " + da_thanh_toan);
                 tv_hoadonchuathanhtoan.setText("Hóa đơn đã thanh toán: " + chua_thanh_toan);
@@ -512,7 +509,7 @@ public class Fragment_Trangchu extends Fragment {
 
                                 if (phong.getId_trang_thai_phong().equals(trang_thai_phong.getId_trang_thai_phong())) {
 
-                                    if (trang_thai_phong.getTen_trang_thai().equals("Đang sử dụng")) {
+                                    if (trang_thai_phong.getTen_trang_thai().equals("Đang sử dụng") || trang_thai_phong.getTen_trang_thai().equals("Đang dọn") || trang_thai_phong.getTen_trang_thai().equals("Đang kiểm tra")) {
                                         hoat_dong[0]++;
 
                                     } else if (trang_thai_phong.getTen_trang_thai().equals("Sẵn sàng")) {

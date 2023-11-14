@@ -15,11 +15,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.example.tdchotel_manager.IOnClickItem;
+import com.example.tdchotel_manager.IOnItemClick;
 import com.example.tdchotel_manager.Menu_QuanLy.Adapter_NhanVien.NhanVien_Adapter;
 import com.example.tdchotel_manager.Menu_QuanLy.Adapter_NhanVien.ThemNhanVien;
 import com.example.tdchotel_manager.Menu_QuanLy.Adapter_NhanVien.ThongTinNhanVien;
@@ -43,6 +42,7 @@ public class Fragment_Nhanvien extends Fragment {
     ArrayList<nhan_vien> data = new ArrayList<>();
     DatabaseReference databaseReference;
     HashMap<String, String> chucVuMapping = new HashMap<>();
+    ProgressBar progressBarRCV;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -54,11 +54,15 @@ public class Fragment_Nhanvien extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerViewNhanVien);
         edtSearch = view.findViewById(R.id.edtSearch);
 
+        //Ánh xạ ProgressBarRCV
+        progressBarRCV = view.findViewById(R.id.progressBar_QLNV);
+        progressBarRCV.setVisibility(View.VISIBLE);
+
         // Thiết lập LayoutManager cho RecyclerView
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         // Thiết lập Adapter cho RecyclerView
-        adapter = new NhanVien_Adapter(data, chucVuMapping, new IOnClickItem() {
+        adapter = new NhanVien_Adapter(data, chucVuMapping, new IOnItemClick() {
             @Override
             public void OnItemClick(Object object) {
                 nhan_vien selectedNhanVien = (nhan_vien) object;
@@ -104,16 +108,22 @@ public class Fragment_Nhanvien extends Fragment {
                 // Lặp qua các phần tử trong dataSnapshot
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     nhan_vien nv = snapshot.getValue(nhan_vien.class);
-                    data.add(nv);
+                    if (nv != null && !nv.getId_chuc_vu().equals("3")) {
+                        data.add(nv); // Thêm nhân viên vào danh sách nếu không có id_chuc_vu là 3
+                    }
                 }
 
                 adapter.notifyDataSetChanged(); // Thông báo cho Adapter cập nhật dữ liệu
+
+                progressBarRCV.setVisibility(View.GONE);
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 // Xử lý khi có lỗi
                 Toast.makeText(getActivity(), "Lỗi: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+
+                progressBarRCV.setVisibility(View.GONE);
             }
         });
 

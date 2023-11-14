@@ -1,8 +1,10 @@
 package com.example.tdchotel_manager.Menu_QuanLy.Adapter_Phong;
 
 // Android imports
+
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -41,13 +44,13 @@ public class adapter_phong extends RecyclerView.Adapter<adapter_phong.MyViewHold
     private ArrayList<phong> danh_sach_phong_loc = new ArrayList<>();
     private OnItemLongClickListener onItemLongClickListener;
     private OnItemClickListener onItemClickListener;
-    ProgressBar progressBar,progressBar_itemphong;
+    ProgressBar progressBar, progressBar_itemphong;
 
     // Constructor
-    public adapter_phong(Context context,ProgressBar progressBar, ProgressBar progressBar_itemphong) {
+    public adapter_phong(Context context, ProgressBar progressBar, ProgressBar progressBar_itemphong) {
         this.context = context;
-        this.progressBar=progressBar;
-        this.progressBar_itemphong=progressBar_itemphong;
+        this.progressBar = progressBar;
+        this.progressBar_itemphong = progressBar_itemphong;
         khoi_tao();
     }
 
@@ -66,22 +69,17 @@ public class adapter_phong extends RecyclerView.Adapter<adapter_phong.MyViewHold
         return danh_sach_phong;
     }
 
-    public ArrayList<phong> getRoomList() {
-        return room_list;
-    }
 
     // Setters
     public void setOnItemLongClickListener(OnItemLongClickListener listener) {
         this.onItemLongClickListener = listener;
     }
-
     // RecyclerView required methods
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_item_phong, parent, false);
         return new MyViewHolder(itemView);
     }
-
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         // Bind data to views
@@ -115,9 +113,22 @@ public class adapter_phong extends RecyclerView.Adapter<adapter_phong.MyViewHold
             holder.progressBar_itemphong.setVisibility(View.GONE);
         }
         holder.tv_name_room.setText(String.valueOf(data.getTen_phong()));
-        holder.tv_price.setText(String.valueOf(data.getGia()));
-        holder.tv_price.setPaintFlags(holder.tv_price.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-        holder.tv_sale.setText(String.valueOf(data.getSale()) + " VNĐ");
+        java.text.DecimalFormat formatter = new java.text.DecimalFormat("#");
+        if (data.getSale()!=0){
+            holder.tv_sale.setVisibility(View.VISIBLE);
+            holder.tv_price.setTextColor(Color.GRAY);
+            holder.tv_price.setTextSize(13);
+            holder.tv_price.setPaintFlags(holder.tv_price.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            holder.tv_price.setText(String.valueOf(formatter.format(data.getGia())));
+            holder.tv_sale.setText(formatter.format(data.getSale()) + " VNĐ");
+        }
+        else {
+            holder.tv_price.setText(formatter.format(data.getGia())+ " VNĐ");
+            holder.tv_sale.setVisibility(View.GONE);
+            holder.tv_price.setTextColor(Color.RED);
+            holder.tv_price.setTextSize(15);
+            holder.tv_price.setPaintFlags(holder.tv_price.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+        }
         holder.tv_type_room.setText(data.getLoai_phong());
         holder.tv_status_room.setText(setStatusView(data.getId_trang_thai_phong()));
 
@@ -174,15 +185,6 @@ public class adapter_phong extends RecyclerView.Adapter<adapter_phong.MyViewHold
         room_list = filteredRoomList;
         notifyDataSetChanged();
     }
-//    public void filterRoomListByType(String type) {
-//        danh_sach_phong_loc.clear();
-//        for (phong room : danh_sach_phong) { // Đảm bảo bạn có danh sách phòng ban đầu để lọc từ đó
-//            if (room.getLoai_phong().equals(type)) {
-//                danh_sach_phong_loc.add(room);
-//            }
-//        }
-//        updateRoomList(danh_sach_phong_loc);
-//    }
     private void khoi_tao() {
         progressBar.setVisibility(View.VISIBLE);
         // Fetch data from Firebase
@@ -236,7 +238,7 @@ public class adapter_phong extends RecyclerView.Adapter<adapter_phong.MyViewHold
             tv_sale = itemView.findViewById(R.id.tv_sale);
             tv_type_room = itemView.findViewById(R.id.tv_type_room);
             tv_status_room = itemView.findViewById(R.id.tv_status_room);
-            progressBar_itemphong=itemView.findViewById(R.id.progressBar_itemphong);
+            progressBar_itemphong = itemView.findViewById(R.id.progressBar_itemphong);
         }
     }
 }

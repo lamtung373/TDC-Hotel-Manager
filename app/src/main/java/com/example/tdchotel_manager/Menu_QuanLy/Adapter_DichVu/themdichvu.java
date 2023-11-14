@@ -123,7 +123,7 @@ public class themdichvu extends AppCompatActivity {
     }
     private void saveEmployeeToFirebase(String imageUrl) {
         String idDichVu = mDatabaseRef.push().getKey();
-        String id_Loai_Dich_Vu = rdNguoi.isChecked() ? "Người" : "Phòng";
+        String id_Loai_Dich_Vu = rdNguoi.isChecked() ? "2" : "1";
         String tenDichVu = edtTenDv.getText().toString();
         int giaDichVu = Integer.parseInt(edtGiaDv.getText().toString());
 

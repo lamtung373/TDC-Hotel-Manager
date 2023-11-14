@@ -133,7 +133,7 @@ public class chinhsuadichvu extends AppCompatActivity {
                     Toast.makeText(chinhsuadichvu.this, "Giá không hợp lệ", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                String idChucVu = rdNguoi.isChecked() ? "Người" : "Phòng";
+                String idChucVu = rdNguoi.isChecked() ? "2" : "1";
 
                 // Cập nhật dữ liệu trên Firebase
                 DatabaseReference ref = FirebaseDatabase.getInstance().getReference("dich_vu").child(dichvuid);

@@ -1,15 +1,31 @@
 package com.example.tdchotel_manager.Model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-public class hoa_don {
-    String id_hoa_don, so_dien_thoai, id_phong, id_le_tan, id_lao_cong;
+public class hoa_don implements Serializable{
+    String id_hoa_don, so_dien_thoai, ten_khach_hang, id_phong, id_le_tan, id_lao_cong;
+
     ArrayList<String> CCCD;
     double tien_coc, tien_phong, tong_phi_dich_vu, tong_phi_dich_vu_phong, tong_phi_tien_nghi, tong_thanh_toan;
-    String thoi_gian_coc, thoi_gian_nhan_phong, thoi_gian_tra_phong, thoi_gian_huy, thoi_gian_thanh_toan;
+    String thoi_gian_coc;
+    String thoi_gian_nhan_phong;
+    String thoi_gian_tra_phong;
+    String thoi_gian_huy;
+    String thoi_gian_thanh_toan;
+    String thoi_gian_duyet;
+
+    public String getThoi_gian_duyet() {
+        return thoi_gian_duyet;
+    }
+
+    public void setThoi_gian_duyet(String thoi_gian_duyet) {
+        this.thoi_gian_duyet = thoi_gian_duyet;
+    }
+
 
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
@@ -19,6 +35,7 @@ public class hoa_don {
         result.put("thoi_gian_coc", thoi_gian_coc);
         result.put("thoi_gian_nhan_phong", thoi_gian_nhan_phong);
         result.put("thoi_gian_tra_phong", thoi_gian_tra_phong);
+        result.put("thoi_gian_duyet", thoi_gian_duyet);
 
         return result;
     }
@@ -26,9 +43,10 @@ public class hoa_don {
     }
 
     //đầy đủ thông tin
-    public hoa_don(String id_hoa_don, String so_dien_thoai, String id_phong, String id_le_tan, String id_lao_cong, ArrayList<String> CCCD, double tien_coc, double tien_phong, double tong_phi_dich_vu, double tong_phi_dich_vu_phong, double tong_phi_tien_nghi, double tong_thanh_toan, String thoi_gian_coc, String thoi_gian_nhan_phong, String thoi_gian_tra_phong, String thoi_gian_huy, String thoi_gian_thanh_toan) {
+    public hoa_don(String id_hoa_don, String so_dien_thoai, String ten_khach_hang, String id_phong, String id_le_tan, String id_lao_cong, ArrayList<String> CCCD, double tien_coc, double tien_phong, double tong_phi_dich_vu, double tong_phi_dich_vu_phong, double tong_phi_tien_nghi, double tong_thanh_toan, String thoi_gian_coc, String thoi_gian_nhan_phong, String thoi_gian_tra_phong, String thoi_gian_huy, String thoi_gian_thanh_toan, String thoi_gian_duyet) {
         this.id_hoa_don = id_hoa_don;
         this.so_dien_thoai = so_dien_thoai;
+        this.ten_khach_hang = ten_khach_hang;
         this.id_phong = id_phong;
         this.id_le_tan = id_le_tan;
         this.id_lao_cong = id_lao_cong;
@@ -44,6 +62,7 @@ public class hoa_don {
         this.thoi_gian_tra_phong = thoi_gian_tra_phong;
         this.thoi_gian_huy = thoi_gian_huy;
         this.thoi_gian_thanh_toan = thoi_gian_thanh_toan;
+        this.thoi_gian_duyet = thoi_gian_duyet;
     }
 
     public String getId_hoa_don() {
@@ -60,6 +79,14 @@ public class hoa_don {
 
     public void setSo_dien_thoai(String so_dien_thoai) {
         this.so_dien_thoai = so_dien_thoai;
+    }
+
+    public String getTen_khach_hang() {
+        return ten_khach_hang;
+    }
+
+    public void setTen_khach_hang(String ten_khach_hang) {
+        this.ten_khach_hang = ten_khach_hang;
     }
 
     public String getId_phong() {
