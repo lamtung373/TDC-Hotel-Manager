@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-public class hoa_don {
+public class hoa_don implements Serializable{
     String id_hoa_don, so_dien_thoai, ten_khach_hang, id_phong, id_le_tan, id_lao_cong;
 
     ArrayList<String> CCCD;
