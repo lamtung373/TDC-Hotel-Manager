@@ -142,8 +142,8 @@ public class Activity_XacNhanDatPhongDichVu extends AppCompatActivity {
                                 intent.putExtra("dich_vu_phong",adapterDvTheoPhong.getData_dv());
                                 intent.putExtra("phong",phong);
                                 startActivity(intent);
-                                Log.e("dvphong",""+adapterDvTheoPhong.getData_dv().get(0).getTen_dich_vu()+" "+adapterDvTheoPhong.getData_dv().get(0).isCheck());
-                                Log.e("dvphong",""+adapterDvTheoNguoi.getData_dv().get(0).getTen_dich_vu()+" "+adapterDvTheoNguoi.getData_dv().get(0).getSo_luong());
+                              //  Log.e("dvphong",""+adapterDvTheoPhong.getData_dv().get(0).getTen_dich_vu()+" "+adapterDvTheoPhong.getData_dv().get(0).isCheck());
+                              //  Log.e("dvphong",""+adapterDvTheoNguoi.getData_dv().get(0).getTen_dich_vu()+" "+adapterDvTheoNguoi.getData_dv().get(0).getSo_luong());
                             }
                         }
 
