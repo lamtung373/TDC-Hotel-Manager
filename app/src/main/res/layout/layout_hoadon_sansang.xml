@@ -61,18 +61,8 @@
                     android:textSize="15dp"
                     android:textStyle="bold" />
 
-<!--                <TextView-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginStart="20dp"-->
-<!--                    android:layout_marginTop="10dp"-->
-<!--                    android:layout_marginEnd="20dp"-->
-<!--                    android:text="Mã HĐ: XXXXX"-->
-<!--                    android:textColor="#000000"-->
-<!--                    android:textSize="15dp"-->
-<!--                    android:textStyle="bold" />-->
-
                 <TextView
+                    android:id="@+id/tvTenPhong_SS"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
@@ -100,6 +90,7 @@
                         android:textSize="13dp" />
 
                     <TextView
+                        android:id="@+id/tvNgayNhanPhong_SS"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -126,6 +117,7 @@
                         android:textSize="13dp" />
 
                     <TextView
+                        android:id="@+id/tvNgayTraPhong_SS"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -152,6 +144,7 @@
                         android:textSize="13dp" />
 
                     <TextView
+                        android:id="@+id/tvTienPhong_SS"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -172,6 +165,7 @@
                     android:textSize="13dp" />
 
                 <TextView
+                    android:id="@+id/tvTienNghi_SS"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
@@ -199,6 +193,7 @@
                     android:weightSum="3">
 
                     <TextView
+                        android:id="@+id/tvDichVu_a_SS"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
@@ -207,6 +202,7 @@
                         android:textSize="13dp" />
 
                     <TextView
+                        android:id="@+id/tvDichVu_b_SS"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -235,6 +231,7 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/tvTongHD_SS"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -246,6 +243,7 @@
                 </LinearLayout>
 
                 <TextView
+                    android:id="@+id/tvNgayTaoHD_SS"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
@@ -272,6 +270,7 @@
             android:textStyle="bold" />
 
         <EditText
+            android:id="@+id/edtHoTenKH_SS"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginLeft="20dp"
@@ -287,6 +286,7 @@
             android:textStyle="italic" />
 
         <EditText
+            android:id="@+id/edtSoDTKH_SS"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginLeft="20dp"
@@ -294,7 +294,7 @@
             android:layout_marginRight="20dp"
             android:background="@drawable/border_button_nhanvien"
             android:hint="Số Điện Thoại"
-            android:inputType="text"
+            android:inputType="number"
             android:paddingStart="20dp"
             android:paddingEnd="20dp"
             android:textColor="#000000"
@@ -315,6 +315,7 @@
                 android:orientation="vertical">
 
                 <ImageView
+                    android:id="@+id/imgCCCD_Truoc_SS"
                     android:layout_width="100dp"
                     android:layout_height="80dp"
                     android:src="@drawable/cccd" />
@@ -334,6 +335,7 @@
                 android:orientation="vertical">
 
                 <ImageView
+                    android:id="@+id/imgCCCD_Sau_SS"
                     android:layout_width="100dp"
                     android:layout_height="80dp"
                     android:src="@drawable/cccd" />
@@ -350,6 +352,7 @@
         </LinearLayout>
 
         <Button
+            android:id="@+id/btnDatPhong_SS"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_gravity="center"

@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.example.tdchotel_manager.Le_Tan.Activity_HoaDon.Activity_HoaDon_SanSang;
 import com.example.tdchotel_manager.Le_Tan.Adapter.Adapter_DVTheoNguoi;
 import com.example.tdchotel_manager.Le_Tan.Adapter.Adapter_DVTheoPhong;
 import com.example.tdchotel_manager.Menu_QuanLy.Activity_NghiLam;
@@ -133,14 +134,14 @@ public class Activity_XacNhanDatPhongDichVu extends AppCompatActivity {
                                     }
 
                                 }
-                                Intent intent=new Intent(Activity_XacNhanDatPhongDichVu.this,Activity_XacNhanDatPhongDichVu.class);
+                                Intent intent = new Intent(Activity_XacNhanDatPhongDichVu.this, Activity_HoaDon_SanSang.class);
                                 intent.putExtra("thoi_gian_nhan",btnNgayNhan.getText().toString());
                                 intent.putExtra("thoi_gian_tra",btnNgayTra.getText().toString());
                                 intent.putExtra("so_luong_khach",edtSonguoi.getText().toString());
                                 intent.putExtra("dich_vu_theo_nguoi",adapterDvTheoNguoi.getData_dv());
                                 intent.putExtra("dich_vu_phong",adapterDvTheoPhong.getData_dv());
                                 intent.putExtra("phong",phong);
-                                //  startActivity(intent);
+                                startActivity(intent);
                                 Log.e("dvphong",""+adapterDvTheoPhong.getData_dv().get(0).getTen_dich_vu()+" "+adapterDvTheoPhong.getData_dv().get(0).isCheck());
                                 Log.e("dvphong",""+adapterDvTheoNguoi.getData_dv().get(0).getTen_dich_vu()+" "+adapterDvTheoNguoi.getData_dv().get(0).getSo_luong());
                             }
