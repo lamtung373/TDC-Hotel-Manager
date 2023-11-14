@@ -199,23 +199,22 @@ public class adapter_phong extends RecyclerView.Adapter<adapter_phong.MyViewHold
                     phong rooms = dataSnapshot.getValue(phong.class);
                     if (rooms != null) room_list.add(rooms);
                 }
-
-                reference_status.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        status_list.clear();
-                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                            trang_thai_phong status = dataSnapshot.getValue(trang_thai_phong.class);
-                            if (status != null) status_list.add(status);
-                        }
-                        notifyDataSetChanged();
-                        progressBar.setVisibility(View.GONE);
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                    }
-                });
+                notifyDataSetChanged();
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+        reference_status.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                status_list.clear();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    trang_thai_phong status = dataSnapshot.getValue(trang_thai_phong.class);
+                    if (status != null) status_list.add(status);
+                }
+                notifyDataSetChanged();
+                progressBar.setVisibility(View.GONE);
             }
 
             @Override

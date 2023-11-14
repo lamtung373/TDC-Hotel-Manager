@@ -133,7 +133,7 @@ public class adapter_don_thuong_nhat extends RecyclerView.Adapter<adapter_don_th
                 clean_rooms.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     phong room = dataSnapshot.getValue(phong.class);
-                    if (room != null) {
+                    if (room != null && room.getId_trang_thai_phong()=="1") {
                         if (!today.equals(room.getNgay_don_phong())) {
                             clean_rooms.add(room);
                         }

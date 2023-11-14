@@ -39,7 +39,7 @@ public class phong implements Serializable{
         result.put("mo_ta_chung", mo_ta_chung);
         result.put("anh_phong", anh_phong);
         result.put("loai_phong", loai_phong);
-        result.put("trang_thai", id_trang_thai_phong);
+        result.put("id_trang_thai_phong", id_trang_thai_phong);
         result.put("luot_thue", luot_thue);
         result.put("gia", gia);
         result.put("sale", sale);

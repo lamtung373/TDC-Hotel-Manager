@@ -12,7 +12,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.tdchotel_manager.Model.chi_tiet_tien_nghi;
+import com.example.tdchotel_manager.Model.chi_tiet_dich_vu_phong;
+import com.example.tdchotel_manager.Model.dich_vu_phong;
 import com.example.tdchotel_manager.Model.tien_nghi;
 import com.example.tdchotel_manager.R;
 import com.google.firebase.database.DataSnapshot;
@@ -23,29 +24,29 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class adapter_getchitiettiennghi extends RecyclerView.Adapter<adapter_getchitiettiennghi.MyViewHolder> {
-    private ArrayList<tien_nghi> dataList = new ArrayList<>();
+public class adapter_getchitietdichvuphong extends RecyclerView.Adapter<adapter_getchitietdichvuphong.MyViewHolder> {
+    private ArrayList<dich_vu_phong> dataList = new ArrayList<>();
     String idphong;
 
     // Constructor để khởi tạo adapter và gọi phương thức GoiDuLieu để lấy dữ liệu
-    public adapter_getchitiettiennghi(String idphong) {
+    public adapter_getchitietdichvuphong(String idphong) {
         this.idphong = idphong;
         GoiDuLieu(this.idphong);
     }
 
     @NonNull
     @Override
-    public adapter_getchitiettiennghi.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public adapter_getchitietdichvuphong.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_item_chi_tiet_tien_nghi_va_dich_vu_phong, parent, false);
-        return new adapter_getchitiettiennghi.MyViewHolder(itemView);
+        return new adapter_getchitietdichvuphong.MyViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull adapter_getchitiettiennghi.MyViewHolder holder, int position) {
-        tien_nghi tienNghi = dataList.get(position);
-        if (tienNghi.getSo_luong()>0) {
-            holder.tv_ten_tien_nghi.setText(tienNghi.getTen_tien_nghi());
-            holder.edt_so_luong.setText(String.valueOf(tienNghi.getSo_luong()));
+    public void onBindViewHolder(@NonNull adapter_getchitietdichvuphong.MyViewHolder holder, int position) {
+        dich_vu_phong DVP = dataList.get(position);
+        if (DVP.getSo_luong()>0) {
+            holder.tv_ten_dich_vu_phong.setText(DVP.getTen_dich_vu_phong());
+            holder.edt_so_luong.setText(String.valueOf(DVP.getSo_luong()));
         }
     }
 
@@ -55,13 +56,13 @@ public class adapter_getchitiettiennghi extends RecyclerView.Adapter<adapter_get
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView tv_ten_tien_nghi;
+        TextView tv_ten_dich_vu_phong;
         EditText edt_so_luong;
         ImageButton ib_increase, ib_decrease;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            tv_ten_tien_nghi = itemView.findViewById(R.id.tv_chitiet);
+            tv_ten_dich_vu_phong = itemView.findViewById(R.id.tv_chitiet);
             edt_so_luong = itemView.findViewById(R.id.edt_so_luong);
             edt_so_luong.setEnabled(false);
             edt_so_luong.setTextColor(Color.BLACK);
@@ -74,33 +75,33 @@ public class adapter_getchitiettiennghi extends RecyclerView.Adapter<adapter_get
 
     public void GoiDuLieu(String idPhong) {
         // Gọi danh sách tiện nghi
-        DatabaseReference tienNghiReference = FirebaseDatabase.getInstance().getReference("tien_nghi");
+        DatabaseReference tienNghiReference = FirebaseDatabase.getInstance().getReference("dich_vu_phong");
         tienNghiReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot tienNghiSnapshot) {
                 dataList.clear(); // Xóa dữ liệu cũ trước khi thêm dữ liệu mới để tránh trùng lặp
 
                 for (DataSnapshot dataSnapshot : tienNghiSnapshot.getChildren()) {
-                    tien_nghi tienNghi = dataSnapshot.getValue(tien_nghi.class);
-                    if (tienNghi != null) {
-                        dataList.add(tienNghi);
+                    dich_vu_phong dichVuPhong = dataSnapshot.getValue(dich_vu_phong.class);
+                    if (dichVuPhong != null) {
+                        dataList.add(dichVuPhong);
                     }
                 }
 
                 // Gọi danh sách chi tiết tiện nghi dựa trên idPhong
-                DatabaseReference chiTietTienNghiReference = FirebaseDatabase.getInstance().getReference("chi_tiet_tien_nghi").child(idPhong);
-                chiTietTienNghiReference.addValueEventListener(new ValueEventListener() {
+                DatabaseReference chiTietDichVuPhongReference = FirebaseDatabase.getInstance().getReference("chi_tiet_dich_vu_phong").child(idPhong);
+                chiTietDichVuPhongReference.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot chiTietTienNghiSnapshot) {
-                        ArrayList<chi_tiet_tien_nghi> newChiTietTienNghis = new ArrayList<>();
+                        ArrayList<chi_tiet_dich_vu_phong> chiTietDVP = new ArrayList<>();
 
                         for (DataSnapshot facilitySnapshot : chiTietTienNghiSnapshot.getChildren()) {
-                            chi_tiet_tien_nghi comfortDetail = facilitySnapshot.getValue(chi_tiet_tien_nghi.class);
+                            chi_tiet_dich_vu_phong comfortDetail = facilitySnapshot.getValue(chi_tiet_dich_vu_phong.class);
                             if (comfortDetail != null) {
-                                newChiTietTienNghis.add(comfortDetail);
+                                chiTietDVP.add(comfortDetail);
                             }
-                            for (tien_nghi ct : dataList) {
-                                if (ct.getId_tien_nghi().equals(comfortDetail.getId_tien_nghi())) {
+                            for (dich_vu_phong ct : dataList) {
+                                if (ct.getId_dich_vu_phong().equals(comfortDetail.getId_dich_vu_phong())) {
                                     ct.setSo_luong(comfortDetail.getSo_luong());
                                 }
                             }
@@ -123,3 +124,4 @@ public class adapter_getchitiettiennghi extends RecyclerView.Adapter<adapter_get
         });
     }
 }
+

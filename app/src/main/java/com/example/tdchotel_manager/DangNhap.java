@@ -26,6 +26,7 @@ import com.google.firebase.database.ValueEventListener;
 public class DangNhap extends AppCompatActivity {
     public static String SHARED_PRE = "shared_pre";
     public static String id_staff = "id_staff";
+    public static String name_staff = "name_staff";
     public static String chuc_vu_auto = "chuc_vu_auto";
     ProgressBar progressBar;
 
@@ -44,6 +45,7 @@ public class DangNhap extends AppCompatActivity {
     private void AutoLogin() {
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PRE, MODE_PRIVATE);
         String id_staff_auto = sharedPreferences.getString("id_staff", "");
+        String name_staff_staff_auto = sharedPreferences.getString("name_staff", "");
         String chuc_vu_auto = sharedPreferences.getString("chuc_vu_auto", "");
         switch (chuc_vu_auto.toLowerCase()) {
             case "lao công":
@@ -125,6 +127,7 @@ public class DangNhap extends AppCompatActivity {
                     if (cv != null && nhanVien.getId_chuc_vu().equals(cv.getId_chuc_vu())) {
                         editor.putString(id_staff, nhanVien.getId_nhan_vien());
                         editor.putString(chuc_vu_auto, cv.getTen_chuc_vu());
+                        editor.putString(name_staff, nhanVien.getTen_nhan_vien());
                         editor.apply();
 
                         switch (cv.getTen_chuc_vu().toLowerCase()) {
