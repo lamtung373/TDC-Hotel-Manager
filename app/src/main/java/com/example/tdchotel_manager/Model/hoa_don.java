@@ -36,6 +36,7 @@ public class hoa_don implements Serializable{
         result.put("thoi_gian_nhan_phong", thoi_gian_nhan_phong);
         result.put("thoi_gian_tra_phong", thoi_gian_tra_phong);
         result.put("thoi_gian_duyet", thoi_gian_duyet);
+        result.put("thoi_gian_huy", thoi_gian_huy);
 
         return result;
     }
