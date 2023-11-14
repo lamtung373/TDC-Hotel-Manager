@@ -1,5 +1,6 @@
 package com.example.tdchotel_manager.Model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -7,6 +8,7 @@ import java.util.Map;
 
 public class hoa_don {
     String id_hoa_don, so_dien_thoai, ten_khach_hang, id_phong, id_le_tan, id_lao_cong;
+
     ArrayList<String> CCCD;
     double tien_coc, tien_phong, tong_phi_dich_vu, tong_phi_dich_vu_phong, tong_phi_tien_nghi, tong_thanh_toan;
     String thoi_gian_coc;
