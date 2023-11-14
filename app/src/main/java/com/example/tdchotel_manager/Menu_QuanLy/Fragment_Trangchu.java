@@ -299,7 +299,7 @@ public class Fragment_Trangchu extends Fragment {
                             thoi_gian_thanh_toan = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(hoa_don.getThoi_gian_thanh_toan());
 
                             //Chuyen doi thoi gian coc tu firebase
-                            thoi_gian_coc = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(hoa_don.getThoi_gian_coc());
+                         //   thoi_gian_coc = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(hoa_don.getThoi_gian_coc());
 
                             //Lay thoi gian hien tai
                             Date now = new Date();
@@ -311,13 +311,6 @@ public class Fragment_Trangchu extends Fragment {
                                 phong += hoa_don.getTien_phong();
                                 dich_vu += hoa_don.getTong_phi_dich_vu();
                                 dich_vu_phong += hoa_don.getTong_phi_dich_vu_phong();
-                            } else {
-
-                                //So sanh thoi gian coc voi thoi gian hien tai
-                                if (dateFormat.format(now.getTime()).equals(dateFormat.format(thoi_gian_coc.getTime()))) {
-                                    phong += hoa_don.getTien_coc();
-                                }
-
                             }
                         } catch (ParseException e) {
                             Log.e("Lỗi chuyển đổi dữ liệu thời gian thanh toán", e.getMessage());
