@@ -26,6 +26,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
 
 import me.relex.circleindicator.CircleIndicator3;
 
@@ -57,66 +58,77 @@ public class Activity_Chi_Tiet_Phong extends AppCompatActivity {
         btnDatphong.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(Activity_Chi_Tiet_Phong.this,Activity_XacNhanDatPhongDichVu.class);
-                intent.putExtra("phong",phong);
+                Intent intent = new Intent(Activity_Chi_Tiet_Phong.this, Activity_XacNhanDatPhongDichVu.class);
+                intent.putExtra("phong", phong);
                 startActivity(intent);
             }
         });
     }
 
     private void Initialization() {
-        //Lay du lieu duoc truyen tu man hinh danh sach phong san sang
-
-        //Chuyen anh
-        if (phong.getAnh_phong() != null && !phong.getAnh_phong().isEmpty()) {
-            Photo_Adapter adapter = new Photo_Adapter(phong.getAnh_phong());
-            vpiv.setAdapter(adapter);
-            ci.setViewPager(vpiv);
-        }
-        //Tao hieu ung khi chuyen anh
-        vpiv.setOffscreenPageLimit(3);
-        vpiv.setClipToPadding(false);
-        vpiv.setClipChildren(false);
-        CompositePageTransformer compositePageTransformer = new CompositePageTransformer();
-        compositePageTransformer.addTransformer(new MarginPageTransformer(40));
-        compositePageTransformer.addTransformer(new ViewPager2.PageTransformer() {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("phong").child(phong.getId_phong());
+        reference.addValueEventListener(new ValueEventListener() {
             @Override
-            public void transformPage(@NonNull View page, float position) {
-                float r = 1 - Math.abs(position);
-                page.setScaleY(0.85f + r * 0.15f);
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                phong phong = snapshot.getValue(phong.class);
+                //Lay du lieu duoc truyen tu man hinh danh sach phong san sang
+
+                //Chuyen anh
+                if (phong.getAnh_phong() != null && !phong.getAnh_phong().isEmpty()) {
+                    Photo_Adapter adapter = new Photo_Adapter(phong.getAnh_phong());
+                    vpiv.setAdapter(adapter);
+                    ci.setViewPager(vpiv);
+                }
+                //Tao hieu ung khi chuyen anh
+                vpiv.setOffscreenPageLimit(3);
+                vpiv.setClipToPadding(false);
+                vpiv.setClipChildren(false);
+                CompositePageTransformer compositePageTransformer = new CompositePageTransformer();
+                compositePageTransformer.addTransformer(new MarginPageTransformer(40));
+                compositePageTransformer.addTransformer(new ViewPager2.PageTransformer() {
+                    @Override
+                    public void transformPage(@NonNull View page, float position) {
+                        float r = 1 - Math.abs(position);
+                        page.setScaleY(0.85f + r * 0.15f);
+                    }
+                });
+                vpiv.setPageTransformer(compositePageTransformer);
+
+                //Tu dong chuyen anh
+                AutoSlideImage();
+
+                //Gach ngang chu
+                java.text.DecimalFormat formatter = new java.text.DecimalFormat("#");
+                if (phong.getSale() != 0) {
+                    tvGiacu.setPaintFlags(tvGiacu.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                    tvGiacu.setText(formatter.format(phong.getGia()) + "đ/đêm");
+                    //Giá
+                    tvGiamoi.setText(formatter.format(phong.getSale()) + "đ/đêm");
+                } else {
+                    tvGiamoi.setVisibility(View.GONE);
+                    tvGiacu.setText(formatter.format(phong.getGia()) + "đ/đêm");
+                }
+
+                //Tên phòng
+                tv_tenphong.setText(phong.getTen_phong());
+
+
+                //Tiện nghi
+                LayDuLieuTienNghi(phong.getId_phong());
+
+                //Mô tả
+                tv_mota.setText(phong.getMo_ta_chung());
+
+                //Đánh giá
+                tv_danhgia.setText(phong.getDanh_gia_sao() + "");
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
-        vpiv.setPageTransformer(compositePageTransformer);
 
-        //Tu dong chuyen anh
-        AutoSlideImage();
-
-        //Gach ngang chu
-        java.text.DecimalFormat formatter = new java.text.DecimalFormat("#");
-        if(phong.getSale()!=0){
-            tvGiacu.setPaintFlags(tvGiacu.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-            tvGiacu.setText(formatter.format(phong.getGia()) + "đ/đêm");
-            //Giá
-            tvGiamoi.setText(formatter.format(phong.getSale()) + "đ/đêm");
-        }
-        else {
-            tvGiamoi.setVisibility(View.GONE);
-            tvGiacu.setText(formatter.format(phong.getGia()) + "đ/đêm");
-        }
-
-        //Tên phòng
-        tv_tenphong.setText(phong.getTen_phong());
-
-
-
-        //Tiện nghi
-        LayDuLieuTienNghi(phong.getId_phong());
-
-        //Mô tả
-        tv_mota.setText(phong.getMo_ta_chung());
-
-        //Đánh giá
-        tv_danhgia.setText(phong.getDanh_gia_sao() + "");
     }
 
     void LayDuLieuTienNghi(String id_phong) {
@@ -137,8 +149,8 @@ public class Activity_Chi_Tiet_Phong extends AppCompatActivity {
                                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                                     tien_nghi tien_nghi = dataSnapshot.getValue(tien_nghi.class);
                                     if (chiTietTienNghi.getId_tien_nghi().equals(tien_nghi.getId_tien_nghi())) {
-                                      //  Log.e("a", "" + tien_nghi.getTen_tien_nghi());
-                                        tiennghi[0] += "\u2022  "+chiTietTienNghi.getSo_luong()+" " + tien_nghi.getTen_tien_nghi() + " \n";
+                                        //  Log.e("a", "" + tien_nghi.getTen_tien_nghi());
+                                        tiennghi[0] += "\u2022  " + chiTietTienNghi.getSo_luong() + " " + tien_nghi.getTen_tien_nghi() + " \n";
                                         tv_tiennghi.setText(tiennghi[0]);
                                     }
 
