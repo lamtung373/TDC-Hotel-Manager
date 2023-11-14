@@ -186,6 +186,11 @@ public class Activity_XacNhanDatPhongDichVu extends AppCompatActivity {
     }
 
     private void Initialization() {
+        Calendar calendar=Calendar.getInstance();
+        SimpleDateFormat dateFormat=new SimpleDateFormat("dd/MM/yyyy");
+        btnNgayNhan.setText(dateFormat.format(calendar.getTime()));
+        calendar.roll(Calendar.DATE,1);
+        btnNgayTra.setText(dateFormat.format(calendar.getTime()));
         edtSonguoi.setFocusable(false);
         rcv_dvtheonguoi.setLayoutManager(new LinearLayoutManager(Activity_XacNhanDatPhongDichVu.this, LinearLayoutManager.VERTICAL, false));
         rcv_dvtheonguoi.addItemDecoration(new DividerItemDecoration(Activity_XacNhanDatPhongDichVu.this, DividerItemDecoration.VERTICAL));
