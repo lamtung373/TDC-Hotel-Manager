@@ -145,11 +145,25 @@
 
 
         </LinearLayout>
+        <LinearLayout
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
         <Button
+            android:layout_marginRight="20dp"
             android:layout_gravity="center"
             android:id="@+id/btnXacNhanTraPhong"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="trả phòng" />
+        <Button
+
+            android:layout_gravity="center"
+            android:id="@+id/btnXacNhanThanhToan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="thanh toán" />
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>
