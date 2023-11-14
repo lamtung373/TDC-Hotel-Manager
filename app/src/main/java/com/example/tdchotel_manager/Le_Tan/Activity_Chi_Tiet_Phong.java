@@ -59,7 +59,7 @@ public class Activity_Chi_Tiet_Phong extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent=new Intent(Activity_Chi_Tiet_Phong.this,Activity_XacNhanDatPhongDichVu.class);
                 intent.putExtra("phong",phong);
-              //  startActivity(intent);
+                startActivity(intent);
             }
         });
     }
