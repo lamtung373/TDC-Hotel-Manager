@@ -53,12 +53,12 @@ public class adapter_dvphong extends RecyclerView.Adapter<adapter_dvphong.DVTheo
             holder.cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                    if (b) {
-                        data_dv.get(holder.getAdapterPosition()).setCheck(true);
-                    }
-                    else{
-                        data_dv.get(holder.getAdapterPosition()).setCheck(false);
-                    }
+//                    if (b) {
+//                        data_dv.get(holder.getAdapterPosition()).setCheck(true);
+//                    }
+//                    else{
+//                        data_dv.get(holder.getAdapterPosition()).setCheck(false);
+//                    }
                 }
             });
         }

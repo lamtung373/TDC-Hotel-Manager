@@ -72,7 +72,7 @@ public class DuyetCocAdapter extends RecyclerView.Adapter<DuyetCocAdapter.DaDatV
         holder.tvNgayDatPhong.setText(hoaDon.getThoi_gian_nhan_phong().toString());
         holder.tvNgayNghi.setText(hoaDon.getThoi_gian_tra_phong().toString());
         holder.edtTienDaTra.setText(hoaDon.getTien_coc() + "");
-        holder.tvTienTong.setText(hoaDon.getTong_thanh_toan() + " Đ");
+        holder.tvTienTong.setText(hoaDon.getTong_thanh_toan() + " đ (Phải trả: " + hoaDon.getTien_phong() / 2 + "đ)");
         for (int i = 0; i < phongList.size(); i++) {
             if (phongList.get(i).getId_phong().equals(hoaDon.getId_phong())) {
                 holder.tv_name_room.setText(phongList.get(i).getTen_phong());
