@@ -1,5 +1,7 @@
 package com.example.tdchotel_manager.Le_Tan;
 
+import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +12,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.tdchotel_manager.Le_Tan.Activity_HoaDon.Activity_HoaDon_DaDat;
+import com.example.tdchotel_manager.Le_Tan.Activity_HoaDon.Activity_HoaDon_DuyetCoc;
 import com.example.tdchotel_manager.Menu_QuanLy.LichLamAdapter;
 import com.example.tdchotel_manager.Model.hoa_don;
 import com.example.tdchotel_manager.Model.khach_hang;
@@ -19,20 +23,21 @@ import com.example.tdchotel_manager.R;
 
 import java.util.List;
 
-public class DaDatAdapter extends RecyclerView.Adapter<DaDatAdapter.DaDatViewHolder>{
+public class DaDatAdapter extends RecyclerView.Adapter<DaDatAdapter.DaDatViewHolder> {
     private List<hoa_don> hoaDonList;
     private List<phong> phongList;
     private List<khach_hang> khachHangList;
-
+    private Context mContext;
 
     @NonNull
     @Override
     public DaDatViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.custom_da_dat,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.custom_da_dat, parent, false);
         return new DaDatAdapter.DaDatViewHolder(view);
     }
 
-    public DaDatAdapter(List<hoa_don> hoaDonList, List<phong> phongList, List<khach_hang> khachHangList) {
+    public DaDatAdapter(Context context, List<hoa_don> hoaDonList, List<phong> phongList, List<khach_hang> khachHangList) {
+        mContext = context;
         this.hoaDonList = hoaDonList;
         this.phongList = phongList;
         this.khachHangList = khachHangList;
@@ -40,48 +45,51 @@ public class DaDatAdapter extends RecyclerView.Adapter<DaDatAdapter.DaDatViewHol
 
     @Override
     public void onBindViewHolder(@NonNull DaDatViewHolder holder, int position) {
-        hoa_don hoaDon  = hoaDonList.get(position);
-        if(hoaDon==null)
-        {
+        hoa_don hoaDon = hoaDonList.get(position);
+        if (hoaDon == null) {
             return;
         }
         holder.tvMaHoaDon.setText(hoaDon.getId_hoa_don().toString());
         holder.tvNgayDatPhong.setText(hoaDon.getThoi_gian_nhan_phong().toString());
         holder.tvNgayNghi.setText(hoaDon.getThoi_gian_tra_phong().toString());
-        holder.tvTienDaTra.setText(hoaDon.getTien_coc()+" Đ");
-        holder.tvTienTong.setText(hoaDon.getTong_thanh_toan()+" Đ");
-        for (int i = 0; i < phongList.size(); i++)
-        {
-            if(phongList.get(i).getId_phong().equals(hoaDon.getId_phong())) {
+        holder.tvTienDaTra.setText(hoaDon.getTien_coc() + "đ");
+        holder.tvTienTong.setText(hoaDon.getTong_thanh_toan() + " đ");
+        for (int i = 0; i < phongList.size(); i++) {
+            if (phongList.get(i).getId_phong().equals(hoaDon.getId_phong())) {
                 holder.tv_name_room.setText(phongList.get(i).getTen_phong());
                 break;
             }
         }
-        for (int i = 0; i < khachHangList.size(); i++)
-        {
-            if(khachHangList.get(i).getSo_dien_thoai().equals(hoaDon.getSo_dien_thoai()))
-            {
+        for (int i = 0; i < khachHangList.size(); i++) {
+            if (khachHangList.get(i).getSo_dien_thoai().equals(hoaDon.getSo_dien_thoai())) {
                 holder.tvTenNguoiDung.setText(khachHangList.get(i).getTen());
                 break;
             }
         }
+        holder.btnNhanPhong.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, Activity_HoaDon_DaDat.class);
+                intent.putExtra("id_hd", hoaDon.getId_hoa_don());
+                mContext.startActivity(intent);
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        if(hoaDonList != null)
-        {
-            Log.e("be",hoaDonList.size()+"s");
-            return  hoaDonList.size();
+        if (hoaDonList != null) {
+            Log.e("be", hoaDonList.size() + "s");
+            return hoaDonList.size();
 
         }
         return 0;
     }
 
-    class DaDatViewHolder extends RecyclerView.ViewHolder
-    {
+    class DaDatViewHolder extends RecyclerView.ViewHolder {
         TextView tv_name_room, tvMaHoaDon, tvTenNguoiDung, tvNgayDatPhong, tvNgayNghi, tvTienDaTra, tvTienTong;
         Button btnNhanPhong;
+
         public DaDatViewHolder(@NonNull View itemView) {
             super(itemView);
             tv_name_room = itemView.findViewById(R.id.tv_name_room);

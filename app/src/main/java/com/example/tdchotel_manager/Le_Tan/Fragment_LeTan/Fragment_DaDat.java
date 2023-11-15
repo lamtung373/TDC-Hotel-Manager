@@ -103,7 +103,7 @@ public class Fragment_DaDat extends Fragment {
         LoadPhong();
         LoadKhachHang();
 
-        daDatAdapter = new DaDatAdapter(hoaDonList,phongList,khachHangList);
+        daDatAdapter = new DaDatAdapter(getActivity(),hoaDonList,phongList,khachHangList);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         rcv_roomlist.setLayoutManager(linearLayoutManager);
         RecyclerView.ItemDecoration decoration = new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL);
