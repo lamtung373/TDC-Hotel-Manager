@@ -2,6 +2,7 @@ package com.example.tdchotel_manager.Le_Tan.Activity_HoaDon;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -60,8 +61,10 @@ public class Activity_HoaDon_SanSang extends AppCompatActivity {
     private DatabaseReference mDatabaseRef;
     private StorageReference mStorageRef;
     phong phong;
-    String ngayNhan, ngayTra, soLuongKhach;
+    String ngayNhan, ngayTra, soLuongKhach, id_account;
+    public static String SHARED_PRE = "shared_pre";
     ArrayList<dich_vu> dichVuTheoNguoi, dichVuTheoPhong;
+    double tienPhong = 0;
 
     //TỔNG HOÁ ĐƠN
     double tongHD = 0;
@@ -70,6 +73,8 @@ public class Activity_HoaDon_SanSang extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_hoadon_sansang);
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PRE, MODE_PRIVATE);
+        id_account = sharedPreferences.getString("id_staff", "");
         //Lấy dữ liệu từ màn hình trước
         Intent intent = getIntent();
         phong = (phong) intent.getSerializableExtra("phong");
@@ -103,7 +108,6 @@ public class Activity_HoaDon_SanSang extends AppCompatActivity {
             int soNgayLuuTru = (int) (diff / (24 * 60 * 60 * 1000));
 
             // Hiển thị hoặc sử dụng giá trị tienPhong như mong muốn
-            double tienPhong;
             if (phong.getSale() > 0) {
                 tienPhong = phong.getSale() * soNgayLuuTru;
                 tvTienPhong.setText(MessageFormat.format("{0}đ", tienPhong));
@@ -241,7 +245,7 @@ public class Activity_HoaDon_SanSang extends AppCompatActivity {
     private void luuHoaDonToFirebase(ArrayList<String> cccdImages) {
         String id = mDatabaseRef.push().getKey();
         String id_laocong = "";
-        String id_letan = "";
+        String id_letan = id_account;
         String id_phong = phong.getId_phong();
         String soDienThoai = edtSoDTKD.getText().toString();
         String tenKhachHang = edtHoTenKH.getText().toString();
@@ -257,30 +261,8 @@ public class Activity_HoaDon_SanSang extends AppCompatActivity {
         String thoiGianNhanPhong = thoiGianNhan;
 
         String thoiGianThanhToan = "";
-        String thoiGianTraPhong = "";
+        String thoiGianTraPhong = ngayTra;
         double tienCoc = 0;
-
-        double tienPhong = 0;
-        try {
-            // Chuyển đổi String sang Date
-            Date dateNhan = sdf.parse(ngayNhan);
-            Date dateTra = sdf.parse(ngayTra);
-
-            // Tính số ngày lưu trú
-            long diff = dateTra.getTime() - dateNhan.getTime();
-            int soNgayLuuTru = (int) (diff / (24 * 60 * 60 * 1000));
-
-            // Hiển thị hoặc sử dụng giá trị tienPhong như mong muốn
-            if (phong.getSale() > 0) {
-                tienPhong = phong.getSale() * soNgayLuuTru;
-            } else {
-                tienPhong = phong.getGia() * soNgayLuuTru;
-            }
-
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
         double phiDichVu = 0;
         for (dich_vu dv : dichVuTheoNguoi) {
             if (dv.getSo_luong() > 0) {
