@@ -57,18 +57,27 @@ public class apdapter_don_kiemtra extends RecyclerView.Adapter<apdapter_don_kiem
                     for (DataSnapshot childSnapshot : snapshot_hoadon.getChildren()) {
                         String id_phong = childSnapshot.child("id_phong").getValue(String.class);
                         String id_hoa_don = childSnapshot.child("id_hoa_don").getValue(String.class);
-                        reference_phong.child(id_phong).addListenerForSingleValueEvent(new ValueEventListener() {
+                        reference_phong.child(id_phong).addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                 if (dataSnapshot.exists()) {
                                     // Lấy dữ liệu phòng
                                     phong room = dataSnapshot.getValue(phong.class);
-                                    if (room != null && ("5".equals(room.getId_trang_thai_phong()) || "6".equals(room.getId_trang_thai_phong()))) {
-                                        clean_room_list.add(room);
-                                        list_id_hoa_don.add(id_hoa_don);
-                                        // Cập nhật giao diện sau khi lấy được phòng
-                                        notifyDataSetChanged();
+                                    if (("5".equals(room.getId_trang_thai_phong()) || "6".equals(room.getId_trang_thai_phong()))) {
+                                        if (clean_room_list.contains(room)) {
+                                            int index = clean_room_list.indexOf(room);
+                                            clean_room_list.set(index, room); // Thay thế đối tượng tại vị trí tìm thấy
+                                        } else {
+                                            clean_room_list.add(room); // Thêm sách mới nếu không tìm thấy
+                                            list_id_hoa_don.add(id_hoa_don);
+                                        }
+                                    }else {
+                                        if (clean_room_list.contains(room)) {
+                                            clean_room_list.remove(room); // Xóa phòng khỏi danh sách nếu trạng thái khác 5 và 6
+                                        }
                                     }
+                                    // Cập nhật giao diện sau khi lấy được phòng
+                                    notifyDataSetChanged();
                                 }
                             }
 

@@ -34,8 +34,8 @@ import java.util.Date;
 public class adapter_don_thuong_nhat extends RecyclerView.Adapter<adapter_don_thuong_nhat.MyViewHolder> {
     ArrayList<phong> clean_rooms = new ArrayList<>();
     Context context;
-    String today = "";
 
+    String today = "";
     public adapter_don_thuong_nhat(Context context) {
         this.context=context;
         khoitao();
@@ -133,7 +133,7 @@ public class adapter_don_thuong_nhat extends RecyclerView.Adapter<adapter_don_th
                 clean_rooms.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     phong room = dataSnapshot.getValue(phong.class);
-                    if (room != null && room.getId_trang_thai_phong()=="1") {
+                    if (room != null) {
                         if (!today.equals(room.getNgay_don_phong())) {
                             clean_rooms.add(room);
                         }
