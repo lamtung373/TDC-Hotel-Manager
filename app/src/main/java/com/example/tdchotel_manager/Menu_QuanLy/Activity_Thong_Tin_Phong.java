@@ -383,9 +383,6 @@ public class Activity_Thong_Tin_Phong extends AppCompatActivity {
 
         list_chi_tietTN.clear();
         list_chi_tietTN = adapterTienNghi.getChi_tiet_tien_nghis();
-        for (int i = 0; i < list_chi_tietTN.size(); i++) {
-            Log.e("chi tiet tien nghi lấy về", list_chi_tietTN.get(i).getId_tien_nghi() + " " + list_chi_tietTN.get(i).getSo_luong());
-        }
         onClickUpdateComfort(list_chi_tietTN, id_phong);
     }
 
