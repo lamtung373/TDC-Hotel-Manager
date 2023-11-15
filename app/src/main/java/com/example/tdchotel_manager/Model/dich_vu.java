@@ -9,15 +9,6 @@ public class dich_vu implements Serializable {
     String id_loai_dich_vu,id_dich_vu,ten_dich_vu;
     String anh_dich_vu;
     int so_luong;
-    boolean check;
-
-    public boolean isCheck() {
-        return check;
-    }
-
-    public void setCheck(boolean check) {
-        this.check = check;
-    }
 
     public int getSo_luong() {
         return so_luong;
