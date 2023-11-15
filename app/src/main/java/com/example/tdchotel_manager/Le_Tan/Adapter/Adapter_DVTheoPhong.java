@@ -54,10 +54,7 @@ public class Adapter_DVTheoPhong extends RecyclerView.Adapter<Adapter_DVTheoPhon
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                     if (b) {
-                        data_dv.get(holder.getAdapterPosition()).setCheck(true);
-                    }
-                    else{
-                        data_dv.get(holder.getAdapterPosition()).setCheck(false);
+                        data_dv.get(holder.getAdapterPosition()).setSo_luong(1);
                     }
                 }
             });
