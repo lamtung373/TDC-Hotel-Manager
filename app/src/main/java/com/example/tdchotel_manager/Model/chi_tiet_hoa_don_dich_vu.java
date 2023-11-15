@@ -5,11 +5,10 @@ import java.util.Map;
 
 public class chi_tiet_hoa_don_dich_vu {
     int so_luong;
-    String id_chi_tiet_hoa_don_dich_vu,id_hoa_don, id_dich_vu;
+    String id_hoa_don, id_dich_vu;
 
-    public chi_tiet_hoa_don_dich_vu(int so_luong, String id_chi_tiet_hoa_don_dich_vu, String id_hoa_don, String id_dich_vu) {
+    public chi_tiet_hoa_don_dich_vu(int so_luong, String id_hoa_don, String id_dich_vu) {
         this.so_luong = so_luong;
-        this.id_chi_tiet_hoa_don_dich_vu = id_chi_tiet_hoa_don_dich_vu;
         this.id_hoa_don = id_hoa_don;
         this.id_dich_vu = id_dich_vu;
     }
@@ -19,14 +18,6 @@ public class chi_tiet_hoa_don_dich_vu {
         result.put("so_luong", so_luong);
 
         return result;
-    }
-
-    public String getId_chi_tiet_hoa_don_dich_vu() {
-        return id_chi_tiet_hoa_don_dich_vu;
-    }
-
-    public void setId_chi_tiet_hoa_don_dich_vu(String id_chi_tiet_hoa_don_dich_vu) {
-        this.id_chi_tiet_hoa_don_dich_vu = id_chi_tiet_hoa_don_dich_vu;
     }
 
     public chi_tiet_hoa_don_dich_vu() {

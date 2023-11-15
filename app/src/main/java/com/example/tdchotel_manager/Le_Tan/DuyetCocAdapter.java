@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.tdchotel_manager.Le_Tan.Activity_HoaDon.Activity_HoaDon_DuyetCoc;
 import com.example.tdchotel_manager.Menu_QuanLy.Adapter_NhanVien.ThemNhanVien;
 import com.example.tdchotel_manager.Menu_QuanLy.LichLamAdapter;
 import com.example.tdchotel_manager.Model.cham_cong;
@@ -36,7 +37,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class DuyetCocAdapter extends RecyclerView.Adapter<DuyetCocAdapter.DaDatViewHolder>{
+public class DuyetCocAdapter extends RecyclerView.Adapter<DuyetCocAdapter.DaDatViewHolder> {
     private List<hoa_don> hoaDonList;
     private List<phong> phongList;
     private List<khach_hang> khachHangList;
@@ -45,63 +46,59 @@ public class DuyetCocAdapter extends RecyclerView.Adapter<DuyetCocAdapter.DaDatV
     @NonNull
     @Override
     public DaDatViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.custom_duyet_coc,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.custom_duyet_coc, parent, false);
         return new DuyetCocAdapter.DaDatViewHolder(view);
     }
 
-    public DuyetCocAdapter(Context context,List<hoa_don> hoaDonList, List<phong> phongList, List<khach_hang> khachHangList) {
+    public DuyetCocAdapter(Context context, List<hoa_don> hoaDonList, List<phong> phongList, List<khach_hang> khachHangList) {
         this.hoaDonList = hoaDonList;
         this.phongList = phongList;
         this.khachHangList = khachHangList;
         mContext = context;
     }
+
     public DuyetCocAdapter(Context context) {
         mContext = context;
         // Khởi tạo các giá trị khác của adapter
     }
+
     @Override
     public void onBindViewHolder(@NonNull DaDatViewHolder holder, int position) {
-        hoa_don hoaDon  = hoaDonList.get(position);
-        if(hoaDon==null)
-        {
+        hoa_don hoaDon = hoaDonList.get(position);
+        if (hoaDon == null) {
             return;
         }
         holder.tvMaHoaDon.setText(hoaDon.getId_hoa_don().toString());
         holder.tvNgayDatPhong.setText(hoaDon.getThoi_gian_nhan_phong().toString());
         holder.tvNgayNghi.setText(hoaDon.getThoi_gian_tra_phong().toString());
-        holder.edtTienDaTra.setText(hoaDon.getTien_coc()+"");
-        holder.tvTienTong.setText(hoaDon.getTong_thanh_toan()+" Đ");
-        for (int i = 0; i < phongList.size(); i++)
-        {
-            if(phongList.get(i).getId_phong().equals(hoaDon.getId_phong())) {
+        holder.edtTienDaTra.setText(hoaDon.getTien_coc() + "");
+        holder.tvTienTong.setText(hoaDon.getTong_thanh_toan() + " Đ");
+        for (int i = 0; i < phongList.size(); i++) {
+            if (phongList.get(i).getId_phong().equals(hoaDon.getId_phong())) {
                 holder.tv_name_room.setText(phongList.get(i).getTen_phong());
                 break;
             }
         }
-        for (int i = 0; i < khachHangList.size(); i++)
-        {
-            if(khachHangList.get(i).getSo_dien_thoai().equals(hoaDon.getSo_dien_thoai()))
-            {
-                holder.tvTenNguoiDung.setText(khachHangList.get(i).getTen());
-                break;
-            }
-        }
+
+        holder.tvTenNguoiDung.setText(hoaDon.getTen_khach_hang());
+
 
         holder.btnNhanPhong.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DatabaseReference ref = FirebaseDatabase.getInstance().getReference("hoa_don");
-                DatabaseReference child2Ref = ref.child(hoaDon.getId_phong().toString());
-                hoaDon.setTien_coc(Double.parseDouble(holder.edtTienDaTra.getText().toString()));
-                child2Ref.child(hoaDon.getId_hoa_don()).updateChildren(hoaDon.toMap(), new DatabaseReference.CompletionListener() {
-                    @Override
-                    public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
-                        Toast.makeText(mContext, "Check thành công", Toast.LENGTH_SHORT).show();
-                    }
-                });
+//                DatabaseReference ref = FirebaseDatabase.getInstance().getReference("hoa_don");
+//                DatabaseReference child2Ref = ref.child(hoaDon.getId_phong().toString());
+//                hoaDon.setTien_coc(Double.parseDouble(holder.edtTienDaTra.getText().toString()));
+//                child2Ref.child(hoaDon.getId_hoa_don()).updateChildren(hoaDon.toMap(), new DatabaseReference.CompletionListener() {
+//                    @Override
+//                    public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
+//                        Toast.makeText(mContext, "Check thành công", Toast.LENGTH_SHORT).show();
+//                    }
+//                });
 
-                Intent intent = new Intent(mContext, ThemNhanVien.class);
-                intent.putExtra("key_id","-NiiIWhIXCqxy2_niaux");
+                Intent intent = new Intent(mContext, Activity_HoaDon_DuyetCoc.class);
+                intent.putExtra("id_hd", hoaDon.getId_hoa_don());
+                intent.putExtra("tien_coc", holder.edtTienDaTra.getText());
                 mContext.startActivity(intent);
             }
         });
@@ -115,7 +112,7 @@ public class DuyetCocAdapter extends RecyclerView.Adapter<DuyetCocAdapter.DaDatV
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 DatabaseReference ref = FirebaseDatabase.getInstance().getReference("hoa_don");
-                                Log.e(hoaDon.getId_phong().toString(),"fdsfdsffd");
+                                Log.e(hoaDon.getId_phong().toString(), "fdsfdsffd");
                                 DatabaseReference child2Ref = ref.child(hoaDon.getId_phong().toString());
                                 Date date = new Date();
                                 SimpleDateFormat formatterChuan = new SimpleDateFormat("dd/MM/yyyy HH:mm");
@@ -140,20 +137,19 @@ public class DuyetCocAdapter extends RecyclerView.Adapter<DuyetCocAdapter.DaDatV
 
     @Override
     public int getItemCount() {
-        if(hoaDonList != null)
-        {
-            Log.e("be",hoaDonList.size()+"s");
-            return  hoaDonList.size();
+        if (hoaDonList != null) {
+            Log.e("be", hoaDonList.size() + "s");
+            return hoaDonList.size();
 
         }
         return 0;
     }
 
-    class DaDatViewHolder extends RecyclerView.ViewHolder
-    {
+    class DaDatViewHolder extends RecyclerView.ViewHolder {
         TextView tv_name_room, tvMaHoaDon, tvTenNguoiDung, tvNgayDatPhong, tvNgayNghi, tvTienDaTra, tvTienTong;
         EditText edtTienDaTra;
         Button btnNhanPhong, btnHuy;
+
         public DaDatViewHolder(@NonNull View itemView) {
             super(itemView);
             tv_name_room = itemView.findViewById(R.id.tv_name_room);
