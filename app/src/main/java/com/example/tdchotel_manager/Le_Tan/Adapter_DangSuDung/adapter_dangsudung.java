@@ -17,7 +17,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tdchotel_manager.Le_Tan.Activity_HoaDon.Activity_HoaDon_DangSuDung;
-import com.example.tdchotel_manager.Menu_QuanLy.Activity_Thong_Tin_Phong;
 import com.example.tdchotel_manager.Model.hoa_don;
 import com.example.tdchotel_manager.Model.khach_hang;
 import com.example.tdchotel_manager.Model.phong;
@@ -223,7 +222,7 @@ public class adapter_dangsudung extends RecyclerView.Adapter<adapter_dangsudung.
                     intent.putExtra("idHoaDon", idHoaDon);
                     context.startActivity(intent);
                 } else if (which == 1) {
-                    Intent intent2 = new Intent(context, dichvu_letan.class);
+                    Intent intent2 = new Intent(context, Activity_dichvu_letan.class);
 //                    intent2.putExtra("idPhong", idPhong);
                     intent2.putExtra("idHoaDon", idHoaDon);
                     context.startActivity(intent2);

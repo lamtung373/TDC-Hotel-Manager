@@ -55,6 +55,7 @@ ArrayList<chi_tiet_hoa_don_dich_vu> chiTietHoaDonDichVus = new ArrayList<>();
         if(!data_dv.isEmpty()&&data_dv!=null) {
             holder.tv_dv.setText(data_dv.get(position).getTen_dich_vu());
             holder.tvGia.setText(data_dv.get(position).getGia_dich_vu() + "đ/người");
+            holder.edtSonguoi.setText(data_dv.get(position).getSo_luong()+"");
             holder.ivCong.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -77,21 +78,16 @@ ArrayList<chi_tiet_hoa_don_dich_vu> chiTietHoaDonDichVus = new ArrayList<>();
     }
     public void GoiDuLieu(String idHoaDon) {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("chi_tiet_hoa_don_dich_vu").child(idHoaDon);
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot facilitySnapshot : dataSnapshot.getChildren()) {
                     chi_tiet_hoa_don_dich_vu comfortDetail = facilitySnapshot.getValue(chi_tiet_hoa_don_dich_vu.class);
                     if (comfortDetail != null) {
-                        chiTietHoaDonDichVus.add(comfortDetail);
-                        //Log.e("ịgiejifejifjei","-"+comfortDetail.getSo_luong());
-                        Log.e("ịgiejifejifjei","size"+data_dv.size());
-
-                    }
-
-                    for (int i=0;i<data_dv.size();i++){
-                        if(comfortDetail.getId_dich_vu().equals(data_dv.get(i).getId_dich_vu())){
-                            data_dv.get(i).setSo_luong(comfortDetail.getSo_luong());
+                        for (dich_vu dichVu : data_dv){
+                            if(comfortDetail.getId_dich_vu().equals(dichVu.getId_dich_vu())){
+                                dichVu.setSo_luong(comfortDetail.getSo_luong());
+                            }
                         }
                     }
                 }
@@ -105,6 +101,7 @@ ArrayList<chi_tiet_hoa_don_dich_vu> chiTietHoaDonDichVus = new ArrayList<>();
             }
         });
     }
+
 
 
     @Override
@@ -142,17 +139,11 @@ ArrayList<chi_tiet_hoa_don_dich_vu> chiTietHoaDonDichVus = new ArrayList<>();
                             reference_dichvu.addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                    if (loaiDichVu.getTen_loai_dich_vu().equals("Người")) {
+                                    if (loaiDichVu.getId_loai_dich_vu().equals("2")) {
                                         for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                                             dich_vu dichVu = dataSnapshot.getValue(dich_vu.class);
                                             if (dichVu.getId_loai_dich_vu().equals(loaiDichVu.getId_loai_dich_vu())) {
                                                 data_dv.add(dichVu);
-                                                for(dich_vu dichVu1 : data_dv){
-                                                    if(dichVu1.getId_dich_vu().equals(dichVu.getId_dich_vu()) ){
-                                                        dichVu1.setSo_luong(dichVu.getSo_luong());
-                                                    }
-                                                }
-
                                             }
                                         }
                                         notifyDataSetChanged();
