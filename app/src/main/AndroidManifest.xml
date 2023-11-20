@@ -74,9 +74,11 @@
             android:name=".Le_Tan.Activity_XacNhanDatPhongDichVu"
             android:exported="false"/>
         <activity
-            android:name=".Le_Tan.Adapter_DangSuDung.dichvu_letan"
+            android:name=".Le_Tan.Adapter_DangSuDung.Activity_dichvu_letan"
             android:exported="false"/>
-
+        <activity
+            android:name=".Le_Tan.Activity_HoaDon.Activity_HoaDon_DangSuDung"
+            android:exported="false"/>
         <activity
             android:name=".Menu_QuanLy.QuanLyLichLam"
             android:exported="false" />
