@@ -2,6 +2,7 @@ package com.example.tdchotel_manager.Le_Tan.Activity_HoaDon;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -19,7 +20,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.tdchotel_manager.Le_Tan.Activity_Chi_Tiet_Phong;
 import com.example.tdchotel_manager.Menu_QuanLy.Adapter_NhanVien.ThemNhanVien;
+import com.example.tdchotel_manager.Model.chi_tiet_hoa_don_dich_vu;
 import com.example.tdchotel_manager.Model.chi_tiet_tien_nghi;
 import com.example.tdchotel_manager.Model.dich_vu;
 import com.example.tdchotel_manager.Model.hoa_don;
@@ -60,8 +63,10 @@ public class Activity_HoaDon_SanSang extends AppCompatActivity {
     private DatabaseReference mDatabaseRef;
     private StorageReference mStorageRef;
     phong phong;
-    String ngayNhan, ngayTra, soLuongKhach;
+    String ngayNhan, ngayTra, soLuongKhach, id_account;
+    public static String SHARED_PRE = "shared_pre";
     ArrayList<dich_vu> dichVuTheoNguoi, dichVuTheoPhong;
+    double tienPhong = 0;
 
     //TỔNG HOÁ ĐƠN
     double tongHD = 0;
@@ -70,6 +75,8 @@ public class Activity_HoaDon_SanSang extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_hoadon_sansang);
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PRE, MODE_PRIVATE);
+        id_account = sharedPreferences.getString("id_staff", "");
         //Lấy dữ liệu từ màn hình trước
         Intent intent = getIntent();
         phong = (phong) intent.getSerializableExtra("phong");
@@ -103,7 +110,6 @@ public class Activity_HoaDon_SanSang extends AppCompatActivity {
             int soNgayLuuTru = (int) (diff / (24 * 60 * 60 * 1000));
 
             // Hiển thị hoặc sử dụng giá trị tienPhong như mong muốn
-            double tienPhong;
             if (phong.getSale() > 0) {
                 tienPhong = phong.getSale() * soNgayLuuTru;
                 tvTienPhong.setText(MessageFormat.format("{0}đ", tienPhong));
@@ -168,7 +174,7 @@ public class Activity_HoaDon_SanSang extends AppCompatActivity {
         }
 
         for (dich_vu dv : dichVuTheoPhong) {
-            if (dv.isCheck()) {
+            if (dv.getSo_luong() > 0) {
                 double giaDichVu = dv.getGia_dich_vu();
                 DecimalFormat decimalFormat = new DecimalFormat("###,###,###");
                 String giaDichVuFormatted = decimalFormat.format(giaDichVu);
@@ -241,7 +247,7 @@ public class Activity_HoaDon_SanSang extends AppCompatActivity {
     private void luuHoaDonToFirebase(ArrayList<String> cccdImages) {
         String id = mDatabaseRef.push().getKey();
         String id_laocong = "";
-        String id_letan = "";
+        String id_letan = id_account;
         String id_phong = phong.getId_phong();
         String soDienThoai = edtSoDTKD.getText().toString();
         String tenKhachHang = edtHoTenKH.getText().toString();
@@ -257,30 +263,8 @@ public class Activity_HoaDon_SanSang extends AppCompatActivity {
         String thoiGianNhanPhong = thoiGianNhan;
 
         String thoiGianThanhToan = "";
-        String thoiGianTraPhong = "";
+        String thoiGianTraPhong = ngayTra;
         double tienCoc = 0;
-
-        double tienPhong = 0;
-        try {
-            // Chuyển đổi String sang Date
-            Date dateNhan = sdf.parse(ngayNhan);
-            Date dateTra = sdf.parse(ngayTra);
-
-            // Tính số ngày lưu trú
-            long diff = dateTra.getTime() - dateNhan.getTime();
-            int soNgayLuuTru = (int) (diff / (24 * 60 * 60 * 1000));
-
-            // Hiển thị hoặc sử dụng giá trị tienPhong như mong muốn
-            if (phong.getSale() > 0) {
-                tienPhong = phong.getSale() * soNgayLuuTru;
-            } else {
-                tienPhong = phong.getGia() * soNgayLuuTru;
-            }
-
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
         double phiDichVu = 0;
         for (dich_vu dv : dichVuTheoNguoi) {
             if (dv.getSo_luong() > 0) {
@@ -289,7 +273,7 @@ public class Activity_HoaDon_SanSang extends AppCompatActivity {
         }
 
         for (dich_vu dv : dichVuTheoPhong) {
-            if (dv.isCheck()) {
+            if (dv.getSo_luong() > 0) {
                 phiDichVu += dv.getGia_dich_vu();
             }
         }
@@ -320,9 +304,33 @@ public class Activity_HoaDon_SanSang extends AppCompatActivity {
         );
 
         mDatabaseRef.child(id_phong).child(id).setValue(hoaDon).addOnSuccessListener(aVoid -> {
+            //Đổi trạng thái phòng sang "Đang sử dụng"
             DatabaseReference dataPhong = FirebaseDatabase.getInstance().getReference("phong");
+
             dataPhong.child(id_phong).child("id_trang_thai_phong").setValue("4");
+            dataPhong.child(id_phong).child("luot_thue").setValue(phong.getLuot_thue() + 1);
+
+            //Thêm chi_tiet_hoa_don_dich_vu
+            DatabaseReference dataChiTietHoaDonDichVu = FirebaseDatabase.getInstance().getReference("chi_tiet_hoa_don_dich_vu");
+            for (dich_vu dv : dichVuTheoNguoi) {
+                chi_tiet_hoa_don_dich_vu chi_tiet_hoa_don_dich_vu = new chi_tiet_hoa_don_dich_vu(
+                        dv.getSo_luong(),
+                        id,
+                        dv.getId_dich_vu()
+                );
+                dataChiTietHoaDonDichVu.child(id).child(dv.getId_dich_vu()).setValue(chi_tiet_hoa_don_dich_vu);
+            }
+            for (dich_vu dv : dichVuTheoPhong) {
+                chi_tiet_hoa_don_dich_vu chi_tiet_hoa_don_dich_vu = new chi_tiet_hoa_don_dich_vu(
+                        dv.getSo_luong(),
+                        id,
+                        dv.getId_dich_vu()
+                );
+                dataChiTietHoaDonDichVu.child(id).child(dv.getId_dich_vu()).setValue(chi_tiet_hoa_don_dich_vu);
+            }
+
             Toast.makeText(Activity_HoaDon_SanSang.this, "Đặt phòng thành công!", Toast.LENGTH_SHORT).show();
+
             finish();
         }).addOnFailureListener(e -> {
             Toast.makeText(Activity_HoaDon_SanSang.this, "Lỗi khi đặt phòng!", Toast.LENGTH_SHORT).show();

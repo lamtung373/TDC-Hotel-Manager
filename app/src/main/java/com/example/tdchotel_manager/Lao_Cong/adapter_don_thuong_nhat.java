@@ -34,8 +34,8 @@ import java.util.Date;
 public class adapter_don_thuong_nhat extends RecyclerView.Adapter<adapter_don_thuong_nhat.MyViewHolder> {
     ArrayList<phong> clean_rooms = new ArrayList<>();
     Context context;
-    String today = "";
 
+    String today = "";
     public adapter_don_thuong_nhat(Context context) {
         this.context=context;
         khoitao();

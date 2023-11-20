@@ -26,6 +26,12 @@
             android:name=".Le_Tan.Activity_HoaDon.Activity_HoaDon_SanSang"
             android:exported="false" />
         <activity
+            android:name=".Le_Tan.Activity_HoaDon.Activity_HoaDon_DuyetCoc"
+            android:exported="false" />
+        <activity
+            android:name=".Le_Tan.Activity_HoaDon.Activity_HoaDon_DaDat"
+            android:exported="false" />
+        <activity
             android:name=".Le_Tan.Activity_Xem_Thong_Tin_Le_Tan"
             android:exported="false" />
         <activity

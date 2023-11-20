@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class phong implements Serializable{
     String  ten_phong, mo_ta_chung,  loai_phong,id_phong, id_trang_thai_phong;
@@ -11,6 +12,18 @@ public class phong implements Serializable{
     int luot_thue;
     double gia,sale, danh_gia_sao;
     String ngay_don_phong;
+    @Override
+    public boolean equals(Object phongmoi) {
+        if (this == phongmoi) return true;
+        if (phongmoi == null || getClass() != phongmoi.getClass()) return false;
+        phong phong = (phong) phongmoi;
+        return Objects.equals(id_phong, phong.id_phong);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id_phong);
+    }
 
     public String getNgay_don_phong() {
         return ngay_don_phong;
@@ -39,7 +52,7 @@ public class phong implements Serializable{
         result.put("mo_ta_chung", mo_ta_chung);
         result.put("anh_phong", anh_phong);
         result.put("loai_phong", loai_phong);
-        result.put("trang_thai", id_trang_thai_phong);
+        result.put("id_trang_thai_phong", id_trang_thai_phong);
         result.put("luot_thue", luot_thue);
         result.put("gia", gia);
         result.put("sale", sale);

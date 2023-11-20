@@ -142,8 +142,8 @@ public class Activity_XacNhanDatPhongDichVu extends AppCompatActivity {
                                 intent.putExtra("dich_vu_phong",adapterDvTheoPhong.getData_dv());
                                 intent.putExtra("phong",phong);
                                 startActivity(intent);
-                                Log.e("dvphong",""+adapterDvTheoPhong.getData_dv().get(0).getTen_dich_vu()+" "+adapterDvTheoPhong.getData_dv().get(0).isCheck());
-                                Log.e("dvphong",""+adapterDvTheoNguoi.getData_dv().get(0).getTen_dich_vu()+" "+adapterDvTheoNguoi.getData_dv().get(0).getSo_luong());
+                              //  Log.e("dvphong",""+adapterDvTheoPhong.getData_dv().get(0).getTen_dich_vu()+" "+adapterDvTheoPhong.getData_dv().get(0).isCheck());
+                              //  Log.e("dvphong",""+adapterDvTheoNguoi.getData_dv().get(0).getTen_dich_vu()+" "+adapterDvTheoNguoi.getData_dv().get(0).getSo_luong());
                             }
                         }
 
@@ -186,6 +186,11 @@ public class Activity_XacNhanDatPhongDichVu extends AppCompatActivity {
     }
 
     private void Initialization() {
+        Calendar calendar=Calendar.getInstance();
+        SimpleDateFormat dateFormat=new SimpleDateFormat("dd/MM/yyyy");
+        btnNgayNhan.setText(dateFormat.format(calendar.getTime()));
+        calendar.roll(Calendar.DATE,1);
+        btnNgayTra.setText(dateFormat.format(calendar.getTime()));
         edtSonguoi.setFocusable(false);
         rcv_dvtheonguoi.setLayoutManager(new LinearLayoutManager(Activity_XacNhanDatPhongDichVu.this, LinearLayoutManager.VERTICAL, false));
         rcv_dvtheonguoi.addItemDecoration(new DividerItemDecoration(Activity_XacNhanDatPhongDichVu.this, DividerItemDecoration.VERTICAL));

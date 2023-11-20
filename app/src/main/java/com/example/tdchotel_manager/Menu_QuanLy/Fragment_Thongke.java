@@ -129,14 +129,28 @@ public class Fragment_Thongke extends Fragment {
                     if (arr_sp_loaithongke.get(i).toString().equals("Hiệu suất lao công")) {
                         tv_nv.setVisibility(View.VISIBLE);
                         sp_nv.setVisibility(View.VISIBLE);
+                        if (sp_thoigian.getSelectedItem().toString().equals("Tháng")) {
+                            sp_nam.setVisibility(View.VISIBLE);
+                            tv_nam.setVisibility(View.VISIBLE);
+                        } else {
+                            tv_nam.setVisibility(View.GONE);
+                            sp_nam.setVisibility(View.GONE);
+                        }
                     } else {
                         tv_nv.setVisibility(View.GONE);
                         sp_nv.setVisibility(View.GONE);
+                        if (sp_thoigian.getSelectedItem().toString().equals("Tháng")) {
+                            sp_nam.setVisibility(View.VISIBLE);
+                            tv_nam.setVisibility(View.VISIBLE);
+                        } else {
+                            tv_nam.setVisibility(View.GONE);
+                            sp_nam.setVisibility(View.GONE);
+                        }
                     }
-                    sp_thoigian.setVisibility(View.VISIBLE);
-                    sp_nam.setVisibility(View.VISIBLE);
-                    tvthoigian.setVisibility(View.VISIBLE);
-                    tv_nam.setVisibility(View.VISIBLE);
+//                    sp_thoigian.setVisibility(View.VISIBLE);
+//                    sp_nam.setVisibility(View.VISIBLE);
+//                    tvthoigian.setVisibility(View.VISIBLE);
+//                    tv_nam.setVisibility(View.VISIBLE);
                 }
             }
 
@@ -331,7 +345,7 @@ public class Fragment_Thongke extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 labels.clear();
                 barEntries.clear();
-                Date thoi_gian_coc = null;
+                Date thoi_gian_thanh_toan = null;
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy");
                 for (int i = 0; i < arr_sp_nam.size(); i++) {
                     labels.add(arr_sp_nam.get(i));
@@ -341,16 +355,16 @@ public class Fragment_Thongke extends Fragment {
                             hoa_don hoa_don = item.getValue(hoa_don.class);
                             try {
                                 //Chuyen doi thoi gian coc tu firebase
-                                thoi_gian_coc = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(hoa_don.getThoi_gian_coc());
+                                thoi_gian_thanh_toan = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(hoa_don.getThoi_gian_thanh_toan());
+                                if (dateFormat.format(thoi_gian_thanh_toan.getTime()).equals(arr_sp_nam.get(i))) {
+                                    tongtien += hoa_don.getTong_thanh_toan();
+                                }
 
                             } catch (ParseException e) {
                                 Log.e("Lỗi chuyển đổi dữ liệu thời gian thanh toán", e.getMessage());
                             }
 
 
-                            if (dateFormat.format(thoi_gian_coc.getTime()).equals(arr_sp_nam.get(i))) {
-                                tongtien += hoa_don.getTong_thanh_toan();
-                            }
                         }
                     }
                     barEntries.add(new BarEntry(i, (float) tongtien));
@@ -502,7 +516,7 @@ public class Fragment_Thongke extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 labels.clear();
                 barEntries.clear();
-                Date thoi_gian_coc = null;
+                Date thoi_gian_thanh_toan = null;
                 SimpleDateFormat dateFormat = new SimpleDateFormat("MM/yyyy");
                 for (int i = 0; i < 12; i++) {
                     labels.add("" + (i + 1));
@@ -513,20 +527,21 @@ public class Fragment_Thongke extends Fragment {
                             try {
 
                                 //Chuyen doi thoi gian coc tu firebase
-                                thoi_gian_coc = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(hoa_don.getThoi_gian_coc());
+                                thoi_gian_thanh_toan = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(hoa_don.getThoi_gian_thanh_toan());
+                                String thang = "";
+                                if (i + 1 < 10) {
+                                    thang = "0" + (i + 1);
+                                } else {
+                                    thang = "" + (i + 1);
+                                }
+                                if (dateFormat.format(thoi_gian_thanh_toan.getTime()).equals(thang + "/" + sp_nam.getSelectedItem().toString())) {
+                                    tongtien += hoa_don.getTong_thanh_toan();
+                                }
 
                             } catch (ParseException e) {
                                 Log.e("Lỗi chuyển đổi dữ liệu thời gian thanh toán", e.getMessage());
                             }
-                            String thang = "";
-                            if (i + 1 < 10) {
-                                thang = "0" + (i + 1);
-                            } else {
-                                thang = "" + (i + 1);
-                            }
-                            if (dateFormat.format(thoi_gian_coc.getTime()).equals(thang + "/" + sp_nam.getSelectedItem().toString())) {
-                                tongtien += hoa_don.getTong_thanh_toan();
-                            }
+
                         }
                     }
                     barEntries.add(new BarEntry(i, (float) tongtien));
