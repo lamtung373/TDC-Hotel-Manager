@@ -54,10 +54,7 @@ public class adapter_dvphong extends RecyclerView.Adapter<adapter_dvphong.DVTheo
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                     if (b) {
-                        data_dv.get(holder.getAdapterPosition()).setCheck(true);
-                    }
-                    else{
-                        data_dv.get(holder.getAdapterPosition()).setCheck(false);
+                        data_dv.get(holder.getAdapterPosition()).setSo_luong(1);
                     }
                 }
             });
@@ -100,7 +97,7 @@ public class adapter_dvphong extends RecyclerView.Adapter<adapter_dvphong.DVTheo
                             reference_dichvu.addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                    if (loaiDichVu.getTen_loai_dich_vu().equals("Phòng")) {
+                                    if (loaiDichVu.getId_loai_dich_vu().equals("1")) {
                                         for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                                             dich_vu dichVu = dataSnapshot.getValue(dich_vu.class);
                                             if (dichVu.getId_loai_dich_vu().equals(loaiDichVu.getId_loai_dich_vu())) {

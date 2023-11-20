@@ -1,9 +1,6 @@
 package com.example.tdchotel_manager.Le_Tan.Fragment_LeTan;
 
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -15,11 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
-import com.example.tdchotel_manager.Le_Tan.Activity_XacNhanDatPhongDichVu;
 import com.example.tdchotel_manager.Le_Tan.Adapter_DangSuDung.adapter_dangsudung;
 
-import com.example.tdchotel_manager.Le_Tan.Adapter_DangSuDung.dichvu_letan;
-import com.example.tdchotel_manager.Le_Tan.Adapter_DangSuDung.giahanthoigian;
 import com.example.tdchotel_manager.R;
 
 

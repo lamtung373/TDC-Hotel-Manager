@@ -16,7 +16,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.tdchotel_manager.Menu_QuanLy.Activity_Thong_Tin_Phong;
+import com.example.tdchotel_manager.Le_Tan.Activity_HoaDon.Activity_HoaDon_DangSuDung;
 import com.example.tdchotel_manager.Model.hoa_don;
 import com.example.tdchotel_manager.Model.khach_hang;
 import com.example.tdchotel_manager.Model.phong;
@@ -140,17 +140,15 @@ public class adapter_dangsudung extends RecyclerView.Adapter<adapter_dangsudung.
                 }
             }
         });
-        ////////////////
-        holder.itemView.setOnClickListener(v -> {
-            int adapterPosition = holder.getAdapterPosition();
-            if (adapterPosition != RecyclerView.NO_POSITION) {
-                Intent intent = new Intent(context, Activity_Thong_Tin_Phong.class);
-                intent.putExtra("hoa_don", datalist.get(adapterPosition));
+        holder.thanhtoan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, Activity_HoaDon_DangSuDung.class);
+                intent.putExtra("hoa_don", dataItem);
                 context.startActivity(intent);
             }
         });
     }
-    //////////////
 
     @Override
     public int getItemCount() {
@@ -224,8 +222,9 @@ public class adapter_dangsudung extends RecyclerView.Adapter<adapter_dangsudung.
                     intent.putExtra("idHoaDon", idHoaDon);
                     context.startActivity(intent);
                 } else if (which == 1) {
-                    Intent intent2 = new Intent(context, dichvu_letan.class);
-                    intent2.putExtra("idPhong", idPhong);
+                    Intent intent2 = new Intent(context, Activity_dichvu_letan.class);
+//                    intent2.putExtra("idPhong", idPhong);
+                    intent2.putExtra("idHoaDon", idHoaDon);
                     context.startActivity(intent2);
                 }
             }
@@ -233,7 +232,6 @@ public class adapter_dangsudung extends RecyclerView.Adapter<adapter_dangsudung.
         builder.show();
     }
 
-    // Xác nhận trả phòng và cập nhật trạng thái phòng
     private void confirmTraPhong(String idPhong, MyViewHolder holder) {
         DatabaseReference hoaDonReference = FirebaseDatabase.getInstance().getReference("hoa_don").child(idPhong);
         DatabaseReference phongReference = FirebaseDatabase.getInstance().getReference("phong");
@@ -244,12 +242,30 @@ public class adapter_dangsudung extends RecyclerView.Adapter<adapter_dangsudung.
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     phong phong = dataSnapshot.getValue(phong.class);
                     if (phong != null) {
-                        phongReference.child(idPhong).child("id_trang_thai_phong").setValue("5");
-                        Toast.makeText(context, "Phòng đã trả và đang được kiểm tra!", Toast.LENGTH_SHORT).show();
-                        holder.isItemEnabled = false; // Vô hiệu hóa item sau khi trả phòng
+                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                        builder.setTitle("Xác nhận trả phòng");
+                        builder.setMessage("Bạn có chắc muốn trả phòng?");
+                        builder.setIcon(R.drawable.warning);
+                        builder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                phongReference.child(idPhong).child("id_trang_thai_phong").setValue("5");
+                                Toast.makeText(context, "Phòng đã trả và đang được kiểm tra!", Toast.LENGTH_SHORT).show();
+                                dialog.dismiss();
+                                holder.isItemEnabled = false; // Vô hiệu hóa item sau khi trả phòng
+                                notifyDataSetChanged();
+                            }
+                        });
+                        builder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Đóng dialog nếu không muốn trả phòng
+                                dialog.dismiss();
+                            }
+                        });
+                        builder.show();
                     }
                 }
-                notifyDataSetChanged();
             }
 
             @Override

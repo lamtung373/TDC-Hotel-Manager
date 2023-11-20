@@ -125,6 +125,7 @@
                 android:src="@drawable/decrease" />
 
             <EditText
+                android:inputType="number"
                 android:textStyle="normal"
                 android:id="@+id/edtSonguoi"
                 style="@style/textview"
