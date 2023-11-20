@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -39,15 +40,8 @@ public class Activity_dichvu_letan extends AppCompatActivity {
         setControl();
         setEvent();
 
-        if (idHoaDon != null) {
-            fill_data(idHoaDon);
-            Toast.makeText(this, idHoaDon, Toast.LENGTH_SHORT).show();
-        }
     }
 
-    void fill_data(String idHoaDon) {
-        adapterDvTheoNguoi.GoiDuLieu(idHoaDon);
-    }
 
     private void setEvent() {
         btnXacNhanDV.setOnClickListener(new View.OnClickListener() {
@@ -110,6 +104,8 @@ public class Activity_dichvu_letan extends AppCompatActivity {
         rcv_dvphong.setLayoutManager(new LinearLayoutManager(Activity_dichvu_letan.this));
         rcv_dvphong.addItemDecoration(new DividerItemDecoration(Activity_dichvu_letan.this, DividerItemDecoration.VERTICAL));
         rcv_dvphong.setAdapter(adapterDvTheoPhong);
+        adapterDvTheoNguoi.setIdHoaDon(idHoaDon);
+
     }
 
 
