@@ -86,7 +86,7 @@ public class Activity_XacNhanDatPhongDichVu extends AppCompatActivity {
                     reference_hoadon.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            if (snapshot != null || snapshot.getChildrenCount() != 0) {
+                            if (snapshot.exists()) {
                                 Date thoi_gian_hoadon_nhan = null;
                                 Date thoi_gian_hoadon_tra = null;
                                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
@@ -134,17 +134,17 @@ public class Activity_XacNhanDatPhongDichVu extends AppCompatActivity {
                                     }
 
                                 }
-                                Intent intent = new Intent(Activity_XacNhanDatPhongDichVu.this, Activity_HoaDon_SanSang.class);
-                                intent.putExtra("thoi_gian_nhan",btnNgayNhan.getText().toString());
-                                intent.putExtra("thoi_gian_tra",btnNgayTra.getText().toString());
-                                intent.putExtra("so_luong_khach",edtSonguoi.getText().toString());
-                                intent.putExtra("dich_vu_theo_nguoi",adapterDvTheoNguoi.getData_dv());
-                                intent.putExtra("dich_vu_phong",adapterDvTheoPhong.getData_dv());
-                                intent.putExtra("phong",phong);
-                                startActivity(intent);
                               //  Log.e("dvphong",""+adapterDvTheoPhong.getData_dv().get(0).getTen_dich_vu()+" "+adapterDvTheoPhong.getData_dv().get(0).isCheck());
                               //  Log.e("dvphong",""+adapterDvTheoNguoi.getData_dv().get(0).getTen_dich_vu()+" "+adapterDvTheoNguoi.getData_dv().get(0).getSo_luong());
                             }
+                            Intent intent = new Intent(Activity_XacNhanDatPhongDichVu.this, Activity_HoaDon_SanSang.class);
+                            intent.putExtra("thoi_gian_nhan",btnNgayNhan.getText().toString());
+                            intent.putExtra("thoi_gian_tra",btnNgayTra.getText().toString());
+                            intent.putExtra("so_luong_khach",edtSonguoi.getText().toString());
+                            intent.putExtra("dich_vu_theo_nguoi",adapterDvTheoNguoi.getData_dv());
+                            intent.putExtra("dich_vu_phong",adapterDvTheoPhong.getData_dv());
+                            intent.putExtra("phong",phong);
+                            startActivity(intent);
                         }
 
                         @Override
