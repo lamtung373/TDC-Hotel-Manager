@@ -118,7 +118,7 @@ public class Fragment_Duyetcoc extends Fragment {
                     for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
                         hoa_don hoaDon = dataSnapshot1.getValue(hoa_don.class);
 
-                        if(hoaDon.getThoi_gian_duyet().equals(""))
+                        if(hoaDon.getThoi_gian_duyet().equals("") && hoaDon.getCCCD().get(0).equals("") && hoaDon.getCCCD().get(1).equals(""))
                         {
                             Log.e("eee"+hoaDon.getThoi_gian_huy()+"ee","555"+hoaDon.getThoi_gian_thanh_toan()+"dfsf");
                             if(hoaDon.getThoi_gian_thanh_toan().equals("")&&hoaDon.getThoi_gian_huy().equals(""))
