@@ -41,7 +41,6 @@ public class adapter_phong extends RecyclerView.Adapter<adapter_phong.MyViewHold
     private ArrayList<phong> room_list = new ArrayList<>();
     private ArrayList<trang_thai_phong> status_list = new ArrayList<>();
     private ArrayList<phong> danh_sach_phong = new ArrayList<>();
-    private ArrayList<phong> danh_sach_phong_loc = new ArrayList<>();
     private OnItemLongClickListener onItemLongClickListener;
     private OnItemClickListener onItemClickListener;
     ProgressBar progressBar, progressBar_itemphong;
@@ -65,7 +64,8 @@ public class adapter_phong extends RecyclerView.Adapter<adapter_phong.MyViewHold
 
     // Accessors
     public ArrayList<phong> getDanh_sach_phong() {
-        this.danh_sach_phong.addAll(room_list);
+//        room_list.clear();
+//        room_list.addAll(danh_sach_phong);
         return danh_sach_phong;
     }
 
@@ -182,7 +182,8 @@ public class adapter_phong extends RecyclerView.Adapter<adapter_phong.MyViewHold
     }
 
     public void updateRoomList(ArrayList<phong> filteredRoomList) {
-        room_list = filteredRoomList;
+        room_list.clear();
+        room_list.addAll(filteredRoomList);
         notifyDataSetChanged();
     }
     private void khoi_tao() {
@@ -199,6 +200,7 @@ public class adapter_phong extends RecyclerView.Adapter<adapter_phong.MyViewHold
                     phong rooms = dataSnapshot.getValue(phong.class);
                     if (rooms != null) room_list.add(rooms);
                 }
+                danh_sach_phong.addAll(room_list);
                 notifyDataSetChanged();
             }
             @Override
