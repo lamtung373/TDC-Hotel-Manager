@@ -425,7 +425,7 @@ public class Activity_HoaDon_SanSang extends AppCompatActivity {
             return false;
         }
         if (edtSoDTKD.getText().toString().trim().isEmpty()) {
-            edtSoDTKD.setError("Họ tên không được để trống");
+            edtSoDTKD.setError("Số điện thoại không được để trống");
             return false;
         }
         if (!isImgCCCD_TruocDrawableChanged || !isImgCCCD_SauDrawableChanged) {

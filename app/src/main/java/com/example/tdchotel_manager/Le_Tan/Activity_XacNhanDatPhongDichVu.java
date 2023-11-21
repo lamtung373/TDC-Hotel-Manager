@@ -73,7 +73,7 @@ public class Activity_XacNhanDatPhongDichVu extends AppCompatActivity {
                     Date now = new Date();
                     thoi_gian_nhan = new SimpleDateFormat("dd/MM/yyyy").parse(btnNgayNhan.getText().toString());
                     thoi_gian_tra = new SimpleDateFormat("dd/MM/yyyy").parse(btnNgayTra.getText().toString());
-                    if (thoi_gian_nhan.before(now) || thoi_gian_nhan.after(thoi_gian_tra)) {
+                    if (thoi_gian_nhan.after(thoi_gian_tra)) {
                         Toast.makeText(Activity_XacNhanDatPhongDichVu.this, "Thời gian đã đặt không hợp lệ!!!", Toast.LENGTH_SHORT).show();
                         return;
                     } else if (((thoi_gian_tra.getTime() - thoi_gian_nhan.getTime()) / (24 * 3600 * 1000)) < 1) {
@@ -187,6 +187,7 @@ public class Activity_XacNhanDatPhongDichVu extends AppCompatActivity {
 
     private void Initialization() {
         Calendar calendar=Calendar.getInstance();
+        btnNgayNhan.setEnabled(false);
         SimpleDateFormat dateFormat=new SimpleDateFormat("dd/MM/yyyy");
         btnNgayNhan.setText(dateFormat.format(calendar.getTime()));
         calendar.roll(Calendar.DATE,1);

@@ -57,7 +57,7 @@ public class Activity_HoaDon_DuyetCoc extends AppCompatActivity {
     }
 
     private void setEvent() {
-        //Đổ dữ liệu lên tv
+        //Đổ dữ liệu lên XML
         tvMaHD.setText("Mã HĐ: " + hoadon.getId_hoa_don());
         tvTenKH.setText("Khách hàng: " + hoadon.getTen_khach_hang());
         tvSDT.setText("Số điện thoại: " + hoadon.getSo_dien_thoai());
