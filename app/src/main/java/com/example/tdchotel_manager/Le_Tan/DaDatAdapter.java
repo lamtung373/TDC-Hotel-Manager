@@ -21,6 +21,7 @@ import com.example.tdchotel_manager.Model.nhan_vien;
 import com.example.tdchotel_manager.Model.phong;
 import com.example.tdchotel_manager.R;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 public class DaDatAdapter extends RecyclerView.Adapter<DaDatAdapter.DaDatViewHolder> {
@@ -52,8 +53,11 @@ public class DaDatAdapter extends RecyclerView.Adapter<DaDatAdapter.DaDatViewHol
         holder.tvMaHoaDon.setText(hoaDon.getId_hoa_don().toString());
         holder.tvNgayDatPhong.setText(hoaDon.getThoi_gian_nhan_phong().toString());
         holder.tvNgayNghi.setText(hoaDon.getThoi_gian_tra_phong().toString());
-        holder.tvTienDaTra.setText(hoaDon.getTien_coc() + "đ");
-        holder.tvTienTong.setText(hoaDon.getTong_thanh_toan() + " đ");
+        DecimalFormat decimalFormatt = new DecimalFormat("###,###,###");
+        String tienCocFormatted = decimalFormatt.format(hoaDon.getTien_coc());
+        holder.tvTienDaTra.setText(tienCocFormatted + "đ");
+        String tongTienFormatted = decimalFormatt.format(hoaDon.getTong_thanh_toan());
+        holder.tvTienTong.setText(tongTienFormatted + "đ");
         for (int i = 0; i < phongList.size(); i++) {
             if (phongList.get(i).getId_phong().equals(hoaDon.getId_phong())) {
                 holder.tv_name_room.setText(phongList.get(i).getTen_phong());
@@ -70,7 +74,7 @@ public class DaDatAdapter extends RecyclerView.Adapter<DaDatAdapter.DaDatViewHol
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, Activity_HoaDon_DaDat.class);
-                intent.putExtra("id_hd", hoaDon.getId_hoa_don());
+                intent.putExtra("hoa_don", hoaDon);
                 mContext.startActivity(intent);
             }
         });
@@ -79,7 +83,6 @@ public class DaDatAdapter extends RecyclerView.Adapter<DaDatAdapter.DaDatViewHol
     @Override
     public int getItemCount() {
         if (hoaDonList != null) {
-            Log.e("be", hoaDonList.size() + "s");
             return hoaDonList.size();
 
         }

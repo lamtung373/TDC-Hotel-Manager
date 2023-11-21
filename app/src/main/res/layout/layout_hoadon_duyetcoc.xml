@@ -15,6 +15,7 @@
             android:padding="10dp">
 
             <ImageButton
+                android:id="@+id/btn_Back_DC"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
@@ -62,6 +63,7 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/tvMaHD_DC"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
@@ -73,6 +75,7 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/tvTenKhachHang_DC"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
@@ -83,6 +86,7 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/tvSDT_DC"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
@@ -93,6 +97,7 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/tvTenPhong_DC"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
@@ -119,6 +124,7 @@
                         android:textSize="13dp" />
 
                     <TextView
+                        android:id="@+id/tvNgayNhanPhong_DC"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -145,6 +151,7 @@
                         android:textSize="13dp" />
 
                     <TextView
+                        android:id="@+id/tvNgayTraPhong_DC"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -171,6 +178,7 @@
                         android:textSize="13dp" />
 
                     <TextView
+                        android:id="@+id/tvTienPhong_DC"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -191,6 +199,7 @@
                     android:textSize="13dp" />
 
                 <TextView
+                    android:id="@+id/tvTienNghi_DC"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
@@ -218,6 +227,7 @@
                     android:weightSum="3">
 
                     <TextView
+                        android:id="@+id/tvDichVu_a_DC"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
@@ -226,6 +236,7 @@
                         android:textSize="13dp" />
 
                     <TextView
+                        android:id="@+id/tvDichVu_b_DC"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -254,6 +265,7 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/tvTongHD_DC"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -269,6 +281,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="20dp"
+                    android:layout_marginBottom="20dp"
                     android:orientation="horizontal"
                     android:weightSum="3">
 
@@ -282,6 +295,7 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/tvTienCoc_DC"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -292,22 +306,12 @@
 
                 </LinearLayout>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="20dp"
-                    android:layout_marginBottom="20dp"
-                    android:text="Ngày tạo hoá đơn: 12/11/2012"
-                    android:textColor="#000000"
-                    android:textSize="13dp" />
-
             </LinearLayout>
 
         </RelativeLayout>
 
         <Button
+            android:id="@+id/btnXacNhan_DC"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_gravity="center"

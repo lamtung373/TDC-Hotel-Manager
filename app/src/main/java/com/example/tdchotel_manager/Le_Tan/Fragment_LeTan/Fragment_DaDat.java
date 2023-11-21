@@ -125,12 +125,10 @@ public class Fragment_DaDat extends Fragment {
                     for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
                         hoa_don hoaDon = dataSnapshot1.getValue(hoa_don.class);
 
-                        if(!hoaDon.getThoi_gian_duyet().equals(""))
+                        if(!hoaDon.getThoi_gian_duyet().equals("") && hoaDon.getThoi_gian_nhan_phong().equals(""))
                         {
-                            Log.e("eee"+hoaDon.getThoi_gian_huy()+"ee","555"+hoaDon.getThoi_gian_thanh_toan()+"dfsf");
                             if(hoaDon.getThoi_gian_thanh_toan().toString().equals("")&&hoaDon.getThoi_gian_huy().toString().equals(""))
                             {
-                                Log.e("eee","666");
                                 hoaDonList.add(hoaDon);
                             }
                         }
