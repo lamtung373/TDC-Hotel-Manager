@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tdchotel_manager.Le_Tan.Adapter.Adapter_DVTheoPhong;
+import com.example.tdchotel_manager.Model.chi_tiet_hoa_don_dich_vu;
 import com.example.tdchotel_manager.Model.dich_vu;
 import com.example.tdchotel_manager.Model.loai_dich_vu;
 import com.example.tdchotel_manager.R;
@@ -26,8 +27,15 @@ import java.util.ArrayList;
 public class adapter_dvphong extends RecyclerView.Adapter<adapter_dvphong.DVTheoPhong_Holder> {
     ArrayList<dich_vu> data_dv = new ArrayList<>();
 
+
+    private String idHoaDon;
+
     public adapter_dvphong() {
         Initialization();
+    }
+
+    public void setIdHoaDon(String idHoaDon) {
+        this.idHoaDon = idHoaDon;
     }
 
     public ArrayList<dich_vu> getData_dv() {
@@ -48,13 +56,45 @@ public class adapter_dvphong extends RecyclerView.Adapter<adapter_dvphong.DVTheo
     @Override
     public void onBindViewHolder(@NonNull DVTheoPhong_Holder holder, int position) {
         if (!data_dv.isEmpty() && data_dv != null) {
-            holder.tv_dv.setText(data_dv.get(position).getTen_dich_vu());
-            holder.tvGia.setText(data_dv.get(position).getGia_dich_vu() + "đ/phòng");
+            dich_vu currentDV = data_dv.get(position);
+
+            holder.tv_dv.setText(currentDV.getTen_dich_vu());
+            holder.tvGia.setText(currentDV.getGia_dich_vu() + "đ/phòng");
+
+            DatabaseReference referenceChiTietDV = FirebaseDatabase.getInstance().getReference("chi_tiet_hoa_don_dich_vu")
+                    .child(idHoaDon)
+                    .child(currentDV.getId_dich_vu());
+
+            referenceChiTietDV.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists()) {
+                        chi_tiet_hoa_don_dich_vu chiTietDV = snapshot.getValue(chi_tiet_hoa_don_dich_vu.class);
+                        if (chiTietDV != null) {
+                            int soLuong = chiTietDV.getSo_luong();
+
+                            // Set trạng thái của CheckBox dựa trên giá trị của số lượng
+                            holder.cb.setChecked(soLuong > 0);
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                }
+            });
+
             holder.cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
-                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                    if (b) {
-                        data_dv.get(holder.getAdapterPosition()).setSo_luong(1);
+                public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                    if (isChecked) {
+                        // Nếu CheckBox được chọn, set số lượng là 1 và lưu vào Firebase
+                        currentDV.setSo_luong(1);
+                        referenceChiTietDV.setValue(new chi_tiet_hoa_don_dich_vu(1, idHoaDon, currentDV.getId_dich_vu()));
+                    } else {
+                        // Nếu CheckBox không được chọn, set số lượng là 0 và xóa dữ liệu từ Firebase
+                        currentDV.setSo_luong(0);
+                        referenceChiTietDV.removeValue();
                     }
                 }
             });
@@ -66,25 +106,22 @@ public class adapter_dvphong extends RecyclerView.Adapter<adapter_dvphong.DVTheo
         return data_dv.size();
     }
 
-
     class DVTheoPhong_Holder extends RecyclerView.ViewHolder {
         TextView tv_dv, tvGia;
-        EditText edtSonguoi;
         CheckBox cb;
 
         public DVTheoPhong_Holder(@NonNull View itemView) {
             super(itemView);
             tv_dv = itemView.findViewById(R.id.tvdichvu);
-            edtSonguoi = itemView.findViewById(R.id.edtSonguoi);
             tvGia = itemView.findViewById(R.id.tvGia);
             cb = itemView.findViewById(R.id.cb);
         }
     }
 
     private void Initialization() {
-
         DatabaseReference reference_dichvu = FirebaseDatabase.getInstance().getReference("dich_vu");
         DatabaseReference reference_loaidichvu = FirebaseDatabase.getInstance().getReference("loai_dich_vu");
+
         reference_dichvu.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -105,7 +142,6 @@ public class adapter_dvphong extends RecyclerView.Adapter<adapter_dvphong.DVTheo
                                             }
                                         }
                                         notifyDataSetChanged();
-
                                     }
                                 }
 

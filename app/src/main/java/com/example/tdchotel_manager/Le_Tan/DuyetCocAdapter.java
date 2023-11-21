@@ -40,7 +40,6 @@ import java.util.List;
 public class DuyetCocAdapter extends RecyclerView.Adapter<DuyetCocAdapter.DaDatViewHolder> {
     private List<hoa_don> hoaDonList;
     private List<phong> phongList;
-    private List<khach_hang> khachHangList;
     private Context mContext;
 
     @NonNull
@@ -50,10 +49,9 @@ public class DuyetCocAdapter extends RecyclerView.Adapter<DuyetCocAdapter.DaDatV
         return new DuyetCocAdapter.DaDatViewHolder(view);
     }
 
-    public DuyetCocAdapter(Context context, List<hoa_don> hoaDonList, List<phong> phongList, List<khach_hang> khachHangList) {
+    public DuyetCocAdapter(Context context, List<hoa_don> hoaDonList, List<phong> phongList) {
         this.hoaDonList = hoaDonList;
         this.phongList = phongList;
-        this.khachHangList = khachHangList;
         mContext = context;
     }
 
@@ -71,7 +69,7 @@ public class DuyetCocAdapter extends RecyclerView.Adapter<DuyetCocAdapter.DaDatV
         holder.tvMaHoaDon.setText(hoaDon.getId_hoa_don().toString());
         holder.tvNgayDatPhong.setText(hoaDon.getThoi_gian_nhan_phong().toString());
         holder.tvNgayNghi.setText(hoaDon.getThoi_gian_tra_phong().toString());
-        holder.edtTienDaTra.setText(hoaDon.getTien_coc() + "");
+        holder.edtTienDaTra.setText(hoaDon.getTien_phong() / 2 + "");
         holder.tvTienTong.setText(hoaDon.getTong_thanh_toan() + " đ (Phải trả: " + hoaDon.getTien_phong() / 2 + "đ)");
         for (int i = 0; i < phongList.size(); i++) {
             if (phongList.get(i).getId_phong().equals(hoaDon.getId_phong())) {
@@ -97,8 +95,8 @@ public class DuyetCocAdapter extends RecyclerView.Adapter<DuyetCocAdapter.DaDatV
 //                });
 
                 Intent intent = new Intent(mContext, Activity_HoaDon_DuyetCoc.class);
-                intent.putExtra("id_hd", hoaDon.getId_hoa_don());
-                intent.putExtra("tien_coc", holder.edtTienDaTra.getText());
+                intent.putExtra("hoa_don", hoaDon);
+                intent.putExtra("tien_coc", holder.edtTienDaTra.getText().toString());
                 mContext.startActivity(intent);
             }
         });

@@ -99,8 +99,8 @@ public class Fragment_Duyetcoc extends Fragment {
         edt_search = view.findViewById(R.id.edt_search);
         LoadHoaDon();
         LoadPhong();
-        LoadKhachHang();
-        duyetCocAdapter = new DuyetCocAdapter(getActivity(),hoaDonList,phongList,khachHangList);
+
+        duyetCocAdapter = new DuyetCocAdapter(getActivity(),hoaDonList,phongList);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         rcv_roomlist.setLayoutManager(linearLayoutManager);
         RecyclerView.ItemDecoration decoration = new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL);
@@ -137,25 +137,7 @@ public class Fragment_Duyetcoc extends Fragment {
             }
         });
     }
-    private void LoadKhachHang() {
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("khach_hang");
-        ref.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                khachHangList.clear();
 
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    khach_hang khachHang = dataSnapshot.getValue(khach_hang.class);
-                    khachHangList.add(khachHang);
-                }
-                duyetCocAdapter.notifyDataSetChanged();
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-    }
     private void LoadPhong() {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("phong");
         ref.addValueEventListener(new ValueEventListener() {

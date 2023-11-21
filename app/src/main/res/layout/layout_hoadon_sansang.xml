@@ -15,6 +15,7 @@
             android:padding="10dp">
 
             <ImageButton
+                android:id="@+id/btn_Back_SS"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
@@ -218,6 +219,7 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="20dp"
+                    android:layout_marginBottom="20dp"
                     android:orientation="horizontal"
                     android:weightSum="3">
 
@@ -241,18 +243,6 @@
                         android:textStyle="bold" />
 
                 </LinearLayout>
-
-                <TextView
-                    android:id="@+id/tvNgayTaoHD_SS"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="20dp"
-                    android:layout_marginBottom="20dp"
-                    android:text="Ngày tạo hoá đơn: 12/11/2012"
-                    android:textColor="#000000"
-                    android:textSize="13dp" />
 
             </LinearLayout>
 
