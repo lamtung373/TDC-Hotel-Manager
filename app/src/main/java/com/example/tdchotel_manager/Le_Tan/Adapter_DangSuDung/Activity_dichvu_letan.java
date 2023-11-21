@@ -105,6 +105,7 @@ public class Activity_dichvu_letan extends AppCompatActivity {
         rcv_dvphong.addItemDecoration(new DividerItemDecoration(Activity_dichvu_letan.this, DividerItemDecoration.VERTICAL));
         rcv_dvphong.setAdapter(adapterDvTheoPhong);
         adapterDvTheoNguoi.setIdHoaDon(idHoaDon);
+        adapterDvTheoPhong.setIdHoaDon(idHoaDon);
 
     }
 
