@@ -129,14 +129,28 @@ public class Fragment_Thongke extends Fragment {
                     if (arr_sp_loaithongke.get(i).toString().equals("Hiệu suất lao công")) {
                         tv_nv.setVisibility(View.VISIBLE);
                         sp_nv.setVisibility(View.VISIBLE);
+                        if (sp_thoigian.getSelectedItem().toString().equals("Tháng")) {
+                            sp_nam.setVisibility(View.VISIBLE);
+                            tv_nam.setVisibility(View.VISIBLE);
+                        } else {
+                            tv_nam.setVisibility(View.GONE);
+                            sp_nam.setVisibility(View.GONE);
+                        }
                     } else {
                         tv_nv.setVisibility(View.GONE);
                         sp_nv.setVisibility(View.GONE);
+                        if (sp_thoigian.getSelectedItem().toString().equals("Tháng")) {
+                            sp_nam.setVisibility(View.VISIBLE);
+                            tv_nam.setVisibility(View.VISIBLE);
+                        } else {
+                            tv_nam.setVisibility(View.GONE);
+                            sp_nam.setVisibility(View.GONE);
+                        }
                     }
-                    sp_thoigian.setVisibility(View.VISIBLE);
-                    sp_nam.setVisibility(View.VISIBLE);
-                    tvthoigian.setVisibility(View.VISIBLE);
-                    tv_nam.setVisibility(View.VISIBLE);
+//                    sp_thoigian.setVisibility(View.VISIBLE);
+//                    sp_nam.setVisibility(View.VISIBLE);
+//                    tvthoigian.setVisibility(View.VISIBLE);
+//                    tv_nam.setVisibility(View.VISIBLE);
                 }
             }
 
@@ -204,20 +218,22 @@ public class Fragment_Thongke extends Fragment {
                 for (int i = 0; i < arr_sp_nam.size(); i++) {
                     labels.add(arr_sp_nam.get(i));
                     double dem = 0;
-                    for (DataSnapshot item : snapshot.getChildren()) {
-                        hoa_don hoa_don = item.getValue(hoa_don.class);
-                        if (hoa_don.getId_lao_cong().equals(arr_sp_nv.get(sp_nv.getSelectedItemPosition()).getId_nhan_vien())) {
-                            try {
-                                //Chuyen doi thoi gian coc tu firebase
-                                thoi_gian_coc = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").parse(hoa_don.getThoi_gian_coc());
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                        for (DataSnapshot item : dataSnapshot.getChildren()) {
+                            hoa_don hoa_don = item.getValue(hoa_don.class);
+                            if (hoa_don.getId_lao_cong().equals(arr_sp_nv.get(sp_nv.getSelectedItemPosition()).getId_nhan_vien())) {
+                                try {
+                                    //Chuyen doi thoi gian coc tu firebase
+                                    thoi_gian_coc = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(hoa_don.getThoi_gian_coc());
 
-                            } catch (ParseException e) {
-                                Log.e("Lỗi chuyển đổi dữ liệu thời gian thanh toán", e.getMessage());
-                            }
+                                } catch (ParseException e) {
+                                    Log.e("Lỗi chuyển đổi dữ liệu thời gian thanh toán", e.getMessage());
+                                }
 
 
-                            if (dateFormat.format(thoi_gian_coc.getTime()).equals(arr_sp_nam.get(i))) {
-                                dem++;
+                                if (dateFormat.format(thoi_gian_coc.getTime()).equals(arr_sp_nam.get(i))) {
+                                    dem++;
+                                }
                             }
                         }
                     }
@@ -266,28 +282,30 @@ public class Fragment_Thongke extends Fragment {
                 for (int i = 0; i < 12; i++) {
                     labels.add("" + (i + 1));
                     long dem = 0;
-                    for (DataSnapshot item : snapshot.getChildren()) {
-                        hoa_don hoa_don = item.getValue(hoa_don.class);
-                        if (hoa_don.getId_lao_cong().equals(arr_sp_nv.get(sp_nv.getSelectedItemPosition()).getId_nhan_vien())) {
-                            try {
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                        for (DataSnapshot item : dataSnapshot.getChildren()) {
+                            hoa_don hoa_don = item.getValue(hoa_don.class);
+                            if (hoa_don.getId_lao_cong().equals(arr_sp_nv.get(sp_nv.getSelectedItemPosition()).getId_nhan_vien())) {
+                                try {
 
-                                //Chuyen doi thoi gian coc tu firebase
-                                thoi_gian_coc = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").parse(hoa_don.getThoi_gian_coc());
+                                    //Chuyen doi thoi gian coc tu firebase
+                                    thoi_gian_coc = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(hoa_don.getThoi_gian_coc());
 
-                            } catch (ParseException e) {
-                                Log.e("Lỗi chuyển đổi dữ liệu thời gian thanh toán", e.getMessage());
+                                } catch (ParseException e) {
+                                    Log.e("Lỗi chuyển đổi dữ liệu thời gian thanh toán", e.getMessage());
+                                }
+                                String thang = "";
+                                if (i + 1 < 10) {
+                                    thang = "0" + (i + 1);
+                                } else {
+                                    thang = "" + (i + 1);
+                                }
+                                if (dateFormat.format(thoi_gian_coc.getTime()).equals(thang + "/" + sp_nam.getSelectedItem().toString())) {
+                                    dem++;
+                                }
                             }
-                            String thang = "";
-                            if (i + 1 < 10) {
-                                thang = "0" + (i + 1);
-                            } else {
-                                thang = "" + (i + 1);
-                            }
-                            if (dateFormat.format(thoi_gian_coc.getTime()).equals(thang + "/" + sp_nam.getSelectedItem().toString())) {
-                                dem++;
-                            }
+                            barEntries.add(new BarEntry(i, (float) dem));
                         }
-                        barEntries.add(new BarEntry(i, (float) dem));
                     }
 
                 }
@@ -327,24 +345,26 @@ public class Fragment_Thongke extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 labels.clear();
                 barEntries.clear();
-                Date thoi_gian_coc = null;
+                Date thoi_gian_thanh_toan = null;
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy");
                 for (int i = 0; i < arr_sp_nam.size(); i++) {
                     labels.add(arr_sp_nam.get(i));
                     double tongtien = 0;
-                    for (DataSnapshot item : snapshot.getChildren()) {
-                        hoa_don hoa_don = item.getValue(hoa_don.class);
-                        try {
-                            //Chuyen doi thoi gian coc tu firebase
-                            thoi_gian_coc = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").parse(hoa_don.getThoi_gian_coc());
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                        for (DataSnapshot item : dataSnapshot.getChildren()) {
+                            hoa_don hoa_don = item.getValue(hoa_don.class);
+                            try {
+                                //Chuyen doi thoi gian coc tu firebase
+                                thoi_gian_thanh_toan = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(hoa_don.getThoi_gian_thanh_toan());
+                                if (dateFormat.format(thoi_gian_thanh_toan.getTime()).equals(arr_sp_nam.get(i))) {
+                                    tongtien += hoa_don.getTong_thanh_toan();
+                                }
 
-                        } catch (ParseException e) {
-                            Log.e("Lỗi chuyển đổi dữ liệu thời gian thanh toán", e.getMessage());
-                        }
+                            } catch (ParseException e) {
+                                Log.e("Lỗi chuyển đổi dữ liệu thời gian thanh toán", e.getMessage());
+                            }
 
 
-                        if (dateFormat.format(thoi_gian_coc.getTime()).equals(arr_sp_nam.get(i))) {
-                            tongtien += hoa_don.getTong_thanh_toan();
                         }
                     }
                     barEntries.add(new BarEntry(i, (float) tongtien));
@@ -496,29 +516,32 @@ public class Fragment_Thongke extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 labels.clear();
                 barEntries.clear();
-                Date thoi_gian_coc = null;
+                Date thoi_gian_thanh_toan = null;
                 SimpleDateFormat dateFormat = new SimpleDateFormat("MM/yyyy");
                 for (int i = 0; i < 12; i++) {
                     labels.add("" + (i + 1));
                     double tongtien = 0;
-                    for (DataSnapshot item : snapshot.getChildren()) {
-                        hoa_don hoa_don = item.getValue(hoa_don.class);
-                        try {
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                        for (DataSnapshot item : dataSnapshot.getChildren()) {
+                            hoa_don hoa_don = item.getValue(hoa_don.class);
+                            try {
 
-                            //Chuyen doi thoi gian coc tu firebase
-                            thoi_gian_coc = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").parse(hoa_don.getThoi_gian_coc());
+                                //Chuyen doi thoi gian coc tu firebase
+                                thoi_gian_thanh_toan = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(hoa_don.getThoi_gian_thanh_toan());
+                                String thang = "";
+                                if (i + 1 < 10) {
+                                    thang = "0" + (i + 1);
+                                } else {
+                                    thang = "" + (i + 1);
+                                }
+                                if (dateFormat.format(thoi_gian_thanh_toan.getTime()).equals(thang + "/" + sp_nam.getSelectedItem().toString())) {
+                                    tongtien += hoa_don.getTong_thanh_toan();
+                                }
 
-                        } catch (ParseException e) {
-                            Log.e("Lỗi chuyển đổi dữ liệu thời gian thanh toán", e.getMessage());
-                        }
-                        String thang = "";
-                        if (i + 1 < 10) {
-                            thang = "0" + (i + 1);
-                        } else {
-                            thang = "" + (i + 1);
-                        }
-                        if (dateFormat.format(thoi_gian_coc.getTime()).equals(thang + "/" + sp_nam.getSelectedItem().toString())) {
-                            tongtien += hoa_don.getTong_thanh_toan();
+                            } catch (ParseException e) {
+                                Log.e("Lỗi chuyển đổi dữ liệu thời gian thanh toán", e.getMessage());
+                            }
+
                         }
                     }
                     barEntries.add(new BarEntry(i, (float) tongtien));
@@ -574,28 +597,30 @@ public class Fragment_Thongke extends Fragment {
                 arr_sp_nam.clear();
                 Date thoi_gian_hoa_don = null;
                 java.text.SimpleDateFormat dateFormat = new java.text.SimpleDateFormat("yyyy");
-                for (DataSnapshot item : snapshot.getChildren()) {
-                    hoa_don hoa_don = item.getValue(com.example.tdchotel_manager.Model.hoa_don.class);
-                    try {
-                        thoi_gian_hoa_don = new SimpleDateFormat("dd/MM/yyyy").parse(hoa_don.getThoi_gian_coc());
-                        if (arr_sp_nam.size() > 0) {
-                            boolean check_contain = false;
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    for (DataSnapshot item : dataSnapshot.getChildren()) {
+                        hoa_don hoa_don = item.getValue(com.example.tdchotel_manager.Model.hoa_don.class);
+                        try {
+                            thoi_gian_hoa_don = new SimpleDateFormat("dd/MM/yyyy").parse(hoa_don.getThoi_gian_coc());
+                            if (arr_sp_nam.size() > 0) {
+                                boolean check_contain = false;
 
-                            //kiem tra su ton tai cua nam muon them
-                            for (int i = 0; i < arr_sp_nam.size(); i++) {
-                                if (arr_sp_nam.get(i).equals(dateFormat.format(thoi_gian_hoa_don))) {
-                                    check_contain = true;
+                                //kiem tra su ton tai cua nam muon them
+                                for (int i = 0; i < arr_sp_nam.size(); i++) {
+                                    if (arr_sp_nam.get(i).equals(dateFormat.format(thoi_gian_hoa_don))) {
+                                        check_contain = true;
 
+                                    }
                                 }
-                            }
-                            if (check_contain == false) {
+                                if (check_contain == false) {
+                                    arr_sp_nam.add(dateFormat.format(thoi_gian_hoa_don));
+                                }
+                            } else {
                                 arr_sp_nam.add(dateFormat.format(thoi_gian_hoa_don));
                             }
-                        } else {
-                            arr_sp_nam.add(dateFormat.format(thoi_gian_hoa_don));
+                        } catch (ParseException e) {
+                            Log.e("Lỗi chuyển thời gian", e.getMessage());
                         }
-                    } catch (ParseException e) {
-                        Log.e("Lỗi chuyển thời gian", e.getMessage());
                     }
                 }
                 adapter.notifyDataSetChanged();
@@ -607,7 +632,6 @@ public class Fragment_Thongke extends Fragment {
             }
         });
 
-        //spinner nhan vien
         ArrayList<String> arr_sp_nv1 = new ArrayList<>();
         ArrayAdapter adapter_nv = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, arr_sp_nv1);
         sp_nv.setAdapter(adapter_nv);

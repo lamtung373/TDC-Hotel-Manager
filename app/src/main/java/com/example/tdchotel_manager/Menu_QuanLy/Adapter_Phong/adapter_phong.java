@@ -69,9 +69,6 @@ public class adapter_phong extends RecyclerView.Adapter<adapter_phong.MyViewHold
         return danh_sach_phong;
     }
 
-    public ArrayList<phong> getRoomList() {
-        return room_list;
-    }
 
     // Setters
     public void setOnItemLongClickListener(OnItemLongClickListener listener) {
@@ -188,16 +185,6 @@ public class adapter_phong extends RecyclerView.Adapter<adapter_phong.MyViewHold
         room_list = filteredRoomList;
         notifyDataSetChanged();
     }
-
-    //    public void filterRoomListByType(String type) {
-//        danh_sach_phong_loc.clear();
-//        for (phong room : danh_sach_phong) { // Đảm bảo bạn có danh sách phòng ban đầu để lọc từ đó
-//            if (room.getLoai_phong().equals(type)) {
-//                danh_sach_phong_loc.add(room);
-//            }
-//        }
-//        updateRoomList(danh_sach_phong_loc);
-//    }
     private void khoi_tao() {
         progressBar.setVisibility(View.VISIBLE);
         // Fetch data from Firebase
@@ -212,23 +199,22 @@ public class adapter_phong extends RecyclerView.Adapter<adapter_phong.MyViewHold
                     phong rooms = dataSnapshot.getValue(phong.class);
                     if (rooms != null) room_list.add(rooms);
                 }
-
-                reference_status.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        status_list.clear();
-                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                            trang_thai_phong status = dataSnapshot.getValue(trang_thai_phong.class);
-                            if (status != null) status_list.add(status);
-                        }
-                        notifyDataSetChanged();
-                        progressBar.setVisibility(View.GONE);
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                    }
-                });
+                notifyDataSetChanged();
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+        reference_status.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                status_list.clear();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    trang_thai_phong status = dataSnapshot.getValue(trang_thai_phong.class);
+                    if (status != null) status_list.add(status);
+                }
+                notifyDataSetChanged();
+                progressBar.setVisibility(View.GONE);
             }
 
             @Override

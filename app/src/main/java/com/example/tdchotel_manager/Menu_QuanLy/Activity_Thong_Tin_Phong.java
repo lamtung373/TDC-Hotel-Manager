@@ -177,7 +177,6 @@ public class Activity_Thong_Tin_Phong extends AppCompatActivity {
 
     //truyền ảnh từ url vào adapter để hiện ảnh lên recyclerview
     private void loadImagesFromFirebase(phong thongtin) {
-        picture_list.clear();
         for (String url : thongtin.getAnh_phong()) {
             list_ten_anh.add(url);
             Uri imageUri = Uri.parse(url);
@@ -263,12 +262,12 @@ public class Activity_Thong_Tin_Phong extends AppCompatActivity {
         if (validateRoomData()) {
             viewBlocking.setVisibility(View.VISIBLE);
             progressBar_luuphong.setVisibility(View.VISIBLE); // Hiển thị ProgressBar
-            SuaThongTinCoBan(idPhong, list_ten_anh);
+            SuaThongTinCoBan(idPhong);
 
         }
     }
 
-    void SuaThongTinCoBan(String id_phong, ArrayList<String> anh_phong) {
+    void SuaThongTinCoBan(String id_phong) {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("phong").child(id_phong);
         String ten_phong = edt_name.getText().toString();
         String mo_ta_chung = edt_description.getText().toString();
@@ -288,8 +287,6 @@ public class Activity_Thong_Tin_Phong extends AppCompatActivity {
         updates.put("gia", gia);
         updates.put("sale", sale);
 
-        // Đối với danh sách ảnh phòng, bạn có thể cập nhật chúng bằng cách tạo một đối tượng chứa danh sách ảnh.
-        //updates.put("anh_phong", anh_phong);
 
         // Cập nhật thông tin của phòng
         ref.updateChildren(updates).addOnCompleteListener(task -> {
@@ -304,14 +301,10 @@ public class Activity_Thong_Tin_Phong extends AppCompatActivity {
 
         // Sau khi cập nhật thông tin cơ bản của phòng, bạn có thể tiếp tục với việc cập nhật danh sách chi tiết dịch vụ phòng và tiện nghi.
         SuaChiTiet(id_phong);
-        uploadImagesUpdate(imageAdapter.getData(), new OnAllImagesUploadedListener() {
+        uploadImagesUpdate(picture_list, new OnAllImagesUploadedListener() {
             @Override
             public void onAllImagesUploaded(List<String> imageUrls) {
                 // Xử lý khi tất cả ảnh đã được tải lên và bạn đã nhận được danh sách đường dẫn URL của ảnh
-                updatePhongAnh(list_ten_anh, id_phong);
-                for (String str : list_ten_anh) {
-                    Log.e("uledvvffrg", str);
-                }
                 progressBar_luuphong.setVisibility(View.GONE);
                 viewBlocking.setVisibility(View.GONE);
                 Toast.makeText(Activity_Thong_Tin_Phong.this, "Thêm phòng thành công", Toast.LENGTH_SHORT).show();
@@ -349,7 +342,9 @@ public class Activity_Thong_Tin_Phong extends AppCompatActivity {
             return;
         }
 
+        Log.e("Trước",imageUris.size()+"");
         for (Uri imageUri : imageUris) {
+            Log.e("Trước",imageUri+"");
             // Đặt tên duy nhất cho ảnh tải lên (ví dụ: theo thời gian hiện tại)
             String uniqueName = "image" + System.currentTimeMillis() + "_" + uploadCount.incrementAndGet();
 
@@ -365,7 +360,8 @@ public class Activity_Thong_Tin_Phong extends AppCompatActivity {
                             if (uploadCount.get() == imageUris.size()) {
                                 // Gọi listener khi tất cả ảnh đã được tải lên và lấy URL thành công
                                 listener.onAllImagesUploaded(downloadUrls);
-                                updatePhongAnh(downloadUrls, thong_tin_phong.getId_phong());
+                                list_ten_anh.addAll(downloadUrls);
+                                updatePhongAnh(list_ten_anh, thong_tin_phong.getId_phong());
                             }
                         });
                     })
@@ -387,9 +383,6 @@ public class Activity_Thong_Tin_Phong extends AppCompatActivity {
 
         list_chi_tietTN.clear();
         list_chi_tietTN = adapterTienNghi.getChi_tiet_tien_nghis();
-        for (int i = 0; i < list_chi_tietTN.size(); i++) {
-            Log.e("chi tiet tien nghi lấy về", list_chi_tietTN.get(i).getId_tien_nghi() + " " + list_chi_tietTN.get(i).getSo_luong());
-        }
         onClickUpdateComfort(list_chi_tietTN, id_phong);
     }
 

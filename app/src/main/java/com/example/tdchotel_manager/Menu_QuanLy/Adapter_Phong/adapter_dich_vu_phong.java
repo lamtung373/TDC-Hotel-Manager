@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.tdchotel_manager.Model.chi_tiet_dich_vu_phong;
 import com.example.tdchotel_manager.Model.chi_tiet_tien_nghi;
 import com.example.tdchotel_manager.Model.dich_vu_phong;
-import com.example.tdchotel_manager.Model.tien_nghi;
 import com.example.tdchotel_manager.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -59,7 +58,7 @@ public class adapter_dich_vu_phong extends RecyclerView.Adapter<adapter_dich_vu_
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_item_dich_vu_phong, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_item_chi_tiet_tien_nghi_va_dich_vu_phong, parent, false);
         return new adapter_dich_vu_phong.MyViewHolder(itemView);
     }
 
@@ -166,6 +165,10 @@ public class adapter_dich_vu_phong extends RecyclerView.Adapter<adapter_dich_vu_
                     dich_vu_phong dichVuPhong = dataSnapshot.getValue(dich_vu_phong.class);
                     if (dichVuPhong != null) {
                         datalist.add(dichVuPhong);
+                        // Tạo một đối tượng chi tiết tiện nghi mới với số lượng mặc định là 0
+                        chi_tiet_dich_vu_phong cttn = new chi_tiet_dich_vu_phong();
+                        cttn.setId_dich_vu_phong(dichVuPhong.getId_dich_vu_phong());
+                        chi_tiet_dich_vu_phongs.add(cttn);
                     }
                 }
                 notifyDataSetChanged();

@@ -40,7 +40,6 @@ public class adapter_tien_nghi extends RecyclerView.Adapter<adapter_tien_nghi.My
         cttn.setSo_luong(soLuong);
         chi_tiet_tien_nghis.add(cttn);
         notifyDataSetChanged();
-
     }
 
 
@@ -57,7 +56,7 @@ public class adapter_tien_nghi extends RecyclerView.Adapter<adapter_tien_nghi.My
     @NonNull
     @Override
     public adapter_tien_nghi.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_item_dich_vu_phong, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_item_chi_tiet_tien_nghi_va_dich_vu_phong, parent, false);
         return new adapter_tien_nghi.MyViewHolder(itemView);
     }
 
@@ -177,7 +176,7 @@ public class adapter_tien_nghi extends RecyclerView.Adapter<adapter_tien_nghi.My
                     tien_nghi tienNghi = dataSnapshot.getValue(tien_nghi.class);
                     if (tienNghi != null) {
                         dataList.add(tienNghi);
-// Tạo một đối tượng chi tiết tiện nghi mới với số lượng mặc định là 0
+                        // Tạo một đối tượng chi tiết tiện nghi mới với số lượng mặc định là 0
                         chi_tiet_tien_nghi cttn = new chi_tiet_tien_nghi();
                         cttn.setId_tien_nghi(tienNghi.getId_tien_nghi());
                         cttn.setSo_luong(0); // Hoặc giá trị mặc định nào đó

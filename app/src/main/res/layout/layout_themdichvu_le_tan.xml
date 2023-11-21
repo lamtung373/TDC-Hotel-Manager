@@ -1,78 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".Menu_QuanLy.Activity_Thong_Tin_Phong">
+    tools:context=".Le_Tan.Activity_XacNhanDatPhongDichVu">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <LinearLayout
+        <RelativeLayout
+            android:id="@+id/rl_title"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginBottom="10dp"
+            android:layout_height="wrap_content"
             android:background="@color/dark_blue"
-            android:orientation="horizontal">
-
-            <ImageButton
-                android:id="@+id/btn_back"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="10dp"
-                android:background="@null"
-                android:src="@drawable/back" />
+            android:padding="10dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
                 android:layout_gravity="center"
-                android:layout_weight="1"
                 android:gravity="center"
-                android:text="Thông tin chi tiết phòng"
+                android:text="Chọn dịch vụ"
                 android:textColor="@color/white"
                 android:textSize="20dp"
                 android:textStyle="bold" />
 
+            <ImageButton
+                android:id="@+id/img_Back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
 
-        </LinearLayout>
-        <TextView
-            style="@style/textview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:text="Dịch vụ - phòng:" />
+                android:layout_gravity="center"
+                android:layout_marginRight="10dp"
+                android:background="@null"
+                android:src="@drawable/back" />
+        </RelativeLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rcv_tien_nghi"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_marginHorizontal="10dp" />
+
+
 
         <TextView
             style="@style/textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:text="Dịch vụ - người:" />
+            android:layout_marginLeft="20dp"
+            android:layout_marginBottom="10dp"
+            android:text="Dịch Vụ - Phòng"
+            android:textSize="18dp"/>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rcv_dich_vu_phong"
+            android:id="@+id/rcv_dvphong"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_marginHorizontal="10dp" />
-        <Button
-            android:layout_margin="20dp"
-            android:id="@+id/btnLuuMoiDV"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Lưu mới dịch vụ"
-            android:textColor="@color/white"
-            android:background="@drawable/selector_bg_button"/>
-        </LinearLayout>
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="20dp" />
+        <TextView
+            style="@style/textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginBottom="10dp"
+            android:text="Dịch Vụ - Người"
+            android:textSize="18dp"/>
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcv_dvtheonguoi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="20dp" />
+        <Button
+            android:id="@+id/btnXacNhanDV"
+            style="@style/button"
+            android:background="@drawable/selector_bg_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="50dp"
+            android:text="Xác nhận dịch vụ"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"/>
+    </LinearLayout>
 </ScrollView>

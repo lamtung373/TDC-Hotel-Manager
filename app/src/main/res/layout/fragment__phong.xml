@@ -46,24 +46,20 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginBottom="10dp" />
-    <ProgressBar
-    android:id="@+id/progressBar_phong"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_centerInParent="true"
-    android:layout_gravity="center"
-    android:progressDrawable="@drawable/refresh"
-    android:visibility="gone"/>
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rcv_roomlist"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginHorizontal="10dp">
 
-        </androidx.recyclerview.widget.RecyclerView>
-    </ScrollView>
+    <ProgressBar
+        android:id="@+id/progressBar_phong"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:progressDrawable="@drawable/refresh"
+        android:visibility="gone" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcv_roomlist"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="10dp"/>
 
 </LinearLayout>
