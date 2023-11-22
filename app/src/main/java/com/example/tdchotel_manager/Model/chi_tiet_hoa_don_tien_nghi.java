@@ -15,6 +15,8 @@ String id_hoa_don, id_tien_nghi;
 
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
+        result.put("id_hoa_don", id_hoa_don);
+        result.put("id_tien_nghi", id_tien_nghi);
         result.put("so_luong", so_luong);
 
         return result;
