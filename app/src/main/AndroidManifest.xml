@@ -84,13 +84,13 @@
             android:exported="false" />
         <activity
             android:name=".Menu_QuanLy.TrangChu_QuanLy"
-            android:exported="true" />
+            android:exported="false" />
         <activity
             android:name=".Menu_QuanLy.CheckInOut"
-            android:exported="true" />
+            android:exported="false" />
         <activity
             android:name=".Menu_QuanLy.Activity_NghiLam"
-            android:exported="true" />
+            android:exported="false" />
         <activity
             android:name=".DangNhap"
             android:exported="true">

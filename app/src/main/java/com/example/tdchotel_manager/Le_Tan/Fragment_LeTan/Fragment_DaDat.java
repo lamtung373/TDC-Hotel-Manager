@@ -103,10 +103,10 @@ public class Fragment_DaDat extends Fragment {
         LoadPhong();
         LoadKhachHang();
 
-        daDatAdapter = new DaDatAdapter(getActivity(),hoaDonList,phongList,khachHangList);
+        daDatAdapter = new DaDatAdapter(getActivity(), hoaDonList, phongList, khachHangList);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         rcv_roomlist.setLayoutManager(linearLayoutManager);
-        RecyclerView.ItemDecoration decoration = new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL);
+        RecyclerView.ItemDecoration decoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL);
         rcv_roomlist.addItemDecoration(decoration);
         rcv_roomlist.setAdapter(daDatAdapter);
     }
@@ -125,12 +125,8 @@ public class Fragment_DaDat extends Fragment {
                     for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
                         hoa_don hoaDon = dataSnapshot1.getValue(hoa_don.class);
 
-                        if(!hoaDon.getThoi_gian_duyet().equals(""))
-                        {
-                            Log.e("eee"+hoaDon.getThoi_gian_huy()+"ee","555"+hoaDon.getThoi_gian_thanh_toan()+"dfsf");
-                            if(hoaDon.getThoi_gian_thanh_toan().toString().equals("")&&hoaDon.getThoi_gian_huy().toString().equals(""))
-                            {
-                                Log.e("eee","666");
+                        if (!hoaDon.getThoi_gian_duyet().equals("") && hoaDon.getCCCD().get(0).equals("") && hoaDon.getCCCD().get(1).equals("")) {
+                            if (hoaDon.getThoi_gian_thanh_toan().toString().equals("") && hoaDon.getThoi_gian_huy().toString().equals("")) {
                                 hoaDonList.add(hoaDon);
                             }
                         }
@@ -138,12 +134,14 @@ public class Fragment_DaDat extends Fragment {
                 }
                 daDatAdapter.notifyDataSetChanged();
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });
     }
+
     private void LoadKhachHang() {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("khach_hang");
         ref.addValueEventListener(new ValueEventListener() {
@@ -157,12 +155,14 @@ public class Fragment_DaDat extends Fragment {
                 }
                 daDatAdapter.notifyDataSetChanged();
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });
     }
+
     private void LoadPhong() {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("phong");
         ref.addValueEventListener(new ValueEventListener() {
@@ -172,11 +172,12 @@ public class Fragment_DaDat extends Fragment {
 
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
 
-                        phong phong = dataSnapshot.getValue(phong.class);
-                                phongList.add(phong);
+                    phong phong = dataSnapshot.getValue(phong.class);
+                    phongList.add(phong);
                 }
                 daDatAdapter.notifyDataSetChanged();
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 

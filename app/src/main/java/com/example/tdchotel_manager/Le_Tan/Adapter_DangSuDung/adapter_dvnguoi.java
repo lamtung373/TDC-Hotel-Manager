@@ -28,15 +28,14 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 public class adapter_dvnguoi extends RecyclerView.Adapter<adapter_dvnguoi.DV_TheoNguoi_Holder> {
-    ArrayList<dich_vu> data_dv=new ArrayList<>();
-ArrayList<chi_tiet_hoa_don_dich_vu> chiTietHoaDonDichVus = new ArrayList<>();
+    private ArrayList<dich_vu> data_dv = new ArrayList<>();
+    private String idHoaDon; // Thêm biến này để lưu trữ idHoaDon
+    public void setIdHoaDon(String idHoaDon) {
+        this.idHoaDon = idHoaDon;
+    }
 
     public ArrayList<dich_vu> getData_dv() {
         return data_dv;
-    }
-
-    public void setData_dv(ArrayList<dich_vu> data_dv) {
-        this.data_dv = data_dv;
     }
 
     public adapter_dvnguoi() {
@@ -74,36 +73,28 @@ ArrayList<chi_tiet_hoa_don_dich_vu> chiTietHoaDonDichVus = new ArrayList<>();
                     }
                 }
             });
-        }
-    }
-    public void GoiDuLieu(String idHoaDon) {
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("chi_tiet_hoa_don_dich_vu").child(idHoaDon);
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot facilitySnapshot : dataSnapshot.getChildren()) {
-                    chi_tiet_hoa_don_dich_vu comfortDetail = facilitySnapshot.getValue(chi_tiet_hoa_don_dich_vu.class);
-                    if (comfortDetail != null) {
-                        for (dich_vu dichVu : data_dv){
-                            if(comfortDetail.getId_dich_vu().equals(dichVu.getId_dich_vu())){
-                                dichVu.setSo_luong(comfortDetail.getSo_luong());
-                            }
+            DatabaseReference referenceChiTietDV = FirebaseDatabase.getInstance().getReference("chi_tiet_hoa_don_dich_vu")
+                    .child(idHoaDon)
+                    .child(data_dv.get(position).getId_dich_vu());
+
+            referenceChiTietDV.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists()) {
+                        chi_tiet_hoa_don_dich_vu chiTietDV = snapshot.getValue(chi_tiet_hoa_don_dich_vu.class);
+                        if (chiTietDV != null) {
+                            holder.edtSonguoi.setText(String.valueOf(chiTietDV.getSo_luong()));
                         }
                     }
                 }
-                notifyDataSetChanged();
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                // Xử lý lỗi
-                Log.e("fetchComfortDetails", "Failed to read value.", databaseError.toException());
-            }
-        });
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Log.e("FirebaseError", "Lỗi tải dữ liệu số lượng: " + error.getMessage());
+                }
+            });
+        }
     }
-
-
-
     @Override
     public int getItemCount() {
         return data_dv.size();
