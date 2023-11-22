@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -45,6 +46,8 @@ public class giahanthoigian extends AppCompatActivity {
     Button btnTGdukien, btnTGketthuc, btnXacNhanDV;
     Date thoi_gian_nhan = null;
     Date thoi_gian_tra = null;
+    ImageButton imgButtonquaylai;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,27 +59,31 @@ public class giahanthoigian extends AppCompatActivity {
     }
     private void updateThoiGianNhanTraPhong(String idPhong, String idHoaDon, String thoiGianNhan, String thoiGianTra) {
         DatabaseReference hoaDonRef = FirebaseDatabase.getInstance().getReference("hoa_don").child(idPhong).child(idHoaDon);
-
-        hoaDonRef.child("thoi_gian_nhan_phong").setValue(thoiGianNhan);
         hoaDonRef.child("thoi_gian_tra_phong").setValue(thoiGianTra);
     }
 
 
     private void setEvent() {
+        imgButtonquaylai.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         btnXacNhanDV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 try {
                     Date now = new Date();
-                    thoi_gian_nhan = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(btnTGdukien.getText().toString());
-                    thoi_gian_tra = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(btnTGketthuc.getText().toString());
+                    thoi_gian_nhan = new SimpleDateFormat("dd/MM/yyyy").parse(btnTGdukien.getText().toString());
+                    thoi_gian_tra = new SimpleDateFormat("dd/MM/yyyy").parse(btnTGketthuc.getText().toString());
 
                     // Kiểm tra thời gian nếu hợp lệ
                     if (thoi_gian_nhan.before(now) || thoi_gian_nhan.after(thoi_gian_tra)) {
                         Toast.makeText(giahanthoigian.this, "Thời gian đã đặt không hợp lệ!!!", Toast.LENGTH_SHORT).show();
                         return;
-                    } else if (((thoi_gian_tra.getTime() - thoi_gian_nhan.getTime()) / (24 * 3600 * 1000)) < 1) {
-                        Toast.makeText(giahanthoigian.this, "Thời gian ở phải ít nhất 1 ngày!!!", Toast.LENGTH_SHORT).show();
+                    } else if (((thoi_gian_nhan.getTime() - now.getTime()) / (24 * 3600 * 1000)) < 1) {
+                        Toast.makeText(giahanthoigian.this, "Ngày gia hạn phải lớn hơn ngày trả hiện tại ít nhất 1 ngày!!!", Toast.LENGTH_SHORT).show();
                         return;
                     }
 
@@ -84,20 +91,56 @@ public class giahanthoigian extends AppCompatActivity {
                     if (intent != null) {
                         String idPhong = intent.getStringExtra("idPhong");
                         String idHoaDon = intent.getStringExtra("idHoaDon");
-                        updateThoiGianNhanTraPhong(idPhong, idHoaDon, new SimpleDateFormat("dd/MM/yyyy HH:mm").format(thoi_gian_nhan), new SimpleDateFormat("dd/MM/yyyy HH:mm").format(thoi_gian_tra));
-
+                        updateThoiGianNhanTraPhong(idPhong, idHoaDon, new SimpleDateFormat("dd/MM/yyyy").format(thoi_gian_nhan), new SimpleDateFormat("dd/MM/yyyy").format(thoi_gian_tra));
                     }
 
+                    Intent resultIntent = new Intent();
+                    setResult(RESULT_OK, resultIntent);
+                    finish();
                 } catch (Exception e) {
                     Log.e("Lỗi chuyển đổi dữ liệu thời gian đã đặt", e.getMessage());
                 }
             }
         });
     }
-        private void Initialization() {
-        ChonThoiGian(btnTGdukien);
+    private void Initialization() {
+        // Assuming that idPhong and idHoaDon are available
+        Intent intent = getIntent();
+        if (intent != null) {
+            String idPhong = intent.getStringExtra("idPhong");
+            String idHoaDon = intent.getStringExtra("idHoaDon");
+
+            // Retrieve the current return time from Firebase
+            DatabaseReference hoaDonRef = FirebaseDatabase.getInstance().getReference("hoa_don").child(idPhong).child(idHoaDon);
+            hoaDonRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists()) {
+                        hoa_don hoaDon = snapshot.getValue(hoa_don.class);
+                        if (hoaDon != null) {
+                            String thoiGianTra = hoaDon.getThoi_gian_tra_phong();
+                            if (thoiGianTra != null && !thoiGianTra.isEmpty()) {
+                                try {
+                                    Date returnTime = new SimpleDateFormat("dd/MM/yyyy").parse(thoiGianTra);
+                                    // Update the button text with the current return time
+                                    btnTGdukien.setText(new SimpleDateFormat("dd/MM/yyyy").format(returnTime));
+                                } catch (Exception e) {
+                                    Log.e("Lỗi chuyển đổi dữ liệu thời gian trả phòng từ Firebase", e.getMessage());
+                                }
+                            }
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    // Handle errors if needed
+                }
+            });
+        }
         ChonThoiGian(btnTGketthuc);
     }
+
 
     void ChonThoiGian(Button btnThoigian) {
         btnThoigian.setOnClickListener(new View.OnClickListener() {
@@ -110,25 +153,18 @@ public class giahanthoigian extends AppCompatActivity {
                         calendar.set(Calendar.YEAR, year);
                         calendar.set(Calendar.MONTH, month);
                         calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                        TimePickerDialog.OnTimeSetListener timeSetListener = new TimePickerDialog.OnTimeSetListener() {
-                            @Override
-                            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                                calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
-                                calendar.set(Calendar.MINUTE, minute);
-                                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-                                btnThoigian.setText(dateFormat.format(calendar.getTime()));
-                            }
-                        };
-                        new TimePickerDialog(giahanthoigian.this, timeSetListener, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), false).show();
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                        btnThoigian.setText(dateFormat.format(calendar.getTime()));
                     }
                 };
+                // Bỏ đi TimePickerDialog để chỉ chọn ngày, tháng, và năm
                 new DatePickerDialog(giahanthoigian.this, dataListener, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
-
     }
 
     private void setControl() {
+        imgButtonquaylai = findViewById(R.id.imvbQuaylai);
         btnTGdukien = findViewById(R.id.btnTGdukien);
         btnTGketthuc = findViewById(R.id.btnTGketthuc);
         btnXacNhanDV = findViewById(R.id.btnXacNhan);

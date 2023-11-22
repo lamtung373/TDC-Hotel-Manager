@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,6 +29,7 @@ public class Activity_dichvu_letan extends AppCompatActivity {
     private RecyclerView rcv_dvphong, rcv_dvtheonguoi;
     private adapter_dvnguoi adapterDvTheoNguoi;
     private adapter_dvphong adapterDvTheoPhong;
+    ImageButton imgButtonquaylai;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +46,12 @@ public class Activity_dichvu_letan extends AppCompatActivity {
 
 
     private void setEvent() {
+        imgButtonquaylai.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         btnXacNhanDV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -87,8 +95,10 @@ public class Activity_dichvu_letan extends AppCompatActivity {
                         Toast.makeText(Activity_dichvu_letan.this, "Vui lòng chọn ít nhất một dịch vụ", Toast.LENGTH_SHORT).show();
                         return;
                     }
-
                     Toast.makeText(Activity_dichvu_letan.this, "Đã lưu dữ liệu thành công", Toast.LENGTH_SHORT).show();
+                    Intent resultIntent = new Intent();
+                    setResult(RESULT_OK, resultIntent);
+                    finish();
 
                 } catch (Exception e) {
                     Log.e("Lỗi chuyển đổi dữ liệu số lượng khách", e.getMessage());
@@ -114,7 +124,7 @@ public class Activity_dichvu_letan extends AppCompatActivity {
         btnXacNhanDV = findViewById(R.id.btnXacNhanDV);
         rcv_dvphong = findViewById(R.id.rcv_dvphong);
         rcv_dvtheonguoi = findViewById(R.id.rcv_dvtheonguoi);
-
+        imgButtonquaylai = findViewById(R.id.img_Back);
         adapterDvTheoNguoi = new adapter_dvnguoi();
         adapterDvTheoPhong = new adapter_dvphong();
     }
