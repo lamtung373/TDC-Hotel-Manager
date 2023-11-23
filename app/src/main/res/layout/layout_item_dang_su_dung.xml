@@ -3,10 +3,10 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginVertical="10dp"
     android:id="@+id/layout_hoadon">
 
     <LinearLayout
-        android:layout_margin="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_rv_item"
@@ -17,6 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
             android:orientation="vertical">
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -29,16 +30,19 @@
                     android:layout_marginLeft="10dp"
                     android:text="Số phòng"
                     android:textColor="@color/black" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text=" - "/>
+                    android:text=" - " />
+
                 <TextView
                     android:id="@+id/tvTrangThaiPhong"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Trạng thái"/>
+                    android:text="Trạng thái" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -50,10 +54,11 @@
                     android:layout_marginLeft="10dp"
                     android:text="Mã hóa đơn"
                     android:textColor="@color/black" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text=": "/>
+                    android:text=": " />
 
                 <TextView
                     android:id="@+id/tvMaHoaDon"
@@ -83,10 +88,12 @@
                     android:layout_marginLeft="10dp"
                     android:text="Nhận phòng"
                     android:textColor="@color/black" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text=" - "/>
+                    android:text=" - " />
+
                 <TextView
                     android:id="@+id/tvNgayTraPhong"
                     android:layout_width="wrap_content"
@@ -106,10 +113,11 @@
                     android:layout_marginLeft="10dp"
                     android:text="Đã trả"
                     android:textColor="@color/black" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text=": "/>
+                    android:text=": " />
 
                 <TextView
                     android:id="@+id/tvDaTra"
@@ -130,10 +138,11 @@
                     android:layout_marginLeft="10dp"
                     android:text="Tổng"
                     android:textColor="@color/black" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text=": "/>
+                    android:text=": " />
 
                 <TextView
                     android:id="@+id/tvTong"
@@ -145,25 +154,32 @@
 
 
         </LinearLayout>
+
         <LinearLayout
-            android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginBottom="10dp"
+            android:gravity="center"
             android:orientation="horizontal">
-        <Button
-            android:layout_marginRight="20dp"
-            android:layout_gravity="center"
-            android:id="@+id/btnXacNhanTraPhong"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="trả phòng" />
-        <Button
 
-            android:layout_gravity="center"
-            android:id="@+id/btnXacNhanThanhToan"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="thanh toán" />
+            <Button
+                android:id="@+id/btnXacNhanTraPhong"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/selector_bg_button"
+                android:text="trả phòng"
+                android:textSize="13dp" />
+
+            <Button
+                android:id="@+id/btnXacNhanThanhToan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/selector_bg_button"
+                android:text="thanh toán"
+                android:textSize="13dp" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>
