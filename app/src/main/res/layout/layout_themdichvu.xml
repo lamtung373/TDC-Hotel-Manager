@@ -124,6 +124,7 @@
             style="@style/button"
             android:text="Lưu"
             android:textColor="@color/white"
+            android:drawableLeft="@drawable/save"
             android:background="@drawable/selector_bg_button"/>
     </LinearLayout>
 </LinearLayout>

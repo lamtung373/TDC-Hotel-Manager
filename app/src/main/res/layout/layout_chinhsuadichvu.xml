@@ -98,12 +98,12 @@
         android:orientation="horizontal"
         android:gravity="center">
         <Button
-
             android:id="@+id/btnCSDV"
             style="@style/button"
             android:background="@drawable/selector_bg_button"
             android:text="Lưu"
             android:layout_marginRight="20dp"
+            android:drawableLeft="@drawable/save"
             android:textColor="@color/white"/>
         <Button
             android:id="@+id/btnXDV"
@@ -111,6 +111,7 @@
             android:text="Xóa"
             android:background="@drawable/selector_bg_button"
             android:textColor="@color/white"
+            android:drawableLeft="@drawable/baseline_delete_24"
             android:backgroundTint="@color/red"/>
     </LinearLayout>
 </LinearLayout>
