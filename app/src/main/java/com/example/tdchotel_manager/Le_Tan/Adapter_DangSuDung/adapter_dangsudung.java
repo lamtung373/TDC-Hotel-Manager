@@ -38,10 +38,12 @@ public class adapter_dangsudung extends RecyclerView.Adapter<adapter_dangsudung.
     private ArrayList<hoa_don> datalist = new ArrayList<>();
     private ArrayList<phong> phongList = new ArrayList<>();
     private Context context;
+    private ArrayList<hoa_don> originalDataList;
 
     public adapter_dangsudung(Context context) {
         this.context = context;
         this.datalist = new ArrayList<>(datalist);
+        this.originalDataList = new ArrayList<>(datalist);
         khoi_tao();
         loadPhongData();
 
@@ -55,9 +57,10 @@ public class adapter_dangsudung extends RecyclerView.Adapter<adapter_dangsudung.
     public void filter(String text) {
         ArrayList<hoa_don> filteredList = new ArrayList<>();
 
-        for (hoa_don nv : datalist) {
-            if (nv.getId_phong().toLowerCase().contains(text.toLowerCase())) {
-                filteredList.add(nv);
+        for (hoa_don hoaDon : originalDataList) {
+            String tenPhong = findTenPhongById(hoaDon.getId_phong()).toLowerCase();
+            if (tenPhong.contains(text.toLowerCase())) {
+                filteredList.add(hoaDon);
             }
         }
 
@@ -106,8 +109,7 @@ public class adapter_dangsudung extends RecyclerView.Adapter<adapter_dangsudung.
 
         // Kiểm tra nếu trạng thái phòng là 1
         if (findTenTrangThaiPhongById(dataItem.getId_phong()).equals("Sẵn sàng")) {
-            // Nếu trạng thái phòng là 1, đặt khả năng hiển thị của mục thành GONE
-            holder.itemView.setVisibility(View.GONE);
+         return;
         } else {
             // Nếu trạng thái phòng không phải là 1, tiến hành với quy trình gắn kết thông thường
             holder.itemView.setVisibility(View.VISIBLE);
@@ -137,6 +139,7 @@ public class adapter_dangsudung extends RecyclerView.Adapter<adapter_dangsudung.
                 }
             }
         });
+
 
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -199,10 +202,11 @@ public class adapter_dangsudung extends RecyclerView.Adapter<adapter_dangsudung.
                         String thoiGianNhanPhong = childSnapshot.child("thoi_gian_nhan_phong").getValue(String.class);
                         String thoiGianThanhToan = childSnapshot.child("thoi_gian_thanh_toan").getValue(String.class);
 
-                        // Kiểm tra điều kiện để lấy dữ liệu đang sử dụng
-                        if (idPhong != null && !thoiGianNhanPhong.equals("") && thoiGianThanhToan.equals("")) {
+                        // Kiểm tra điều kiện để lấy dữ liệu đang sử dụng và trạng thái phòng khác 1
+                        if (idPhong != null && !thoiGianNhanPhong.equals("") && thoiGianThanhToan.equals("") && !findTenTrangThaiPhongById(idPhong).equals("Sẵn sàng")) {
                             hoa_don hoaDon = childSnapshot.getValue(hoa_don.class);
                             datalist.add(hoaDon);
+                            originalDataList.add(hoaDon);
                         }
                     }
                 }
@@ -215,6 +219,7 @@ public class adapter_dangsudung extends RecyclerView.Adapter<adapter_dangsudung.
             }
         });
     }
+
 
     // Hiển thị dialog chọn hình thức khi click vào item
     private void showItemOptions(String idPhong, String idHoaDon) {
