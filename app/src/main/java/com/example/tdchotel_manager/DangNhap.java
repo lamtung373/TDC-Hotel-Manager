@@ -50,19 +50,19 @@ public class DangNhap extends AppCompatActivity {
         switch (chuc_vu_auto.toLowerCase()) {
             case "lao công":
                 Intent intent_laocong = new Intent(DangNhap.this, Activity_LaoCong.class);
-                intent_laocong.putExtra("id_staff", id_staff_auto);
+//                intent_laocong.putExtra("id_staff", id_staff_auto);
                 startActivity(intent_laocong);
                 finish();
                 break;
             case "lễ tân":
                 Intent intent_letan = new Intent(DangNhap.this, Activity_LeTan.class);
-                intent_letan.putExtra("id_staff", id_staff_auto);
+//                intent_letan.putExtra("id_staff", id_staff_auto);
                 startActivity(intent_letan);
                 finish();
                 break;
             case "quản lý":
                 Intent intent = new Intent(DangNhap.this, TrangChu_QuanLy.class);
-                intent.putExtra("id_staff", id_staff_auto);
+//                intent.putExtra("id_staff", id_staff_auto);
                 startActivity(intent);
                 finish();
                 break;

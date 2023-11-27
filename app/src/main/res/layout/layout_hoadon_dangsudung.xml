@@ -15,6 +15,7 @@
             android:padding="10dp">
 
             <ImageButton
+                android:id="@+id/btn_Back_TT"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
@@ -48,6 +49,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
+                android:paddingBottom="20dp"
                 android:background="#CCFFFF"
                 android:orientation="vertical">
 
@@ -62,42 +64,46 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/tvMaHD_TT"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="20dp"
-                    android:text="Mã HĐ: XXXXX"
+                    android:text="Mã HĐ:"
                     android:textColor="#000000"
                     android:textSize="15dp"
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/tvTenKhachHang_TT"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="20dp"
-                    android:text="Khách hàng: Nguyễn Văn A"
+                    android:text="Khách hàng:"
                     android:textColor="#000000"
                     android:textSize="15dp"
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/tvSDT_TT"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="20dp"
-                    android:text="Số điện thoại: 09XXXXXXXX"
+                    android:text="Số điện thoại:"
                     android:textColor="#000000"
                     android:textSize="15dp"
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/tvTenPhong_TT"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="20dp"
-                    android:text="Phòng: XXX"
+                    android:text="Phòng:"
                     android:textColor="#000000"
                     android:textSize="15dp"
                     android:textStyle="bold" />
@@ -119,10 +125,11 @@
                         android:textSize="13dp" />
 
                     <TextView
+                        android:id="@+id/tvNgayNhanPhong_TT"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="12/11/2012"
+                        android:text="XX/XX/XXXX"
                         android:textColor="#000000"
                         android:textSize="13dp" />
 
@@ -145,10 +152,11 @@
                         android:textSize="13dp" />
 
                     <TextView
+                        android:id="@+id/tvNgayTraPhong_TT"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="15/11/2012"
+                        android:text="XX/XX/XXXX"
                         android:textColor="#000000"
                         android:textSize="13dp" />
 
@@ -171,10 +179,11 @@
                         android:textSize="13dp" />
 
                     <TextView
+                        android:id="@+id/tvTienPhong_TT"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="520.000đ"
+                        android:text="X.XXXđ"
                         android:textColor="#000000"
                         android:textSize="13dp" />
 
@@ -186,26 +195,7 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="20dp"
-                    android:text="Tiện nghi phòng"
-                    android:textColor="#000000"
-                    android:textSize="13dp" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="20dp"
-                    android:text="• View biển"
-                    android:textColor="#000000"
-                    android:textSize="13dp" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="20dp"
-                    android:text="Tiện ích phòng"
+                    android:text="Tiện nghi phòng (Bị hư hại)"
                     android:textColor="#000000"
                     android:textSize="13dp" />
 
@@ -216,11 +206,60 @@
                     android:layout_marginEnd="20dp">
 
                     <LinearLayout
+                        android:id="@+id/layoutProgressBar_b_TT"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:gravity="center"
-                        android:visibility="gone">
+                        android:gravity="center">
+
+                        <ProgressBar
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_centerInParent="true"
+                            android:layout_gravity="center"
+                            android:layout_marginEnd="10dp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Đang chờ kiểm tra..."
+                            android:textColor="#000000"
+                            android:textSize="13dp"/>
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tvTienNghi_TT"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="#000000"
+                        android:textSize="13dp"
+                        android:visibility="gone"/>
+
+                </RelativeLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="20dp"
+                    android:text="Dịch vụ phòng"
+                    android:textColor="#000000"
+                    android:textSize="13dp" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp">
+
+                    <LinearLayout
+                        android:id="@+id/layoutProgressBar_a_TT"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center">
 
                         <ProgressBar
                             android:layout_width="20dp"
@@ -239,24 +278,26 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/layoutTienIch_TT"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:weightSum="3">
+                        android:weightSum="3"
+                        android:visibility="gone">
 
                         <TextView
+                            android:id="@+id/tvDVPhong_a_TT"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="2"
-                            android:text="• Bia"
                             android:textColor="#000000"
                             android:textSize="13dp" />
 
                         <TextView
+                            android:id="@+id/tvDVPhong_b_TT"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="10.000đ x 2"
                             android:textColor="#000000"
                             android:textSize="13dp" />
 
@@ -283,18 +324,19 @@
                     android:weightSum="3">
 
                     <TextView
+                        android:id="@+id/tvDichVu_a_TT"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
-                        android:text="• Gym"
                         android:textColor="#000000"
                         android:textSize="13dp" />
 
                     <TextView
+
+                        android:id="@+id/tvDichVu_b_TT"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="90.000đ x 2"
                         android:textColor="#000000"
                         android:textSize="13dp" />
 
@@ -319,10 +361,11 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/tvTongHD_TT"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="900.000đ"
+                        android:text="X.XXXđ"
                         android:textColor="#000000"
                         android:textSize="13dp"
                         android:textStyle="bold" />
@@ -330,49 +373,42 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/layoutTienCoc_TT"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="20dp"
                     android:orientation="horizontal"
-                    android:weightSum="3">
+                    android:weightSum="3"
+                    android:visibility="gone">
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
-                        android:text="TIỀN CỌC (50% tiền phòng):"
+                        android:text="ĐÃ CỌC:"
                         android:textColor="#000000"
                         android:textSize="13dp"
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/tvTienCoc_TT"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="450.000đ"
+                        android:text="X.XXXđ"
                         android:textColor="#000000"
                         android:textSize="13dp"
                         android:textStyle="bold" />
 
                 </LinearLayout>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="20dp"
-                    android:layout_marginBottom="20dp"
-                    android:text="Ngày tạo hoá đơn: 12/11/2012"
-                    android:textColor="#000000"
-                    android:textSize="13dp" />
-
             </LinearLayout>
 
         </RelativeLayout>
 
         <Button
+            android:id="@+id/btnXacNhan_TT"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_gravity="center"
@@ -380,9 +416,10 @@
             android:layout_marginEnd="20dp"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="60dp"
-            android:background="@drawable/border_button_a_nhanvien"
+            android:background="@drawable/border_button_c_nhanvien"
             android:text="Xác nhận đã hoàn tất thanh toán"
-            android:textColor="#FFFFFF" />
+            android:textColor="#FFFFFF"
+            android:enabled="false"/>
 
     </LinearLayout>
 

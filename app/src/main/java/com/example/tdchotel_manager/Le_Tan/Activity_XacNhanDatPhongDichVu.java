@@ -73,7 +73,7 @@ public class Activity_XacNhanDatPhongDichVu extends AppCompatActivity {
                     Date now = new Date();
                     thoi_gian_nhan = new SimpleDateFormat("dd/MM/yyyy").parse(btnNgayNhan.getText().toString());
                     thoi_gian_tra = new SimpleDateFormat("dd/MM/yyyy").parse(btnNgayTra.getText().toString());
-                    if (thoi_gian_nhan.before(now) || thoi_gian_nhan.after(thoi_gian_tra)) {
+                    if (thoi_gian_nhan.after(thoi_gian_tra)) {
                         Toast.makeText(Activity_XacNhanDatPhongDichVu.this, "Thời gian đã đặt không hợp lệ!!!", Toast.LENGTH_SHORT).show();
                         return;
                     } else if (((thoi_gian_tra.getTime() - thoi_gian_nhan.getTime()) / (24 * 3600 * 1000)) < 1) {
@@ -86,7 +86,7 @@ public class Activity_XacNhanDatPhongDichVu extends AppCompatActivity {
                     reference_hoadon.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            if (snapshot != null || snapshot.getChildrenCount() != 0) {
+                            if (snapshot.exists()) {
                                 Date thoi_gian_hoadon_nhan = null;
                                 Date thoi_gian_hoadon_tra = null;
                                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
@@ -134,17 +134,17 @@ public class Activity_XacNhanDatPhongDichVu extends AppCompatActivity {
                                     }
 
                                 }
-                                Intent intent = new Intent(Activity_XacNhanDatPhongDichVu.this, Activity_HoaDon_SanSang.class);
-                                intent.putExtra("thoi_gian_nhan",btnNgayNhan.getText().toString());
-                                intent.putExtra("thoi_gian_tra",btnNgayTra.getText().toString());
-                                intent.putExtra("so_luong_khach",edtSonguoi.getText().toString());
-                                intent.putExtra("dich_vu_theo_nguoi",adapterDvTheoNguoi.getData_dv());
-                                intent.putExtra("dich_vu_phong",adapterDvTheoPhong.getData_dv());
-                                intent.putExtra("phong",phong);
-                                startActivity(intent);
                               //  Log.e("dvphong",""+adapterDvTheoPhong.getData_dv().get(0).getTen_dich_vu()+" "+adapterDvTheoPhong.getData_dv().get(0).isCheck());
                               //  Log.e("dvphong",""+adapterDvTheoNguoi.getData_dv().get(0).getTen_dich_vu()+" "+adapterDvTheoNguoi.getData_dv().get(0).getSo_luong());
                             }
+                            Intent intent = new Intent(Activity_XacNhanDatPhongDichVu.this, Activity_HoaDon_SanSang.class);
+                            intent.putExtra("thoi_gian_nhan",btnNgayNhan.getText().toString());
+                            intent.putExtra("thoi_gian_tra",btnNgayTra.getText().toString());
+                            intent.putExtra("so_luong_khach",edtSonguoi.getText().toString());
+                            intent.putExtra("dich_vu_theo_nguoi",adapterDvTheoNguoi.getData_dv());
+                            intent.putExtra("dich_vu_phong",adapterDvTheoPhong.getData_dv());
+                            intent.putExtra("phong",phong);
+                            startActivity(intent);
                         }
 
                         @Override
@@ -187,6 +187,7 @@ public class Activity_XacNhanDatPhongDichVu extends AppCompatActivity {
 
     private void Initialization() {
         Calendar calendar=Calendar.getInstance();
+        btnNgayNhan.setEnabled(false);
         SimpleDateFormat dateFormat=new SimpleDateFormat("dd/MM/yyyy");
         btnNgayNhan.setText(dateFormat.format(calendar.getTime()));
         calendar.roll(Calendar.DATE,1);

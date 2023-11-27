@@ -83,14 +83,20 @@
             android:name=".Menu_QuanLy.QuanLyLichLam"
             android:exported="false" />
         <activity
+            android:name=".Menu_QuanLy.Adapter_NhanVien.ThemNhanVien"
+            android:exported="false" />
+        <activity
+            android:name=".Menu_QuanLy.Adapter_NhanVien.ThongTinNhanVien"
+            android:exported="false" />
+        <activity
             android:name=".Menu_QuanLy.TrangChu_QuanLy"
-            android:exported="true" />
+            android:exported="false" />
         <activity
             android:name=".Menu_QuanLy.CheckInOut"
-            android:exported="true" />
+            android:exported="false" />
         <activity
             android:name=".Menu_QuanLy.Activity_NghiLam"
-            android:exported="true" />
+            android:exported="false" />
         <activity
             android:name=".DangNhap"
             android:exported="true">
@@ -100,8 +106,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Menu_QuanLy.Adapter_NhanVien.ThemNhanVien" />
-        <activity android:name=".Menu_QuanLy.Adapter_NhanVien.ThongTinNhanVien" />
     </application>
 
 </manifest>

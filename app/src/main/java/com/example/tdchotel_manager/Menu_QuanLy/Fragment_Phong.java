@@ -5,9 +5,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -60,6 +62,7 @@ public class Fragment_Phong extends Fragment {
     private void setEvent() {
         //Set data cho spinner
         List<String> spinnerData = new ArrayList<>();
+        spinnerData.add("Tất Cả");
         spinnerData.add("1 Người");
         spinnerData.add("2 Người");
         spinnerData.add("3 Người");
@@ -108,34 +111,56 @@ public class Fragment_Phong extends Fragment {
                 } else {
                     // Khi người dùng xóa hết nội dung tìm kiếm, hiển thị lại danh sách phòng ban đầu
                     adapter.updateRoomList(adapter.getDanh_sach_phong());
+                    filteredRoomList.clear();
                 }
             }
         });
-//        sp_loai.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                String selectedType = String.valueOf(sp_loai.getSelectedItemPosition());
-//                // Lọc danh sách phòng theo loại phòng được chọn
-//                adapter.filterRoomListByType(selectedType);
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//
-//            }
-//        });
+        sp_loai.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String type = parent.getItemAtPosition(position).toString();
+                findToRoomType(type);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
     }
 
-    private void filterRoomList(String searchText) {
-        filteredRoomList.clear(); // Thêm dòng này để xóa danh sách cũ
+    void findToRoomType(String type) {
+        filteredRoomList.clear();
+        String searchText = edt_search.getText().toString().trim().toLowerCase();
+
         for (phong room : adapter.getDanh_sach_phong()) {
-            if (room.getTen_phong().toLowerCase().contains(searchText.toLowerCase())) {
+            boolean matchesType = type.equals("Tất Cả") || room.getLoai_phong().equals(type);
+            boolean matchesSearch = searchText.isEmpty() || room.getTen_phong().toLowerCase().contains(searchText);
+
+            if (matchesType && matchesSearch) {
                 filteredRoomList.add(room);
             }
         }
 
         adapter.updateRoomList(filteredRoomList);
     }
+
+
+    private void filterRoomList(String searchText) {
+        filteredRoomList.clear();
+        String selectedType = sp_loai.getSelectedItem().toString();
+
+        for (phong room : adapter.getDanh_sach_phong()) {
+            boolean matchesType = selectedType.equals("Tất Cả") || room.getLoai_phong().equals(selectedType);
+            boolean matchesSearch = room.getTen_phong().toLowerCase().contains(searchText.toLowerCase());
+
+            if (matchesType && matchesSearch) {
+                filteredRoomList.add(room);
+            }
+        }
+
+        adapter.updateRoomList(filteredRoomList);
+    }
+
 
 
     private void showDeleteConfirmationDialog(final int position) {

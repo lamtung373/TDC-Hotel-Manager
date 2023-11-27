@@ -106,13 +106,8 @@ public class chinhsuadichvu extends AppCompatActivity {
         btnXoa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Xoá nhân viên từ Firebase
-                DatabaseReference ref = FirebaseDatabase.getInstance().getReference("dich_vu").child(dichvuid);
-                ref.removeValue();
+                showDeleteConfirmationDialog();
 
-                // Thông báo và quay lại màn hình trước
-                Toast.makeText(chinhsuadichvu.this, "Đã xoá", Toast.LENGTH_SHORT).show();
-                finish();
             }
         });
 
@@ -214,6 +209,35 @@ public class chinhsuadichvu extends AppCompatActivity {
             }
         });
         builder.show();
+    }
+    private void showDeleteConfirmationDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Xác nhận xoá");
+        builder.setMessage("Bạn có chắc muốn xoá dịch vụ này?");
+        builder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                deleteDichVu();
+            }
+        });
+        builder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Do nothing, simply dismiss the dialog
+                dialog.dismiss();
+            }
+        });
+        builder.show();
+    }
+    private void deleteDichVu() {
+        String dichvuid = getIntent().getStringExtra("dichvuid");
+        // Xoá dịch vụ từ Firebase
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("dich_vu").child(dichvuid);
+        ref.removeValue();
+
+        // Thông báo và quay lại màn hình trước
+        Toast.makeText(chinhsuadichvu.this, "Đã xoá", Toast.LENGTH_SHORT).show();
+        finish();
     }
 
     @Override

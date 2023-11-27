@@ -11,7 +11,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,10 +51,13 @@ import java.util.Date;
 import java.util.Locale;
 
 public class Activity_HoaDon_SanSang extends AppCompatActivity {
-    TextView tvTenPhong, tvNgayNhanPhong, tvNgayTraPhong, tvTienPhong, tvTienNghi, tvDichVu_a, tvDichVu_b, tvTongHD, tvNgayTaoHD;
+    TextView tvTenPhong, tvNgayNhanPhong, tvNgayTraPhong, tvTienPhong, tvTienNghi, tvDichVu_a, tvDichVu_b, tvTongHD;
     ImageView imgCCCD_Truoc, imgCCCD_Sau;
     Button btnDatPhong;
+    ImageButton btnBack_SS;
     EditText edtHoTenKH, edtSoDTKD;
+    private ProgressBar progressBar;
+    private View viewBlocking;
     private ImageView currentSelectedImageView;
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int REQUEST_IMAGE_PICK = 2;
@@ -197,9 +202,6 @@ public class Activity_HoaDon_SanSang extends AppCompatActivity {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         String ngayHienTai = sdf.format(ngayHT);
 
-        // In ra chuỗi ngày hiện tại đã định dạng
-        tvNgayTaoHD.setText("Ngày tạo hoá đơn: " + ngayHienTai);
-
         imgCCCD_Truoc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -220,9 +222,18 @@ public class Activity_HoaDon_SanSang extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (validateInput()) {
+                    viewBlocking.setVisibility(View.VISIBLE);
+                    progressBar.setVisibility(View.VISIBLE);
                     // Chỉ lưu ảnh và thông tin nhân viên nếu tất cả dữ liệu đầu vào đã hợp lệ
                     uploadImageToFirebaseStorage();
                 }
+            }
+        });
+
+        btnBack_SS.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
     }
@@ -258,7 +269,7 @@ public class Activity_HoaDon_SanSang extends AppCompatActivity {
         // Lấy thời gian hiện tại
         Date currentTime = new Date();
         // Định dạng thời gian theo "dd/MM/yyyy HH:mm"
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
         String thoiGianNhan = sdf.format(currentTime);
         String thoiGianNhanPhong = thoiGianNhan;
 
@@ -308,7 +319,6 @@ public class Activity_HoaDon_SanSang extends AppCompatActivity {
             DatabaseReference dataPhong = FirebaseDatabase.getInstance().getReference("phong");
 
             dataPhong.child(id_phong).child("id_trang_thai_phong").setValue("4");
-            dataPhong.child(id_phong).child("luot_thue").setValue(phong.getLuot_thue() + 1);
 
             //Thêm chi_tiet_hoa_don_dich_vu
             DatabaseReference dataChiTietHoaDonDichVu = FirebaseDatabase.getInstance().getReference("chi_tiet_hoa_don_dich_vu");
@@ -330,6 +340,9 @@ public class Activity_HoaDon_SanSang extends AppCompatActivity {
             }
 
             Toast.makeText(Activity_HoaDon_SanSang.this, "Đặt phòng thành công!", Toast.LENGTH_SHORT).show();
+
+            viewBlocking.setVisibility(View.GONE);
+            progressBar.setVisibility(View.GONE);
 
             finish();
         }).addOnFailureListener(e -> {
@@ -418,7 +431,7 @@ public class Activity_HoaDon_SanSang extends AppCompatActivity {
             return false;
         }
         if (edtSoDTKD.getText().toString().trim().isEmpty()) {
-            edtSoDTKD.setError("Họ tên không được để trống");
+            edtSoDTKD.setError("Số điện thoại không được để trống");
             return false;
         }
         if (!isImgCCCD_TruocDrawableChanged || !isImgCCCD_SauDrawableChanged) {
@@ -437,11 +450,13 @@ public class Activity_HoaDon_SanSang extends AppCompatActivity {
         tvDichVu_a = findViewById(R.id.tvDichVu_a_SS);
         tvDichVu_b = findViewById(R.id.tvDichVu_b_SS);
         tvTongHD = findViewById(R.id.tvTongHD_SS);
-        tvNgayTaoHD = findViewById(R.id.tvNgayTaoHD_SS);
         imgCCCD_Truoc = findViewById(R.id.imgCCCD_Truoc_SS);
         imgCCCD_Sau = findViewById(R.id.imgCCCD_Sau_SS);
         btnDatPhong = findViewById(R.id.btnDatPhong_SS);
         edtHoTenKH = findViewById(R.id.edtHoTenKH_SS);
         edtSoDTKD = findViewById(R.id.edtSoDTKH_SS);
+        btnBack_SS = findViewById(R.id.btn_Back_SS);
+        viewBlocking = findViewById(R.id.viewBlocking_SS);
+        progressBar = findViewById(R.id.progressBar_SS);
     }
 }

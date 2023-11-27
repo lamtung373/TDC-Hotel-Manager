@@ -8,8 +8,9 @@
 
 
     <EditText
+        android:inputType="text"
         android:layout_margin="20dp"
-        android:id="@+id/edt_search"
+        android:id="@+id/edt_searchDSD"
         style="@style/editText"
         android:hint="Tìm kiếm" />
     <ProgressBar
@@ -28,7 +29,7 @@
             android:id="@+id/rcv_DangSD"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginHorizontal="10dp">
+        >
 
         </androidx.recyclerview.widget.RecyclerView>
     </ScrollView>

@@ -1,5 +1,7 @@
 package com.example.tdchotel_manager.Le_Tan.Adapter_DangSuDung;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -55,6 +57,35 @@ public class adapter_dvnguoi extends RecyclerView.Adapter<adapter_dvnguoi.DV_The
             holder.tv_dv.setText(data_dv.get(position).getTen_dich_vu());
             holder.tvGia.setText(data_dv.get(position).getGia_dich_vu() + "đ/người");
             holder.edtSonguoi.setText(data_dv.get(position).getSo_luong()+"");
+            holder.edtSonguoi.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    // Không cần thực hiện gì trước khi thay đổi
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    // Không cần thực hiện gì khi vừa thay đổi
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+                    try {
+                        int soLuong = Integer.parseInt(editable.toString());
+                        // Kiểm tra và giới hạn số lượng nhập vào tối đa là 1000
+                        if (soLuong > 1000) {
+                            // Đặt lại giá trị về 1000
+                            holder.edtSonguoi.setText("1000");
+                            soLuong = 1000;
+                        }
+
+                        // Cập nhật số lượng vào đối tượng dich_vu tương ứng
+                        data_dv.get(holder.getAdapterPosition()).setSo_luong(soLuong);
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
             holder.ivCong.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

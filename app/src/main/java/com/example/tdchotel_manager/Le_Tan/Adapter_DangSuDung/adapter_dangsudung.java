@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tdchotel_manager.Le_Tan.Activity_HoaDon.Activity_HoaDon_DangSuDung;
@@ -33,18 +34,18 @@ public class adapter_dangsudung extends RecyclerView.Adapter<adapter_dangsudung.
     public interface OnItemClickListener {
         void onItemClick(int position);
     }
-
     private OnItemClickListener onItemClickListener;
     private ArrayList<hoa_don> datalist = new ArrayList<>();
     private ArrayList<phong> phongList = new ArrayList<>();
-    private ArrayList<khach_hang> khachhangList = new ArrayList<>();
     private Context context;
+    private ArrayList<hoa_don> originalDataList;
 
     public adapter_dangsudung(Context context) {
         this.context = context;
+        this.datalist = new ArrayList<>(datalist);
+        this.originalDataList = new ArrayList<>(datalist);
         khoi_tao();
         loadPhongData();
-        loadKhachData();
 
         setOnItemClickListener(new OnItemClickListener() {
             @Override
@@ -52,6 +53,20 @@ public class adapter_dangsudung extends RecyclerView.Adapter<adapter_dangsudung.
                 showItemOptions(datalist.get(position).getId_phong(), datalist.get(position).getId_hoa_don());
             }
         });
+    }
+    public void filter(String text) {
+        ArrayList<hoa_don> filteredList = new ArrayList<>();
+
+        for (hoa_don hoaDon : originalDataList) {
+            String tenPhong = findTenPhongById(hoaDon.getId_phong()).toLowerCase();
+            if (tenPhong.contains(text.toLowerCase())) {
+                filteredList.add(hoaDon);
+            }
+        }
+
+        datalist.clear();
+        datalist.addAll(filteredList);
+        notifyDataSetChanged();
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {
@@ -80,27 +95,6 @@ public class adapter_dangsudung extends RecyclerView.Adapter<adapter_dangsudung.
         });
     }
 
-    private void loadKhachData() {
-        DatabaseReference khachHangReference = FirebaseDatabase.getInstance().getReference("khach_hang");
-        khachHangReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                khachhangList.clear();
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    khach_hang kh = dataSnapshot.getValue(khach_hang.class);
-                    if (kh != null) {
-                        khachhangList.add(kh);
-                    }
-                }
-                notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                // Xử lý lỗi nếu cần
-            }
-        });
-    }
 
     @NonNull
     @Override
@@ -112,13 +106,27 @@ public class adapter_dangsudung extends RecyclerView.Adapter<adapter_dangsudung.
     @Override
     public void onBindViewHolder(@NonNull adapter_dangsudung.MyViewHolder holder, @SuppressLint("RecyclerView") int position) {
         hoa_don dataItem = datalist.get(position);
+
+        // Kiểm tra nếu trạng thái phòng là 1
+        if (findTenTrangThaiPhongById(dataItem.getId_phong()).equals("Sẵn sàng")) {
+         return;
+        } else {
+            // Nếu trạng thái phòng không phải là 1, tiến hành với quy trình gắn kết thông thường
+            holder.itemView.setVisibility(View.VISIBLE);
+        }
+        if (findTenTrangThaiPhongById(dataItem.getId_phong()).equals("Đang kiểm tra")) {
+            holder.isItemEnabled = false;
+        } else {
+            holder.isItemEnabled = true;
+        }
         holder.tv_mahoadon.setText(dataItem.getId_hoa_don());
         holder.tv_ngaynhan.setText(dataItem.getThoi_gian_nhan_phong());
         holder.tv_ngaytra.setText(dataItem.getThoi_gian_tra_phong());
         holder.tv_datra.setText(String.valueOf(dataItem.getTien_coc()));
         holder.tv_tong.setText(String.valueOf(dataItem.getTong_thanh_toan()));
         holder.tv_tenphong.setText(findTenPhongById(dataItem.getId_phong()));
-        holder.tv_tenkhach.setText(findTenKhachById(dataItem.getSo_dien_thoai()));
+        holder.tv_tenkhach.setText(dataItem.getTen_khach_hang());
+
         holder.tv_trangthai.setText(findTenTrangThaiPhongById(dataItem.getId_phong()));
 
         holder.traphong.setOnClickListener(new View.OnClickListener() {
@@ -131,6 +139,7 @@ public class adapter_dangsudung extends RecyclerView.Adapter<adapter_dangsudung.
                 }
             }
         });
+
 
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -148,6 +157,7 @@ public class adapter_dangsudung extends RecyclerView.Adapter<adapter_dangsudung.
                 context.startActivity(intent);
             }
         });
+
     }
 
     @Override
@@ -192,10 +202,11 @@ public class adapter_dangsudung extends RecyclerView.Adapter<adapter_dangsudung.
                         String thoiGianNhanPhong = childSnapshot.child("thoi_gian_nhan_phong").getValue(String.class);
                         String thoiGianThanhToan = childSnapshot.child("thoi_gian_thanh_toan").getValue(String.class);
 
-                        // Kiểm tra điều kiện để lấy dữ liệu đang sử dụng
-                        if (idPhong != null && !thoiGianNhanPhong.equals("") && thoiGianThanhToan.equals("")) {
+                        // Kiểm tra điều kiện để lấy dữ liệu đang sử dụng và trạng thái phòng khác 1
+                        if (idPhong != null && !thoiGianNhanPhong.equals("") && thoiGianThanhToan.equals("") && !findTenTrangThaiPhongById(idPhong).equals("Sẵn sàng")) {
                             hoa_don hoaDon = childSnapshot.getValue(hoa_don.class);
                             datalist.add(hoaDon);
+                            originalDataList.add(hoaDon);
                         }
                     }
                 }
@@ -208,6 +219,7 @@ public class adapter_dangsudung extends RecyclerView.Adapter<adapter_dangsudung.
             }
         });
     }
+
 
     // Hiển thị dialog chọn hình thức khi click vào item
     private void showItemOptions(String idPhong, String idHoaDon) {
@@ -236,7 +248,7 @@ public class adapter_dangsudung extends RecyclerView.Adapter<adapter_dangsudung.
         DatabaseReference hoaDonReference = FirebaseDatabase.getInstance().getReference("hoa_don").child(idPhong);
         DatabaseReference phongReference = FirebaseDatabase.getInstance().getReference("phong");
 
-        hoaDonReference.addValueEventListener(new ValueEventListener() {
+        hoaDonReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
@@ -249,11 +261,18 @@ public class adapter_dangsudung extends RecyclerView.Adapter<adapter_dangsudung.
                         builder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                phongReference.child(idPhong).child("id_trang_thai_phong").setValue("5");
-                                Toast.makeText(context, "Phòng đã trả và đang được kiểm tra!", Toast.LENGTH_SHORT).show();
-                                dialog.dismiss();
-                                holder.isItemEnabled = false; // Vô hiệu hóa item sau khi trả phòng
-                                notifyDataSetChanged();
+                                phongReference.child(idPhong).child("id_trang_thai_phong").setValue("5", new DatabaseReference.CompletionListener() {
+                                    @Override
+                                    public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
+                                        if (error == null) {
+                                            Toast.makeText(context, "Phòng đã trả và đang được kiểm tra!", Toast.LENGTH_SHORT).show();
+                                            dialog.dismiss();
+                                            notifyDataSetChanged();
+                                        } else {
+                                            Toast.makeText(context, "Đã xảy ra lỗi khi cập nhật trạng thái phòng!", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                });
                             }
                         });
                         builder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
@@ -283,16 +302,6 @@ public class adapter_dangsudung extends RecyclerView.Adapter<adapter_dangsudung.
             }
         }
         return "Phòng không tồn tại";
-    }
-
-    // Tìm kiếm tên khách hàng dựa vào số điện thoại
-    private String findTenKhachById(String sdt) {
-        for (khach_hang kh : khachhangList) {
-            if (kh.getSo_dien_thoai().equals(sdt)) {
-                return kh.getTen();
-            }
-        }
-        return "Tên khách hàng không tồn tại";
     }
 
     // Tìm kiếm tên trạng thái phòng dựa vào ID phòng
