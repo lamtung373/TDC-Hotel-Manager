@@ -12,7 +12,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.tdchotel_manager.Model.dich_vu;
 import com.example.tdchotel_manager.Model.dich_vu_phong;
 import com.example.tdchotel_manager.R;
 import com.google.firebase.database.DataSnapshot;
