@@ -25,6 +25,7 @@ import java.util.ArrayList;
 
 public class adapter_getchitiettiennghi extends RecyclerView.Adapter<adapter_getchitiettiennghi.MyViewHolder> {
     private ArrayList<tien_nghi> dataList = new ArrayList<>();
+    ArrayList<chi_tiet_tien_nghi> newChiTietTienNghis = new ArrayList<>();
     String idphong;
 
     // Constructor để khởi tạo adapter và gọi phương thức GoiDuLieu để lấy dữ liệu
@@ -32,7 +33,17 @@ public class adapter_getchitiettiennghi extends RecyclerView.Adapter<adapter_get
         this.idphong = idphong;
         GoiDuLieu(this.idphong);
     }
-
+public ArrayList<chi_tiet_tien_nghi>getChiTietTN(){
+        return newChiTietTienNghis;
+}
+public String getName(String id){
+     for (tien_nghi item:dataList){
+         if (item.getId_tien_nghi().equals(id)){
+             return item.getTen_tien_nghi();
+         }
+     }
+     return "Không tìm thấy tên tiện nghi";
+}
     @NonNull
     @Override
     public adapter_getchitiettiennghi.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -43,10 +54,8 @@ public class adapter_getchitiettiennghi extends RecyclerView.Adapter<adapter_get
     @Override
     public void onBindViewHolder(@NonNull adapter_getchitiettiennghi.MyViewHolder holder, int position) {
         tien_nghi tienNghi = dataList.get(position);
-        if (tienNghi.getSo_luong()>0) {
             holder.tv_ten_tien_nghi.setText(tienNghi.getTen_tien_nghi());
             holder.edt_so_luong.setText(String.valueOf(tienNghi.getSo_luong()));
-        }
     }
 
     @Override
@@ -92,7 +101,6 @@ public class adapter_getchitiettiennghi extends RecyclerView.Adapter<adapter_get
                 chiTietTienNghiReference.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot chiTietTienNghiSnapshot) {
-                        ArrayList<chi_tiet_tien_nghi> newChiTietTienNghis = new ArrayList<>();
 
                         for (DataSnapshot facilitySnapshot : chiTietTienNghiSnapshot.getChildren()) {
                             chi_tiet_tien_nghi comfortDetail = facilitySnapshot.getValue(chi_tiet_tien_nghi.class);
@@ -102,9 +110,11 @@ public class adapter_getchitiettiennghi extends RecyclerView.Adapter<adapter_get
                             for (tien_nghi ct : dataList) {
                                 if (ct.getId_tien_nghi().equals(comfortDetail.getId_tien_nghi())) {
                                     ct.setSo_luong(comfortDetail.getSo_luong());
+                                    Log.d("Adapter", "ID Tiện nghi trong chi tiết: " + ct.getTen_tien_nghi()); // Kiểm tra log
                                 }
                             }
                         }
+
                         notifyDataSetChanged();
                     }
 

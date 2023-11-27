@@ -26,12 +26,27 @@ import java.util.ArrayList;
 
 public class adapter_getchitietdichvuphong extends RecyclerView.Adapter<adapter_getchitietdichvuphong.MyViewHolder> {
     private ArrayList<dich_vu_phong> dataList = new ArrayList<>();
+
+    ArrayList<chi_tiet_dich_vu_phong> chiTietDVP = new ArrayList<>();
     String idphong;
 
     // Constructor để khởi tạo adapter và gọi phương thức GoiDuLieu để lấy dữ liệu
     public adapter_getchitietdichvuphong(String idphong) {
         this.idphong = idphong;
         GoiDuLieu(this.idphong);
+    }
+
+    public ArrayList<chi_tiet_dich_vu_phong> getChiTietDVP() {
+        return chiTietDVP;
+    }
+
+    public String getName(String id) {
+        for (dich_vu_phong item : dataList) {
+            if (item.getId_dich_vu_phong().equals(id)) {
+                return item.getTen_dich_vu_phong();
+            }
+        }
+        return "Không tìm thấy tên dch vụ phòng";
     }
 
     @NonNull
@@ -44,10 +59,8 @@ public class adapter_getchitietdichvuphong extends RecyclerView.Adapter<adapter_
     @Override
     public void onBindViewHolder(@NonNull adapter_getchitietdichvuphong.MyViewHolder holder, int position) {
         dich_vu_phong DVP = dataList.get(position);
-        if (DVP.getSo_luong()>0) {
             holder.tv_ten_dich_vu_phong.setText(DVP.getTen_dich_vu_phong());
             holder.edt_so_luong.setText(String.valueOf(DVP.getSo_luong()));
-        }
     }
 
     @Override
@@ -93,7 +106,6 @@ public class adapter_getchitietdichvuphong extends RecyclerView.Adapter<adapter_
                 chiTietDichVuPhongReference.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot chiTietTienNghiSnapshot) {
-                        ArrayList<chi_tiet_dich_vu_phong> chiTietDVP = new ArrayList<>();
 
                         for (DataSnapshot facilitySnapshot : chiTietTienNghiSnapshot.getChildren()) {
                             chi_tiet_dich_vu_phong comfortDetail = facilitySnapshot.getValue(chi_tiet_dich_vu_phong.class);
