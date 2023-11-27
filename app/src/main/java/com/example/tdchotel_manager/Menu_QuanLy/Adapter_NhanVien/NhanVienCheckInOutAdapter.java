@@ -10,8 +10,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.tdchotel_manager.Model.cham_cong;
 import com.example.tdchotel_manager.Model.chuc_vu;
 import com.example.tdchotel_manager.Model.nhan_vien;
+import com.example.tdchotel_manager.Model.phan_cong;
 import com.example.tdchotel_manager.R;
 import com.squareup.picasso.Picasso;
 
@@ -20,6 +22,8 @@ import java.util.List;
 public class NhanVienCheckInOutAdapter extends RecyclerView.Adapter<NhanVienCheckInOutAdapter.NhanVienViewHolder>{
     private List<nhan_vien> nhanVienList;
     private List<chuc_vu> chucVuList;
+    private List<phan_cong> phanCongList;
+    private List<cham_cong> chamCongList;
     private NhanVienCheckInOutAdapter.IClickListener iClickListener;
     private NhanVienCheckInOutAdapter.IClickListener iClickListenerCheck;
 
@@ -31,9 +35,11 @@ public class NhanVienCheckInOutAdapter extends RecyclerView.Adapter<NhanVienChec
         void onClickCheckItem(nhan_vien nhan_vien);
     }
 
-    public NhanVienCheckInOutAdapter(List<nhan_vien> nhanVienList, List<chuc_vu> chucVuList, NhanVienCheckInOutAdapter.IClickListener iClickListener) {
+    public NhanVienCheckInOutAdapter(List<nhan_vien> nhanVienList, List<chuc_vu> chucVuList,List<phan_cong> phanCongList,List<cham_cong> chamCongList, NhanVienCheckInOutAdapter.IClickListener iClickListener) {
         this.nhanVienList = nhanVienList;
         this.chucVuList = chucVuList;
+        this.phanCongList = phanCongList;
+        this.chamCongList = chamCongList;
         this.iClickListener = iClickListener;
     }
 
