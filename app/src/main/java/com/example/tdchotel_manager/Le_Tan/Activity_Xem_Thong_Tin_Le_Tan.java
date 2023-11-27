@@ -112,7 +112,8 @@ public class Activity_Xem_Thong_Tin_Le_Tan extends AppCompatActivity {
         cbChieuT7 = findViewById(R.id.cbChieuT7);
         cbSangCN = findViewById(R.id.cbSangCN);
         cbChieuCN = findViewById(R.id.cbChieuCN);
-        String idNhanVien = getIntent().getStringExtra("key_id");
+        SharedPreferences sharedPreferences = getSharedPreferences(DangNhap.SHARED_PRE, MODE_PRIVATE);
+        String idNhanVien = sharedPreferences.getString("id_staff", "");
         LoadNhanVien(idNhanVien);
     }
     private void LoadNhanVien(String idNhanVien) {
