@@ -107,6 +107,7 @@ public class Activity_Chi_Tiet_Phong extends AppCompatActivity {
                 } else {
                     tvGiamoi.setVisibility(View.GONE);
                     tvGiacu.setText(formatter.format(phong.getGia()) + "đ/đêm");
+                    tvGiacu.setPaintFlags(tvGiacu.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
                 }
 
                 //Tên phòng

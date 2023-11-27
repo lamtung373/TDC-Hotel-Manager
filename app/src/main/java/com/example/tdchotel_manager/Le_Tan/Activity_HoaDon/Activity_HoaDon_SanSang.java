@@ -23,6 +23,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.tdchotel_manager.Le_Tan.Activity_Chi_Tiet_Phong;
+import com.example.tdchotel_manager.Le_Tan.Activity_LeTan;
 import com.example.tdchotel_manager.Menu_QuanLy.Adapter_NhanVien.ThemNhanVien;
 import com.example.tdchotel_manager.Model.chi_tiet_hoa_don_dich_vu;
 import com.example.tdchotel_manager.Model.chi_tiet_tien_nghi;
@@ -343,7 +344,9 @@ public class Activity_HoaDon_SanSang extends AppCompatActivity {
 
             viewBlocking.setVisibility(View.GONE);
             progressBar.setVisibility(View.GONE);
-
+            Intent intent=new Intent(Activity_HoaDon_SanSang.this, Activity_LeTan.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
             finish();
         }).addOnFailureListener(e -> {
             Toast.makeText(Activity_HoaDon_SanSang.this, "Lỗi khi đặt phòng!", Toast.LENGTH_SHORT).show();
