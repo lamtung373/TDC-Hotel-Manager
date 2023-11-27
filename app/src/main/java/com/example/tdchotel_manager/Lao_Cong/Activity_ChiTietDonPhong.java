@@ -1,10 +1,12 @@
 package com.example.tdchotel_manager.Lao_Cong;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -35,7 +37,7 @@ public class Activity_ChiTietDonPhong extends AppCompatActivity {
     RecyclerView rcv_chitiettiennghi, rcv_chitietdichvuphong, rcv_sudung_tien_nghi, rcv_sudung_dichvuphong;
     Button btn_xacnhan;
     ImageButton btn_back;
-    String idphong, idhoadon,id_staff_auto;
+    String idphong, idhoadon, id_staff_auto;
     ArrayList<chi_tiet_hoa_don_tien_nghi> chi_tiet_hoa_don_tien_nghis = new ArrayList<>();
     ArrayList<chi_tiet_hoa_don_dich_vu_phong> chi_tiet_hoa_don_dich_vu_phongs = new ArrayList<>();
     private adapter_getchitiettiennghi adapter_getchitiettiennghi;
@@ -95,18 +97,90 @@ public class Activity_ChiTietDonPhong extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 chitiet();
-                onClickAdd_comfort(chi_tiet_hoa_don_tien_nghis, idhoadon);
-                onClickUpdatefacilities(chi_tiet_hoa_don_dich_vu_phongs, idhoadon);
-                capnhatlaocong(id_staff_auto,idhoadon,idphong);
-                capnhattrangthaiphong(idphong,"6");
-                finish();
+               if (kiemtTra_ThongTin()){
+                   onClickAdd_comfort(chi_tiet_hoa_don_tien_nghis, idphong);
+                   onClickUpdatefacilities(chi_tiet_hoa_don_dich_vu_phongs, idphong);
+                   capnhatlaocong(id_staff_auto, idhoadon, idphong);
+                   capnhattrangthaiphong(idphong, "6");
+                   finish();
+               }
             }
         });
     }
-void capnhattrangthaiphong(String idPhong,String idtrangthai){
-        DatabaseReference databaseReference=FirebaseDatabase.getInstance().getReference();
-        Map<String,Object> childUpdates=new HashMap<>();
-        childUpdates.put("/phong/"+idPhong+"/"+"id_trang_thai_phong",idtrangthai);
+    private void showErrorMessage(String errorMessage) {
+        // Tạo một AlertDialog để hiển thị thông báo lỗi
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Lỗi");
+        builder.setMessage(errorMessage);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // Xử lý sự kiện khi người dùng nhấn nút OK (nếu cần)
+                dialog.dismiss(); // Đóng dialog
+            }
+        });
+
+        // Hiển thị AlertDialog
+        builder.create().show();
+    }
+
+    private boolean kiemtTra_ThongTin() {
+        // Kiểm tra số lượng tiện nghi
+        for (chi_tiet_hoa_don_tien_nghi item : chi_tiet_hoa_don_tien_nghis) {
+            String idTienNghi = item.getId_tien_nghi();
+            int quantityInBill = item.getSo_luong();
+
+            chi_tiet_tien_nghi correspondingItem = findCorrespondingItemTienNghi(adapter_getchitiettiennghi.getChiTietTN(), idTienNghi);
+
+            if (correspondingItem != null) {
+                int quantityInAdapter = correspondingItem.getSo_luong();
+                if (quantityInBill > quantityInAdapter) {
+                    showErrorMessage("Số lượng kiểm tra vượt quá số lượng có sẵn của "+adapter_getchitiettiennghi.getName(correspondingItem.getId_tien_nghi()));
+                   return false;
+                }
+            }
+        }
+
+        // Kiểm tra số lượng dịch vụ phòng nếu tiện nghi hợp lệ
+            for (chi_tiet_hoa_don_dich_vu_phong item : chi_tiet_hoa_don_dich_vu_phongs) {
+                String idDichVuPhong = item.getId_dich_vu_phong();
+                int quantityInBill = item.getSo_luong();
+
+                chi_tiet_dich_vu_phong correspondingItem = findCorrespondingItemDichVuPhong(adapter_getchitietdichvuphong.getChiTietDVP(), idDichVuPhong);
+
+                if (correspondingItem != null) {
+                    int quantityInAdapter = correspondingItem.getSo_luong();
+                    if (quantityInBill > quantityInAdapter) {
+                        showErrorMessage("Số lượng kiểm tra vượt quá số lượng có sẵn của "+adapter_getchitietdichvuphong.getName(correspondingItem.getId_dich_vu_phong()));
+                        return false;
+                    }
+                }
+            }
+            return true;
+    }
+
+    private chi_tiet_tien_nghi findCorrespondingItemTienNghi(ArrayList<chi_tiet_tien_nghi> items, String idTienNghi) {
+        for (chi_tiet_tien_nghi item : items) {
+            if (item.getId_tien_nghi().equals(idTienNghi)) {
+                return item;
+            }
+        }
+        return null;
+    }
+
+    private chi_tiet_dich_vu_phong findCorrespondingItemDichVuPhong(ArrayList<chi_tiet_dich_vu_phong> items, String idDichVuPhong) {
+        for (chi_tiet_dich_vu_phong item : items) {
+            if (item.getId_dich_vu_phong().equals(idDichVuPhong)) {
+                return item;
+            }
+        }
+        return null;
+    }
+
+
+    void capnhattrangthaiphong(String idPhong, String idtrangthai) {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+        Map<String, Object> childUpdates = new HashMap<>();
+        childUpdates.put("/phong/" + idPhong + "/" + "id_trang_thai_phong", idtrangthai);
         databaseReference.updateChildren(childUpdates).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 // Cập nhật thành công
@@ -116,7 +190,8 @@ void capnhattrangthaiphong(String idPhong,String idtrangthai){
                 Log.e("sửa sai", "thất bại");
             }
         });
-}
+    }
+
     void capnhatlaocong(String idstaff, String idhoadon, String idPhong) {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
         Map<String, Object> childUpdates = new HashMap<>();
@@ -136,6 +211,11 @@ void capnhattrangthaiphong(String idPhong,String idtrangthai){
     }
 
     void chitiet() {
+        chi_tiet_hoa_don_tien_nghis.clear(); // Xóa danh sách cũ
+        chi_tiet_hoa_don_dich_vu_phongs.clear(); // Xóa danh sách cũ
+
+        // Thêm dữ liệu mới vào danh sách sau khi kiểm tra
+        // Đảm bảo rằng cthdtn.getSo_luong() và cthddvp.getSo_luong() đã được kiểm tra và hợp lệ
         for (chi_tiet_tien_nghi cthdtn : adapterTienNghi.getChi_tiet_tien_nghis()) {
             chi_tiet_hoa_don_tien_nghis.add(new chi_tiet_hoa_don_tien_nghi(idhoadon, cthdtn.getId_tien_nghi().toString(), cthdtn.getSo_luong()));
         }
@@ -144,16 +224,17 @@ void capnhattrangthaiphong(String idPhong,String idtrangthai){
         }
     }
 
-    private void onClickAdd_comfort(ArrayList<chi_tiet_hoa_don_tien_nghi> comfortList, String idhoadon) {
+
+    private void onClickAdd_comfort(ArrayList<chi_tiet_hoa_don_tien_nghi> comfortList, String idPhong) {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
         Map<String, Object> chilUpdates = new HashMap<>();
-//Tạo các cập nhật cho mỗi chi tiêt tiện nghi
+        //Tạo các cập nhật cho mỗi chi tiêt tiện nghi
         for (chi_tiet_hoa_don_tien_nghi comfort : comfortList) {
             String comfortID = comfort.getId_tien_nghi();
             if (comfortID != null) {
                 // Đường dẫn sẽ là /chi_tiet_tien_nghi/idPhong/key
                 Map<String, Object> comfortValues = comfort.toMap();
-                chilUpdates.put("/chi_tiet_hoa_don_tien_nghi/" + idhoadon + "/" + comfortID, comfortValues);
+                chilUpdates.put("/chi_tiet_hoa_don_tien_nghi/" + idPhong + "/" + comfortID, comfortValues);
             }
         }
         //Thưc hiện cập nhật thông báo
@@ -168,7 +249,7 @@ void capnhattrangthaiphong(String idPhong,String idtrangthai){
         });
     }
 
-    private void onClickUpdatefacilities(ArrayList<chi_tiet_hoa_don_dich_vu_phong> facilityList, String idhoadon) {
+    private void onClickUpdatefacilities(ArrayList<chi_tiet_hoa_don_dich_vu_phong> facilityList, String idPhong) {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
         Map<String, Object> childUpdates = new HashMap<>();
 
@@ -178,7 +259,7 @@ void capnhattrangthaiphong(String idPhong,String idtrangthai){
             if (facilityID != null) {
                 // Đường dẫn sẽ là /chi_tiet_tien_nghi/idPhong/comfortID
                 Map<String, Object> facilityValues = facility.toMap();
-                childUpdates.put("/chi_tiet_hoa_don_dich_vu_phong/" + idhoadon + "/" + facilityID, facilityValues);
+                childUpdates.put("/chi_tiet_hoa_don_dich_vu_phong/" + idPhong + "/" + facilityID, facilityValues);
             }
         }
 
