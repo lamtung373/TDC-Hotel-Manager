@@ -98,8 +98,8 @@ public class Activity_ChiTietDonPhong extends AppCompatActivity {
             public void onClick(View v) {
                 chitiet();
                if (kiemtTra_ThongTin()){
-                   onClickAdd_comfort(chi_tiet_hoa_don_tien_nghis, idphong);
-                   onClickUpdatefacilities(chi_tiet_hoa_don_dich_vu_phongs, idphong);
+                   onClickAdd_comfort(chi_tiet_hoa_don_tien_nghis, idhoadon);
+                   onClickUpdatefacilities(chi_tiet_hoa_don_dich_vu_phongs, idhoadon);
                    capnhatlaocong(id_staff_auto, idhoadon, idphong);
                    capnhattrangthaiphong(idphong, "6");
                    finish();
@@ -225,7 +225,7 @@ public class Activity_ChiTietDonPhong extends AppCompatActivity {
     }
 
 
-    private void onClickAdd_comfort(ArrayList<chi_tiet_hoa_don_tien_nghi> comfortList, String idPhong) {
+    private void onClickAdd_comfort(ArrayList<chi_tiet_hoa_don_tien_nghi> comfortList, String idhoadon) {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
         Map<String, Object> chilUpdates = new HashMap<>();
         //Tạo các cập nhật cho mỗi chi tiêt tiện nghi
@@ -234,7 +234,7 @@ public class Activity_ChiTietDonPhong extends AppCompatActivity {
             if (comfortID != null) {
                 // Đường dẫn sẽ là /chi_tiet_tien_nghi/idPhong/key
                 Map<String, Object> comfortValues = comfort.toMap();
-                chilUpdates.put("/chi_tiet_hoa_don_tien_nghi/" + idPhong + "/" + comfortID, comfortValues);
+                chilUpdates.put("/chi_tiet_hoa_don_tien_nghi/" + idhoadon + "/" + comfortID, comfortValues);
             }
         }
         //Thưc hiện cập nhật thông báo
@@ -249,7 +249,7 @@ public class Activity_ChiTietDonPhong extends AppCompatActivity {
         });
     }
 
-    private void onClickUpdatefacilities(ArrayList<chi_tiet_hoa_don_dich_vu_phong> facilityList, String idPhong) {
+    private void onClickUpdatefacilities(ArrayList<chi_tiet_hoa_don_dich_vu_phong> facilityList, String idhoadon) {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
         Map<String, Object> childUpdates = new HashMap<>();
 
@@ -259,7 +259,7 @@ public class Activity_ChiTietDonPhong extends AppCompatActivity {
             if (facilityID != null) {
                 // Đường dẫn sẽ là /chi_tiet_tien_nghi/idPhong/comfortID
                 Map<String, Object> facilityValues = facility.toMap();
-                childUpdates.put("/chi_tiet_hoa_don_dich_vu_phong/" + idPhong + "/" + facilityID, facilityValues);
+                childUpdates.put("/chi_tiet_hoa_don_dich_vu_phong/" + idhoadon + "/" + facilityID, facilityValues);
             }
         }
 
