@@ -65,85 +65,85 @@
                 android:layout_width="35dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Sáng"
+                android:text="Ngày"
                 ></TextView>
             <TextView
                 android:layout_width="35dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Tối"
+                android:text="Đêm"
                 ></TextView>
             <TextView
                 android:layout_width="35dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Sáng"
+                android:text="Ngày"
                 ></TextView>
             <TextView
                 android:layout_width="35dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Tối"
+                android:text="Đêm"
                 ></TextView>
             <TextView
                 android:layout_width="35dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Sáng"
+                android:text="Ngày"
                 ></TextView>
             <TextView
                 android:layout_width="35dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Tối"
+                android:text="Đêm"
                 ></TextView>
             <TextView
                 android:layout_width="35dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Sáng"
+                android:text="Ngày"
                 ></TextView>
             <TextView
                 android:layout_width="35dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Tối"
+                android:text="Đêm"
                 ></TextView>
             <TextView
                 android:layout_width="35dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Sáng"
+                android:text="Ngày"
                 ></TextView>
             <TextView
                 android:layout_width="35dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Tối"
+                android:text="Đêm"
                 ></TextView>
             <TextView
                 android:layout_width="35dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Sáng"
+                android:text="Ngày"
                 ></TextView>
             <TextView
                 android:layout_width="35dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Tối"
+                android:text="Đêm"
                 ></TextView>
             <TextView
                 android:layout_width="35dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Sáng"
+                android:text="Ngày"
                 ></TextView>
             <TextView
                 android:layout_width="35dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Tối"
+                android:text="Đêm"
                 ></TextView>
         </LinearLayout>
         <LinearLayout

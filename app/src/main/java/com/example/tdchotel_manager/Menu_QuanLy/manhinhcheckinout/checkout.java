@@ -177,6 +177,18 @@ public class checkout extends Fragment {
                                                 if(cham_cong.getCheck_out().equals("")&&!cham_cong.getCheck_in().equals(strDate))
                                                 {
                                                     nhanVienList.add(nhan_vien);
+                                                    for (int i = 0; i < nhanVienList.size(); i++) {
+                                                        for (int j = 0; j < nhanVienList.size(); j++) {
+                                                            if (j != i && nhanVienList.get(i).getId_nhan_vien().equals(nhanVienList.get(j).getId_nhan_vien())) {
+                                                                try {
+                                                                    nhanVienList.remove(i);
+                                                                    Log.e("Error", "e.getMessage()");
+                                                                } catch (Exception e) {
+                                                                    Log.e("Error", e.getMessage());
+                                                                }
+                                                            }
+                                                        }
+                                                    }
                                                 }
                                                 else
                                                 {
@@ -188,6 +200,18 @@ public class checkout extends Fragment {
                                                 if(cham_cong.getCheck_out().equals("")&&!cham_cong.getCheck_in().equals(strDate))
                                                 {
                                                     nhanVienList.add(nhan_vien);
+                                                    for (int i = 0; i < nhanVienList.size(); i++) {
+                                                        for (int j = 0; j < nhanVienList.size(); j++) {
+                                                            if (j != i && nhanVienList.get(i).getId_nhan_vien().equals(nhanVienList.get(j).getId_nhan_vien())) {
+                                                                try {
+                                                                    nhanVienList.remove(i);
+                                                                    Log.e("Error", "e.getMessage()");
+                                                                } catch (Exception e) {
+                                                                    Log.e("Error", e.getMessage());
+                                                                }
+                                                            }
+                                                        }
+                                                    }
                                                 }
                                                 else
                                                 {
@@ -289,7 +313,8 @@ public class checkout extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     cham_cong cham_cong = dataSnapshot.getValue(cham_cong.class);
-                    if(nhanVien.getId_nhan_vien().equals(cham_cong.getId_nhan_vien())&&!strDate.equals(cham_cong.getCheck_in())&&cham_cong.getCheck_out().equals(""))
+                    String[] parts = cham_cong.getCheck_in().split(" ");
+                    if(nhanVien.getId_nhan_vien().equals(cham_cong.getId_nhan_vien())&&formatter.format(date).toString().equals(parts[0])&&!strDate.equals(cham_cong.getCheck_in())&&cham_cong.getCheck_out().equals(""))
                     {
                         SimpleDateFormat formatterChuan = new SimpleDateFormat("dd/MM/yyyy HH:mm");
                         String strDate1 = formatterChuan.format(date);
