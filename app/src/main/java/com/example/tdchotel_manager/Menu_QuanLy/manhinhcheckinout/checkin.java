@@ -69,6 +69,7 @@ public class checkin extends Fragment {
     private List<nhan_vien> nhanVienList = new ArrayList<>();
     private List<phan_cong> phanCongList = new ArrayList<>();
     private List<chuc_vu> chucVuList = new ArrayList<>();
+    private List<cham_cong> chamCongList = new ArrayList<>();
     public checkin() {
         // Required empty public constructor
     }
@@ -114,8 +115,7 @@ public class checkin extends Fragment {
         spnCaLam.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                loadCheckIn(spnCaLam.getSelectedItem().toString());
-
+                loadCheckIn();
             }
 
             @Override
@@ -128,7 +128,7 @@ public class checkin extends Fragment {
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
                 if (i == EditorInfo.IME_ACTION_DONE) {
 
-                        loadCheckIn(spnCaLam.getSelectedItem().toString());
+                        loadCheckIn();
 
                     return true;
                 }
@@ -171,8 +171,10 @@ public class checkin extends Fragment {
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spnCaLam.setAdapter(arrayAdapter);
         LoadChucVu();
-
-        nhanVienAdapter = new NhanVienCheckInOutAdapter(nhanVienList, chucVuList, new NhanVienCheckInOutAdapter.IClickListener() {
+        LoadChamCong();
+        LoadNhanVien();
+        LoadChamCong();
+        nhanVienAdapter = new NhanVienCheckInOutAdapter(nhanVienList, chucVuList,phanCongList,chamCongList,new NhanVienCheckInOutAdapter.IClickListener() {
             @Override
             public void onClickUpdateItem(nhan_vien nhan_vien) {
                 XinNghi(nhan_vien);
@@ -281,8 +283,64 @@ public class checkin extends Fragment {
                 }).show();
 
     }
+    private void LoadChamCong()
+    {
+        DatabaseReference refChamCong = FirebaseDatabase.getInstance().getReference("cham_cong");
+        refChamCong.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                chamCongList.clear();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    cham_cong cham_cong = dataSnapshot.getValue(cham_cong.class);
+                    chamCongList.add(cham_cong);
+                }
+            }
 
-    private void loadCheckIn(String caLam) {
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+    private void LoadNhanVien()
+    {
+        DatabaseReference refNhanVien = FirebaseDatabase.getInstance().getReference("nhan_vien");
+        refNhanVien.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                nhanVienList.clear();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    nhan_vien nhan_vien = dataSnapshot.getValue(nhan_vien.class);
+                    nhanVienList.add(nhan_vien);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+    private void LoadPhanCong()
+    {
+        DatabaseReference refPhanCong = FirebaseDatabase.getInstance().getReference("phan_cong");
+        refPhanCong.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                phanCongList.clear();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    phan_cong phan_cong = dataSnapshot.getValue(phan_cong.class);
+                    phanCongList.add(phan_cong);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+    private void loadCheckIn() {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("nhan_vien");
         DatabaseReference ref1 = FirebaseDatabase.getInstance().getReference("phan_cong");
         DatabaseReference refChamCong = FirebaseDatabase.getInstance().getReference("cham_cong");
@@ -291,7 +349,7 @@ public class checkin extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 nhanVienList.clear();
-                ref1.addListenerForSingleValueEvent(new ValueEventListener() {
+                ref1.addValueEventListener(new ValueEventListener() {
 
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -323,7 +381,7 @@ public class checkin extends Fragment {
                                                             String strDate = formatter.format(date);
                                                             String[] words = cham_cong.getCheck_in().split("\\s");
                                                             String the = "";
-                                                            if(caLam.equals("Ca sáng"))
+                                                            if(spnCaLam.getSelectedItem().toString().equals("Ca sáng"))
                                                             {
                                                                 the="1";
                                                             }
@@ -359,64 +417,17 @@ public class checkin extends Fragment {
                                                         {
                                                             nhanVienList.add(nhan_vien);
                                                         }
-                                                        nhanVienAdapter.notifyDataSetChanged();
-                                                    }
-
-                                                    @Override
-                                                    public void onCancelled(@NonNull DatabaseError error) {
-
-                                                    }
-                                                });
-                                            }
-                                            else if(nhan_vien.getId_nhan_vien().equals(phanCong.getId_nhan_vien())&&edtTimKiem.getText().toString().equals(nhan_vien.getTen_nhan_vien()))
-                                            {
-                                                refChamCong.addListenerForSingleValueEvent(new ValueEventListener() {
-                                                    @Override
-                                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                                        int check = 0;
-                                                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                                                            cham_cong cham_cong = dataSnapshot.getValue(cham_cong.class);
-
-                                                            Date date = new Date();
-                                                            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-                                                            String strDate = formatter.format(date);
-                                                            String[] words = cham_cong.getCheck_in().split("\\s");
-                                                            String the = "";
-                                                            if(caLam.equals("Ca sáng"))
-                                                            {
-                                                                the="1";
-                                                            }
-                                                            else
-                                                            {
-                                                                the="2";
-                                                            }
-                                                            Log.e("Cham cong id"+cham_cong.getId_ca_lam()+"nhan vien id"+nhan_vien.getId_nhan_vien()+"ngay h"+nhan_vien.getId_nhan_vien(),"Cham cong id"+the+"nhan vien id"+cham_cong.getId_nhan_vien()+"ngay h"+strDate);
-                                                            if(words[0].equals(strDate))
-                                                            {
-
-                                                            }
-                                                            if(phanCong.getId_ca_lam().equals(the))
-                                                            {
-                                                                if(nhan_vien.getId_nhan_vien().equals(cham_cong.getId_nhan_vien())&&words[0].equals(strDate)&&cham_cong.getId_ca_lam().equals(the))                                                                {
-
-                                                                    Log.e("Ceck",""+strDate);
-                                                                    check++;
-                                                                }
-                                                                else
-                                                                {
-
+                                                        for (int i = 0; i < nhanVienList.size(); i++) {
+                                                            for (int j = 0; j < nhanVienList.size(); j++) {
+                                                                if (j != i && nhanVienList.get(i).getId_nhan_vien().equals(nhanVienList.get(j).getId_nhan_vien())) {
+                                                                    try {
+                                                                        nhanVienList.remove(i);
+                                                                        Log.e("Error", "e.getMessage()");
+                                                                    } catch (Exception e) {
+                                                                        Log.e("Error", e.getMessage());
+                                                                    }
                                                                 }
                                                             }
-                                                            else
-                                                            {
-                                                                check++;
-                                                            }
-
-
-                                                        }
-                                                        if(check==0)
-                                                        {
-                                                            nhanVienList.add(nhan_vien);
                                                         }
                                                         nhanVienAdapter.notifyDataSetChanged();
                                                     }
