@@ -26,7 +26,6 @@ import java.util.ArrayList;
 
 public class adapter_tien_nghi_dv extends RecyclerView.Adapter<adapter_tien_nghi_dv.MyViewHolder> {
     ArrayList<tien_nghi> datalist = new ArrayList<>();
-    ProgressBar progressBar;
 
     Context context;
     public adapter_tien_nghi_dv(Context context) {

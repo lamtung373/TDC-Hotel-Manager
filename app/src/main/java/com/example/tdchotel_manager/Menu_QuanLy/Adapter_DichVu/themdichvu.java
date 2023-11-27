@@ -57,7 +57,6 @@ public class themdichvu extends AppCompatActivity {
         setEvent();
 
 
-        // Initialize Firebase references
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("dich_vu");
         mStorageRef = FirebaseStorage.getInstance().getReference("images");
     }
