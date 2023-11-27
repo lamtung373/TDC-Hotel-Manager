@@ -26,7 +26,6 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 public class adapter_dich_vu_phong extends RecyclerView.Adapter<adapter_dich_vu_phong.MyViewHolder> {
-    ProgressBar progressBar;
 
     ArrayList<dich_vu_phong> datalist = new ArrayList<>();
     Context context;

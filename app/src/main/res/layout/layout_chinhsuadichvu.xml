@@ -101,7 +101,7 @@
             android:id="@+id/btnCSDV"
             style="@style/button"
             android:background="@drawable/selector_bg_button"
-            android:text="Lưu"
+            android:text="Cập nhật"
             android:layout_marginRight="20dp"
             android:drawableLeft="@drawable/save"
             android:textColor="@color/white"/>

@@ -78,11 +78,11 @@ public class giahanthoigian extends AppCompatActivity {
                     thoi_gian_nhan = new SimpleDateFormat("dd/MM/yyyy").parse(btnTGdukien.getText().toString());
                     thoi_gian_tra = new SimpleDateFormat("dd/MM/yyyy").parse(btnTGketthuc.getText().toString());
 
-                    // Kiểm tra thời gian nếu hợp lệ
+//                    // Kiểm tra thời gian nếu hợp lệ
                     if (thoi_gian_nhan.before(now) || thoi_gian_nhan.after(thoi_gian_tra)) {
                         Toast.makeText(giahanthoigian.this, "Thời gian đã đặt không hợp lệ!!!", Toast.LENGTH_SHORT).show();
                         return;
-                    } else if (((thoi_gian_nhan.getTime() - now.getTime()) / (24 * 3600 * 1000)) < 1) {
+                    } else if (((thoi_gian_tra.getTime() - thoi_gian_nhan.getTime()) < (24 * 3600 * 1000))) {
                         Toast.makeText(giahanthoigian.this, "Ngày gia hạn phải lớn hơn ngày trả hiện tại ít nhất 1 ngày!!!", Toast.LENGTH_SHORT).show();
                         return;
                     }
