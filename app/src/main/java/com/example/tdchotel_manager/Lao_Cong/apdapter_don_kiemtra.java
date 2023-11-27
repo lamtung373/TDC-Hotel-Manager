@@ -66,14 +66,14 @@ public class apdapter_don_kiemtra extends RecyclerView.Adapter<apdapter_don_kiem
                                     if (("5".equals(room.getId_trang_thai_phong()) || "6".equals(room.getId_trang_thai_phong()))) {
                                         if (clean_room_list.contains(room)) {
                                             int index = clean_room_list.indexOf(room);
-                                            clean_room_list.set(index, room); // Thay thế đối tượng tại vị trí tìm thấy
+                                            clean_room_list.set(index, room);
                                         } else {
-                                            clean_room_list.add(room); // Thêm sách mới nếu không tìm thấy
+                                            clean_room_list.add(room);
                                             list_id_hoa_don.add(id_hoa_don);
                                         }
                                     }else {
                                         if (clean_room_list.contains(room)) {
-                                            clean_room_list.remove(room); // Xóa phòng khỏi danh sách nếu trạng thái khác 5 và 6
+                                            clean_room_list.remove(room);
                                         }
                                     }
                                     // Cập nhật giao diện sau khi lấy được phòng
