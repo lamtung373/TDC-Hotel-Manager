@@ -122,7 +122,7 @@ public class Activity_HoaDon_DangSuDung extends AppCompatActivity {
                 dataHoaDon.setValue(hoadon);
                 //Chỉ thêm lượt thuê khi đã thanh toán...
                 dataPhong.child("luot_thue").setValue(phong.getLuot_thue() + 1);
-                dataPhong.child("id_trang_thai_phong").setValue("1");
+//                dataPhong.child("id_trang_thai_phong").setValue("1");
 
                 Toast.makeText(Activity_HoaDon_DangSuDung.this, "Thanh toán thành công!", Toast.LENGTH_SHORT).show();
 

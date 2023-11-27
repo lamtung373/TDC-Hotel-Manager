@@ -1,7 +1,4 @@
 package com.example.tdchotel_manager.Menu_QuanLy.Adapter_DichVu;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -19,22 +16,14 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
-
-import com.example.tdchotel_manager.Menu_QuanLy.Adapter_NhanVien.ThemNhanVien;
 import com.example.tdchotel_manager.Model.dich_vu;
-import com.example.tdchotel_manager.Model.dich_vu_phong;
-import com.example.tdchotel_manager.Model.nhan_vien;
 import com.example.tdchotel_manager.R;
-import com.google.android.material.tabs.TabLayout;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-
 import java.io.ByteArrayOutputStream;
-import java.util.ArrayList;
 
 public class themdichvu extends AppCompatActivity {
     EditText edtTenDv, edtGiaDv;
@@ -57,6 +46,7 @@ public class themdichvu extends AppCompatActivity {
         setEvent();
 
 
+        // Initialize Firebase references
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("dich_vu");
         mStorageRef = FirebaseStorage.getInstance().getReference("images");
     }
