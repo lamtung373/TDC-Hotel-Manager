@@ -112,7 +112,7 @@ public class checkout extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
-                                loadCheckOut(spnCaLam.getSelectedItem().toString());
+                                loadCheckOut();
             }
 
             @Override
@@ -125,7 +125,7 @@ public class checkout extends Fragment {
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
                 if (i == EditorInfo.IME_ACTION_DONE) {
 
-                    loadCheckOut(spnCaLam.getSelectedItem().toString());
+                    loadCheckOut();
 
                     return true;
                 }
@@ -134,7 +134,7 @@ public class checkout extends Fragment {
         });
     }
 
-    private void loadCheckOut(String caLam) {
+    private void loadCheckOut() {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("nhan_vien");
         DatabaseReference ref1 = FirebaseDatabase.getInstance().getReference("phan_cong");
         DatabaseReference refChamCong = FirebaseDatabase.getInstance().getReference("cham_cong");
@@ -154,7 +154,7 @@ public class checkout extends Fragment {
                             Calendar ca = Calendar.getInstance();
                             int dayofweek = ca.get(Calendar.DAY_OF_WEEK);
                             String the = "1";
-                            if(caLam.equals("Ca sáng"))
+                            if(spnCaLam.getSelectedItem().toString().equals("Ca sáng"))
                             {
                                 the = "1";
                             }
@@ -289,7 +289,7 @@ public class checkout extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     cham_cong cham_cong = dataSnapshot.getValue(cham_cong.class);
-                    if(nhanVien.getId_nhan_vien().equals(cham_cong.getId_nhan_vien())&&!strDate.equals(cham_cong.getCheck_in()))
+                    if(nhanVien.getId_nhan_vien().equals(cham_cong.getId_nhan_vien())&&!strDate.equals(cham_cong.getCheck_in())&&cham_cong.getCheck_out().equals(""))
                     {
                         SimpleDateFormat formatterChuan = new SimpleDateFormat("dd/MM/yyyy HH:mm");
                         String strDate1 = formatterChuan.format(date);

@@ -2,7 +2,8 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    >
 
     <ScrollView
         android:layout_width="match_parent"
@@ -56,6 +57,8 @@
                 android:layout_marginRight="20dp"
                 android:background="@drawable/border_button_nhanvien"
                 android:hint="Họ và tên"
+                android:clickable="false"
+                android:focusable="false"
                 android:inputType="text"
                 android:paddingStart="20dp"
                 android:paddingEnd="20dp"
@@ -67,6 +70,7 @@
             <EditText
                 android:id="@+id/edtTenDangNhap"
                 android:layout_width="match_parent"
+                android:focusable="false"
                 android:layout_height="50dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="10dp"
@@ -84,6 +88,7 @@
                 android:id="@+id/edtSDT"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:focusable="false"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="20dp"
@@ -154,6 +159,7 @@
                 android:layout_marginRight="20dp"
                 android:background="@drawable/border_button_nhanvien"
                 android:hint="Lương/h"
+                android:focusable="false"
                 android:paddingStart="20dp"
                 android:paddingEnd="20dp"
                 android:textColor="#000000"
@@ -166,6 +172,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:gravity="center"
+                android:enabled="false"
                 android:orientation="horizontal">
 
                 <RadioButton
@@ -174,6 +181,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="20dp"
                     android:text="Lễ tân"
+                    android:enabled="false"
                     android:textColor="#26A1EE"
                     android:textStyle="bold" />
 
@@ -182,11 +190,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Lao công"
+                    android:focusable="false"
                     android:textColor="#26A1EE"
                     android:textStyle="bold" />
 
             </RadioGroup>
-            <include layout="@layout/activity_man_hinh_thong_tin_ca_nhan"></include>
+            <include
+                layout="@layout/activity_man_hinh_thong_tin_ca_nhan"></include>
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

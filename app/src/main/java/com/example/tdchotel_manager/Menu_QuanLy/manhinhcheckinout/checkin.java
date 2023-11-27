@@ -367,7 +367,7 @@ public class checkin extends Fragment {
                                         nhanVienList.clear();
                                         for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                                             nhan_vien nhan_vien = dataSnapshot.getValue(nhan_vien.class);
-                                            if(nhan_vien.getId_nhan_vien().equals(phanCong.getId_nhan_vien())&&edtTimKiem.getText().toString().equals(""))
+                                            if(nhan_vien.getId_nhan_vien().equals(phanCong.getId_nhan_vien()))
                                             {
                                                 refChamCong.addListenerForSingleValueEvent(new ValueEventListener() {
                                                     @Override
@@ -415,7 +415,17 @@ public class checkin extends Fragment {
                                                         }
                                                         if(check==0)
                                                         {
-                                                            nhanVienList.add(nhan_vien);
+                                                            Log.e("Bảo"+edtTimKiem.getText().toString(),"BảoBaor"+edtTimKiem.getText().toString());
+                                                            if(edtTimKiem.getText().toString().equals(""))
+                                                            {
+                                                                nhanVienList.add(nhan_vien);
+                                                            }
+                                                            else if(!edtTimKiem.getText().toString().equals("")&&nhan_vien.getTen_nhan_vien().toString().equals(edtTimKiem.getText().toString()))
+                                                            {
+
+                                                                nhanVienList.add(nhan_vien);
+                                                            }
+
                                                         }
                                                         for (int i = 0; i < nhanVienList.size(); i++) {
                                                             for (int j = 0; j < nhanVienList.size(); j++) {
