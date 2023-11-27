@@ -288,7 +288,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="Ca sáng"
+                android:text="Ca ngày"
                 android:textSize="20dp" />
 
             <androidx.recyclerview.widget.RecyclerView
@@ -310,7 +310,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="Ca tối"
+                android:text="Ca đêm"
                 android:textSize="20dp" />
 
             <androidx.recyclerview.widget.RecyclerView
