@@ -28,7 +28,8 @@
         android:id="@+id/edtUsername"
         style="@style/editText"
         android:background="@drawable/selector_bg_edittext"
-        android:hint="Nhập tên đăng nhập" />
+        android:hint="Nhập tên đăng nhập"
+        android:inputType="text"/>
 
     <EditText
         android:id="@+id/edtPassword"
