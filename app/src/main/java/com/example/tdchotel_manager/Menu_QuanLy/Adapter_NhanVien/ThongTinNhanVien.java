@@ -80,6 +80,7 @@ public class ThongTinNhanVien extends AppCompatActivity {
             }
         });
 
+
         imgNV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
