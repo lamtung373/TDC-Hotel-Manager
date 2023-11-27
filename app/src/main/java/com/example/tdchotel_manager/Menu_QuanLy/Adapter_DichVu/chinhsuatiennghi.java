@@ -20,7 +20,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.tdchotel_manager.Model.dich_vu;
 import com.example.tdchotel_manager.Model.tien_nghi;
 import com.example.tdchotel_manager.R;
 import com.google.android.gms.tasks.OnFailureListener;
