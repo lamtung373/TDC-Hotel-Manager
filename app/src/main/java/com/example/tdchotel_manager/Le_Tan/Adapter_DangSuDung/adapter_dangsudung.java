@@ -106,14 +106,6 @@ public class adapter_dangsudung extends RecyclerView.Adapter<adapter_dangsudung.
     @Override
     public void onBindViewHolder(@NonNull adapter_dangsudung.MyViewHolder holder, @SuppressLint("RecyclerView") int position) {
         hoa_don dataItem = datalist.get(position);
-
-        // Kiểm tra nếu trạng thái phòng là 1
-        if (findTenTrangThaiPhongById(dataItem.getId_phong()).equals("Sẵn sàng")) {
-         return;
-        } else {
-            // Nếu trạng thái phòng không phải là 1, tiến hành với quy trình gắn kết thông thường
-            holder.itemView.setVisibility(View.VISIBLE);
-        }
         if (findTenTrangThaiPhongById(dataItem.getId_phong()).equals("Đang kiểm tra")) {
             holder.isItemEnabled = false;
         } else {
@@ -191,8 +183,11 @@ public class adapter_dangsudung extends RecyclerView.Adapter<adapter_dangsudung.
     void khoi_tao() {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference hoaDonRef = database.getReference("hoa_don");
-
-        hoaDonRef.addValueEventListener(new ValueEventListener() {
+        DatabaseReference phongRef = database.getReference("phong");
+phongRef.addValueEventListener(new ValueEventListener() {
+    @Override
+    public void onDataChange(@NonNull DataSnapshot snapshot) {
+        hoaDonRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 datalist.clear();
@@ -203,7 +198,7 @@ public class adapter_dangsudung extends RecyclerView.Adapter<adapter_dangsudung.
                         String thoiGianThanhToan = childSnapshot.child("thoi_gian_thanh_toan").getValue(String.class);
 
                         // Kiểm tra điều kiện để lấy dữ liệu đang sử dụng và trạng thái phòng khác 1
-                        if (idPhong != null && !thoiGianNhanPhong.equals("") && thoiGianThanhToan.equals("") && !findTenTrangThaiPhongById(idPhong).equals("Sẵn sàng")) {
+                        if (idPhong != null && !thoiGianNhanPhong.equals("") && thoiGianThanhToan.equals("") && !findTenTrangThaiPhongById(idPhong).equals("Đang sửa")&& !findTenTrangThaiPhongById(idPhong).equals("Đã đặt")) {
                             hoa_don hoaDon = childSnapshot.getValue(hoa_don.class);
                             datalist.add(hoaDon);
                             originalDataList.add(hoaDon);
@@ -218,6 +213,13 @@ public class adapter_dangsudung extends RecyclerView.Adapter<adapter_dangsudung.
                 // Xử lý lỗi
             }
         });
+    }
+
+    @Override
+    public void onCancelled(@NonNull DatabaseError error) {
+
+    }
+});
     }
 
 
