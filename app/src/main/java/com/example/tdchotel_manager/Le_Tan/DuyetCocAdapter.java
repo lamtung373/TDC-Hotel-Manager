@@ -116,7 +116,7 @@ public class DuyetCocAdapter extends RecyclerView.Adapter<DuyetCocAdapter.DaDatV
                                 SimpleDateFormat formatterChuan = new SimpleDateFormat("dd/MM/yyyy HH:mm");
                                 String strDate1 = formatterChuan.format(date);
                                 hoaDon.setThoi_gian_huy(strDate1);
-                                child2Ref.child(hoaDon.getId_hoa_don()).updateChildren(hoaDon.toMap(), new DatabaseReference.CompletionListener() {
+                                child2Ref.child(hoaDon.getId_hoa_don()).setValue(hoaDon, new DatabaseReference.CompletionListener() {
                                     @Override
                                     public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
                                         Toast.makeText(mContext, "Check thành công", Toast.LENGTH_SHORT).show();

@@ -132,15 +132,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
+
             <Button
 
+                android:id="@+id/btnNhanPhong"
+                style="@style/button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Duyệt cộc"
                 android:layout_gravity="center"
-                style="@style/button"
-                android:id="@+id/btnNhanPhong"
-                android:background="@drawable/selector_bg_button"></Button>
+                android:background="@drawable/selector_bg_button"
+                android:text="Duyệt cọc"></Button>
             <Button
 
                 android:layout_width="wrap_content"
