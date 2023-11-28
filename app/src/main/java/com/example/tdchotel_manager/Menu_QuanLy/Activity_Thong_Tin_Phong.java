@@ -833,7 +833,7 @@ public class Activity_Thong_Tin_Phong extends AppCompatActivity {
             edt_sale.setText("0");
         }
 
-        if (list_ten_anh.isEmpty()) {
+        if (picture_list.isEmpty()) {
             showErrorMessage("Vui lòng chọn ảnh phòng");
             return false;
         }
