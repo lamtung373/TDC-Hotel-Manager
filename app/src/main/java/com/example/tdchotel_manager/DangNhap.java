@@ -2,9 +2,13 @@ package com.example.tdchotel_manager;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -32,14 +36,26 @@ public class DangNhap extends AppCompatActivity {
 
     EditText edtusername, edtPassword;
     Button btnLogin;
+    private static final int REQUEST_STORAGE_PERMISSION = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_login);
+        // Kiểm tra xem quyền đã được cấp chưa
+        checkStoragePermission();
         AutoLogin();
         setControl();
         setEvent();
+    }
+
+    private void checkStoragePermission() {
+        // Kiểm tra quyền truy cập camera
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            // Nếu một trong hai quyền chưa được cấp, yêu cầu cấp quyền
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_STORAGE_PERMISSION);
+        }
     }
 
     private void AutoLogin() {
