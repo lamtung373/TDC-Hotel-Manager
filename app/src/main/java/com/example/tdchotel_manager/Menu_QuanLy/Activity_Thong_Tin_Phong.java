@@ -800,40 +800,59 @@ public class Activity_Thong_Tin_Phong extends AppCompatActivity {
 
     private boolean validateRoomData() {
         String name = edt_name.getText().toString().trim();
+        String des = edt_description.getText().toString().trim();
         String priceText = edt_price.getText().toString().trim();
         String saleText = edt_sale.getText().toString().trim();
-        int price = 0;
-        int sale = 0;
-        String type = typeRoom();
 
         if (name.isEmpty()) {
-            Toast.makeText(this, "Vui lòng nhập tên phòng", Toast.LENGTH_SHORT).show();
+            setErrorAndFocus(edt_name, "Vui lòng nhập tên phòng");
+            return false;
+        }
+
+        if (des.isEmpty()) {
+            setErrorAndFocus(edt_description, "Vui lòng nhập mô tả phòng");
             return false;
         }
 
         if (priceText.isEmpty()) {
-            Toast.makeText(this, "Vui lòng nhập giá phòng", Toast.LENGTH_SHORT).show();
+            setErrorAndFocus(edt_price, "Vui lòng nhập giá phòng");
             return false;
+        }
+
+        int price = Integer.parseInt(priceText);
+        int sale = 0;
+
+        if (!saleText.isEmpty()) {
+            sale = Integer.parseInt(saleText);
+
+            if (sale >= price) {
+                setErrorAndFocus(edt_sale, "Giá sale phải nhỏ hơn giá phòng");
+                return false;
+            }
         } else {
-            price = Integer.parseInt(priceText);
+            edt_sale.setText("0");
         }
 
-        if (sale >= price) {
-            Toast.makeText(this, "Giá sale phải nhỏ hơn giá phòng", Toast.LENGTH_SHORT).show();
-            edt_sale.setText(""); // Xóa giá sale nếu không hợp lệ
+        if (list_ten_anh.isEmpty()) {
+            showErrorMessage("Vui lòng chọn ảnh phòng");
             return false;
         }
 
-        if (type.isEmpty()) {
-            Toast.makeText(this, "Vui lòng chọn loại phòng", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        if (picture_list.isEmpty()) {
-            Toast.makeText(this, "Vui lòng chọn ảnh phòng", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        // Nếu tất cả điều kiện đều hợp lệ, trả về true
         return true;
+    }
+
+    private void setErrorAndFocus(EditText editText, String errorMessage) {
+        editText.setError(errorMessage);
+        editText.requestFocus();
+    }
+
+    private void showErrorMessage(String errorMessage) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Lỗi");
+        builder.setMessage(errorMessage);
+        builder.setPositiveButton("OK", (dialog, id) -> dialog.dismiss());
+
+        builder.create().show();
     }
 
 }
