@@ -49,13 +49,4 @@
             style="@style/button"
             android:background="@drawable/selector_bg_button"
             android:text="Đăng nhập" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:background="@null"
-        android:text="Quên mật khẩu?"
-        android:textColor="@color/blue"
-        android:textStyle="italic" />
 </LinearLayout>

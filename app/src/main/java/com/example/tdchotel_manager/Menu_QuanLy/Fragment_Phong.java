@@ -86,12 +86,12 @@ public class Fragment_Phong extends Fragment {
                 startActivity(intent);
             }
         });
-        adapter.setOnItemLongClickListener(new adapter_phong.OnItemLongClickListener() {
-            @Override
-            public void onItemLongClick(int position) {
-                showDeleteConfirmationDialog(position);
-            }
-        });
+//        adapter.setOnItemLongClickListener(new adapter_phong.OnItemLongClickListener() {
+//            @Override
+//            public void onItemLongClick(int position) {
+//                showDeleteConfirmationDialog(position);
+//            }
+//        });
         edt_search.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {

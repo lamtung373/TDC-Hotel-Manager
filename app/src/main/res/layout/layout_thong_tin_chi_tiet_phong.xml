@@ -12,7 +12,6 @@
         tools:context=".Menu_QuanLy.Activity_Thong_Tin_Phong">
 
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -61,8 +60,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:textSize="20dp"
-                android:text="Tên phòng:" />
+                android:text="Tên phòng:"
+                android:textSize="20dp" />
 
             <EditText
                 android:id="@+id/edt_name_room"
@@ -74,13 +73,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:textSize="20dp"
-                android:text="Mô tả:" />
+                android:text="Mô tả:"
+                android:textSize="20dp" />
 
             <EditText
                 android:id="@+id/edt_description"
                 style="@style/editText"
-                android:layout_height="wrap_content"
+                android:layout_height="200dp"
                 android:hint="Mô tả...."
                 android:paddingVertical="10dp" />
 
@@ -96,7 +95,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:text="Trạng thái:"
-                    android:textSize="20dp"/>
+                    android:textSize="20dp" />
 
                 <Spinner
                     android:id="@+id/sp_status"
@@ -113,7 +112,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginBottom="10dp"
                 android:text="Tiện nghi:"
-                android:textSize="20dp"/>
+                android:textSize="20dp" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rcv_tien_nghi"
@@ -127,9 +126,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
+                android:layout_marginBottom="10dp"
                 android:text="Dịch vụ phòng:"
-                android:textSize="20dp"
-                android:layout_marginBottom="10dp"/>
+                android:textSize="20dp" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rcv_dich_vu_phong"
@@ -144,7 +143,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:text="Loại phòng:"
-                android:textSize="20dp"/>
+                android:textSize="20dp" />
 
             <RadioGroup
                 android:id="@+id/radiogroup"
@@ -250,6 +249,7 @@
         </LinearLayout>
 
     </ScrollView>
+
     <View
         android:id="@+id/viewBlocking"
         android:layout_width="match_parent"

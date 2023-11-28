@@ -133,11 +133,15 @@ public class apdapter_don_kiemtra extends RecyclerView.Adapter<apdapter_don_kiem
     public void onBindViewHolder(@NonNull apdapter_don_kiemtra.MyViewHolder holder, int position) {
         phong data = clean_room_list.get(position);
         if ("5".equals(data.getId_trang_thai_phong())) {
-            holder.btn_hoanthanh.setEnabled(false);
-            holder.btn_kiemtra.setEnabled(true);
+           // holder.btn_hoanthanh.setEnabled(false);
+            holder.btn_hoanthanh.setVisibility(View.GONE);
+           // holder.btn_kiemtra.setEnabled(true);
+            holder.btn_kiemtra.setVisibility(View.VISIBLE);
         }else {
-            holder.btn_hoanthanh.setEnabled(true);
-            holder.btn_kiemtra.setEnabled(false);
+            //holder.btn_hoanthanh.setEnabled(true);
+            holder.btn_hoanthanh.setVisibility(View.VISIBLE);
+            //holder.btn_kiemtra.setEnabled(false);
+            holder.btn_kiemtra.setVisibility(View.GONE);
         }
         if (data.getAnh_phong() != null && !data.getAnh_phong().isEmpty()) {
             String imageUrl = data.getAnh_phong().get(0); // Sử dụng phần tử đầu tiên hoặc bất kỳ phần tử nào bạn muốn hiển thị
