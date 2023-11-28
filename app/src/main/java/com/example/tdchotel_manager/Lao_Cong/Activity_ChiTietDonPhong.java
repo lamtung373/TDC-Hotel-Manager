@@ -37,7 +37,7 @@ public class Activity_ChiTietDonPhong extends AppCompatActivity {
     RecyclerView rcv_chitiettiennghi, rcv_chitietdichvuphong, rcv_sudung_tien_nghi, rcv_sudung_dichvuphong;
     Button btn_xacnhan;
     ImageButton btn_back;
-    String idphong, idhoadon, id_staff_auto;
+    String idphong,  id_staff_auto;
     ArrayList<chi_tiet_hoa_don_tien_nghi> chi_tiet_hoa_don_tien_nghis = new ArrayList<>();
     ArrayList<chi_tiet_hoa_don_dich_vu_phong> chi_tiet_hoa_don_dich_vu_phongs = new ArrayList<>();
     private adapter_getchitiettiennghi adapter_getchitiettiennghi;
@@ -49,11 +49,8 @@ public class Activity_ChiTietDonPhong extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chi_tiet_don_phong);
-        Intent intent = getIntent();
-        idphong = intent.getStringExtra("idphong");
-        idhoadon = intent.getStringExtra("id_hoa_don");
-        adapter_getchitiettiennghi = new adapter_getchitiettiennghi(idphong);
-        adapter_getchitietdichvuphong = new adapter_getchitietdichvuphong(idphong);
+        adapter_getchitiettiennghi = new adapter_getchitiettiennghi(getIntent().getStringExtra("idphong"));
+        adapter_getchitietdichvuphong = new adapter_getchitietdichvuphong(getIntent().getStringExtra("idphong"));
         adapterTienNghi = new adapter_tien_nghi();
         adapterDichVuPhong = new adapter_dich_vu_phong();
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PRE, MODE_PRIVATE);
@@ -96,12 +93,12 @@ public class Activity_ChiTietDonPhong extends AppCompatActivity {
         btn_xacnhan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                chitiet();
+                chitiet(getIntent().getStringExtra("id_hoa_don"));
                if (kiemtTra_ThongTin()){
-                   onClickAdd_comfort(chi_tiet_hoa_don_tien_nghis, idhoadon);
-                   onClickUpdatefacilities(chi_tiet_hoa_don_dich_vu_phongs, idhoadon);
-                   capnhatlaocong(id_staff_auto, idhoadon, idphong);
-                   capnhattrangthaiphong(idphong, "6");
+                   onClickAdd_comfort(chi_tiet_hoa_don_tien_nghis, getIntent().getStringExtra("id_hoa_don"));
+                   onClickUpdatefacilities(chi_tiet_hoa_don_dich_vu_phongs, getIntent().getStringExtra("id_hoa_don"));
+                   capnhatlaocong(id_staff_auto, getIntent().getStringExtra("id_hoa_don"), getIntent().getStringExtra("idphong"));
+                   capnhattrangthaiphong(getIntent().getStringExtra("idphong"), "6");
                    finish();
                }
             }
@@ -210,7 +207,7 @@ public class Activity_ChiTietDonPhong extends AppCompatActivity {
         });
     }
 
-    void chitiet() {
+    void chitiet(String idhoadon) {
         chi_tiet_hoa_don_tien_nghis.clear(); // Xóa danh sách cũ
         chi_tiet_hoa_don_dich_vu_phongs.clear(); // Xóa danh sách cũ
 
