@@ -162,22 +162,6 @@ public class Fragment_Phong extends Fragment {
     }
 
 
-
-    private void showDeleteConfirmationDialog(final int position) {
-        new AlertDialog.Builder(getContext())
-                .setTitle("Xóa Phòng")
-                .setMessage("Bạn chắc chắn muốn xoá phòng này chứ?")
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        // Gọi hàm removeItem của adapter và truyền vị trí position vào
-                        adapter.removeItem(position);
-                    }
-                })
-                .setNegativeButton(android.R.string.no, null)
-                .setIcon(R.drawable.warning)
-                .show();
-    }
-
     private void setControl(View view) {
         sp_loai = view.findViewById(R.id.spTypeRoom);
         rcv_roomlist = view.findViewById(R.id.rcv_roomlist);
