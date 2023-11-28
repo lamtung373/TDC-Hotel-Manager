@@ -191,14 +191,22 @@ public class chinhsuatiennghi extends AppCompatActivity {
         builder.show();
     }
     private void deleteDichVu() {
-        String dichvuid = getIntent().getStringExtra("dichvuid");
+        String dichvuphongid = getIntent().getStringExtra("dichvuphongid");
         // Xoá dịch vụ từ Firebase
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("dich_vu").child(dichvuid);
-        ref.removeValue();
-
-        // Thông báo và quay lại màn hình trước
-        Toast.makeText(chinhsuatiennghi.this, "Đã xoá", Toast.LENGTH_SHORT).show();
-        finish();
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("dich_vu_phong").child(dichvuphongid);
+        ref.removeValue(new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError error, DatabaseReference ref) {
+                if (error == null) {
+                    // Thông báo và quay lại màn hình trước
+                    Toast.makeText(chinhsuatiennghi.this, "Đã xoá", Toast.LENGTH_SHORT).show();
+                    finish();
+                } else {
+                    // Xử lý khi có lỗi
+                    Toast.makeText(chinhsuatiennghi.this, "Lỗi: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
     private void showImagePickDialog() {
         // Tạo một dialog cho phép người dùng chọn Camera hoặc Thư viện ảnh
