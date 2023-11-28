@@ -86,12 +86,12 @@ public class Fragment_Phong extends Fragment {
                 startActivity(intent);
             }
         });
-        adapter.setOnItemLongClickListener(new adapter_phong.OnItemLongClickListener() {
-            @Override
-            public void onItemLongClick(int position) {
-                showDeleteConfirmationDialog(position);
-            }
-        });
+//        adapter.setOnItemLongClickListener(new adapter_phong.OnItemLongClickListener() {
+//            @Override
+//            public void onItemLongClick(int position) {
+//                showDeleteConfirmationDialog(position);
+//            }
+//        });
         edt_search.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -161,22 +161,6 @@ public class Fragment_Phong extends Fragment {
         adapter.updateRoomList(filteredRoomList);
     }
 
-
-
-    private void showDeleteConfirmationDialog(final int position) {
-        new AlertDialog.Builder(getContext())
-                .setTitle("Xóa Phòng")
-                .setMessage("Bạn chắc chắn muốn xoá phòng này chứ?")
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        // Gọi hàm removeItem của adapter và truyền vị trí position vào
-                        adapter.removeItem(position);
-                    }
-                })
-                .setNegativeButton(android.R.string.no, null)
-                .setIcon(R.drawable.warning)
-                .show();
-    }
 
     private void setControl(View view) {
         sp_loai = view.findViewById(R.id.spTypeRoom);

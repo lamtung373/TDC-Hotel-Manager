@@ -3,6 +3,7 @@ package com.example.tdchotel_manager.Menu_QuanLy.Adapter_Phong;
 // Android imports
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 // Firebase imports
@@ -133,12 +135,12 @@ public class adapter_phong extends RecyclerView.Adapter<adapter_phong.MyViewHold
         holder.tv_status_room.setText(setStatusView(data.getId_trang_thai_phong()));
 
         // Long click listener for item
-        holder.itemView.setOnLongClickListener(v -> {
-            int adapterPosition = holder.getAdapterPosition();
-            if (adapterPosition != RecyclerView.NO_POSITION && onItemLongClickListener != null) {
-                onItemLongClickListener.onItemLongClick(adapterPosition);
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                showDeleteConfirmationDialog(holder.getAdapterPosition());
+                return false;
             }
-            return true;
         });
 
         // Click listener to start a new activity
@@ -156,16 +158,31 @@ public class adapter_phong extends RecyclerView.Adapter<adapter_phong.MyViewHold
     public int getItemCount() {
         return room_list.size();
     }
-
+    private void showDeleteConfirmationDialog(final int position) {
+        new AlertDialog.Builder(context)
+                .setTitle("Xóa Phòng")
+                .setMessage("Bạn chắc chắn muốn xoá phòng này chứ?")
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Gọi hàm removeItem của adapter và truyền vị trí position vào
+                        removeItem(position);
+                    }
+                })
+                .setNegativeButton(android.R.string.no, null)
+                .setIcon(R.drawable.warning)
+                .show();
+    }
     // Custom Methods
     public void removeItem(int position) {
-        // Remove item from Firebase
+        // Lấy ID của phòng cần xóa
         String objectIdToDelete = room_list.get(position).getId_phong();
+
+        // Thực hiện xóa dữ liệu từ Firebase
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("phong");
         databaseReference.child(objectIdToDelete).removeValue()
                 .addOnSuccessListener(aVoid -> {
-                    room_list.remove(position);
                     notifyItemRemoved(position);
+                    notifyDataSetChanged();
                     Toast.makeText(context, "Xóa đối tượng thành công", Toast.LENGTH_SHORT).show();
                 })
                 .addOnFailureListener(e -> Toast.makeText(context, "Xóa đối tượng thất bại: " + e.getMessage(), Toast.LENGTH_SHORT).show());
@@ -240,6 +257,15 @@ public class adapter_phong extends RecyclerView.Adapter<adapter_phong.MyViewHold
             tv_type_room = itemView.findViewById(R.id.tv_type_room);
             tv_status_room = itemView.findViewById(R.id.tv_status_room);
             progressBar_itemphong = itemView.findViewById(R.id.progressBar_itemphong);
+            itemView.setOnLongClickListener(v -> {
+                int adapterPosition = getAdapterPosition();
+                if (adapterPosition != RecyclerView.NO_POSITION && onItemLongClickListener != null) {
+                    // Gọi sự kiện long click đã được thiết lập từ bên ngoài
+                    onItemLongClickListener.onItemLongClick(adapterPosition);
+                    return true;
+                }
+                return false;
+            });
         }
     }
 }
